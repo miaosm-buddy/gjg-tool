@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吊机选型 · 钢柱吊装分析工具</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="stylesheet" href="style.css?v=v2-20260517d">
+</head>
+<body>
+
+<!-- ========== 左侧可折叠导航栏 ========== -->
+<div class="app-sidebar" id="appSidebar">
+  <div class="sidebar-brand" onclick="sp('home')">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2L2 7l10 5 10-5-10-5z" fill="#388bfd"/>
+      <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="#388bfd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="sidebar-brand-text">吊机选型</span>
+  </div>
+  <nav class="app-sidebar-nav">
+    <button class="app-nav-btn active" id="nav-home" onclick="sp('home')">
+      <span class="app-nav-icon">🏠</span>
+      <span class="app-nav-label">首页</span>
+    </button>
+    <button class="app-nav-btn" id="nav-select" onclick="sp('select')">
+      <span class="app-nav-icon">⚙</span>
+      <span class="app-nav-label">智能选型</span>
+    </button>
+    <button class="app-nav-btn" id="nav-lib" onclick="sp('lib')">
+      <span class="app-nav-icon">📋</span>
+      <span class="app-nav-label">机型库</span>
+    </button>
+    <button class="app-nav-btn" id="nav-lift" onclick="sp('lift')">
+      <span class="app-nav-icon">🏗</span>
+      <span class="app-nav-label">钢柱吊装</span>
+    </button>
+    <button class="app-nav-btn" id="nav-diaoci" onclick="sp('diaoci')">
+      <span class="app-nav-icon">📊</span>
+      <span class="app-nav-label">吊次分析</span>
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="app-nav-btn" id="nav-add" onclick="sp('add')">
+      <span class="app-nav-icon">✚</span>
+      <span class="app-nav-label">添加机型</span>
+    </button>
+    <button class="app-nav-btn" id="nav-about" onclick="sp('about')">
+      <span class="app-nav-icon">ℹ</span>
+      <span class="app-nav-label">关于</span>
+    </button>
+  </div>
+</div>
+
+<!-- 折叠按钮（醒目手柄） -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="折叠/展开导航">
+  <span id="toggleIcon">‹</span>
+</button>
+
+<!-- 主内容区（含顶栏） -->
+<div class="app-main" id="appMain">
+
+<!-- ========== 顶部导航（简化） ========== -->
+<nav class="nav">
+  <div class="nav-left">
+    <span class="nav-badge" id="badge">加载中…</span>
+  </div>
+</nav>
+
+<!-- ========== 首页 ========== -->
+<div class="page active" id="page-home">
+
+  <!-- Hero 统计区 -->
+  <div class="home-hero">
+    <h1>起重机械智能选型</h1>
+    <p>基于真实载荷表数据 · 线性差值精确计算 · 碰撞风险实时评估</p>
+    <div class="stats-grid" id="statsRow"></div>
+  </div>
+
+  <!-- 功能入口卡片 -->
+  <div class="func-cards">
+    <div class="func-card func-card-select" onclick="sp('select')">
+      <div class="func-card-icon">⚙</div>
+      <div class="func-card-title">智能选型</div>
+      <div class="func-card-desc">输入吊装参数，自动筛选最优机型</div>
+    </div>
+    <div class="func-card func-card-lib" onclick="sp('lib')">
+      <div class="func-card-icon">📋</div>
+      <div class="func-card-title">机型库</div>
+      <div class="func-card-desc">浏览全部机型，查看详细参数和载荷表</div>
+    </div>
+    <div class="func-card func-card-lift" onclick="sp('lift')">
+      <div class="func-card-icon">🏗</div>
+      <div class="func-card-title">钢柱吊装</div>
+      <div class="func-card-desc">钢柱吊装分析，含分段和吊耳验算</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 智能选型（独立页面） ========== -->
+<div class="page" id="page-select">
+
+  <div class="quick-select" id="selectSection">
+    <h2>起重机械选型</h2>
+    <div class="form-grid select-grid">
+      <div class="form-group">
+        <label>构件重量 (t) <span class="req">*</span></label>
+        <input type="number" id="sW" placeholder="例：10" min="0.1" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>吊装半径 (m) <span class="req">*</span></label>
+        <input type="number" id="sR" placeholder="吊车中心到构件中心" min="1" step="0.5">
+      </div>
+      <div class="form-group">
+        <label>建筑高度 (m)</label>
+        <input type="number" id="sH" placeholder="选填，影响臂长估算" min="0" step="0.5">
+      </div>
+      <div class="form-group">
+        <label>安全系数</label>
+        <input type="number" id="sS" value="1.1" min="1.0" step="0.05">
+      </div>
+      <div class="form-group">
+        <label>机械类型</label>
+        <select id="sT"><option value="">全部</option></select>
+      </div>
+      <div class="form-group">
+        <label>排序方式</label>
+        <select id="sortBy">
+          <option value="eff">按效率（推荐）</option>
+          <option value="rated">按额定起重量</option>
+          <option value="load">按机型吨位</option>
+          <option value="boom">按臂长（越短越好）</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-select" onclick="doSelect()">🗂 开始分析 →</button>
+    </div>
+    <div class="select-tip" id="selectTip">
+      <span id="selectTipText"></span>
+    </div>
+  </div>
+
+  <!-- 选型结果 -->
+  <div id="results" style="display:none">
+    <div class="results-header" id="resultSummary"></div>
+    <div class="results-table">
+      <div class="table-head">
+        <span>#</span>
+        <span>机型</span>
+        <span>品牌</span>
+        <span>类型</span>
+        <span>推荐臂长</span>
+        <span>额定起重</span>
+        <span>效率</span>
+        <span>最大吨位</span>
+        <span>操作</span>
+      </div>
+      <div id="resultList"></div>
+    </div>
+  </div>
+  <div id="emptyRes" class="empty-state" style="display:none">
+    <div class="icon">🔍</div>
+    <p>未找到符合条件的机型，请尝试调整参数</p>
+  </div>
+</div>
+
+<!-- ========== 机型库 ========== -->
+<div class="page" id="page-lib">
+  <div class="lib-header">
+    <h2>机型库 <span id="libStat" class="lib-stat-text"></span></h2>
+  </div>
+  <div class="search-bar">
+    <input type="text" id="libS" placeholder="🔍 搜索品牌 / 型号…" oninput="renderLib(1)">
+  </div>
+  <div class="type-filter" id="typeFilter"></div>
+  <div id="libGrid" class="lib-cards"></div>
+  <div id="libEmpty" class="empty-state" style="display:none">
+    <div class="icon">📭</div>
+    <p>无匹配机型</p>
+  </div>
+  <div class="pagination" id="libPgn"></div>
+</div>
+
+<!-- ========== 添加机型 ========== -->
+<div class="page" id="page-add">
+  <div class="add-header">
+    <h2>✚ 添加机型</h2>
+    <p class="add-hint">录入机型基本参数及载荷表数据，保存后自动并入选型数据库。<span id="userCraneCount" class="count-badge">已录入 0 台</span></p>
+  </div>
+
+  <!-- 基本信息 -->
+  <div class="add-section">
+    <h3>基本信息</h3>
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label>品牌 <span class="req">*</span></label>
+        <input type="text" id="f-brand" placeholder="如：三一、徐工、中联">
+      </div>
+      <div class="form-group">
+        <label>型号 <span class="req">*</span></label>
+        <input type="text" id="f-model" placeholder="如：STC550T、SCC1000T">
+      </div>
+      <div class="form-group">
+        <label>类型 <span class="req">*</span></label>
+        <select id="f-type">
+          <option value="">请选择</option>
+          <option>汽车吊</option>
+          <option>履带吊</option>
+          <option>塔吊</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>最大额定起重量 (t) <span class="req">*</span></label>
+        <input type="number" id="f-max-load" placeholder="如：55" min="0.1" step="0.1">
+      </div>
+    </div>
+  </div>
+
+  <!-- 尺寸参数 -->
+  <div class="add-section">
+    <h3>尺寸参数</h3>
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label>全长 (mm)</label>
+        <input type="number" id="f-length" placeholder="如：13800" min="0">
+      </div>
+      <div class="form-group">
+        <label>全宽 (mm)</label>
+        <input type="number" id="f-width" placeholder="如：3300" min="0">
+      </div>
+      <div class="form-group">
+        <label>全高 (mm)</label>
+        <input type="number" id="f-height" placeholder="如：3950" min="0">
+      </div>
+      <div class="form-group">
+        <label>整机重量 (t)</label>
+        <input type="number" id="f-weight" placeholder="如：41" min="0" step="0.1">
+      </div>
+    </div>
+  </div>
+
+  <!-- 臂架参数 -->
+  <div class="add-section">
+    <h3>臂架参数</h3>
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label>主臂最短 (m)</label>
+        <input type="number" id="f-boom-min" placeholder="如：11.5" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>主臂最长 (m)</label>
+        <input type="number" id="f-boom-max" placeholder="如：43" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>副臂长度 (m)</label>
+        <input type="number" id="f-jib" placeholder="如：9.5" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>基本臂节数</label>
+        <input type="number" id="f-boom-sec" placeholder="如：4" min="1">
+      </div>
+    </div>
+  </div>
+
+  <!-- 费用参数 -->
+  <div class="add-section">
+    <h3>费用参数</h3>
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label>租赁费/月</label>
+        <input type="number" id="f-rental-month" placeholder="如：50000" min="0">
+      </div>
+      <div class="form-group">
+        <label>租赁费/台班</label>
+        <input type="number" id="f-rental-shift" placeholder="如：3000" min="0">
+      </div>
+      <div class="form-group">
+        <label>燃油费/台班</label>
+        <input type="number" id="f-fuel-fee" placeholder="如：800" min="0">
+      </div>
+    </div>
+  </div>
+
+  <!-- 载荷表 -->
+  <div class="add-section">
+    <h3>载荷表 <span class="req">*</span></h3>
+    <p class="section-hint">输入同一工况下（固定臂长）的半径与对应额定载荷，逐行添加。如需添加多个臂长，重复此表。</p>
+    <div class="chart-table-wrap">
+      <table class="lc-edit-table" id="chartEditTable">
+        <thead>
+          <tr>
+            <th>臂长 (m)</th>
+            <th>作业半径 (m)</th>
+            <th>额定载荷 (t)</th>
+            <th>说明</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="chartRows">
+          <tr class="chart-row">
+            <td><input type="number" class="ce-boom" placeholder="如：12" step="0.5" min="0"></td>
+            <td><input type="number" class="ce-radius" placeholder="如：3" step="0.5" min="0"></td>
+            <td><input type="number" class="ce-load" placeholder="如：46" step="0.1" min="0"></td>
+            <td><input type="text" class="ce-note" placeholder="可选备注"></td>
+            <td><button class="btn-remove-row" onclick="removeChartRow(this)">✕</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="btn btn-secondary" onclick="addChartRow()">＋ 添加载荷行</button>
+    <button class="btn btn-secondary" onclick="addBoomGroup()">＋ 添加新臂长</button>
+    <div id="chartHint" class="field-hint" style="display:none"></div>
+  </div>
+
+  <!-- 提交 -->
+  <div class="add-footer">
+    <button class="btn btn-secondary" onclick="exportUserCranes()">⬇ 导出我的数据</button>
+    <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">⬆ 导入 JSON</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importUserCranes(this)">
+    <button class="btn btn-primary" onclick="submitCrane()">保存机型 →</button>
+  </div>
+
+  <!-- xlsx 批量导入 -->
+  <div class="add-section" style="margin-top:16px">
+    <h3>📂 批量导入 Excel</h3>
+    <p class="section-hint">上传符合模板格式的 xlsx 文件，自动识别机型及载荷表数据，追加到数据库。</p>
+    <div class="import-xlsx-bar">
+      <button class="btn btn-secondary" onclick="downloadXlsxTemplate()">⬇ 下载空白模板</button>
+      <label class="btn btn-primary" style="margin:0;cursor:pointer">
+        ⬆ 选择 xlsx 文件导入
+        <input type="file" id="xlsxImportFile" accept=".xlsx,.xls" style="display:none" onchange="importXlsxFile(this)">
+      </label>
+    </div>
+    <!-- 导入预览区 -->
+    <div id="xlsxPreview" style="display:none;margin-top:16px">
+      <div class="xlsx-preview-header">
+        <h4 id="xlsxPreviewTitle">预览导入数据</h4>
+        <button class="btn btn-primary" onclick="confirmXlsxImport()">✓ 确认导入</button>
+        <button class="btn btn-secondary" onclick="cancelXlsxImport()">✕ 取消</button>
+      </div>
+      <div id="xlsxPreviewBody" class="xlsx-preview-body"></div>
+    </div>
+  </div>
+
+  <!-- 已录入列表 -->
+  <div class="add-section" id="userCranesSection" style="display:none">
+    <h3>已录入的机型 <span id="userCraneListCount"></span></h3>
+    <div id="userCraneList" class="user-crane-list"></div>
+  </div>
+</div>
+
+<!-- ========== 钢柱吊装分析 ========== -->
+<div class="page" id="page-lift">
+
+  <!-- 标题区 -->
+  <div class="lift-hero">
+    <h1>钢柱吊装分析</h1>
+    <p>输入截面规格 → 自动计算分段重量 → 匹配吊装机械性能 → 输出分段吊装表</p>
+  </div>
+
+  <div class="lift-layout">
+
+    <!-- 左栏：参数输入 -->
+    <div class="lift-left">
+
+      <!-- 截面输入 -->
+      <div class="lift-card">
+        <h3 class="lift-card-title">截面信息</h3>
+        <!-- 主输入区：类型选择 + 参数输入（始终可见） -->
+        <div class="sec-main-input">
+          <div class="sec-type-row">
+            <div class="form-group">
+              <label>截面类型 <span class="req">*</span></label>
+              <select id="sec-main-type" onchange="secMainTypeChange()">
+                <option value="HW">H型钢 (HW/HM/HN)</option>
+                <option value="BOX">箱型截面 □/▭</option>
+                <option value="CHS">圆管 Ø</option>
+                <option value="CRU">十字形 +</option>
+              </select>
+            </div>
+          </div>
+          <div class="sec-dims-row" id="secMainDims">
+            <!-- 动态参数输入（根据类型切换） -->
+          </div>
+        </div>
+
+        <!-- 数据库搜索（辅助工具，可折叠） -->
+        <div class="sec-db-search">
+          <div class="sec-db-toggle" onclick="secDbToggle()">
+            <span>📚 从数据库选择截面</span>
+            <span id="secDbArrow" class="sec-arrow">▾</span>
+          </div>
+          <div id="secDbPanel" style="display:none">
+            <div class="form-group" style="margin-top:8px">
+              <input type="text" id="lift-sec" placeholder="输入型号关键词搜索…" oninput="liftOnSectionChange()">
+              <div class="sec-suggest" id="secSuggest"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 截面详情（双栏布局：左侧SVG工程图，右侧参数卡片） -->
+        <div id="liftSecInfo" style="display:none">
+          <!-- 空状态 -->
+          <div class="sec-empty-wrap" id="secEmptyState">
+            <div class="sec-empty-icon">📐</div>
+            <div class="sec-empty-title">选择截面类型并输入参数</div>
+            <div class="sec-empty-sub">截面示意图和参数将显示在这里</div>
+          </div>
+
+          <!-- 有数据时：上下单栏布局（SVG在上，信息在下） -->
+          <div class="sec-viz-layout" id="secVizLayout" style="display:none">
+            <!-- 上：SVG工程图纸 -->
+            <div id="secSvgWrap" class="sec-svg-wrap">
+              <div id="secSvg" class="sec-svg"></div>
+            </div>
+            <!-- 下：参数信息 -->
+            <div class="sec-info-panel">
+              <!-- 截面类型标签 + 名称 同行 -->
+              <div class="sec-info-header">
+                <div class="sec-type-badge" id="secTypeBadge">
+                  <span id="secTypeIcon">▭</span>
+                  <span id="secTypeLabel">H型钢</span>
+                </div>
+                <div id="liftSecModel" class="sec-name">—</div>
+              </div>
+              <!-- 关键指标卡片（仅截面积 + 线重，两列） -->
+              <div class="sec-metric-row">
+                <div class="sec-metric-card">
+                  <div class="sec-metric-val" id="secMetA">—</div>
+                  <div class="sec-metric-label">截面积 A</div>
+                  <div class="sec-metric-unit">mm²</div>
+                </div>
+                <div class="sec-metric-card">
+                  <div class="sec-metric-val" id="secMetW">—</div>
+                  <div class="sec-metric-label">线重 w</div>
+                  <div class="sec-metric-unit">kg/m</div>
+                </div>
+              </div>
+              <!-- 详细参数 -->
+              <div class="sec-params-grid" id="liftSpecRows"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 分段参数 -->
+      <div class="lift-card">
+        <h3 class="lift-card-title">层高表</h3>
+
+        <!-- 顶部工具栏 -->
+        <div class="fl-toolbar">
+          <div class="fl-toolbar-left">
+            <span class="fl-stat" id="flStat">共 0 层，总高 —</span>
+          </div>
+          <div class="fl-toolbar-right">
+            <button class="btn btn-ghost btn-xs" onclick="flImportCsv()">📋 导入 CSV</button>
+            <input type="file" id="flCsvInput" accept=".csv,.txt" style="display:none" onchange="flOnCsvFile(this)">
+            <div class="fl-preset-wrap">
+              <button class="btn btn-ghost btn-xs" onclick="flTogglePreset()">📥 预设方案 ▾</button>
+              <div class="fl-preset-panel" id="flPresetPanel">
+                <div class="fl-preset-item" onclick="flLoadPreset3()">🏗️ 超高层 32层（146.8m）</div>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-xs" onclick="flAddRow()">＋ 加行</button>
+            <button class="btn btn-ghost btn-xs btn-danger" onclick="flClearAll()">清空</button>
+          </div>
+        </div>
+
+        <!-- 粘贴导入区 -->
+        <div class="fl-import-area" id="flImportArea" style="display:none">
+          <div class="fl-import-hint">粘贴 CSV/Tab 分隔的层高数据，格式：<code>楼层名,\t层高(m)</code> 或 <code>楼层名,\t标高(m),\t层高(m)</code></div>
+          <textarea class="fl-import-ta" id="flImportTa" placeholder="楼层名	层高
+1F	4.9
+2F	4.5
+3F	4.5
+4F	4.5"></textarea>
+          <div class="fl-import-btns">
+            <button class="btn btn-primary btn-xs" onclick="flDoImport()">导入并应用</button>
+            <button class="btn btn-ghost btn-xs" onclick="flCancelImport()">取消</button>
+          </div>
+        </div>
+
+        <!-- 层高表 -->
+        <div class="fl-table-wrap">
+          <table class="fl-table" id="flTable">
+            <thead>
+              <tr>
+                <th class="fl-col-del"></th>
+                <th class="fl-col-num">#</th>
+                <th class="fl-col-name">楼层名称</th>
+                <th class="fl-col-elev">标高(m)</th>
+                <th class="fl-col-h">层高(m)</th>
+                <th class="fl-col-tag">分区</th>
+              </tr>
+            </thead>
+            <tbody id="flTableBody">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 分段设置（随层高表联动） -->
+        <div class="fl-seg-settings">
+          <div class="fl-seg-row">
+            <div class="form-group">
+              <label>分段方式 <span class="req">*</span></label>
+              <select id="lift-seg-pf" onchange="debounce(liftCalc, 'lc', 150)">
+                <option value="1" selected>一层一段</option>
+                <option value="2">两层一段</option>
+                <option value="3">三层一段</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>节点放大系数</label>
+              <input type="number" id="lift-amp" placeholder="如：1.05" step="0.01" min="1.0" value="1.05" oninput="debounce(liftCalc, 'lc', 200)">
+            </div>
+          </div>
+          <div class="lift-calc-summary" id="liftCalcSummary"></div>
+        </div>
+      </div>
+
+      <!-- 吊装参数 -->
+      <div class="lift-card">
+        <h3 class="lift-card-title">吊装参数</h3>
+        <div class="form-group">
+          <label>选用机械 <span class="req">*</span></label>
+          <select id="lift-crane" onchange="liftOnCraneChange()">
+            <option value="">— 先在「选型」页选型 —</option>
+          </select>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>吊装半径 R (m) <span class="req">*</span></label>
+            <input type="number" id="lift-radius" placeholder="如：30" step="0.5" min="1" value="30" oninput="debounce(updateLiftTableCrane, 'rc', 200)">
+          </div>
+          <div class="form-group">
+            <label>臂长 (m)</label>
+            <select id="lift-boom-sel" onchange="debounce(updateLiftTableCrane, 'rc', 150)">
+              <option value="">— 自动匹配 —</option>
+            </select>
+          </div>
+        </div>
+        <div class="lift-crane-info" id="liftCraneInfo" style="display:none">
+          <div class="lp-item"><span class="lp-l">机械型号</span><span class="lp-v" id="liftCraneModel">—</span></div>
+          <div class="lp-item"><span class="lp-l">额定起重量</span><span class="lp-v" id="liftCraneRated">—</span></div>
+          <div class="lp-item"><span class="lp-l">当前半径额定</span><span class="lp-v accent" id="liftCraneAtR">—</span></div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary lift-btn" onclick="liftCalc()">🧮 计算分段</button>
+
+    </div><!-- /lift-left -->
+
+    <!-- 右栏：结果表格 -->
+    <div class="lift-right">
+      <div class="lift-card lift-card-full">
+        <div class="lift-table-header">
+          <h3 class="lift-card-title">分段吊装表</h3>
+          <div class="lift-table-actions">
+            <button class="btn btn-secondary btn-sm" onclick="liftExportCsv()">⬇ 导出 CSV</button>
+          </div>
+        </div>
+        <div class="lift-table-wrap" id="liftTableWrap">
+          <div class="lift-empty" id="liftEmpty">
+            <div class="icon">📋</div>
+            <p>输入截面参数并点击「计算分段」<br>即可生成吊装分段表</p>
+          </div>
+          <table class="lift-table" id="liftTable" style="display:none">
+            <thead>
+              <tr>
+                <th>分段</th>
+                <th>截面</th>
+                <th>段长(m)</th>
+                <th>单重(t)</th>
+                <th>总吊重(t)<br><span class="th-sub">含吊钩吊绳</span></th>
+                <th>吊装机械</th>
+                <th>半径(m)</th>
+                <th>性能(t)</th>
+                <th>效率</th>
+              </tr>
+            </thead>
+            <tbody id="liftTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /lift-right -->
+
+  </div><!-- /lift-layout -->
+</div><!-- /page-lift -->
+
+<!-- ========== 关于 ========== -->
+<div class="page" id="page-about">
+  <div class="about-card">
+    <h3>关于 吊机选型</h3>
+    <p>版本：<span class="version-badge">v2.1</span> 起重机械综合决策工具</p>
+    <p>基于真实载荷表数据，支持线性差值精确计算、选型合理性评估、吊臂碰撞分析。</p>
+    <p>数据来源：厂家官方样本及行业标准。载荷表为近似估算，选型结果仅供参考，实际选用前请查阅厂家正式技术文件。</p>
+  </div>
+  <div class="about-card" id="bodyBadge"></div>
+</div>
+
+<!-- ========== 详情页（全屏）========== -->
+<div class="page page-detail" id="page-detail">
+
+  <!-- 顶部栏：机型图 + 标题 + 横向Tab -->
+  <div class="detail-topbar">
+    <div class="detail-topbar-img">
+      <img id="dImg" src="" style="display:none;max-width:120px;max-height:80px;object-fit:contain;border-radius:8px;border:1px solid var(--border);background:var(--surface)">
+    </div>
+    <div class="detail-topbar-title">
+      <h2 id="dModel">—</h2>
+      <span id="dBrand" class="detail-brand"></span>
+      <span class="type-badge" id="dBadge">—</span>
+    </div>
+  </div>
+
+  <!-- 横向Tab栏 -->
+  <div class="detail-tab-bar">
+    <button class="detail-tab-item active" id="tab-spec" onclick="switchTab('spec')">📐 规格参数</button>
+    <button class="detail-tab-item" id="tab-chart" onclick="switchTab('chart')">📊 性能表</button>
+    <button class="detail-tab-item" id="tab-verify" onclick="switchTab('verify')">🧮 性能验算</button>
+    <button class="detail-tab-item" id="tab-spread" onclick="switchTab('spread')">⚖️ 吊具计算</button>
+    <button class="detail-tab-item" id="tab-collision" onclick="switchTab('collision')">⚠ 碰撞分析</button>
+  </div>
+
+  <!-- 内容区（滚动） -->
+  <div class="detail-body">
+
+    <!-- 规格参数 -->
+    <div class="tab-panel active" id="panel-spec">
+      <div class="specs-grid" id="dParams"></div>
+    </div>
+
+    <!-- 性能表 -->
+    <div class="tab-panel" id="panel-chart">
+      <div class="perf-detail-toolbar">
+        <div class="perf-filter-row">
+          <span class="perf-filter-label">工况类型</span>
+          <select id="typeSelect" class="cond-select" onchange="onTypeChange()">
+            <option value="">全部</option>
+          </select>
+          <span class="perf-filter-label">工况说明</span>
+          <select id="condSelect" class="cond-select" onchange="onCondChange()" style="display:none">
+            <option value="">全部</option>
+          </select>
+          <span class="perf-filter-label">配重/支腿</span>
+          <select id="cgSelect" class="cond-select" onchange="onCgChange()" style="display:none">
+            <option value="">全部</option>
+          </select>
+        </div>
+        <div class="perf-filter-row">
+          <span class="perf-filter-label">主臂长度</span>
+          <select id="boomLenSelect" class="boom-len-select" onchange="onBoomLenChange()">
+            <option value="">全部臂长</option>
+          </select>
+          <span class="perf-filter-label" id="jibLabel" style="display:none">副臂长度</span>
+          <select id="jibLenSelect" class="boom-len-select" onchange="onJibLenChange()" style="display:none">
+            <option value="">全部副臂</option>
+          </select>
+          <span class="perf-hint" id="perfDataInfo"></span>
+        </div>
+      </div>
+      <div class="perf-table-wrap" id="perfTableWrap"></div>
+      <div class="perf-actions">
+        <button class="btn btn-ghost btn-xs" onclick="perfExportCsv()">⬇ 导出 CSV</button>
+      </div>
+    </div>
+
+    <!-- 性能验算 -->
+    <div class="tab-panel" id="panel-verify">
+      <div class="verify-grid">
+        <div class="form-group"><label>吊装半径 R (m)</label><input type="number" id="qR" placeholder="例：30" step="0.5"></div>
+        <div class="form-group"><label>构件重量 (t)</label><input type="number" id="qW" placeholder="留空仅查额定值"></div>
+        <div class="form-group"><label>臂长 (m)</label><select id="qBoom"></select></div>
+        <button class="btn btn-primary" onclick="runQ()">计算 →</button>
+      </div>
+      <div id="qResult"></div>
+    </div>
+
+    <!-- 吊具计算 -->
+    <div class="tab-panel" id="panel-spread">
+      <div class="spread-intro">输入构件重量，系统自动匹配吊钩档位；输入钢丝绳重量，计算吊装总重量</div>
+      <div class="spread-config-card" id="spreadCard">
+        <div class="spread-empty" id="spreadEmpty">该机型暂无吊具参数数据</div>
+        <div id="spreadContent" style="display:none">
+
+          <!-- 档位说明 -->
+          <div class="spread-tiers-info" id="spreadTiersInfo"></div>
+
+          <!-- 输入区 -->
+          <div class="spread-inputs">
+            <div class="form-group">
+              <label>构件重量 (t) <span class="req">*</span></label>
+              <input type="number" id="spCargo" placeholder="输入构件重量" step="0.1" min="0" oninput="onSpreadCargoChange()">
+            </div>
+            <div class="form-group">
+              <label>钢丝绳重量 (t)</label>
+              <input type="number" id="spRope" placeholder="输入钢丝绳/吊绳重量" step="0.01" min="0" value="0" oninput="calcSpreadTotal()">
+            </div>
+          </div>
+
+          <!-- 计算结果 -->
+          <div class="spread-result" id="spreadResult" style="display:none">
+            <div class="spread-result-title">吊装总重量</div>
+            <div class="spread-result-num" id="spreadTotalNum">—</div>
+            <div class="spread-result-formula" id="spreadFormula"></div>
+            <div class="spread-result-hook" id="spHookLabel"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 碰撞分析 -->
+    <div class="tab-panel" id="panel-collision">
+      <div class="verify-grid">
+        <div class="form-group"><label>站位距建筑 (m)</label><input type="number" id="colDist" placeholder="吊车到建筑距离"></div>
+        <div class="form-group"><label>建筑高度 (m)</label><input type="number" id="colBH" placeholder="建筑物高度"></div>
+        <div class="form-group"><label>臂仰角 (°)</label><input type="number" id="colBT" placeholder="留空按臂长估算" step="0.5"></div>
+        <button class="btn btn-primary" onclick="runCol()">分析 →</button>
+      </div>
+      <div class="chart-wrap" id="colSvg"></div>
+    </div>
+
+  </div><!-- /detail-body -->
+</div><!-- /page-detail -->
+
+<!-- ========== 吊次分析 ========== -->
+<div class="page" id="page-diaoci">
+  <div class="lift-hero">
+    <h1>📊 吊次分析</h1>
+    <p>输入构件参数，自动计算总吊次和工期，支持多机械组合与效率表查询</p>
+  </div>
+
+  <!-- 子 Tab -->
+  <div class="sub-tabs" style="margin-bottom:16px">
+    <button class="sub-tab active" id="diaoci-tab-table" onclick="diaociSwitchTab('table')">📋 吊次分析表</button>
+    <button class="sub-tab" id="diaoci-tab-eff" onclick="diaociSwitchTab('eff')">📐 吊装效率表</button>
+  </div>
+
+  <!-- ===== 吊次分析表 ===== -->
+  <div id="diaoci-panel-table">
+
+    <!-- 机械组合区 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>🚜 机械组合</span>
+        <button class="btn btn-ghost btn-xs" onclick="diaociAddMachine()">＋ 添加机械</button>
+      </div>
+      <div id="diaoci-machines">
+        <!-- 动态填充 -->
+      </div>
+    </div>
+
+    <!-- 说明与调整参数 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-title">📝 调整参数</div>
+      <div class="form-grid-5" style="gap:10px">
+        <div class="form-group">
+          <label>天气/工序系数</label>
+          <input type="number" id="diaoci-k-weather" value="1.2" step="0.05" min="0.1" oninput="diaociCalc()">
+        </div>
+        <div class="form-group">
+          <label>机械使用占比</label>
+          <input type="number" id="diaoci-k-util" value="0.8" step="0.05" min="0.1" max="1" oninput="diaociCalc()">
+        </div>
+        <div class="form-group">
+          <label>每日工作时长 (h)</label>
+          <input type="number" id="diaoci-hours" value="10" step="1" min="1" oninput="diaociCalc()">
+        </div>
+        <div class="form-group">
+          <label>夜间卸货占比</label>
+          <input type="number" id="diaoci-k-night" value="0.1" step="0.05" min="0" max="1" oninput="diaociCalc()">
+        </div>
+        <div class="form-group">
+          <label>其他吊装占比</label>
+          <input type="number" id="diaoci-k-other" value="0.1" step="0.05" min="0" max="1" oninput="diaociCalc()">
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.8">
+        说明：① 天气/工序系数含雨雪、交叉作业等影响，默认1.2；② 机械使用占比钢结构吊机占现场比例，默认0.8；③ 夜间卸货占比：夜间卸货不占用白天吊装时间；④ 其他吊装占比：总吊次中气瓶吊笼、焊机等非主要构件吊装所占比例，用于计算"其他"行吊次
+      </div>
+    </div>
+
+    <!-- 吊次数据表 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>📦 构件吊次</span>
+        <button class="btn btn-ghost btn-xs" onclick="diaociAddRow()">＋ 添加行</button>
+      </div>
+      <div class="tbl" style="overflow-x:auto">
+        <table style="min-width:900px">
+          <thead>
+            <tr>
+              <th style="width:120px">结构类型</th>
+              <th style="width:100px">构件位置</th>
+              <th style="width:110px">构件类型</th>
+              <th style="width:120px">分段类型</th>
+              <th style="width:70px;text-align:right">构件数量</th>
+              <th style="width:70px;text-align:right">调整系数</th>
+              <th style="width:80px;text-align:right">吊次合计</th>
+              <th style="width:90px;text-align:right">效率/台班</th>
+              <th style="width:100px;text-align:right">单台机械时间(d)</th>
+              <th style="width:90px;text-align:right">总时间(d)</th>
+              <th style="width:40px"></th>
+            </tr>
+          </thead>
+          <tbody id="diaoci-rows">
+            <!-- 动态行 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 汇总 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-title">📈 汇总结果</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <div class="stat-card">
+          <div class="stat-v" id="diaoci-total-diaoci">0</div>
+          <div class="stat-l">总吊次</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-v" id="diaoci-total-days">0</div>
+          <div class="stat-l">预计总工期(d)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-v" id="diaoci-total-diaoci-day">0</div>
+          <div class="stat-l">综合日吊次</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-v" id="diaoci-total-cranes">0</div>
+          <div class="stat-l">机械数量(台)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 吊装效率表 ===== -->
+  <div id="diaoci-panel-eff" style="display:none">
+    <div class="card">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>📐 吊装效率基准表</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-xs" id="diaoci-eff-edit-btn" onclick="diaociToggleEffEdit()">✏️ 编辑</button>
+          <button class="btn btn-ghost btn-xs" id="diaoci-eff-add-btn" onclick="diaociAddEffRow()" style="display:none">＋ 新增行</button>
+          <button class="btn btn-ghost btn-xs" id="diaoci-eff-save-btn" onclick="diaociSaveEffEdit()" style="display:none">✓ 保存</button>
+          <button class="btn btn-ghost btn-xs" id="diaoci-eff-reset-btn" onclick="diaociResetEff()" style="display:none">↩ 重置</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;align-items:flex-end">
+        <div class="form-group" style="flex:1;min-width:180px">
+          <label>筛选结构类型</label>
+          <select id="diaoci-eff-filter" onchange="diaociRenderEffTable()">
+            <option value="">全部</option>
+            <option>框架结构</option>
+            <option>高层、超高层</option>
+            <option>空间网架、网壳结构</option>
+            <option>空间桁架结构</option>
+            <option>异形特殊结构</option>
+            <option>支撑架</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex:1;min-width:150px">
+          <label>筛选机械类型</label>
+          <select id="diaoci-eff-mtype" onchange="diaociRenderEffTable()">
+            <option value="">全部</option>
+            <option>汽车吊</option>
+            <option>履带吊</option>
+            <option>塔吊</option>
+          </select>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;background:var(--bg-elevated);padding:8px 12px;border-radius:6px;border-left:3px solid var(--accent)">
+        📌 效率值单位：次/台班（10h），已含调整系数。可点"编辑"修改或新增行，修改会影响吊次计算。塔吊按高度范围选取。
+      </div>
+      <div class="tbl" style="overflow-x:auto">
+        <table style="min-width:1000px;font-size:13px">
+          <thead id="diaoci-eff-thead"></thead>
+          <tbody id="diaoci-eff-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-diaoci -->
+
+<!-- Toast 提示 -->
+<div class="toast" id="toast" style="display:none"></div>
+
+<!-- 图片放大弹窗 -->
+<div id="imgLightbox" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;flex-direction:column;gap:16px;cursor:zoom-out" onclick="closeImgLightbox()">
+  <img id="lightboxImg" src="" style="max-width:90vw;max-height:80vh;object-fit:contain;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.5)">
+  <div id="lightboxCaption" style="color:#fff;font-size:14px;font-weight:600;text-align:center;opacity:0.8"></div>
+  <div style="color:rgba(255,255,255,0.5);font-size:20px;position:absolute;top:16px;right:24px;cursor:pointer">✕</div>
+</div>
+
+</div><!-- /app-main -->
+<script src="data.js?v=v2-20260506"></script>
+<script src="app.js?v=v2-20260506"></script>
+</body>
+</html>
