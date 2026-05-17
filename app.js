@@ -1,5 +1,5 @@
 /* ============================================================
-   钢结构方案辅助工具 app.js  v2-20260622
+   钢结构方案辅助工具 app.js  v2-20260622d
    新数据结构：crane.load_charts = {工况类型: {工况说明: {'配重|支腿': [行数据]}}}
    ============================================================ */
 
@@ -252,6 +252,16 @@ function sp(n){
   window.scrollTo(0,0);
 }
 
+/* ── 参数示意图展开/折叠 ────────────────────────────────── */
+function toggleParamHelp(){
+  var wrap=document.getElementById('paramDiagramWrap');
+  var btn=document.getElementById('paramHelpBtn');
+  if(!wrap||!btn)return;
+  var isOpen=wrap.classList.toggle('open');
+  btn.classList.toggle('active',isOpen);
+  btn.setAttribute('aria-expanded',isOpen);
+}
+
 /* ── 侧边栏折叠/展开（CSS 接管布局，JS 只负责 class 切换）─── */
 function toggleSidebar(){
   var sidebar=document.getElementById('appSidebar');
@@ -337,6 +347,7 @@ function doSelect(){
   var w=parseFloat((document.getElementById('sW')||{value:''}).value);
   var R=parseFloat((document.getElementById('sR')||{value:''}).value);
   var hBuilding=parseFloat((document.getElementById('sH')||{value:''}).value)||0;
+  var d=parseFloat((document.getElementById('sD')||{value:''}).value)||0;   // 结构距离(m)
   var sf=parseFloat((document.getElementById('sS')||{value:'1.1'}).value)||1.1;
   var sortBy=(document.getElementById('sortBy')||{value:'eff'}).value;
   var typeFilter=(document.getElementById('sT')||{value:''}).value;
@@ -349,8 +360,17 @@ function doSelect(){
   // 显示几何分析提示
   var tipEl=document.getElementById('selectTipText');
   if(tipEl){
-    if(hRequired>0){
-      tipEl.innerHTML='<strong>几何约束：</strong>R='+R+'m · 吊钩高度≥'+(hRequired.toFixed(1))+'m（建筑'+hBuilding+'m+1m净空）';
+    var tipParts=['R='+R+'m'];
+    if(hRequired>0)tipParts.push('吊钩≥'+hRequired.toFixed(1)+'m（建筑'+hBuilding+'m+1m净空）');
+    if(d>0&&hBuilding>0){
+      var H_crane=2.0;
+      var alphaMin=Math.atan((hBuilding-H_crane)/d)*180/Math.PI;
+      tipParts.push('结构距离d='+d+'m · α_min='+alphaMin.toFixed(1)+'°');
+    }
+    if(d>0&&hBuilding>0){
+      tipEl.innerHTML='<strong>碰撞约束：</strong>'+tipParts.join(' · ');
+    }else if(hRequired>0){
+      tipEl.innerHTML='<strong>几何约束：</strong>'+tipParts.join(' · ');
     }else{
       tipEl.innerHTML='<strong>平面约束：</strong>仅考虑水平半径'+R+'m';
     }
@@ -365,12 +385,13 @@ function doSelect(){
     if(!pts.length)pts=getCranePoints(c,null,null,null);
     var result=null;
     if(pts.length){
-      result=findBestConfig(pts,c,R,hRequired,req);
+      result=findBestConfig(pts,c,R,hRequired,req,d,hBuilding);
     }
     if(result){
       list.push({c:c,rated:result.rated,eff:w/result.rated*100,
         boomLen:result.mainBoom,boomNote:result.note,
-        hMax:result.hMax,hReach:result.hReach,jibInfo:result.jibInfo});
+        hMax:result.hMax,hReach:result.hReach,jibInfo:result.jibInfo,
+        collision:result.collision||null});
     }else if(!pts.length&&c.max_load_t){
       // 无载荷表，用 max_load_t 估算
       var estRated=c.max_load_t*0.6;
@@ -413,12 +434,26 @@ function doSelect(){
       var hTag=item.hMax>=hRequired?'✓':'⚡';
       heightNote='<span class="h-note" title="最大吊高:'+item.hMax.toFixed(1)+'m 需求:'+hRequired.toFixed(1)+'m">'+hTag+'</span>';
     }
-    html+='<div class="res" onclick="openD('+item.c.id+')">'
+    // 碰撞标识
+    var collisionNote='';
+    var rowClass='';
+    if(item.collision){
+      if(item.collision.status==='danger'){
+        collisionNote='<span class="col-badge col-danger" title="实际仰角'+item.collision.alpha_actual.toFixed(1)+'° &lt; 最小'+item.collision.alpha_min.toFixed(1)+'°">⚠碰撞</span>';
+        rowClass=' res-danger';
+      }else if(item.collision.status==='warn'){
+        collisionNote='<span class="col-badge col-warn" title="实际仰角'+item.collision.alpha_actual.toFixed(1)+'° ≈ 最小'+item.collision.alpha_min.toFixed(1)+'°（偏紧）">⚠偏紧</span>';
+        rowClass=' res-warn';
+      }else{
+        collisionNote='<span class="col-badge col-safe" title="实际仰角'+item.collision.alpha_actual.toFixed(1)+'° ≥ 最小'+item.collision.alpha_min.toFixed(1)+'°">✓安全</span>';
+      }
+    }
+    html+='<div class="res'+rowClass+'" onclick="openD('+item.c.id+')">'
       +'<div class="rank '+rc+'">'+rl+'</div>'
       +'<div class="res-model">'+esc(item.c.model||'')+'</div>'
       +'<div class="res-brand">'+esc(item.c.brand||'')+'</div>'
       +'<div class="res-type"><span class="badge '+typeClass(item.c.type||'')+'">'+esc(item.c.type||'')+'</span></div>'
-      +'<div class="res-boom">'+esc(item.boomNote||'') + heightNote+'</div>'
+      +'<div class="res-boom">'+esc(item.boomNote||'')+heightNote+' '+collisionNote+'</div>'
       +'<div class="res-rated">'+item.rated.toFixed(1)+' t</div>'
       +'<div>'+effBadge(eff)+'</div>'
       +'<div class="res-max">'+(item.c.max_load_t||'—')+' t</div>'
@@ -427,16 +462,58 @@ function doSelect(){
   }
   if(list.length>50)html+='<div style="text-align:center;padding:12px;color:var(--muted);font-size:13px">显示前 50 台</div>';
   resultList.innerHTML=html;resEl.style.display='block';
+
+  // 公式区（碰撞校核时有意义，显示计算过程）
+  var formulaEl=document.getElementById('resultFormula');
+  if(formulaEl&&d>0&&hBuilding>0){
+    var H_crane=2.0;
+    var alphaMin=Math.atan((hBuilding-H_crane)/d)*180/Math.PI;
+    // 以列表第一个合格结果为例展示公式
+    var ex=list[0];
+    var L1_ex=ex&&ex.boomLen?ex.boomLen:null;
+    var h_ex=ex&&ex.hMax?ex.hMax:null;
+    var R_ex=R;
+    var alphaExStr='',calcExStr='';
+    if(L1_ex&&L1_ex>R_ex){
+      var cosA=Math.min(1,R_ex/L1_ex);
+      var alphaEx=Math.acos(cosA)*180/Math.PI;
+      alphaExStr='α=arccos('+R_ex.toFixed(1)+'÷'+L1_ex.toFixed(1)+')='+alphaEx.toFixed(1)+'°';
+      calcExStr='L₁=√('+R_ex.toFixed(1)+'²+('+h_ex.toFixed(1)+'−'+H_crane+')²)='+L1_ex.toFixed(1)+'m';
+    }
+    formulaEl.innerHTML=
+      '<div class="formula-block">'+
+        '<div class="formula-title">📐 碰撞几何校核</div>'+
+        '<div class="formula-row"><span class="fl">最小安全仰角</span><span class="fr">α_min = arctan((H_b−H_crane)÷d) = arctan(('+hBuilding.toFixed(1)+'−'+H_crane+')÷'+d.toFixed(1)+') = <strong>'+alphaMin.toFixed(1)+'°</strong></span></div>'+
+        (L1_ex?('<div class="formula-row"><span class="fl">最短可行臂长</span><span class="fr">'+calcExStr+'</span></div>'+
+        '<div class="formula-row"><span class="fl">实际臂架仰角</span><span class="fr">'+alphaExStr+' &nbsp;→&nbsp; <span class="'+(ex.collision&&ex.collision.status==='danger'?'fdanger':ex.collision&&ex.collision.status==='warn'?'fwarn':'fsafe')+'">'+
+        (ex.collision&&ex.collision.status==='danger'?'⚠ 碰撞风险':ex.collision&&ex.collision.status==='warn'?'⚠ 净空偏紧':'✓ 净空安全')+'</span></span></div>'):'')+
+      '</div>';
+    formulaEl.style.display='';
+  }else if(formulaEl){
+    formulaEl.style.display='none';
+  }
+
   setTimeout(function(){resEl.scrollIntoView({behavior:'smooth',block:'start'});},100);
 }
 
 /*
   找最优配置：给定半径R、所需吊钩高度hReq、所需载荷req
   对所有载荷点分组，计算几何可行解，再找载荷满足条件的
-  返回 {mainBoom, rated, note, hMax, hReach, jibInfo}
+  可选碰撞校核：d=结构距离(m), H_b=结构高度(m)
+  碰撞判定：α_min = arctan((H_b-H)/d), α_actual = arccos(R/L1)
+            α_actual < α_min → 碰撞
+  返回 {mainBoom, rated, note, hMax, hReach, jibInfo, collision:{status,alpha_min,alpha_actual,d,H_b}}
 */
-function findBestConfig(pts,c,R,hReq,req){
+function findBestConfig(pts,c,R,hReq,req,d,H_b){
   var H=c.hook_pivot_h||2.0;  // 吊臂铰点高度(m)
+  var collisionInput=null;
+
+  // 若提供了碰撞参数，计算最小安全仰角
+  if(d>0&&H_b>H){
+    // α_min = arctan((H_b-H)/d)，高于此角度才能越过结构
+    var alphaMin=Math.atan((H_b-H)/d)*180/Math.PI;
+    collisionInput={d:d,H_b:H_b,alpha_min:alphaMin,H:H};
+  }
   // 按(主臂长, 副臂长, 副臂角)分组
   var configs={};
   for(var i=0;i<pts.length;i++){
@@ -501,9 +578,22 @@ function findBestConfig(pts,c,R,hReq,req){
     // 满足所有条件，选最短主臂
     var note=[];
     if(hReq>0)note.push('h='+hMax.toFixed(1)+'m');
+
+    // 碰撞校核：计算该配置的吊臂实际仰角
+    var collision=null;
+    if(collisionInput){
+      // 实际仰角：α = arccos(R/L1)
+      var cosA=Math.min(1,R/L1);  // 防止浮点误差
+      var alphaActual=Math.acos(cosA)*180/Math.PI;
+      var status=alphaActual>=collisionInput.alpha_min?'safe':
+                  alphaActual>=collisionInput.alpha_min-2?'warn':'danger';
+      collision={status:status,alpha_min:collisionInput.alpha_min,alpha_actual:alphaActual,
+                 d:collisionInput.d,H_b:collisionInput.H_b};
+    }
+
     best={mainBoom:L1,rated:ratedAtR,
           note:note.join(' · ')||(Ljib>0?'副臂'+Ljib+'m∠'+angJib+'°':'主臂'+L1+'m'),
-          hMax:hMax,hReach:R,jibInfo:jibInfo};
+          hMax:hMax,hReach:R,jibInfo:jibInfo,collision:collision};
     break;  // 已按主臂长升序，第一个就是最短的
   }
   return best;

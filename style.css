@@ -327,6 +327,54 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
   background: var(--accent);
   border-radius: 2px;
 }
+.select-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.select-header h2 { margin-bottom: 0 !important; }
+.param-help-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.param-help-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(94,106,210,0.06);
+}
+.param-help-btn.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(94,106,210,0.08);
+}
+.param-diagram-wrap {
+  margin-bottom: 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-surface);
+  transition: max-height 0.3s ease, opacity 0.25s ease;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+.param-diagram-wrap.open {
+  max-height: 600px;
+  opacity: 1;
+}
+.param-diagram-wrap svg { display: block; }
 .quick-select .form-group label { font-size: 14px; }
 .quick-select .form-group input,
 .quick-select .form-group select { font-size: 16px; height: 44px; }
@@ -476,6 +524,35 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 .eb-g { background: rgba(26,127,55,0.12); color: var(--green); }
 .eb-y { background: rgba(154,103,0,0.12); color: var(--yellow); }
 .eb-r { background: rgba(207,34,46,0.12); color: var(--red); }
+
+/* ── 碰撞状态标识 ──────────────────────── */
+.col-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 10px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.col-safe  { background: rgba(26,127,55,0.12); color: #1f7a37; }
+.col-warn  { background: rgba(154,103,0,0.12); color: #9a6700; }
+.col-danger{ background: rgba(207,34,46,0.12); color: #cf221e; }
+
+.res-danger { background: rgba(207,34,46,0.05) !important; }
+.res-danger:hover { background: rgba(207,34,46,0.10) !important; }
+.res-warn   { background: rgba(154,103,0,0.04) !important; }
+.res-warn:hover  { background: rgba(154,103,0,0.08) !important; }
+
+/* ── 选型公式区 ──────────────────────── */
+#resultFormula { margin-bottom: 20px; }
+.formula-block {
+  background: var(--bg-surface);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--radius-xl);
+  padding: 16px 20px;
+  font-size: 14px;
+}
+.formula-title { font-weight: 700; color: var(--text-primary); margin-bottom: 10px; font-size: 15px; }
+.formula-row { display: flex; gap: 12px; padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-variant-numeric: tabular-nums; }
+.formula-row:last-child { border-bottom: none; }
+.formula-row .fl { color: var(--text-muted); min-width: 100px; white-space: nowrap; }
+.formula-row .fr { color: var(--text-primary); }
+.fsafe { color: #1f7a37; font-weight: 700; }
+.fwarn { color: #9a6700; font-weight: 700; }
+.fdanger { color: #cf221e; font-weight: 700; }
 
 /* ── 详情页 ─────────────────────────────── */
 .detail-topbar {
