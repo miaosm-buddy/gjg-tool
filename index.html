@@ -115,90 +115,156 @@
       </button>
     </div>
     <div class="param-diagram-wrap" id="paramDiagramWrap">
-      <svg viewBox="0 0 720 480" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 760 490" width="100%" xmlns="http://www.w3.org/2000/svg">
         <title>起重机械选型参数示意图</title>
-        <desc>展示吊装半径R、结构距离d、建筑总高Hb、构件安装高度、构件重量G五个输入参数的空间位置关系</desc>
+        <desc>展示吊装半径R、结构距离d、建筑总高Hb、安装高度Hc、构件安装高度、构件重量G等参数的空间位置关系</desc>
         <defs>
           <marker id="arr-d" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
           <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
           <pattern id="lattice" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M0 0L8 8M8 0L0 8" stroke="#FAECE7" stroke-width="0.7"/></pattern>
         </defs>
+
+        <!-- ========== 场地 ========== -->
         <!-- 地面 -->
-        <rect x="30" y="390" width="620" height="4" fill="#B4B2A9"/>
-        <line x1="30" y1="390" x2="650" y2="390" stroke="#888780" stroke-width="1.5"/>
-        <!-- 建筑（紫色） -->
-        <rect x="440" y="80" width="70" height="310" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5" rx="3"/>
-        <rect x="448" y="88" width="54" height="294" fill="none" stroke="#CECBF6" stroke-width="0.5"/>
-        <text x="475" y="68" text-anchor="middle" font-size="13" fill="#534AB7" font-weight="600">建筑</text>
-        <!-- 建筑总高 Hb 标注线（紫色） -->
-        <line x1="510" y1="80" x2="510" y2="390" stroke="#534AB7" stroke-width="1" stroke-dasharray="4 3"/>
-        <polygon points="508,84 510,80 512,84" fill="#534AB7"/>
-        <polygon points="508,386 510,390 512,386" fill="#534AB7"/>
-        <text x="522" y="235" text-anchor="start" font-size="14" fill="#534AB7" font-weight="700">Hb</text>
-        <!-- 构件安装高度 h 安装位置标注（深棕虚线） -->
-        <line x1="410" y1="290" x2="440" y2="290" stroke="#993C1D" stroke-width="1" stroke-dasharray="3 3"/>
-        <line x1="425" y1="80" x2="425" y2="290" stroke="#993C1D" stroke-width="0.8" stroke-dasharray="2 2"/>
-        <polygon points="423,84 425,80 427,84" fill="#993C1D"/>
-        <polygon points="423,286 425,290 427,286" fill="#993C1D"/>
-        <text x="400" y="185" text-anchor="middle" font-size="11" fill="#993C1D" font-weight="700" transform="rotate(-90,400,185)">安装高度</text>
-        <!-- 钢构件 G（橙红色） -->
+        <rect x="30" y="398" width="560" height="4" fill="#B4B2A9"/>
+        <line x1="30" y1="398" x2="590" y2="398" stroke="#888780" stroke-width="1.5"/>
+
+        <!-- ========== 建筑 ========== -->
+        <rect x="460" y="80" width="70" height="318" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5" rx="3"/>
+        <rect x="468" y="88" width="54" height="302" fill="none" stroke="#CECBF6" stroke-width="0.5"/>
+        <text x="495" y="68" text-anchor="middle" font-size="13" fill="#534AB7" font-weight="600">建筑</text>
+
+        <!-- 建筑总高 Hb 标注（紫色）— 从建筑顶到底 -->
+        <line x1="535" y1="80" x2="535" y2="398" stroke="#534AB7" stroke-width="1.2" stroke-dasharray="5 3"/>
+        <polygon points="533,84 535,80 537,84" fill="#534AB7"/>
+        <polygon points="533,394 535,398 537,394" fill="#534AB7"/>
+        <text x="548" y="242" text-anchor="start" font-size="14" fill="#534AB7" font-weight="700">Hb</text>
+        <text x="548" y="258" text-anchor="start" font-size="10" fill="#534AB7">建筑总高</text>
+
+        <!-- 安装高度垂直标注 — 从地面到构件安装高度 -->
+        <line x1="420" y1="290" x2="420" y2="398" stroke="#993C1D" stroke-width="0.9" stroke-dasharray="2 2"/>
+        <polygon points="418,394 420,398 422,394" fill="#993C1D"/>
+        <text x="408" y="348" text-anchor="middle" font-size="10" fill="#993C1D" font-weight="700" transform="rotate(-90,408,348)">安装高度</text>
+
+        <!-- ========== 吊车 ========== -->
+        <!-- 吊车底盘 -->
+        <rect x="50" y="382" width="80" height="18" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1" rx="3"/>
+        <ellipse cx="58" cy="392" rx="7" ry="7" fill="#C8C6BE" stroke="#888780" stroke-width="1"/>
+        <ellipse cx="122" cy="392" rx="7" ry="7" fill="#C8C6BE" stroke="#888780" stroke-width="1"/>
+        <!-- 吊车驾驶室 -->
+        <rect x="55" y="345" width="65" height="38" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1" rx="3"/>
+        <!-- 配重块 -->
+        <rect x="88" y="355" width="22" height="24" fill="#EAF3DE" stroke="#639922" stroke-width="1" rx="2"/>
+        <!-- 回转中心（蓝色圆点） -->
+        <circle cx="80" cy="308" r="5" fill="#185FA5" stroke="#0C447C" stroke-width="1"/>
+        <text x="66" y="318" font-size="9" fill="#185FA5">回转中心</text>
+        <!-- 吊臂铰点（橙色圆点，比回转中心高） -->
+        <circle cx="80" cy="292" r="4" fill="#E07020" stroke="#B05A10" stroke-width="1"/>
+        <!-- Hc 橙色水平线 — 吊臂铰点高度 -->
+        <line x1="0" y1="292" x2="460" y2="292" stroke="#E07020" stroke-width="1.2" stroke-dasharray="6 3" opacity="0.8"/>
+        <polygon points="456,288 460,292 456,296" fill="#E07020" opacity="0.8"/>
+        <text x="464" y="287" font-size="13" fill="#E07020" font-weight="700">Hc</text>
+        <text x="464" y="300" font-size="9" fill="#E07020">机械高度</text>
+        <text x="464" y="312" font-size="8.5" fill="#888780">(吊臂铰点)</text>
+        <!-- 主臂 L₁ — 从吊臂铰点发出 -->
+        <line x1="80" y1="292" x2="190" y2="132" stroke="#993C1D" stroke-width="5" stroke-linecap="round"/>
+        <line x1="80" y1="292" x2="190" y2="132" stroke="#FAECE7" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="130" y="202" font-size="12" fill="#993C1D" font-weight="700">L₁</text>
+        <!-- 吊钩绳 -->
+        <line x1="190" y1="132" x2="190" y2="278" stroke="#5F5E5A" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <rect x="184" y="278" width="12" height="8" fill="#5F5E5A" stroke="#444441" stroke-width="1" rx="2"/>
+        <!-- 仰角 α -->
+        <path d="M 80 292 A 40 40 0 0 0 108 264" fill="none" stroke="#993C1D" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <text x="94" y="272" font-size="13" fill="#993C1D" font-weight="700">α</text>
+
+        <!-- ========== 安装高度水平线（橙色虚线 → 构件位置）========== -->
+        <line x1="410" y1="290" x2="460" y2="290" stroke="#E07020" stroke-width="1" stroke-dasharray="3 3"/>
+        <polygon points="456,286 460,290 456,294" fill="#E07020"/>
+
+        <!-- ========== 钢构件 G（橙红色）========== -->
         <rect x="168" y="276" width="44" height="28" fill="#FAECE7" stroke="#D85A30" stroke-width="1.5" rx="2"/>
         <rect x="168" y="276" width="44" height="28" fill="url(#lattice)"/>
         <line x1="168" y1="284" x2="212" y2="284" stroke="#D85A30" stroke-width="0.6" opacity="0.5"/>
         <line x1="168" y1="292" x2="212" y2="292" stroke="#D85A30" stroke-width="0.6" opacity="0.5"/>
         <text x="190" y="295" text-anchor="middle" font-size="13" fill="#D85A30" font-weight="700">G</text>
         <!-- G 标注引线 -->
-        <line x1="212" y1="282" x2="248" y2="250" stroke="#D85A30" stroke-width="1" stroke-dasharray="4 3"/>
-        <line x1="248" y1="250" x2="278" y2="250" stroke="#D85A30" stroke-width="1"/>
-        <circle cx="248" cy="250" r="2.5" fill="#D85A30"/>
-        <text x="282" y="254" font-size="14" fill="#D85A30" font-weight="700">G(t)</text>
-        <!-- 吊车底盘 -->
-        <rect x="50" y="375" width="80" height="18" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1" rx="3"/>
-        <ellipse cx="58" cy="385" rx="7" ry="7" fill="#C8C6BE" stroke="#888780" stroke-width="1"/>
-        <ellipse cx="122" cy="385" rx="7" ry="7" fill="#C8C6BE" stroke="#888780" stroke-width="1"/>
-        <!-- 吊车驾驶室 / 配重 -->
-        <rect x="55" y="344" width="65" height="32" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1" rx="3"/>
-        <rect x="88" y="352" width="22" height="20" fill="#EAF3DE" stroke="#639922" stroke-width="1" rx="2"/>
-        <!-- 回转中心 -->
-        <circle cx="80" cy="298" r="5" fill="#185FA5" stroke="#0C447C" stroke-width="1"/>
-        <!-- 主臂 L₁（深棕） -->
-        <line x1="80" y1="298" x2="190" y2="138" stroke="#993C1D" stroke-width="5" stroke-linecap="round"/>
-        <line x1="80" y1="298" x2="190" y2="138" stroke="#FAECE7" stroke-width="2.5" stroke-linecap="round"/>
-        <text x="132" y="208" font-size="12" fill="#993C1D" font-weight="700">L₁</text>
-        <!-- 吊钩绳 -->
-        <line x1="190" y1="138" x2="190" y2="268" stroke="#5F5E5A" stroke-width="1.5" stroke-dasharray="4 3"/>
-        <rect x="184" y="268" width="12" height="8" fill="#5F5E5A" stroke="#444441" stroke-width="1" rx="2"/>
-        <!-- 仰角 α -->
-        <path d="M 80 298 A 40 40 0 0 0 108 270" fill="none" stroke="#993C1D" stroke-width="1.2" stroke-dasharray="3 2"/>
-        <text x="96" y="278" font-size="13" fill="#993C1D" font-weight="700">α</text>
-        <!-- 吊装半径 R 标注 -->
-        <line x1="80" y1="415" x2="190" y2="415" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr-r)"/>
-        <line x1="80" y1="411" x2="80" y2="419" stroke="#185FA5" stroke-width="1.5"/>
-        <line x1="190" y1="411" x2="190" y2="419" stroke="#185FA5" stroke-width="1.5"/>
-        <text x="135" y="430" text-anchor="middle" font-size="14" fill="#185FA5" font-weight="700">R</text>
-        <!-- 结构距离 d 标注 -->
-        <line x1="130" y1="390" x2="440" y2="390" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr-d)"/>
-        <line x1="130" y1="385" x2="130" y2="395" stroke="#1D9E75" stroke-width="1.5"/>
-        <line x1="440" y1="385" x2="440" y2="395" stroke="#1D9E75" stroke-width="1.5"/>
-        <text x="285" y="382" text-anchor="middle" font-size="14" fill="#1D9E75" font-weight="700">d</text>
-        <!-- 吊钩高度 h 标注 -->
-        <line x1="196" y1="138" x2="260" y2="138" stroke="#993C1D" stroke-width="1" stroke-dasharray="3 2"/>
-        <text x="264" y="133" font-size="11" fill="#993C1D">h</text>
-        <text x="264" y="147" font-size="10" fill="#888780">=L₁·sin(α)+H<sub>crane</sub></text>
-        <!-- 图例 -->
-        <rect x="40" y="40" width="148" height="114" fill="white" stroke="#e4e7eb" stroke-width="0.8" rx="6"/>
-        <text x="52" y="56" font-size="11" fill="#444441" font-weight="600">图例</text>
-        <line x1="52" y1="70" x2="68" y2="70" stroke="#185FA5" stroke-width="2"/>
-        <text x="74" y="74" font-size="12" fill="#185FA5" font-weight="700">R — 吊装半径</text>
-        <line x1="52" y1="88" x2="68" y2="88" stroke="#1D9E75" stroke-width="2"/>
-        <text x="74" y="92" font-size="12" fill="#1D9E75" font-weight="700">d — 结构距离</text>
-        <line x1="52" y1="106" x2="68" y2="106" stroke="#534AB7" stroke-width="2"/>
-        <text x="74" y="110" font-size="12" fill="#534AB7" font-weight="700">Hb — 建筑总高</text>
-        <line x1="52" y1="124" x2="68" y2="124" stroke="#993C1D" stroke-width="1.5" stroke-dasharray="3 2"/>
-        <text x="74" y="128" font-size="12" fill="#993C1D" font-weight="700">安装高度</text>
-        <rect x="52" y="138" width="16" height="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1.2" rx="2"/>
-        <text x="74" y="146" font-size="12" fill="#D85A30" font-weight="700">G — 构件重量</text>
-        <text x="360" y="450" text-anchor="middle" font-size="11" fill="#888780">汽车吊侧视图 · 仅供参考</text>
+        <line x1="212" y1="282" x2="248" y2="248" stroke="#D85A30" stroke-width="1" stroke-dasharray="4 3"/>
+        <line x1="248" y1="248" x2="280" y2="248" stroke="#D85A30" stroke-width="1"/>
+        <circle cx="248" cy="248" r="2.5" fill="#D85A30"/>
+        <text x="284" y="252" font-size="14" fill="#D85A30" font-weight="700">G(t)</text>
+
+        <!-- ========== 吊装半径 R ========== -->
+        <line x1="80" y1="424" x2="190" y2="424" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arr-r)"/>
+        <line x1="80" y1="420" x2="80" y2="428" stroke="#185FA5" stroke-width="1.5"/>
+        <line x1="190" y1="420" x2="190" y2="428" stroke="#185FA5" stroke-width="1.5"/>
+        <text x="135" y="438" text-anchor="middle" font-size="14" fill="#185FA5" font-weight="700">R</text>
+
+        <!-- ========== 结构距离 d ========== -->
+        <line x1="130" y1="398" x2="460" y2="398" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <line x1="130" y1="393" x2="130" y2="403" stroke="#1D9E75" stroke-width="1.5"/>
+        <line x1="460" y1="393" x2="460" y2="403" stroke="#1D9E75" stroke-width="1.5"/>
+        <text x="295" y="390" text-anchor="middle" font-size="14" fill="#1D9E75" font-weight="700">d</text>
+
+        <!-- ========== 吊钩高度 h（小字）========== -->
+        <line x1="196" y1="132" x2="258" y2="132" stroke="#993C1D" stroke-width="0.9" stroke-dasharray="3 2"/>
+        <text x="262" y="127" font-size="10" fill="#993C1D">h</text>
+        <text x="262" y="140" font-size="9" fill="#888780">=L₁·sinα+Hc</text>
+
+        <!-- ========== 图例 ========== -->
+        <rect x="38" y="38" width="148" height="138" fill="white" stroke="#e4e7eb" stroke-width="0.8" rx="6"/>
+        <text x="50" y="54" font-size="11" fill="#444441" font-weight="600">图例</text>
+        <line x1="50" y1="68" x2="66" y2="68" stroke="#185FA5" stroke-width="2"/>
+        <text x="72" y="72" font-size="11" fill="#185FA5" font-weight="700">R — 吊装半径</text>
+        <line x1="50" y1="84" x2="66" y2="84" stroke="#1D9E75" stroke-width="2"/>
+        <text x="72" y="88" font-size="11" fill="#1D9E75" font-weight="700">d — 结构距离</text>
+        <line x1="50" y1="100" x2="66" y2="100" stroke="#534AB7" stroke-width="2"/>
+        <text x="72" y="104" font-size="11" fill="#534AB7" font-weight="700">Hb — 建筑总高</text>
+        <line x1="50" y1="116" x2="66" y2="116" stroke="#E07020" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <text x="72" y="120" font-size="11" fill="#E07020" font-weight="700">Hc — 机械高度</text>
+        <line x1="50" y1="132" x2="66" y2="132" stroke="#993C1D" stroke-width="1" stroke-dasharray="3 2"/>
+        <text x="72" y="136" font-size="11" fill="#993C1D" font-weight="700">安装高度</text>
+        <rect x="50" y="145" width="16" height="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1.2" rx="2"/>
+        <text x="72" y="153" font-size="11" fill="#D85A30" font-weight="700">G — 构件重量</text>
+
+        <!-- ========== 公式面板（右侧，responsive）========== -->
+        <g class="param-formulas" id="paramFormulas">
+          <rect x="575" y="52" width="178" height="330" fill="#FAFAF8" stroke="#e4e7eb" stroke-width="1" rx="8"/>
+          <rect x="575" y="52" width="178" height="26" fill="#EEF1FB" stroke="#e4e7eb" stroke-width="1" rx="8"/>
+          <rect x="575" y="72" width="178" height="6" fill="#EEF1FB"/>
+          <text x="664" y="70" text-anchor="middle" font-size="11.5" fill="#3A3A3C" font-weight="700">几何公式</text>
+
+          <!-- 吊装半径 -->
+          <text x="585" y="96" font-size="10.5" fill="#444441" font-weight="600">吊装半径</text>
+          <text x="585" y="113" font-size="11.5" fill="#185FA5" font-weight="700">R = L₁ × cos(α)</text>
+          <text x="585" y="127" font-size="9" fill="#888780">L₁ 为主臂长度</text>
+
+          <!-- 最小安全仰角 -->
+          <text x="585" y="149" font-size="10.5" fill="#444441" font-weight="600">最小安全仰角</text>
+          <text x="585" y="166" font-size="11.5" fill="#534AB7" font-weight="700">α_min = atan((Hb-Hc)/d)</text>
+          <text x="585" y="180" font-size="9" fill="#888780">Hb=建筑总高，d=结构距离</text>
+
+          <!-- 吊钩最低高度 -->
+          <text x="585" y="202" font-size="10.5" fill="#444441" font-weight="600">吊钩最低高度</text>
+          <text x="585" y="219" font-size="11.5" fill="#993C1D" font-weight="700">h_req = 安装高度 + 1m</text>
+          <text x="585" y="233" font-size="9" fill="#888780">构件安装标高 + 安全净空</text>
+
+          <!-- 所需臂长 -->
+          <text x="585" y="255" font-size="10.5" fill="#444441" font-weight="600">所需臂长</text>
+          <text x="585" y="272" font-size="11.5" fill="#1D9E75" font-weight="700">L₁ = √(R² + (h-Hc)²)</text>
+          <text x="585" y="286" font-size="9" fill="#888780">h 为吊钩离地高度</text>
+
+          <!-- 碰撞安全判定 -->
+          <text x="585" y="308" font-size="10.5" fill="#444441" font-weight="600">碰撞安全判定</text>
+          <text x="585" y="325" font-size="11.5" fill="#D85A30" font-weight="700">α_实际 ≥ α_min</text>
+          <text x="585" y="339" font-size="9" fill="#888780">臂架实际仰角须大于最小值</text>
+
+          <!-- 机械高度说明 -->
+          <text x="585" y="361" font-size="10.5" fill="#444441" font-weight="600">机械高度 Hc</text>
+          <text x="585" y="376" font-size="9" fill="#888780">吊臂铰点距地面高度</text>
+          <text x="585" y="388" font-size="9" fill="#888780">默认值 1.5m，可按机型调整</text>
+        </g>
+
+        <text x="340" y="462" text-anchor="middle" font-size="11" fill="#888780">汽车吊侧视图 · 仅供参考</text>
       </svg>
     </div>
     <div class="form-grid select-grid">

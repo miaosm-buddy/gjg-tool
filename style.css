@@ -375,6 +375,26 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
   opacity: 1;
 }
 .param-diagram-wrap svg { display: block; }
+
+/* 公式面板：默认显示 */
+.param-formulas {
+  transition: opacity 0.3s ease;
+}
+
+/* 平板横屏（≤1200px）：隐藏公式面板 */
+@media (max-width: 1200px) {
+  .param-formulas {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* 平板竖屏（≤900px）：整个示意图区压缩 */
+@media (max-width: 900px) {
+  .param-diagram-wrap.open {
+    max-height: 500px;
+  }
+}
 .quick-select .form-group label { font-size: 14px; }
 .quick-select .form-group input,
 .quick-select .form-group select { font-size: 16px; height: 44px; }
