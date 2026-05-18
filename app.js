@@ -343,13 +343,31 @@ function renderLib(p,t){
    h = L1 × sin(α) + H_crane  吊钩高度
    L1_min = √(R² + (h_req - H_crane)²)
    ─────────────────────────────────────────────────── */
+
+/* 场景切换：场景A=无建筑物（纯平面约束），场景B=有建筑物（碰撞检查） */
+var _curScenario = 'A';
+function toggleScenario(s){
+  _curScenario = s;
+  document.getElementById('sceneA').classList.toggle('active', s==='A');
+  document.getElementById('sceneB').classList.toggle('active', s==='B');
+  document.getElementById('sceneBFields').style.display = s==='B' ? '' : 'none';
+  // 切换参数示意图 SVG
+  document.getElementById('svgSceneA').style.display = s==='A' ? '' : 'none';
+  document.getElementById('svgSceneB').style.display = s==='B' ? '' : 'none';
+}
+
 function doSelect(){
   var w=parseFloat((document.getElementById('sW')||{value:''}).value);
   var R=parseFloat((document.getElementById('sR')||{value:''}).value);
-  var hInstall=parseFloat((document.getElementById('sH')||{value:''}).value)||0;  // 构件安装高度(m)
-  var hBuilding=parseFloat((document.getElementById('sHt')||{value:''}).value)||0;   // 建筑总高(m)
-  var d=parseFloat((document.getElementById('sD')||{value:''}).value)||0;   // 结构距离(m)
+  var hInstall=parseFloat((document.getElementById('sH')||{value:''}).value)||0;  // 构件安装位置标高 Ha(m)
   var sf=parseFloat((document.getElementById('sS')||{value:'1.1'}).value)||1.1;
+
+  // 碰撞参数（Hj/D）：场景A时强制归零，不做碰撞检查
+  var hBuilding = 0, d = 0;
+  if(_curScenario === 'B'){
+    hBuilding = parseFloat((document.getElementById('sHt')||{value:''}).value)||0;
+    d = parseFloat((document.getElementById('sD')||{value:''}).value)||0;
+  }
   var Hc=parseFloat((document.getElementById('sHc')||{value:'1.5'}).value)||1.5; // 机械高度(m)
   var sortBy=(document.getElementById('sortBy')||{value:'eff'}).value;
   var typeFilter=(document.getElementById('sT')||{value:''}).value;
@@ -483,7 +501,7 @@ function doSelect(){
     formulaEl.innerHTML=
       '<div class="formula-block">'+
         '<div class="formula-title">📐 碰撞几何校核</div>'+
-        '<div class="formula-row"><span class="fl">最小安全仰角</span><span class="fr">α_min = arctan((H_b−H_crane)÷d) = arctan(('+hBuilding.toFixed(1)+'−'+Hc+')÷'+d.toFixed(1)+') = <strong>'+alphaMin.toFixed(1)+'°</strong></span></div>'+
+        '<div class="formula-row"><span class="fl">最小安全仰角</span><span class="fr">α_min = arctan((Hj−h)÷D) = arctan(('+hBuilding.toFixed(1)+'−'+Hc+')÷'+d.toFixed(1)+') = <strong>'+alphaMin.toFixed(1)+'°</strong></span></div>'+
         (L1_ex?('<div class="formula-row"><span class="fl">最短可行臂长</span><span class="fr">'+calcExStr+'</span></div>'+
         '<div class="formula-row"><span class="fl">实际臂架仰角</span><span class="fr">'+alphaExStr+' &nbsp;→&nbsp; <span class="'+(ex.collision&&ex.collision.status==='danger'?'fdanger':ex.collision&&ex.collision.status==='warn'?'fwarn':'fsafe')+'">'+
         (ex.collision&&ex.collision.status==='danger'?'⚠ 碰撞风险':ex.collision&&ex.collision.status==='warn'?'⚠ 净空偏紧':'✓ 净空安全')+'</span></span></div>'):'')+
@@ -505,7 +523,7 @@ function doSelect(){
   返回 {mainBoom, rated, note, hMax, hReach, jibInfo, collision:{status,alpha_min,alpha_actual,d,H_b}}
 */
 function findBestConfig(pts,c,R,hReq,req,d,H_b,Hc,hInstall){
-  // H_b: 建筑总高（碰撞计算用）；Hc: 机械高度；hInstall: 构件安装高度（扩展用）
+  // H_b: 建筑总高 Hj（碰撞计算用）；Hc: 机械高度 h；hInstall: 构件安装位置标高 Ha
   var H=Hc!=null&&Hc!==undefined?Hc:(c.hook_pivot_h||2.0);
   var collisionInput=null;
 
