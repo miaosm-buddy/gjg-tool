@@ -349,6 +349,7 @@ function doSelect(){
   var hBuilding=parseFloat((document.getElementById('sH')||{value:''}).value)||0;
   var d=parseFloat((document.getElementById('sD')||{value:''}).value)||0;   // 结构距离(m)
   var sf=parseFloat((document.getElementById('sS')||{value:'1.1'}).value)||1.1;
+  var Hc=parseFloat((document.getElementById('sHc')||{value:'1.5'}).value)||1.5; // 机械高度(m)
   var sortBy=(document.getElementById('sortBy')||{value:'eff'}).value;
   var typeFilter=(document.getElementById('sT')||{value:''}).value;
   if(!w||!R){toast('请输入构件重量和吊装半径');return;}
@@ -363,8 +364,7 @@ function doSelect(){
     var tipParts=['R='+R+'m'];
     if(hRequired>0)tipParts.push('吊钩≥'+hRequired.toFixed(1)+'m（建筑'+hBuilding+'m+1m净空）');
     if(d>0&&hBuilding>0){
-      var H_crane=2.0;
-      var alphaMin=Math.atan((hBuilding-H_crane)/d)*180/Math.PI;
+      var alphaMin=Math.atan((hBuilding-Hc)/d)*180/Math.PI;
       tipParts.push('结构距离d='+d+'m · α_min='+alphaMin.toFixed(1)+'°');
     }
     if(d>0&&hBuilding>0){
@@ -385,7 +385,7 @@ function doSelect(){
     if(!pts.length)pts=getCranePoints(c,null,null,null);
     var result=null;
     if(pts.length){
-      result=findBestConfig(pts,c,R,hRequired,req,d,hBuilding);
+      result=findBestConfig(pts,c,R,hRequired,req,d,hBuilding,Hc);
     }
     if(result){
       list.push({c:c,rated:result.rated,eff:w/result.rated*100,
@@ -466,8 +466,7 @@ function doSelect(){
   // 公式区（碰撞校核时有意义，显示计算过程）
   var formulaEl=document.getElementById('resultFormula');
   if(formulaEl&&d>0&&hBuilding>0){
-    var H_crane=2.0;
-    var alphaMin=Math.atan((hBuilding-H_crane)/d)*180/Math.PI;
+    var alphaMin=Math.atan((hBuilding-Hc)/d)*180/Math.PI;
     // 以列表第一个合格结果为例展示公式
     var ex=list[0];
     var L1_ex=ex&&ex.boomLen?ex.boomLen:null;
@@ -478,12 +477,12 @@ function doSelect(){
       var cosA=Math.min(1,R_ex/L1_ex);
       var alphaEx=Math.acos(cosA)*180/Math.PI;
       alphaExStr='α=arccos('+R_ex.toFixed(1)+'÷'+L1_ex.toFixed(1)+')='+alphaEx.toFixed(1)+'°';
-      calcExStr='L₁=√('+R_ex.toFixed(1)+'²+('+h_ex.toFixed(1)+'−'+H_crane+')²)='+L1_ex.toFixed(1)+'m';
+      calcExStr='L₁=√('+R_ex.toFixed(1)+'²+('+h_ex.toFixed(1)+'−'+Hc+')²)='+L1_ex.toFixed(1)+'m';
     }
     formulaEl.innerHTML=
       '<div class="formula-block">'+
         '<div class="formula-title">📐 碰撞几何校核</div>'+
-        '<div class="formula-row"><span class="fl">最小安全仰角</span><span class="fr">α_min = arctan((H_b−H_crane)÷d) = arctan(('+hBuilding.toFixed(1)+'−'+H_crane+')÷'+d.toFixed(1)+') = <strong>'+alphaMin.toFixed(1)+'°</strong></span></div>'+
+        '<div class="formula-row"><span class="fl">最小安全仰角</span><span class="fr">α_min = arctan((H_b−H_crane)÷d) = arctan(('+hBuilding.toFixed(1)+'−'+Hc+')÷'+d.toFixed(1)+') = <strong>'+alphaMin.toFixed(1)+'°</strong></span></div>'+
         (L1_ex?('<div class="formula-row"><span class="fl">最短可行臂长</span><span class="fr">'+calcExStr+'</span></div>'+
         '<div class="formula-row"><span class="fl">实际臂架仰角</span><span class="fr">'+alphaExStr+' &nbsp;→&nbsp; <span class="'+(ex.collision&&ex.collision.status==='danger'?'fdanger':ex.collision&&ex.collision.status==='warn'?'fwarn':'fsafe')+'">'+
         (ex.collision&&ex.collision.status==='danger'?'⚠ 碰撞风险':ex.collision&&ex.collision.status==='warn'?'⚠ 净空偏紧':'✓ 净空安全')+'</span></span></div>'):'')+
@@ -504,8 +503,9 @@ function doSelect(){
             α_actual < α_min → 碰撞
   返回 {mainBoom, rated, note, hMax, hReach, jibInfo, collision:{status,alpha_min,alpha_actual,d,H_b}}
 */
-function findBestConfig(pts,c,R,hReq,req,d,H_b){
-  var H=c.hook_pivot_h||2.0;  // 吊臂铰点高度(m)
+function findBestConfig(pts,c,R,hReq,req,d,H_b,Hc){
+  // Hc: 用户指定的机械高度(m)，优先使用；无则为吊臂铰点高度
+  var H=Hc!=null&&Hc!==undefined?Hc:(c.hook_pivot_h||2.0);
   var collisionInput=null;
 
   // 若提供了碰撞参数，计算最小安全仰角
