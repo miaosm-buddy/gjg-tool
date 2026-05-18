@@ -127,11 +127,17 @@
         <rect x="440" y="80" width="70" height="310" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5" rx="3"/>
         <rect x="448" y="88" width="54" height="294" fill="none" stroke="#CECBF6" stroke-width="0.5"/>
         <text x="475" y="68" text-anchor="middle" font-size="13" fill="#534AB7" font-weight="600">建筑</text>
-        <!-- 建筑高度 Hb 标注线 -->
+        <!-- 建筑总高 Hb 标注线（紫色） -->
         <line x1="510" y1="80" x2="510" y2="390" stroke="#534AB7" stroke-width="1" stroke-dasharray="4 3"/>
         <polygon points="508,84 510,80 512,84" fill="#534AB7"/>
         <polygon points="508,386 510,390 512,386" fill="#534AB7"/>
         <text x="522" y="235" text-anchor="start" font-size="14" fill="#534AB7" font-weight="700">Hb</text>
+        <!-- 构件安装高度 h 安装位置标注（深棕虚线） -->
+        <line x1="410" y1="290" x2="440" y2="290" stroke="#993C1D" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="425" y1="80" x2="425" y2="290" stroke="#993C1D" stroke-width="0.8" stroke-dasharray="2 2"/>
+        <polygon points="423,84 425,80 427,84" fill="#993C1D"/>
+        <polygon points="423,286 425,290 427,286" fill="#993C1D"/>
+        <text x="400" y="185" text-anchor="middle" font-size="11" fill="#993C1D" font-weight="700" transform="rotate(-90,400,185)">安装高度</text>
         <!-- 钢构件 G（橙红色） -->
         <rect x="168" y="276" width="44" height="28" fill="#FAECE7" stroke="#D85A30" stroke-width="1.5" rx="2"/>
         <rect x="168" y="276" width="44" height="28" fill="url(#lattice)"/>
@@ -177,16 +183,18 @@
         <text x="264" y="133" font-size="11" fill="#993C1D">h</text>
         <text x="264" y="147" font-size="10" fill="#888780">=L₁·sin(α)+H<sub>crane</sub></text>
         <!-- 图例 -->
-        <rect x="40" y="40" width="120" height="96" fill="white" stroke="#e4e7eb" stroke-width="0.8" rx="6"/>
+        <rect x="40" y="40" width="148" height="114" fill="white" stroke="#e4e7eb" stroke-width="0.8" rx="6"/>
         <text x="52" y="56" font-size="11" fill="#444441" font-weight="600">图例</text>
         <line x1="52" y1="70" x2="68" y2="70" stroke="#185FA5" stroke-width="2"/>
         <text x="74" y="74" font-size="12" fill="#185FA5" font-weight="700">R — 吊装半径</text>
         <line x1="52" y1="88" x2="68" y2="88" stroke="#1D9E75" stroke-width="2"/>
         <text x="74" y="92" font-size="12" fill="#1D9E75" font-weight="700">d — 结构距离</text>
         <line x1="52" y1="106" x2="68" y2="106" stroke="#534AB7" stroke-width="2"/>
-        <text x="74" y="110" font-size="12" fill="#534AB7" font-weight="700">Hb — 建筑高度</text>
-        <rect x="52" y="118" width="16" height="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1.2" rx="2"/>
-        <text x="74" y="126" font-size="12" fill="#D85A30" font-weight="700">G — 构件重量</text>
+        <text x="74" y="110" font-size="12" fill="#534AB7" font-weight="700">Hb — 建筑总高</text>
+        <line x1="52" y1="124" x2="68" y2="124" stroke="#993C1D" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <text x="74" y="128" font-size="12" fill="#993C1D" font-weight="700">安装高度</text>
+        <rect x="52" y="138" width="16" height="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1.2" rx="2"/>
+        <text x="74" y="146" font-size="12" fill="#D85A30" font-weight="700">G — 构件重量</text>
         <text x="360" y="450" text-anchor="middle" font-size="11" fill="#888780">汽车吊侧视图 · 仅供参考</text>
       </svg>
     </div>
@@ -200,8 +208,12 @@
         <input type="number" id="sR" placeholder="吊车回转中心 → 钢构件中心" min="1" step="0.5">
       </div>
       <div class="form-group">
-        <label>建筑高度 Hb(m)</label>
-        <input type="number" id="sH" placeholder="选填，影响臂长估算" min="0" step="0.5">
+        <label>构件安装高度 (m)</label>
+        <input type="number" id="sH" placeholder="构件安装位置标高（地面以上）" min="0" step="0.5">
+      </div>
+      <div class="form-group">
+        <label>建筑总高 (m)</label>
+        <input type="number" id="sHt" placeholder="建筑或结构总高度" min="0" step="0.5">
       </div>
       <div class="form-group">
         <label>结构距离 d(m)</label>

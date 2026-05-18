@@ -346,7 +346,8 @@ function renderLib(p,t){
 function doSelect(){
   var w=parseFloat((document.getElementById('sW')||{value:''}).value);
   var R=parseFloat((document.getElementById('sR')||{value:''}).value);
-  var hBuilding=parseFloat((document.getElementById('sH')||{value:''}).value)||0;
+  var hInstall=parseFloat((document.getElementById('sH')||{value:''}).value)||0;  // 构件安装高度(m)
+  var hBuilding=parseFloat((document.getElementById('sHt')||{value:''}).value)||0;   // 建筑总高(m)
   var d=parseFloat((document.getElementById('sD')||{value:''}).value)||0;   // 结构距离(m)
   var sf=parseFloat((document.getElementById('sS')||{value:'1.1'}).value)||1.1;
   var Hc=parseFloat((document.getElementById('sHc')||{value:'1.5'}).value)||1.5; // 机械高度(m)
@@ -355,17 +356,17 @@ function doSelect(){
   if(!w||!R){toast('请输入构件重量和吊装半径');return;}
   buildMap();
   var req=w*sf;
-  // 吊钩需达到的最小高度：建筑顶 + 1m 安全净空
-  var hRequired=hBuilding>0?hBuilding+1:0;
+  // 吊钩需达到的最小高度：构件安装位置 + 1m 安全净空
+  var hRequired=hInstall>0?hInstall+1:0;
 
   // 显示几何分析提示
   var tipEl=document.getElementById('selectTipText');
   if(tipEl){
     var tipParts=['R='+R+'m'];
-    if(hRequired>0)tipParts.push('吊钩≥'+hRequired.toFixed(1)+'m（建筑'+hBuilding+'m+1m净空）');
+    if(hRequired>0)tipParts.push('吊钩≥'+hRequired.toFixed(1)+'m（安装'+hInstall.toFixed(1)+'m+1m净空）');
     if(d>0&&hBuilding>0){
       var alphaMin=Math.atan((hBuilding-Hc)/d)*180/Math.PI;
-      tipParts.push('结构距离d='+d+'m · α_min='+alphaMin.toFixed(1)+'°');
+      tipParts.push('碰撞约束：建筑总高'+hBuilding+'m · d='+d+'m · α_min='+alphaMin.toFixed(1)+'°');
     }
     if(d>0&&hBuilding>0){
       tipEl.innerHTML='<strong>碰撞约束：</strong>'+tipParts.join(' · ');
@@ -385,7 +386,7 @@ function doSelect(){
     if(!pts.length)pts=getCranePoints(c,null,null,null);
     var result=null;
     if(pts.length){
-      result=findBestConfig(pts,c,R,hRequired,req,d,hBuilding,Hc);
+      result=findBestConfig(pts,c,R,hRequired,req,d,hBuilding,Hc,hInstall);
     }
     if(result){
       list.push({c:c,rated:result.rated,eff:w/result.rated*100,
@@ -503,8 +504,8 @@ function doSelect(){
             α_actual < α_min → 碰撞
   返回 {mainBoom, rated, note, hMax, hReach, jibInfo, collision:{status,alpha_min,alpha_actual,d,H_b}}
 */
-function findBestConfig(pts,c,R,hReq,req,d,H_b,Hc){
-  // Hc: 用户指定的机械高度(m)，优先使用；无则为吊臂铰点高度
+function findBestConfig(pts,c,R,hReq,req,d,H_b,Hc,hInstall){
+  // H_b: 建筑总高（碰撞计算用）；Hc: 机械高度；hInstall: 构件安装高度（扩展用）
   var H=Hc!=null&&Hc!==undefined?Hc:(c.hook_pivot_h||2.0);
   var collisionInput=null;
 
