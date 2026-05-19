@@ -1613,7 +1613,7 @@
 
 </div><!-- /app-main -->
 <script src="data.js?v=v2-20260622b"></script>
-<script src="app.js?v=v2-20260709c"></script>
+<script src="app.js?v=v2-20260709i"></script>
 <!-- 分段类型建议（datalist，供input list属性引用） -->
 <datalist id="diaoci-segtype-list">
   <option value="整根吊装">
@@ -1621,6 +1621,14 @@
   <option value="两层一段">
   <option value="三层一段">
 </datalist>
+
+<!-- 截面SVG放大模态框 -->
+<div id="secZoomModal" class="sec-zoom-modal" style="display:none" onclick="if(event.target===this||event.target===this.querySelector('.szm-close'))closeSecZoom()">
+  <div class="szm-container">
+    <button class="szm-close" onclick="closeSecZoom()">✕</button>
+    <div class="szm-svg" id="secZoomSvg"></div>
+  </div>
+</div>
 
 </body>
 </html>

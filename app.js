@@ -1,5 +1,5 @@
 /* ============================================================
-   钢结构方案辅助工具 app.js  v2-20260709c
+   钢结构方案辅助工具 app.js  v2-20260709e
    新数据结构：crane.load_charts = {工况类型: {工况说明: {'配重|支腿': [行数据]}}}
    ============================================================ */
 
@@ -2497,21 +2497,32 @@ window.secMainTypeChange = function(prefillType) {
   };
 
   var flds = fields[t] || fields.HW;
+  // 开启防重入：批量填值期间跳过 updateMainSectionCalc 的中间调用
+  _secCalcDeferred = true;
   grid.innerHTML = flds.map(function(f) {
     return '<div class="form-group"><label>' + f.label + '</label>' +
       '<input type="number" id="' + f.id + '" placeholder="' + f.placeholder + '" step="1" min="1" oninput="updateMainSectionCalc()"></div>';
   }).join('');
 
-  // 触发一次计算（显示空状态提示）
-  updateMainSectionCalc();
+  // 字段已重建，等待 setInput 批量填值后再统一计算
+  _secCalcDeferred = false;
 };
 
+// 防重入标志：secMainTypeChange 正在重建字段时跳过中间的空状态调用
+var _secCalcDeferred = false;
+
 window.updateMainSectionCalc = function() {
+  // 如果处于字段重建阶段（setInput 批量填值期间），延迟执行
+  if (_secCalcDeferred) return;
   var typeSel = document.getElementById('sec-main-type');
   var t = typeSel ? typeSel.value : 'HW';
   var g = function(id) {
     var el = document.getElementById(id);
-    return el && el.value ? parseFloat(el.value) : 0;
+    if (!el || !el.value) return 0;
+    var v = el.value.trim();
+    // 防御：如果输入了 "H800" 等带前缀的值，只取数值部分
+    var num = parseFloat(v.replace(/^[A-Za-z]/, ''));
+    return isNaN(num) ? 0 : num;
   };
 
   var s = null;
@@ -2521,8 +2532,8 @@ window.updateMainSectionCalc = function() {
       showSecEmptyState(); return;
     }
     var typeLabel = {HW:'H型钢',HM:'H型钢',HN:'H型钢',HP:'H型钢'}[t] || 'H型钢';
-    var labelStr = typeLabel + '  H:' + H + ' B:' + B + ' tw:' + tw + ' tf:' + tf;
-    s = {type:t, H:H, B:B, tw:tw, tf:tf, _custom:true, code:t+H+'×'+B};
+    var labelStr = 'H' + H + '×' + B + '×' + tw + '×' + tf;
+    s = {type:t, H:H, B:B, tw:tw, tf:tf, _custom:true, code:labelStr};
     s.label = labelStr;
     s.specRows = [
       {l:'腹板高 H', v: H+' mm'},
@@ -2535,9 +2546,9 @@ window.updateMainSectionCalc = function() {
     if (!H || !B || !t1) { showSecEmptyState(); return; }
     if (!t2) t2 = t1; // 等壁厚默认
     var s = {type:'BOX', H:H, B:B, t1:t1, t2:t2, _custom:true};
-    var sym = (H === B) ? '□方管' : '▭矩形管';
-    s.label = sym + ' ' + H + '×' + B + ' t1:' + t1 + ' t2:' + t2;
-    s.code = '□' + H + '×' + B + '×' + t1 + (t2 !== t1 ? '×' + t2 : '');
+    var sym = (H === B) ? '□' : '▭';
+    s.code = sym + H + '×' + B + '×' + t1 + (t2 !== t1 ? '×' + t2 : '');
+    s.label = s.code;
     s.specRows = [
       {l:'截面高 H', v: H+' mm'},
       {l:'截面宽 B', v: B+' mm'},
@@ -2548,7 +2559,7 @@ window.updateMainSectionCalc = function() {
     var D=g('sm_D'), t3=g('sm_t');
     if (!D || !t3) { showSecEmptyState(); return; }
     s = {type:'CHS', D:D, t:t3, _custom:true, code:'Ø'+D+'×'+t3};
-    s.label = '圆形钢管  D:' + D + ' t:' + t3;
+    s.label = s.code;
     s.specRows = [
       {l:'外径 D',  v: D+' mm'},
       {l:'壁厚 t',  v: t3+' mm'},
@@ -2558,11 +2569,11 @@ window.updateMainSectionCalc = function() {
     var h1=g('sm_h1'),b1=g('sm_b1'),tw1=g('sm_tw1'),tf1=g('sm_tf1');
     var h2=g('sm_h2'),b2=g('sm_b2'),tw2=g('sm_tw2'),tf2=g('sm_tf2');
     if (!h1 || !b1 || !h2 || !b2) { showSecEmptyState(); return; }
-    s = {type:'CRU',h1:h1,b1:b1,tw1:tw1,tf1:tf1,h2:h2,b2:b2,tw2:tw2,tf2:tf2,_custom:true, code:'+HN'+h1+'×'+b1+'+HN'+h2+'×'+b2};
+    s = {type:'CRU',h1:h1,b1:b1,tw1:tw1,tf1:tf1,h2:h2,b2:b2,tw2:tw2,tf2:tf2,_custom:true, code:'十'+h1+'×'+b1+'×'+tw1+'×'+tf1+'+'+h2+'×'+b2+'×'+tw2+'×'+tf2};
     // 总高 = max(竖H腹板高, 横H翼缘宽) = max(h1, b2)
     // 总宽 = max(横H腹板高, 竖H翼缘宽) = max(h2, b1)
     var Htotal = Math.max(h1, b2), Btotal = Math.max(h2, b1);
-    s.label = '十字形组合  H:' + Htotal + ' B:' + Btotal;
+    s.label = '十' + Htotal + '×' + Btotal + ' ' + h1+'×'+b1+'×'+tw1+'×'+tf1 + ' + ' + h2+'×'+b2+'×'+tw2+'×'+tf2;
     s.specRows = [
       {l:'总高', v: Htotal+' mm'},
       {l:'总宽', v: Btotal+' mm'},
@@ -2575,7 +2586,7 @@ window.updateMainSectionCalc = function() {
     var H    = parseFloat(document.getElementById('sm_H')   ? document.getElementById('sm_H').value   : '') || 0;
     if (!name || !w || !H) { showSecEmptyState(); return; }
     s = {type:'CUSTOM', name:name, w:w, H:H, _custom:true, code:name};
-    s.label = '异形 ' + name;
+    s.label = name;
     s.specRows = [
       {l:'截面名称', v: name},
       {l:'线重 w',   v: w.toFixed(3) + ' kg/m'},
@@ -2620,9 +2631,13 @@ window.updateMainSectionCalc = function() {
   if (aEl) aEl.textContent = Math.round(A).toLocaleString();  // mm²，直接显示整数
   if (wEl) wEl.textContent = w.toFixed(3);
 
-  // SVG 工程图纸
+  // SVG 工程图纸（点击放大）
   var svgEl = document.getElementById('secSvg');
   if (svgEl) svgEl.innerHTML = drawSectionSVG(s);
+  // 点击截面图放大
+  var wrap = document.getElementById('secSvgWrap');
+  if (wrap) wrap.style.cursor = 'zoom-in';
+  document.getElementById('secSvgWrap') && (document.getElementById('secSvgWrap').onclick = function(){ openSecZoom(); });
 
   // 力学参数网格（对齐msteel格式）
   function fmtN(v, dec) {
@@ -2731,7 +2746,7 @@ function secSpecRows(s) {
 function drawSectionSVG(s) {
   if (!s) return '';
   var t = s.type;
-  var W = 340, H = 300;
+  var W = 380, H = 300;
   var cx = W/2, cy = H/2 - 8;
 
   // 工程图纸配色
@@ -2824,181 +2839,265 @@ function drawSectionSVG(s) {
   if (t === 'CRU') {
     var h1=s.h1||0, b1=s.b1||0, tw1=s.tw1||6, tf1=s.tf1||8;
     var h2=s.h2||0, b2=s.b2||0, tw2=s.tw2||6, tf2=s.tf2||8;
-    var Htot = h1, Btot = h2; // 总高=竖H高度，总宽=横H（旋转后）高度
+    // 量取规则：
+    //   H（总高） = max(h1, b2)   ← 竖H高度 vs 横H旋转后竖向高度
+    //   B（总宽） = max(b1, h2)   ← 竖H宽度 vs 横H旋转后横向宽度
+    // "代表总高/总宽则不标"：若某参数值 = H 或 B，则省去该标注
+    var HTot = Math.max(h1, b2);
+    var BTot = Math.max(b1, h2);
     if (!h1||!b1||!h2||!b2) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'"><rect width="'+W+'" height="'+H+'" rx="8" fill="#f4f5f9"/><text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="#656d76" font-size="13">参数不全</text></svg>';
 
-    // 动态画布：确保能容纳最极端标注（BB/HB引线每侧约60px，标题栏24px，网格线20px）
-    var needW = Btot + 180, needH = Htot + 180;
-    var cW = Math.max(480, needW), cH = Math.max(420, needH);
-    var ccx = cW/2 - 10, ccy = cH/2 - 18;
-    var margin = 72;
-    var scale = Math.min((cW - margin*2 - 60) / Btot, (cH - margin*2 - 40) / Htot) * 0.80;
+    // ── 动态画布（加大边距适配大字号）───────────────────────
+    var needW = BTot + 360, needH = HTot + 420;
+    var cW = Math.max(520, needW), cH = Math.max(460, needH);
+    var ccx = cW/2, ccy = cH/2;
+    var scale = Math.min((cW - 160) / BTot, (cH - 160) / HTot) * 0.78;
 
     var sTf1 = Math.max(3, tf1*scale), sTw1 = Math.max(2.5, tw1*scale);
     var sTf2 = Math.max(3, tf2*scale), sTw2 = Math.max(2.5, tw2*scale);
-    var sH1  = h1*scale, sB1 = b1*scale;
-    var sH2  = h2*scale, sB2 = b2*scale;
-    // 文字放大：确保缩放后任意对话框宽度下字号 >= 10px
-    var minFs = 10;
-    var baseFs1 = Math.max(18, Math.ceil(minFs / scale)); // HB/BB 主标注
-    var baseFs2 = Math.max(14, Math.ceil(minFs / scale)); // b1/h1 副标注
-    var baseFs3 = Math.max(12, Math.ceil(minFs / scale)); // tf/tw 细节标注
+    var sH1  = h1*scale,  sB1 = b1*scale;
+    var sH2  = h2*scale,  sB2 = b2*scale;
 
-    var vL  = ccx - sB1/2, vR  = ccx + sB1/2, vT  = ccy - sH1/2, vB  = ccy + sH1/2;
+    // 字体：在标注区块内统一设定（见下方）
+
+    // ── 截面各边界坐标（以 ccx/ccy 为中心）────────────────
+    var vL  = ccx - sB1/2,  vR  = ccx + sB1/2;
+    var vT  = ccy - sH1/2,  vB  = ccy + sH1/2;
     var vwL = ccx - sTw1/2, vwR = ccx + sTw1/2;
-    var hL  = ccx - sH2/2, hR  = ccx + sH2/2, hT  = ccy - sB2/2, hB  = ccy + sB2/2;
+    var hL  = ccx - sH2/2,  hR  = ccx + sH2/2;
+    var hT  = ccy - sB2/2,  hB  = ccy + sB2/2;
     var hwT = ccy - sTw2/2, hwB = ccy + sTw2/2;
     var xL = vwL, xR = vwR, xT = hwT, xB = hwB;
 
     var f2 = function(v){ return (+v).toFixed(1); };
     var SSTK = '#2c4a7c', HFIL = '#ffffff', HSTK = '#b0b8c8';
-    var DC = '#c0392b', DT = '#2d3748', LC = '#5a3e8a', AC = '#e53e3e';
+    var DC   = '#c0392b';  // 红色 - 总尺寸 + 厚度标注
 
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+cW+' '+cH+'" style="display:block; width:100%; height:auto; max-width:100%;">';
-    svg += '<rect width="'+cW+'" height="'+cH+'" fill="#f6f7fa"/>';
-    for (var gx2=0; gx2<=cW; gx2+=20) svg += '<line x1="'+gx2+'" y1="0" x2="'+gx2+'" y2="'+cH+'" stroke="#dde0e8" stroke-width="'+(gx2%40===0?'0.65':'0.3')+'"/>';
-    for (var gy2=0; gy2<=cH; gy2+=20) svg += '<line x1="0" y1="'+gy2+'" x2="'+cW+'" y2="'+gy2+'" stroke="#dde0e8" stroke-width="'+(gy2%40===0?'0.65':'0.3')+'"/>';
+    // ── SVG 框架 ────────────────────────────────────────────
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+f2(cW)+' '+f2(cH)+'" style="display:block;width:100%;height:auto;max-width:100%;">';
+    svg += '<rect width="'+f2(cW)+'" height="'+f2(cH)+'" fill="#f6f7fa"/>';
+    for (var gx=0; gx<=cW; gx+=20) svg += '<line x1="'+gx+'" y1="0" x2="'+gx+'" y2="'+f2(cH)+'" stroke="#dde0e8" stroke-width="'+(gx%40===0?'0.7':'0.35')+'"/>';
+    for (var gy=0; gy<=cH; gy+=20) svg += '<line x1="0" y1="'+gy+'" x2="'+f2(cW)+'" y2="'+gy+'" stroke="#dde0e8" stroke-width="'+(gy%40===0?'0.7':'0.35')+'"/>';
     svg += '<defs>'+
       '<pattern id="pSteel2" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#8a9bb0" stroke-width="0.75"/></pattern>'+
       '<pattern id="pCross2" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#5a7090" stroke-width="1.2"/></pattern>'+
     '</defs>';
 
-    // 四象限内腔
+    // ── 截面实体 ────────────────────────────────────────────
     svg += '<rect x="'+f2(vL)+'"  y="'+f2(vT)+'"  width="'+f2(vwL-vL)+'"  height="'+f2(hwT-vT)+'"  fill="'+HFIL+'" stroke="'+HSTK+'" stroke-width="0.5" stroke-dasharray="3,2"/>';
     svg += '<rect x="'+f2(vwR)+'" y="'+f2(vT)+'"  width="'+f2(vR-vwR)+'"  height="'+f2(hwT-vT)+'"  fill="'+HFIL+'" stroke="'+HSTK+'" stroke-width="0.5" stroke-dasharray="3,2"/>';
     svg += '<rect x="'+f2(vL)+'"  y="'+f2(hwB)+'" width="'+f2(vwL-vL)+'"  height="'+f2(vB-hwB)+'"  fill="'+HFIL+'" stroke="'+HSTK+'" stroke-width="0.5" stroke-dasharray="3,2"/>';
     svg += '<rect x="'+f2(vwR)+'" y="'+f2(hwB)+'" width="'+f2(vR-vwR)+'"  height="'+f2(vB-hwB)+'"  fill="'+HFIL+'" stroke="'+HSTK+'" stroke-width="0.5" stroke-dasharray="3,2"/>';
-
-    // 竖H上下翼缘
-    svg += '<rect x="'+f2(vL)+'" y="'+f2(vT)+'" width="'+f2(vR-vL)+'" height="'+f2(sTf1)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.4"/>';
-    svg += '<rect x="'+f2(vL)+'" y="'+f2(vB-sTf1)+'" width="'+f2(vR-vL)+'" height="'+f2(sTf1)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.4"/>';
-    // 竖腹板（不含交叉区：分上下两段）
-    if (hwT > vT+sTf1) svg += '<rect x="'+f2(vwL)+'" y="'+f2(vT+sTf1)+'" width="'+f2(vwR-vwL)+'" height="'+f2(hwT-(vT+sTf1))+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.4"/>';
-    if (vB-sTf1 > hwB) svg += '<rect x="'+f2(vwL)+'" y="'+f2(hwB)+'" width="'+f2(vwR-vwL)+'" height="'+f2((vB-sTf1)-hwB)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.4"/>';
-    // 横H左右翼缘
-    svg += '<rect x="'+f2(hL)+'" y="'+f2(hT)+'" width="'+f2(sTf2)+'" height="'+f2(hB-hT)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.4"/>';
-    svg += '<rect x="'+f2(hR-sTf2)+'" y="'+f2(hT)+'" width="'+f2(sTf2)+'" height="'+f2(hB-hT)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.4"/>';
-    // 横腹板（不含交叉区：分左右两段）
-    if (vwL > hL+sTf2) svg += '<rect x="'+f2(hL+sTf2)+'" y="'+f2(hwT)+'" width="'+f2(vwL-(hL+sTf2))+'" height="'+f2(hwB-hwT)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.4"/>';
-    if (hR-sTf2 > vwR) svg += '<rect x="'+f2(vwR)+'" y="'+f2(hwT)+'" width="'+f2((hR-sTf2)-vwR)+'" height="'+f2(hwB-hwT)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.4"/>';
-    // 交叉区（深色，独立，不重复计算）
+    svg += '<rect x="'+f2(vL)+'" y="'+f2(vT)+'" width="'+f2(vR-vL)+'" height="'+f2(sTf1)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.5"/>';
+    svg += '<rect x="'+f2(vL)+'" y="'+f2(vB-sTf1)+'" width="'+f2(vR-vL)+'" height="'+f2(sTf1)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.5"/>';
+    if (hwT > vT+sTf1) svg += '<rect x="'+f2(vwL)+'" y="'+f2(vT+sTf1)+'" width="'+f2(vwR-vwL)+'" height="'+f2(hwT-(vT+sTf1))+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.5"/>';
+    if (vB-sTf1 > hwB) svg += '<rect x="'+f2(vwL)+'" y="'+f2(hwB)+'" width="'+f2(vwR-vwL)+'" height="'+f2((vB-sTf1)-hwB)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.5"/>';
+    svg += '<rect x="'+f2(hL)+'" y="'+f2(hT)+'" width="'+f2(sTf2)+'" height="'+f2(hB-hT)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.5"/>';
+    svg += '<rect x="'+f2(hR-sTf2)+'" y="'+f2(hT)+'" width="'+f2(sTf2)+'" height="'+f2(hB-hT)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.5"/>';
+    if (vwL > hL+sTf2) svg += '<rect x="'+f2(hL+sTf2)+'" y="'+f2(hwT)+'" width="'+f2(vwL-(hL+sTf2))+'" height="'+f2(hwB-hwT)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.5"/>';
+    if (hR-sTf2 > vwR) svg += '<rect x="'+f2(vwR)+'" y="'+f2(hwT)+'" width="'+f2((hR-sTf2)-vwR)+'" height="'+f2(hwB-hwT)+'" fill="url(#pSteel2)" stroke="'+SSTK+'" stroke-width="1.5"/>';
     svg += '<rect x="'+f2(xL)+'" y="'+f2(xT)+'" width="'+f2(xR-xL)+'" height="'+f2(xB-xT)+'" fill="url(#pCross2)" stroke="'+SSTK+'" stroke-width="1.6"/>';
     svg += '<line x1="'+f2(xL)+'" y1="'+f2((xT+xB)/2)+'" x2="'+f2(xR)+'" y2="'+f2((xT+xB)/2)+'" stroke="#2c4a7c" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.6"/>';
     svg += '<line x1="'+f2((xL+xR)/2)+'" y1="'+f2(xT)+'" x2="'+f2((xL+xR)/2)+'" y2="'+f2(xB)+'" stroke="#2c4a7c" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.6"/>';
 
-    // 中心轴线（截面上方留出标注空间）
-    svg += '<line x1="'+f2(ccx)+'" y1="'+f2(Math.max(vT-18, 8))+'" x2="'+f2(ccx)+'" y2="'+f2(vB+10)+'" stroke="'+AC+'" stroke-width="0.7" stroke-dasharray="6,4" opacity="0.45"/>';
-    svg += '<line x1="'+f2(hL-10)+'" y1="'+f2(ccy)+'" x2="'+f2(hR+10)+'" y2="'+f2(ccy)+'" stroke="'+AC+'" stroke-width="0.7" stroke-dasharray="6,4" opacity="0.45"/>';
+    // ── 中心轴线 ───────────────────────────────────────────
+    svg += '<line x1="'+f2(ccx)+'" y1="'+f2(Math.max(vT-18, 6))+'" x2="'+f2(ccx)+'" y2="'+f2(vB+10)+'" stroke="#e53e3e" stroke-width="0.7" stroke-dasharray="6,4" opacity="0.35"/>';
+    svg += '<line x1="'+f2(hL-10)+'" y1="'+f2(ccy)+'" x2="'+f2(hR+10)+'" y2="'+f2(ccy)+'" stroke="#e53e3e" stroke-width="0.7" stroke-dasharray="6,4" opacity="0.35"/>';
 
-    // ═══════════════════════════════════════════════════════════
-    //  标注布局策略：
-    //  BB（总宽）→ 截面下方最外层（红线）
-    //  b1（竖翼缘宽）→ 截面下方内层，在 BB 上方（紫线）
-    //  HB（总高）→ 截面右侧最外层（红线）
-    //  h1（竖总高）→ 截面左侧（紫线，标注竖H上下翼缘之间的距离）
-    //  tw1/tf1   → 截面左侧外引线（紫）
-    //  tw2/tf2   → 截面右侧外引线（紫）
-    //  b2（横翼缘宽）→ 截面左侧下方外（紫）
-    // ═══════════════════════════════════════════════════════════
-
-    // ── 计算截面实际外边界 ───────────────────────────
-    // 底部外边界：竖H主导（h1>b2）时为 vB，否则为 hB
-    var secBottom = Math.max(vB, hB);
-    // 右侧外边界：横H主导（h2>b1）时为 hR，否则为 vR
-    var secRight  = Math.max(hR, vR);
-    // 顶部外边界
+    // ── 截面外边界（用于标注定位）───────────────────────────
     var secTop    = Math.min(vT, hT);
+    var secBottom = Math.max(vB, hB);
+    var secLeft   = Math.min(vL, hL);
+    var secRight  = Math.max(vR, hR);
 
-    // ── 1. BB 总宽（红线，截面正下方，最外层）──
-    var BB_Y  = secBottom + 40; // 总宽线：截面底部以下 40px
-    var BB_x1 = ccx - Btot/2, BB_x2 = ccx + Btot/2;
-    svg += '<line x1="'+f2(BB_x1)+'" y1="'+f2(BB_Y)+'" x2="'+f2(BB_x2)+'" y2="'+f2(BB_Y)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
-           '<line x1="'+f2(BB_x1)+'" y1="'+f2(BB_Y-5)+'" x2="'+f2(BB_x1)+'" y2="'+f2(BB_Y+5)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
-           '<line x1="'+f2(BB_x2)+'" y1="'+f2(BB_Y-5)+'" x2="'+f2(BB_x2)+'" y2="'+f2(BB_Y+5)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
-           '<text x="'+f2(ccx)+'" y="'+f2(BB_Y+14)+'" text-anchor="middle" fill="'+DC+'" font-size="'+baseFs1+'" font-weight="700" font-family="system-ui,sans-serif">BB = '+Btot+' mm</text>';
+    // ══════════════════════════════════════════════════════════
+    //  标注布局（第4版：引线无缝连接截面边界 + 字号加大）
+    //  H=/B=：红点在截面轮廓实际边界上，水平/垂直引线无缝连接
+    // ══════════════════════════════════════════════════════════
 
-    // ── 2. b1 竖翼缘宽（紫线，截面下方内层，在 BB 上方）──
-    // b1 标注范围：竖H的左右翼缘边界（vL 到 vR），在 BB 线内侧
-    var b1_Y = BB_Y - 26; // 在 BB 线上方 26px
-    svg += '<line x1="'+f2(vL)+'" y1="'+f2(b1_Y)+'" x2="'+f2(vR)+'" y2="'+f2(b1_Y)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(vL)+'" y1="'+f2(b1_Y-3)+'" x2="'+f2(vL)+'" y2="'+f2(b1_Y+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(vR)+'" y1="'+f2(b1_Y-3)+'" x2="'+f2(vR)+'" y2="'+f2(b1_Y+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<text x="'+f2((vL+vR)/2)+'" y="'+f2(b1_Y-7)+'" text-anchor="middle" fill="'+LC+'" font-size="'+baseFs2+'" font-weight="600" font-family="system-ui,sans-serif">b₁='+b1+' mm</text>';
+    // 字号
+    var fsH = 32;   // H= / B= 总尺寸
+    var fsD = 28;   // h1/h2/b1/b2 副尺寸
+    var fsT = 26;   // tf/tw 厚度标注（翼缘/腹板厚度，加大）
+    var R = 3.5;    // 红点半径
 
-    // ── 3. HB 总高（红线，截面右侧，最外层）──
-    var HB_X  = secRight + 52; // 总高线：截面右侧以外 52px
-    var HB_y1 = ccy - Htot/2, HB_y2 = ccy + Htot/2;
-    svg += '<line x1="'+f2(HB_X)+'" y1="'+f2(HB_y1)+'" x2="'+f2(HB_X)+'" y2="'+f2(HB_y2)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
-           '<line x1="'+f2(HB_X-5)+'" y1="'+f2(HB_y1)+'" x2="'+f2(HB_X+5)+'" y2="'+f2(HB_y1)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
-           '<line x1="'+f2(HB_X-5)+'" y1="'+f2(HB_y2)+'" x2="'+f2(HB_X+5)+'" y2="'+f2(HB_y2)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
-           '<text x="'+f2(HB_X+16)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+DC+'" font-size="'+baseFs1+'" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(HB_X+16)+','+f2(ccy)+')">HB = '+Htot+' mm</text>';
+    // ── 计算截面的实际几何边界（用于标注定位）─────────────
+    // 竖H各矩形 y 范围：[vT, vT+sTf1]（上翼缘）、[hwT, hwB]（竖腹板）、[vB-sTf1, vB]（下翼缘）
+    // 横H各矩形 y 范围：[hT, hT+sTf2]（左翼缘）、[vwL, vwR]（横腹板）、[hB-sTf2, hB]（右翼缘）
+    // 截面上边界 = max(vT, hT)，下边界 = min(vB, hB)
+    var actTop = Math.max(vT, hT);       // 截面实际最上 y
+    var actBot = Math.min(vB, hB);       // 截面实际最下 y
+    var actLft = Math.min(vL, hL);       // 截面实际最左 x
+    var actRgt = Math.max(vR, hR);       // 截面实际最右 x
 
-    // ── 4. h1 竖H总高（紫线，截面左侧，标注竖H上下翼缘之间的距离）──
-    // 标注位置：截面左侧，x = vL - 52，在 tf1/tw1 引线外侧
-    var h1_X = vL - 52;
-    svg += '<line x1="'+f2(h1_X)+'" y1="'+f2(vT)+'" x2="'+f2(h1_X)+'" y2="'+f2(vB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(h1_X-3)+'" y1="'+f2(vT)+'" x2="'+f2(h1_X+3)+'" y2="'+f2(vT)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(h1_X-3)+'" y1="'+f2(vB)+'" x2="'+f2(h1_X+3)+'" y2="'+f2(vB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<text x="'+f2(h1_X-7)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+LC+'" font-size="'+baseFs2+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(h1_X-7)+','+f2(ccy)+')">h₁='+h1+' mm</text>';
+    // ── H= 总高：右侧垂直标注线 ────────────────────────────
+    // 红点直接在截面最右-最上角和最右-最下角，水平引线无缝连接
+    {
+      var lxH = actRgt + 80;  // 垂直标注线 x（加大间距）
+      var y_top = actTop;      // ← 直接在截面上边界，无偏移
+      var y_bot = actBot;      // ← 直接在截面下边界，无偏移
+      var y_mid = (y_top + y_bot) / 2;
+      // 水平引线（红点在截面边界上，无间隙直接引出）
+      svg += '<circle cx="'+f2(actRgt)+'" cy="'+f2(y_top)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<circle cx="'+f2(actRgt)+'" cy="'+f2(y_bot)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<line x1="'+f2(actRgt)+'" y1="'+f2(y_top)+'" x2="'+f2(lxH)+'" y2="'+f2(y_top)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
+      svg += '<line x1="'+f2(actRgt)+'" y1="'+f2(y_bot)+'" x2="'+f2(lxH)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
+      // 垂直粗虚线（连接两引出点）
+      svg += '<line x1="'+f2(lxH)+'" y1="'+f2(y_top)+'" x2="'+f2(lxH)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="2" stroke-dasharray="8,4"/>';
+      // 端点短横线
+      svg += '<line x1="'+f2(lxH-7)+'" y1="'+f2(y_top)+'" x2="'+f2(lxH+7)+'" y2="'+f2(y_top)+'" stroke="'+DC+'" stroke-width="2"/>';
+      svg += '<line x1="'+f2(lxH-7)+'" y1="'+f2(y_bot)+'" x2="'+f2(lxH+7)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="2"/>';
+      // 文字（竖排，垂直标注线右侧）
+      svg += '<text x="'+f2(lxH+28)+'" y="'+f2(y_mid)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsH+'" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(lxH+28)+','+f2(y_mid)+')">H = '+HTot+' mm</text>';
+    }
 
-    // ── 5. tf1 竖H上翼缘厚（紫，左侧引线，外侧超出 h1_X）──
-    var tf1MidY = vT + sTf1/2;
-    svg += '<line x1="'+f2(vL)+'" y1="'+f2(tf1MidY)+'" x2="'+f2(vL-18)+'" y2="'+f2(tf1MidY)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
-           '<line x1="'+f2(vL-18)+'" y1="'+f2(tf1MidY)+'" x2="'+f2(h1_X-4)+'" y2="'+f2(tf1MidY)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
-           '<circle cx="'+f2(vL)+'" cy="'+f2(tf1MidY)+'" r="1.8" fill="'+LC+'"/>'+
-           '<text x="'+f2(h1_X-7)+'" y="'+f2(tf1MidY)+'" text-anchor="middle" fill="'+LC+'" font-size="'+baseFs3+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(h1_X-7)+','+f2(tf1MidY)+')">tf₁='+tf1+'</text>';
+    // ── B= 总宽：下方水平标注线 ────────────────────────────
+    // 红点在截面最左-最下角和最右-最下角，垂直引线无缝连接
+    {
+      var lyB = actBot + 80;  // 水平标注线 y（加大间距）
+      var x_left = actLft;     // ← 直接在截面左边界，无偏移
+      var x_right = actRgt;    // ← 直接在截面右边界，无偏移
+      var x_mid = (x_left + x_right) / 2;
+      svg += '<circle cx="'+f2(x_left)+'"  cy="'+f2(actBot)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<circle cx="'+f2(x_right)+'" cy="'+f2(actBot)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<line x1="'+f2(x_left)+'"  y1="'+f2(actBot)+'" x2="'+f2(x_left)+'"  y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
+      svg += '<line x1="'+f2(x_right)+'" y1="'+f2(actBot)+'" x2="'+f2(x_right)+'" y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
+      // 水平粗虚线
+      svg += '<line x1="'+f2(x_left)+'" y1="'+f2(lyB)+'" x2="'+f2(x_right)+'" y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="2" stroke-dasharray="8,4"/>';
+      svg += '<line x1="'+f2(x_left)+'"  y1="'+f2(lyB-7)+'" x2="'+f2(x_left)+'"  y2="'+f2(lyB+7)+'" stroke="'+DC+'" stroke-width="2"/>';
+      svg += '<line x1="'+f2(x_right)+'" y1="'+f2(lyB-7)+'" x2="'+f2(x_right)+'" y2="'+f2(lyB+7)+'" stroke="'+DC+'" stroke-width="2"/>';
+      svg += '<text x="'+f2(x_mid)+'" y="'+f2(lyB+26)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsH+'" font-weight="700" font-family="system-ui,sans-serif">B = '+BTot+' mm</text>';
+    }
 
-    // ── 6. tw1 竖腹板厚（紫，左侧，vwL/vwR 之间）──
-    var tw1MidY = ccy;
-    svg += '<line x1="'+f2(vwL)+'" y1="'+f2(tw1MidY)+'" x2="'+f2(vwR)+'" y2="'+f2(tw1MidY)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(vwL)+'" y1="'+f2(tw1MidY-3)+'" x2="'+f2(vwL)+'" y2="'+f2(tw1MidY+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(vwR)+'" y1="'+f2(tw1MidY-3)+'" x2="'+f2(vwR)+'" y2="'+f2(tw1MidY+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(vwL)+'" y1="'+f2(tw1MidY)+'" x2="'+f2(h1_X-4)+'" y2="'+f2(tw1MidY)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
-           '<text x="'+f2(h1_X-7)+'" y="'+f2(tw1MidY)+'" text-anchor="middle" fill="'+LC+'" font-size="'+baseFs3+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(h1_X-7)+','+f2(tw1MidY)+')">tw₁='+tw1+'</text>';
+    // ── b1：截面上方（始终标注）────────────────────────────
+    // 竖H翼缘左右边界各红点 → 垂直虚线向上 → 水平标注线
+    {
+      var y_b1 = actTop - 42;
+      var xl_b1 = vL, xr_b1 = vR;
+      svg += '<circle cx="'+f2(xl_b1)+'" cy="'+f2(actTop)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<circle cx="'+f2(xr_b1)+'" cy="'+f2(actTop)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<line x1="'+f2(xl_b1)+'" y1="'+f2(actTop)+'" x2="'+f2(xl_b1)+'" y2="'+f2(y_b1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<line x1="'+f2(xr_b1)+'" y1="'+f2(actTop)+'" x2="'+f2(xr_b1)+'" y2="'+f2(y_b1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<line x1="'+f2(xl_b1)+'" y1="'+f2(y_b1)+'" x2="'+f2(xr_b1)+'" y2="'+f2(y_b1)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+      svg += '<line x1="'+f2(xl_b1)+'" y1="'+f2(y_b1-5)+'" x2="'+f2(xl_b1)+'" y2="'+f2(y_b1+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+      svg += '<line x1="'+f2(xr_b1)+'" y1="'+f2(y_b1-5)+'" x2="'+f2(xr_b1)+'" y2="'+f2(y_b1+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+      svg += '<text x="'+f2((xl_b1+xr_b1)/2)+'" y="'+f2(y_b1-9)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif">b₁ = '+b1+' mm</text>';
+    }
 
-    // ── 7. tf2 横H翼缘厚（紫，右侧上方外）──
-    // 标注在截面右上方，在 HB 线下方留出空间
-    var tf2MidX = hR + 24;
-    svg += '<line x1="'+f2(hR)+'" y1="'+f2(hT)+'" x2="'+f2(tf2MidX)+'" y2="'+f2(hT)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
-           '<line x1="'+f2(tf2MidX)+'" y1="'+f2(hT)+'" x2="'+f2(HB_X-4)+'" y2="'+f2(hT)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
-           '<circle cx="'+f2(hR)+'" cy="'+f2(hT)+'" r="1.8" fill="'+LC+'"/>'+
-           '<text x="'+f2((tf2MidX+HB_X-4)/2)+'" y="'+f2(hT-6)+'" text-anchor="middle" fill="'+LC+'" font-size="'+baseFs3+'" font-weight="600" font-family="system-ui,sans-serif">tf₂='+tf2+'</text>';
+    // ── h2：截面上方（仅 h2<b1 时标注）────────────────────
+    // 网上移（大间距避免与b1文字重叠），字号缩小
+    {
+      var y_h2 = actTop - 120;  // 大幅上移，避免与b1重叠
+      var xl_h2 = hL, xr_h2 = hR;
+      svg += '<circle cx="'+f2(xl_h2)+'" cy="'+f2(ccy)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<circle cx="'+f2(xr_h2)+'" cy="'+f2(ccy)+'" r="'+R+'" fill="'+DC+'"/>';
+      var y_h2_conn = y_h2 + 10;
+      svg += '<line x1="'+f2(xl_h2)+'" y1="'+f2(ccy)+'" x2="'+f2(xl_h2)+'" y2="'+f2(y_h2_conn)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<line x1="'+f2(xr_h2)+'" y1="'+f2(ccy)+'" x2="'+f2(xr_h2)+'" y2="'+f2(y_h2_conn)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<line x1="'+f2(xl_h2)+'" y1="'+f2(y_h2)+'" x2="'+f2(xr_h2)+'" y2="'+f2(y_h2)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+      svg += '<line x1="'+f2(xl_h2)+'" y1="'+f2(y_h2-5)+'" x2="'+f2(xl_h2)+'" y2="'+f2(y_h2+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+      svg += '<line x1="'+f2(xr_h2)+'" y1="'+f2(y_h2-5)+'" x2="'+f2(xr_h2)+'" y2="'+f2(y_h2+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+      svg += '<text x="'+f2((xl_h2+xr_h2)/2)+'" y="'+f2(y_h2-9)+'" text-anchor="middle" fill="'+DC+'" font-size="20" font-weight="600" font-family="system-ui,sans-serif">h₂ = '+h2+' mm</text>';
+    }
 
-    // ── 8. tw2 横腹板厚（紫，右侧，从 hwT 到 hwB）──
-    var tw2MidX = hR + 24;
-    svg += '<line x1="'+f2(tw2MidX)+'" y1="'+f2(hwT)+'" x2="'+f2(tw2MidX)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(tw2MidX-3)+'" y1="'+f2(hwT)+'" x2="'+f2(tw2MidX+3)+'" y2="'+f2(hwT)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(tw2MidX-3)+'" y1="'+f2(hwB)+'" x2="'+f2(tw2MidX+3)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(hR)+'" y1="'+f2(hwT)+'" x2="'+f2(tw2MidX)+'" y2="'+f2(hwT)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
-           '<line x1="'+f2(hR)+'" y1="'+f2(hwB)+'" x2="'+f2(tw2MidX)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
-           '<line x1="'+f2(tw2MidX)+'" y1="'+f2(hwT)+'" x2="'+f2(HB_X-4)+'" y2="'+f2(hwT)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
-           '<line x1="'+f2(tw2MidX)+'" y1="'+f2(hwB)+'" x2="'+f2(HB_X-4)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
-           '<text x="'+f2(HB_X-16)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+LC+'" font-size="'+baseFs3+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(HB_X-16)+','+f2(ccy)+')">tw₂='+tw2+'</text>';
+    // ── 左侧副尺寸（h1 或 b2）─────────────────────────────
+    {
+      if (h1 < b2) {
+        // h1 < b2 → H=b2，左侧标注 h1
+        var xl = actLft - 52;
+        svg += '<circle cx="'+f2(vL)+'" cy="'+f2(vT)+'" r="'+R+'" fill="'+DC+'"/>';
+        svg += '<circle cx="'+f2(vL)+'" cy="'+f2(vB)+'" r="'+R+'" fill="'+DC+'"/>';
+        svg += '<line x1="'+f2(vL)+'" y1="'+f2(vT)+'" x2="'+f2(xl)+'" y2="'+f2(vT)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+        svg += '<line x1="'+f2(vL)+'" y1="'+f2(vB)+'" x2="'+f2(xl)+'" y2="'+f2(vB)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+        svg += '<line x1="'+f2(xl)+'" y1="'+f2(vT)+'" x2="'+f2(xl)+'" y2="'+f2(vB)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+        svg += '<line x1="'+f2(xl-5)+'" y1="'+f2(vT)+'" x2="'+f2(xl+5)+'" y2="'+f2(vT)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+        svg += '<line x1="'+f2(xl-5)+'" y1="'+f2(vB)+'" x2="'+f2(xl+5)+'" y2="'+f2(vB)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+        svg += '<text x="'+f2(xl-12)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(xl-12)+','+f2(ccy)+')">h₁ = '+h1+' mm</text>';
+      } else if (b2 < h1) {
+        // b2 < h1 → H=h1，左侧标注 b2
+        var xl = actLft - 52;
+        svg += '<circle cx="'+f2(hL)+'" cy="'+f2(hT)+'" r="'+R+'" fill="'+DC+'"/>';
+        svg += '<circle cx="'+f2(hL)+'" cy="'+f2(hB)+'" r="'+R+'" fill="'+DC+'"/>';
+        svg += '<line x1="'+f2(hL)+'" y1="'+f2(hT)+'" x2="'+f2(xl)+'" y2="'+f2(hT)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+        svg += '<line x1="'+f2(hL)+'" y1="'+f2(hB)+'" x2="'+f2(xl)+'" y2="'+f2(hB)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+        svg += '<line x1="'+f2(xl)+'" y1="'+f2(hT)+'" x2="'+f2(xl)+'" y2="'+f2(hB)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+        svg += '<line x1="'+f2(xl-5)+'" y1="'+f2(hT)+'" x2="'+f2(xl+5)+'" y2="'+f2(hT)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+        svg += '<line x1="'+f2(xl-5)+'" y1="'+f2(hB)+'" x2="'+f2(xl+5)+'" y2="'+f2(hB)+'" stroke="'+DC+'" stroke-width="1.4"/>';
+        svg += '<text x="'+f2(xl-12)+'" y="'+f2((hT+hB)/2)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(xl-12)+','+f2((hT+hB)/2)+')">b₂ = '+b2+' mm</text>';
+      }
+    }
 
-    // ── 9. b2 横H翼缘宽（紫，左侧，标注横H翼缘的竖向高度）──
-    // 位置：左侧，b1标注下方（y > b1_Y），x = h1_X
-    var b2DimX = h1_X;
-    var b2Top = hT, b2Bot = hB;
-    svg += '<line x1="'+f2(b2DimX)+'" y1="'+f2(b2Top)+'" x2="'+f2(b2DimX)+'" y2="'+f2(b2Bot)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(b2DimX-3)+'" y1="'+f2(b2Top)+'" x2="'+f2(b2DimX+3)+'" y2="'+f2(b2Top)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(b2DimX-3)+'" y1="'+f2(b2Bot)+'" x2="'+f2(b2DimX+3)+'" y2="'+f2(b2Bot)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<text x="'+f2(b2DimX-7)+'" y="'+f2((b2Top+b2Bot)/2)+'" text-anchor="middle" fill="'+LC+'" font-size="'+baseFs2+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(b2DimX-7)+','+f2((b2Top+b2Bot)/2)+')">b₂='+b2+' mm</text>';
+    // ── tf1：竖H上翼缘厚，左侧外（字号加大）────────────────
+    // 红点在翼缘厚度矩形中心 → 水平虚线向左外引 → 竖排文字
+    {
+      var xl_tf1 = actLft - 130;
+      var y_tf1 = vT + sTf1 / 2;  // 翼缘厚度矩形中心
+      svg += '<circle cx="'+f2(vL + sTf1/2)+'" cy="'+f2(y_tf1)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<line x1="'+f2(vL + sTf1/2)+'" y1="'+f2(y_tf1)+'" x2="'+f2(xl_tf1)+'" y2="'+f2(y_tf1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<text x="'+f2(xl_tf1-10)+'" y="'+f2(y_tf1)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(xl_tf1-10)+','+f2(y_tf1)+')">tf₁ = '+tf1+'</text>';
+    }
 
-    // ── 标题栏（显示总高×总宽，以及各部件参数）──
-    var cruTitle = '十 ' + Htot + ' × ' + Btot + ' mm  |  竖H ' + h1 + '×'+b1+'  tw₁='+tw1+' tf₁='+tf1+'  |  横H ' + h2 + '×'+b2+'  tw₂='+tw2+' tf₂='+tf2;
-    svg += '<rect x="0" y="'+(cH-24)+'" width="'+cW+'" height="24" fill="#2c4a7c" rx="0"/>'+
-           '<text x="'+f2(cW/2)+'" y="'+(cH-8)+'" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="600" font-family="system-ui,sans-serif">'+cruTitle+'</text>';
+    // ── tw1：竖H腹板厚，截面内侧（字号加大）────────────────
+    // 红点在竖腹板左边界中点 → 水平虚线向右内侧引 → 横排文字
+    {
+      var y_tw1 = ccy;
+      var x_tw1_l = vwL + sTw1 + 36;  // 腹板右侧内 + 间距
+      svg += '<circle cx="'+f2(vwL)+'" cy="'+f2(y_tw1)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<line x1="'+f2(vwL)+'" y1="'+f2(y_tw1)+'" x2="'+f2(x_tw1_l - 6)+'" y2="'+f2(y_tw1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<text x="'+f2(x_tw1_l)+'" y="'+f2(y_tw1 + 8)+'" text-anchor="start" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif">tw₁ = '+tw1+'</text>';
+    }
+
+    // ── tf2：横H上翼缘厚，右侧外（字号加大）────────────────
+    // 红点在翼缘厚度矩形中心 → 水平虚线向右外引 → 竖排文字
+    {
+      var xr_tf2 = actRgt + 95;
+      var y_tf2 = hT + sTf2 / 2;
+      svg += '<circle cx="'+f2(hR - sTf2/2)+'" cy="'+f2(y_tf2)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<line x1="'+f2(hR - sTf2/2)+'" y1="'+f2(y_tf2)+'" x2="'+f2(xr_tf2)+'" y2="'+f2(y_tf2)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<text x="'+f2(xr_tf2+10)+'" y="'+f2(y_tf2)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(xr_tf2+10)+','+f2(y_tf2)+')">tf₂ = '+tf2+'</text>';
+    }
+
+    // ── tw2：横H腹板厚，截面内侧（字号加大）────────────────
+    // 红点在横腹板上边界中点 → 垂直虚线向下内侧引 → 横排文字
+    {
+      var x_tw2 = ccx;
+      var y_tw2_t = hwT + sTw2 + 20;  // 腹板下方内 + 间距，避免与截面线碰撞
+      svg += '<circle cx="'+f2(x_tw2)+'" cy="'+f2(hwT)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<line x1="'+f2(x_tw2)+'" y1="'+f2(hwT)+'" x2="'+f2(x_tw2)+'" y2="'+f2(y_tw2_t + 5)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<text x="'+f2(x_tw2)+'" y="'+f2(y_tw2_t + 7)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif">tw₂ = '+tw2+'</text>';
+    }
+
+    // ── 标题栏（字号加大）────────────────────────────────────
+    var cruTitle = '十' + h1 + '×' + b1 + '×' + tw1 + '×' + tf1 + ' + ' + h2 + '×' + b2 + '×' + tw2 + '×' + tf2;
+    svg += '<rect x="0" y="'+f2(cH-38)+'" width="'+f2(cW)+'" height="38" fill="#2c4a7c" rx="0"/>'+
+           '<text x="'+f2(cW/2)+'" y="'+f2(cH-12)+'" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="600" font-family="system-ui,sans-serif">'+cruTitle+'</text>';
 
     svg += '</svg>';
     return svg;
   }
   if (t === 'HW' || t === 'HM' || t === 'HN' || t === 'HP') {
     var H_=s.H, B=s.B, tw=s.tw, tf=s.tf;
-    // 留边：左右各50px给标注，上下各44px
-    var scale = Math.min((W-120)/B, (H-110)/H_)*0.82;
-    var sw=B*scale, sh=H_*scale, stw=Math.max(2,tw*scale), stf=Math.max(2,tf*scale);
-    var ox=cx-sw/2, oy=cy-sh/2, x2=ox+sw, y2=oy+sh;
+    if (!H_ || !B || !tw || !tf) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'"><rect width="'+W+'" height="'+H+'" rx="8" fill="#f4f5f9"/><text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="#656d76" font-size="13">参数不全</text></svg>';
+    // 动态 viewBox：根据截面宽高比计算最优画布，确保标注不被截断
+    var MARGIN_X = 72, MARGIN_Y = 70;
+    var scale = Math.min((W-MARGIN_X*2)/B, (H-MARGIN_Y*2)/H_)*0.82;
+    var sw=B*scale, sh=H_*scale;
+    // 根据实际缩放后的截面尺寸计算所需 viewBox
+    var minVW = Math.max(W, sw + MARGIN_X*2 + 40);
+    var minVH = Math.max(H, sh + MARGIN_Y*2 + 40);
+    var VW = Math.min(520, Math.ceil(minVW/10)*10);
+    var VH = Math.min(460, Math.ceil(minVH/10)*10);
+    var vcx = VW/2, vcy = VH/2 - 8;
+    var ox=vcx-sw/2, oy=vcy-sh/2, x2=ox+sw, y2=oy+sh;
+    var stw=Math.max(2,tw*scale), stf=Math.max(2,tf*scale);
     var wx1=ox+(sw-stw)/2, wy1=oy+stf, wx2=ox+(sw+stw)/2, wy2=y2-stf;
+    var VSVG_HDR = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+VW+' '+VH+'" style="display:block; width:100%; height:auto; max-width:100%;">';
+    var VGRID = '<rect width="'+VW+'" height="'+VH+'" fill="'+paperBg+'"/>';
+    for(var gx=0;gx<=VW;gx+=20){VGRID+='<line x1="'+gx+'" y1="0" x2="'+gx+'" y2="'+VH+'" stroke="'+gridColor+'" stroke-width="'+(gx%40===0?'0.8':'0.4')+'"/>';}
+    for(var gy=0;gy<=VH;gy+=20){VGRID+='<line x1="0" y1="'+gy+'" x2="'+VW+'" y2="'+gy+'" stroke="'+gridColor+'" stroke-width="'+(gy%40===0?'0.8':'0.4')+'"/>';}
+    var vcx2 = VW/2;
+    var vtitleBar = '<rect x="0" y="'+(VH-26)+'" width="'+VW+'" height="26" rx="0" fill="#e8edf5" opacity="0.9"/>'+
+      '<text x="'+vcx2+'" y="'+(VH-9)+'" text-anchor="middle" fill="#2c4a7c" font-size="12" font-weight="700" font-family="system-ui,sans-serif">'+s.code+'</text>';
 
     // tw引线：从腹板左边缘引出到左侧
     var twMidY = (wy1+wy2)/2;
@@ -3009,7 +3108,7 @@ function drawSectionSVG(s) {
     var tfTopY = oy + stf/2;
     var tfLeader = leader(tfMidX, oy, tfMidX, oy-22, 'tf='+tf+'mm', 'end');
 
-    return SVG_HDR + PATTERN + ARROW + GRID +
+    return VSVG_HDR + PATTERN + ARROW + VGRID +
       // 上翼缘（斜纹填充）
       '<rect x="'+ox+'" y="'+oy+'" width="'+sw+'" height="'+stf+'" fill="url(#sHatch)" stroke="'+wallEdge+'" stroke-width="1.8"/>'+
       // 下翼缘
@@ -3026,7 +3125,7 @@ function drawSectionSVG(s) {
       twLeader +
       // 翼缘厚引线（上方外）
       tfLeader +
-      titleBar +
+      vtitleBar +
       '</svg>';
   }
 
@@ -3034,10 +3133,23 @@ function drawSectionSVG(s) {
   if (t === 'BOX') {
     var BH=s.H, BB=s.B, bt1=s.t1||s.t||0, bt2=s.t2||s.t||bt1||0;
     if (!BH||!BB||!bt1) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'"><rect width="'+W+'" height="'+H+'" rx="8" fill="#f4f5f9"/><text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="#656d76" font-size="13">参数不全</text></svg>';
-    var scale = Math.min((W-120)/BB, (H-110)/BH)*0.78;
+    var MARGIN_X = 72, MARGIN_Y = 70;
+    var scale = Math.min((W-MARGIN_X*2)/BB, (H-MARGIN_Y*2)/BH)*0.78;
     var sw=BB*scale, sh=BH*scale, st1=Math.max(2,bt1*scale), st2=Math.max(2,bt2*scale);
-    var ox=cx-sw/2, oy=cy-sh/2;
+    var minVW = Math.max(W, sw + MARGIN_X*2 + 40);
+    var minVH = Math.max(H, sh + MARGIN_Y*2 + 40);
+    var VW = Math.min(520, Math.ceil(minVW/10)*10);
+    var VH = Math.min(460, Math.ceil(minVH/10)*10);
+    var vcx = VW/2, vcy = VH/2 - 8;
+    var ox=vcx-sw/2, oy=vcy-sh/2;
     var iw=sw-st1*2, ih=sh-st2*2;
+    var VSVG_HDR = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+VW+' '+VH+'" style="display:block; width:100%; height:auto; max-width:100%;">';
+    var VGRID = '<rect width="'+VW+'" height="'+VH+'" fill="'+paperBg+'"/>';
+    for(var gx=0;gx<=VW;gx+=20){VGRID+='<line x1="'+gx+'" y1="0" x2="'+gx+'" y2="'+VH+'" stroke="'+gridColor+'" stroke-width="'+(gx%40===0?'0.8':'0.4')+'"/>';}
+    for(var gy=0;gy<=VH;gy+=20){VGRID+='<line x1="0" y1="'+gy+'" x2="'+VW+'" y2="'+gy+'" stroke="'+gridColor+'" stroke-width="'+(gy%40===0?'0.8':'0.4')+'"/>';}
+    var vcx2 = VW/2;
+    var vtitleBar = '<rect x="0" y="'+(VH-26)+'" width="'+VW+'" height="26" rx="0" fill="#e8edf5" opacity="0.9"/>'+
+      '<text x="'+vcx2+'" y="'+(VH-9)+'" text-anchor="middle" fill="#2c4a7c" font-size="12" font-weight="700" font-family="system-ui,sans-serif">'+s.code+'</text>';
 
     // t1竖壁引线（左侧壁厚，从外轮廓左边缘引到内腔左边缘，中点引出）
     var t1MidY = oy + sh * 0.35;
@@ -3046,48 +3158,62 @@ function drawSectionSVG(s) {
     var t2MidX = ox + sw * 0.7;
     var t2Leader = leader(t2MidX, oy, t2MidX, oy-22, 't₂='+bt2+'mm', 'end');
 
-    return SVG_HDR + PATTERN + ARROW + GRID +
+    return VSVG_HDR + PATTERN + ARROW + VGRID +
       // 外轮廓
       '<rect x="'+ox+'" y="'+oy+'" width="'+sw+'" height="'+sh+'" fill="url(#sHatch)" stroke="'+wallEdge+'" stroke-width="1.8"/>'+
-      // 内腔（纸色+虚线）
-      '<rect x="'+(ox+st1)+'" y="'+(oy+st2)+'" width="'+iw+'" height="'+ih+'" fill="'+holeFill+'" stroke="'+dimColor+'" stroke-width="0.9" stroke-dasharray="5,3"/>'+
+      // 内腔（与外轮廓一致：钢蓝实线）
+      '<rect x="'+(ox+st1)+'" y="'+(oy+st2)+'" width="'+iw+'" height="'+ih+'" fill="'+holeFill+'" stroke="'+wallEdge+'" stroke-width="1.8"/>'+
       axisX(ox-10, ox+sw+10) + axisY(oy-10, oy+sh+10) +
       dimH(oy+sh, ox, ox+sw, 'B='+BB+'mm', false) +
       dimV(ox+sw, oy, oy+sh, 'H='+BH+'mm', true) +
       t1Leader + t2Leader +
-      titleBar +
+      vtitleBar +
       '</svg>';
   }
 
   /* ── 圆管截面 (CHS) ─────────────────────────── */
   if (t === 'CHS') {
     var D=s.D, bt=s.t||0, di=Math.max(0,(s.D||0)-2*(s.t||0));
-    var r0 = Math.min(W-120, H-100) * 0.34;
+    if (!D || !bt) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'"><rect width="'+W+'" height="'+H+'" rx="8" fill="#f4f5f9"/><text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="#656d76" font-size="13">参数不全</text></svg>';
+    // 动态 viewBox：圆直径 + 两侧标注余量
+    var MARGIN = 80;
+    var r0 = Math.min(W-MARGIN*2, H-MARGIN*2-20) * 0.40;
     var scale = r0 / (D/2 || 1);
     var r=Math.max(2,D*scale/2), ri=Math.max(0,di*scale/2);
-    // 把圆心稍微上移留出下方标注空间
-    var ccx = cx, ccy = cy - 8;
-    return SVG_HDR + PATTERN + ARROW + GRID +
+    // 计算所需 viewBox：圆直径 + 四周标注空间
+    var neededVW = Math.max(W, D*scale + MARGIN*2 + 40);
+    var neededVH = Math.max(H, D*scale + MARGIN*2 + 60);
+    var VW = Math.min(520, Math.ceil(neededVW/10)*10);
+    var VH = Math.min(460, Math.ceil(neededVH/10)*10);
+    var VSVG_HDR = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+VW+' '+VH+'" style="display:block; width:100%; height:auto; max-width:100%;">';
+    var VGRID = '<rect width="'+VW+'" height="'+VH+'" fill="'+paperBg+'"/>';
+    for(var gx=0;gx<=VW;gx+=20){VGRID+='<line x1="'+gx+'" y1="0" x2="'+gx+'" y2="'+VH+'" stroke="'+gridColor+'" stroke-width="'+(gx%40===0?'0.8':'0.4')+'"/>';}
+    for(var gy=0;gy<=VH;gy+=20){VGRID+='<line x1="0" y1="'+gy+'" x2="'+VW+'" y2="'+gy+'" stroke="'+gridColor+'" stroke-width="'+(gy%40===0?'0.8':'0.4')+'"/>';}
+    var vcx = VW/2, vcy = VH/2 - 8;
+    var vcx2 = VW/2;
+    var vtitleBar = '<rect x="0" y="'+(VH-26)+'" width="'+VW+'" height="26" rx="0" fill="#e8edf5" opacity="0.9"/>'+
+      '<text x="'+vcx2+'" y="'+(VH-9)+'" text-anchor="middle" fill="#2c4a7c" font-size="12" font-weight="700" font-family="system-ui,sans-serif">'+s.code+'</text>';
+    return VSVG_HDR + PATTERN + ARROW + VGRID +
       // 外圆（斜纹填充）
-      '<circle cx="'+ccx+'" cy="'+ccy+'" r="'+r+'" fill="url(#sHatch)" stroke="'+wallEdge+'" stroke-width="1.8"/>'+
-      // 内圆（纸色）
-      '<circle cx="'+ccx+'" cy="'+ccy+'" r="'+ri+'" fill="'+holeFill+'" stroke="'+dimColor+'" stroke-width="1.0"/>'+
+      '<circle cx="'+vcx+'" cy="'+vcy+'" r="'+r+'" fill="url(#sHatch)" stroke="'+wallEdge+'" stroke-width="1.8"/>'+
+      // 内圆（与外轮廓一致：钢蓝实线）
+      '<circle cx="'+vcx+'" cy="'+vcy+'" r="'+ri+'" fill="'+holeFill+'" stroke="'+wallEdge+'" stroke-width="1.8"/>'+
       // 水平直径线
-      '<line x1="'+(ccx-r-10)+'" y1="'+ccy+'" x2="'+(ccx+r+10)+'" y2="'+ccy+'" stroke="'+axisColor+'" stroke-width="0.7" stroke-dasharray="5,3" opacity="0.5"/>'+
+      '<line x1="'+(vcx-r-10)+'" y1="'+vcy+'" x2="'+(vcx+r+10)+'" y2="'+vcy+'" stroke="'+axisColor+'" stroke-width="0.7" stroke-dasharray="5,3" opacity="0.5"/>'+
       // 垂直直径线
-      '<line x1="'+ccx+'" y1="'+(ccy-r-10)+'" x2="'+ccx+'" y2="'+(ccy+r+10)+'" stroke="'+axisColor+'" stroke-width="0.7" stroke-dasharray="5,3" opacity="0.5"/>'+
-      // 外径引线（右上方外）
-      '<line x1="'+(ccx+r*0.7)+'" y1="'+(ccy-r*0.7)+'" x2="'+(ccx+r+22)+'" y2="'+(ccy-r+2)+'" stroke="'+dimColor+'" stroke-width="1.1"/>'+
-      '<line x1="'+(ccx+r+22)+'" y1="'+(ccy-r+2)+'" x2="'+(ccx+r+50)+'" y2="'+(ccy-r+2)+'" stroke="'+dimColor+'" stroke-width="1.1"/>'+
-      '<text x="'+(ccx+r+52)+'" y="'+(ccy-r+4)+'" fill="'+dimText+'" font-size="13" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle">D='+D+'mm</text>'+
+      '<line x1="'+vcx+'" y1="'+(vcy-r-10)+'" x2="'+vcx+'" y2="'+(vcy+r+10)+'" stroke="'+axisColor+'" stroke-width="0.7" stroke-dasharray="5,3" opacity="0.5"/>'+
+      // 外径引线（右上方，引线缩短靠近截面）
+      '<line x1="'+(vcx+r*0.7)+'" y1="'+(vcy-r*0.7)+'" x2="'+(vcx+r+14)+'" y2="'+(vcy-r*0.7+3)+'" stroke="'+dimColor+'" stroke-width="1.1"/>'+
+      '<line x1="'+(vcx+r+14)+'" y1="'+(vcy-r*0.7+3)+'" x2="'+(vcx+r+38)+'" y2="'+(vcy-r*0.7+3)+'" stroke="'+dimColor+'" stroke-width="1.1"/>'+
+      '<text x="'+(vcx+r+40)+'" y="'+(vcy-r*0.7+5)+'" fill="'+dimText+'" font-size="13" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle">D='+D+'mm</text>'+
       // 壁厚引线（右下方外）
-      '<line x1="'+(ccx+ri)+'" y1="'+ccy+'" x2="'+(ccx+r)+'" y2="'+ccy+'" stroke="'+dimColor+'" stroke-width="1.5"/>'+
-      '<line x1="'+(ccx+r)+'" y1="'+ccy+'" x2="'+(ccx+r+22)+'" y2="'+(ccy+r*0.6)+'" stroke="'+dimColor+'" stroke-width="1.0"/>'+
-      '<line x1="'+(ccx+r+22)+'" y1="'+(ccy+r*0.6)+'" x2="'+(ccx+r+50)+'" y2="'+(ccy+r*0.6)+'" stroke="'+dimColor+'" stroke-width="1.0"/>'+
-      '<text x="'+(ccx+r+52)+'" y="'+(ccy+r*0.6+1)+'" fill="'+dimText+'" font-size="13" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle">t='+bt+'mm</text>'+
-      // 内径标注（圆心正下方 外）
-      '<text x="'+ccx+'" y="'+(ccy+r+16)+'" text-anchor="middle" fill="'+dimText+'" font-size="12" font-weight="600" font-family="system-ui,sans-serif">di='+di+'mm</text>'+
-      titleBar +
+      '<line x1="'+(vcx+ri)+'" y1="'+vcy+'" x2="'+(vcx+r)+'" y2="'+vcy+'" stroke="'+dimColor+'" stroke-width="1.5"/>'+
+      '<line x1="'+(vcx+r)+'" y1="'+vcy+'" x2="'+(vcx+r+14)+'" y2="'+(vcy+r*0.6)+'" stroke="'+dimColor+'" stroke-width="1.0"/>'+
+      '<line x1="'+(vcx+r+14)+'" y1="'+(vcy+r*0.6)+'" x2="'+(vcx+r+38)+'" y2="'+(vcy+r*0.6)+'" stroke="'+dimColor+'" stroke-width="1.0"/>'+
+      '<text x="'+(vcx+r+40)+'" y="'+(vcy+r*0.6+1)+'" fill="'+dimText+'" font-size="13" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle">t='+bt+'mm</text>'+
+      // 内径标注（圆心正下方，外）
+      '<text x="'+vcx+'" y="'+(vcy+r+24)+'" text-anchor="middle" fill="'+dimText+'" font-size="12" font-weight="600" font-family="system-ui,sans-serif">d='+di+'mm</text>'+
+      vtitleBar +
       '</svg>';
   }
 
@@ -5307,6 +5433,14 @@ function diaociSaveEffEdit() {
 // ── 页面加载时恢复表单数据 ─────────────────────────────────
 window.onload = function() {
   restoreFormData();
+  // 首次访问（无 localStorage 数据）时，restoreFormData 不会调用 secMainTypeChange，
+  // 手动触发一次确保参数输入字段被创建，示意图正常显示
+  var typeSel = document.getElementById('sec-main-type');
+  var raw = localStorage.getItem(FORM_STORAGE_KEY);
+  if (!raw && typeSel) {
+    var savedType = typeSel.value || 'HW';
+    secMainTypeChange(savedType);
+  }
 };
 
 function diaociResetEff() {
@@ -5700,9 +5834,12 @@ function setInput(id, val) {
   var el = document.getElementById(id);
   if (!el) return;
   el.value = val;
-  // 触发一次 input 事件
+  // 触发一次 input 事件（让 oninput="updateMainSectionCalc()" 捕获）
   var evt = new Event('input', { bubbles: true });
   el.dispatchEvent(evt);
+  // 显式调用一次：确保 diagram 必定更新（不受事件冒泡异常影响）
+  // 但需尊重防重入标志，避免在 secMainTypeChange 期间干扰
+  if (!_secCalcDeferred) updateMainSectionCalc();
 }
 
 // ═══════════════════════════════════════════
@@ -5865,14 +6002,14 @@ function secSmartRecognize(raw) {
       dims:'H='+BH+'  B='+BB+'  t1='+bt1+'  t2='+bt2, H:BH, B:BB, t1:bt1, t2:bt2 };
   }
   // ── 6. H型钢 ─────────────────────────────────
-  // 4参数：H500×200×10×14
-  var h4 = raw.match(/^H(\d+)×(\d+)×(\d+\.?\d*)×(\d+\.?\d*)$/i);
+  // 4参数：H500×200×10×14 或 H500X200X10X14
+  var h4 = raw.match(/^H(\d+)[×xX\*](\d+)[×xX\*](\d+\.?\d*)[×xX\*](\d+\.?\d*)$/i);
   if (h4) {
     var H=+h4[1], B=+h4[2], tw=+h4[3], tf=+h4[4];
     return { type:'HW', name:'H'+H+'×'+B+'×'+tw+'×'+tf, typeLabel:'H', dims:'H='+H+'  B='+B+'  tw='+tw+'  tf='+tf, H:H, B:B, tw:tw, tf:tf };
   }
-  // 2参数：查库或推算
-  var h2 = raw.match(/^H([NMHW]?)(\d+)×(\d+)$/i);
+  // 2参数：查库或推算（H800X400 或 H800×400 均可）
+  var h2 = raw.match(/^H([NMHW]?)(\d+)[×xX\*](\d+)$/i);
   if (h2) {
     var prefix=(h2[1]||'').toUpperCase();
     var H=+h2[2], B=+h2[3];
@@ -5924,3 +6061,20 @@ function toggleLiftCard(cardEl) {
   cardEl.classList.toggle('collapsed');
 }
 
+// ── 截面SVG放大模态框 ──────────────────────────────────────────────
+function openSecZoom() {
+  var svgEl = document.getElementById('secSvg');
+  if (!svgEl || !svgEl.innerHTML.trim()) return;
+  var modal = document.getElementById('secZoomModal');
+  var zoomSvg = document.getElementById('secZoomSvg');
+  if (modal && zoomSvg) {
+    zoomSvg.innerHTML = svgEl.innerHTML;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+function closeSecZoom() {
+  var modal = document.getElementById('secZoomModal');
+  if (modal) { modal.style.display = 'none'; }
+  document.body.style.overflow = '';
+}
