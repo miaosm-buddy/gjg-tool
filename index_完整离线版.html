@@ -1603,9 +1603,102 @@ var CRANE_DATA = {"version": "v2-20260430", "generated": "import_xlsx_v2.py", "t
 </script>
 <script>
 /* ============================================================
-   钢结构方案辅助工具 app.js  v2-20260622d
+   钢结构方案辅助工具 app.js  v2-20260709c
    新数据结构：crane.load_charts = {工况类型: {工况说明: {'配重|支腿': [行数据]}}}
    ============================================================ */
+
+// ── 表单数据持久化（localStorage） ──────────────────────────
+var FORM_STORAGE_KEY = 'jg-lift-form-v1';
+
+function saveFormData() {
+  try {
+    var sectionType = document.getElementById('sec-main-type').value;
+    var sectionParams = {};
+    var paramInputs = document.querySelectorAll('#secMainDims input[id^="sm_"]');
+    for (var i = 0; i < paramInputs.length; i++) {
+      var el = paramInputs[i];
+      if (el.id) sectionParams[el.id] = el.value;
+    }
+    var payload = {
+      sectionType: sectionType,
+      sectionParams: sectionParams,
+      secSmartInput: document.getElementById('secSmartInput').value,
+      liftSegPf: document.getElementById('lift-seg-pf').value,
+      liftAmp: document.getElementById('lift-amp').value,
+      liftCrane: document.getElementById('lift-crane').value,
+      liftRadius: document.getElementById('lift-radius').value,
+      liftBoom: document.getElementById('lift-boom-sel').value,
+      kWeather: document.getElementById('diaoci-k-weather').value,
+      kUtil: document.getElementById('diaoci-k-util').value,
+      hours: document.getElementById('diaoci-hours').value,
+      kOther: document.getElementById('diaoci-k-other').value,
+      flData: window.FL_DATA ? JSON.parse(JSON.stringify(window.FL_DATA)) : [],
+      diaociMachines: window._diaoci ? JSON.parse(JSON.stringify(window._diaoci.machines)) : [],
+      diaociRows: window._diaoci ? JSON.parse(JSON.stringify(window._diaoci.rows)) : []
+    };
+    localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(payload));
+  } catch(e) { /* ignore storage errors */ }
+}
+
+function restoreFormData() {
+  try {
+    var raw = localStorage.getItem(FORM_STORAGE_KEY);
+    if (!raw) return;
+    var d = JSON.parse(raw);
+    // 1. 截面类型+参数
+    if (d.sectionType) {
+      var typeSel = document.getElementById('sec-main-type');
+      var oldOnchange = typeSel.onchange;
+      typeSel.onchange = null;
+      typeSel.value = d.sectionType;
+      secMainTypeChange(d.sectionType);
+      typeSel.onchange = oldOnchange;
+      if (d.sectionParams) {
+        Object.keys(d.sectionParams).forEach(function(k) {
+          var el = document.getElementById(k);
+          if (el) el.value = d.sectionParams[k];
+        });
+      }
+      updateMainSectionCalc();
+    }
+    // 2. 截面识别文字
+    var siEl = document.getElementById('secSmartInput');
+    if (siEl && d.secSmartInput) siEl.value = d.secSmartInput;
+    // 3. 分段/节点放大
+    var pfEl = document.getElementById('lift-seg-pf');
+    if (pfEl && d.liftSegPf) { pfEl.value = d.liftSegPf; flSegPfUpdateUI(d.liftSegPf); }
+    var ampEl = document.getElementById('lift-amp');
+    if (ampEl && d.liftAmp) ampEl.value = d.liftAmp;
+    // 4. 机械+半径
+    var craneSel = document.getElementById('lift-crane');
+    if (craneSel && d.liftCrane) {
+      craneSel.value = d.liftCrane;
+      liftOnCraneChange();
+      var boomSel = document.getElementById('lift-boom-sel');
+      if (boomSel && d.liftBoom) boomSel.value = d.liftBoom;
+    }
+    var rEl = document.getElementById('lift-radius');
+    if (rEl && d.liftRadius) rEl.value = d.liftRadius;
+    // 5. 层高表
+    if (d.flData && d.flData.length) {
+      window.FL_DATA = d.flData;
+      flRenderTable();
+    }
+    // 6. 吊次参数
+    if (d.kWeather) document.getElementById('diaoci-k-weather').value = d.kWeather;
+    if (d.kUtil) document.getElementById('diaoci-k-util').value = d.kUtil;
+    if (d.hours) document.getElementById('diaoci-hours').value = d.hours;
+    if (d.kOther) document.getElementById('diaoci-k-other').value = d.kOther;
+    // 7. 吊次机械+构件行
+    if (window._diaoci) {
+      if (d.diaociMachines && d.diaociMachines.length) _diaoci.machines = d.diaociMachines;
+      if (d.diaociRows && d.diaociRows.length) _diaoci.rows = d.diaociRows;
+      diaociRenderMachines();
+      diaociRenderRows();
+      diaociCalc();
+    }
+  } catch(e) { /* ignore restore errors */ }
+}
 
 // 全局错误捕获
 window.addEventListener('error', function(e) {
@@ -5092,6 +5185,7 @@ function flDoImportFromGrid() {
   flCancelImport();
   debounce(liftCalc, 'lc', 300);
   toast('✓ 导入 ' + imported.length + ' 层');
+  saveFormData();
 }
 
 // 旧 CSV 文件导入（兼容保留）
@@ -5187,6 +5281,7 @@ function flSegPfSelect(val, text) {
   if (wrap) wrap.classList.remove('open');
   // 触发重新计算
   debounce(liftCalc, 'lc', 150);
+  saveFormData();
 }
 // 点击外部关闭
 document.addEventListener('click', function(e) {
@@ -6557,6 +6652,7 @@ function diaociCalc() {
       if(tds[8]) tds[8].textContent = row.days>0?row.days.toFixed(1):'—';
     });
   }
+  saveFormData();
 }
 
 // ── 效率表渲染 ─────────────────────────────────────────────
@@ -7172,6 +7268,12 @@ function setInput(id, val) {
 
 
 
+</script>
+<script>
+// ── 页面加载时恢复表单数据 ─────────────────────────────────
+window.onload = function() {
+  restoreFormData();
+};
 </script>
 </body>
 </html>

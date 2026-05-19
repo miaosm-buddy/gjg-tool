@@ -1,7 +1,136 @@
 /* ============================================================
-   钢结构方案辅助工具 app.js  v2-20260622d
+   钢结构方案辅助工具 app.js  v2-20260709c
    新数据结构：crane.load_charts = {工况类型: {工况说明: {'配重|支腿': [行数据]}}}
    ============================================================ */
+
+// ── 表单数据持久化（防止刷新丢失）────────────────────────────
+var FORM_STORAGE_KEY = 'jg-lift-form-v1';
+
+function saveFormData() {
+  try {
+    // 截面参数
+    var sectionType = (document.getElementById('sec-main-type') || {value: 'HW'}).value;
+    var sectionParams = {};
+    var paramInputs = document.querySelectorAll('#secMainDims input[id^="sm_"]');
+    for (var i = 0; i < paramInputs.length; i++) {
+      var el = paramInputs[i];
+      if (el.id) sectionParams[el.id] = el.value;
+    }
+    // 截面识别文字
+    var secSmartInput = (document.getElementById('secSmartInput') || {value: ''}).value;
+    // 分段/参数
+    var liftSegPf   = (document.getElementById('lift-seg-pf') || {value: '1'}).value;
+    var liftAmp     = (document.getElementById('lift-amp') || {value: ''}).value;
+    var liftCrane   = (document.getElementById('lift-crane') || {value: ''}).value;
+    var liftRadius  = (document.getElementById('lift-radius') || {value: ''}).value;
+    var liftBoom    = (document.getElementById('lift-boom-sel') || {value: ''}).value;
+    // 吊次参数
+    var kWeather = (document.getElementById('diaoci-k-weather') || {value: ''}).value;
+    var kUtil    = (document.getElementById('diaoci-k-util') || {value: ''}).value;
+    var hours    = (document.getElementById('diaoci-hours') || {value: ''}).value;
+    var kOther   = (document.getElementById('diaoci-k-other') || {value: ''}).value;
+
+    var payload = {
+      sectionType: sectionType,
+      sectionParams: sectionParams,
+      secSmartInput: secSmartInput,
+      liftSegPf: liftSegPf,
+      liftAmp: liftAmp,
+      liftCrane: liftCrane,
+      liftRadius: liftRadius,
+      liftBoom: liftBoom,
+      kWeather: kWeather,
+      kUtil: kUtil,
+      hours: hours,
+      kOther: kOther,
+      flData: window.FL_DATA ? JSON.parse(JSON.stringify(window.FL_DATA)) : [],
+      diaociMachines: window._diaoci ? JSON.parse(JSON.stringify(window._diaoci.machines)) : [],
+      diaociRows: window._diaoci ? JSON.parse(JSON.stringify(window._diaoci.rows)) : []
+    };
+    localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(payload));
+  } catch(e) { /* ignore storage errors */ }
+}
+
+function restoreFormData() {
+  try {
+    var raw = localStorage.getItem(FORM_STORAGE_KEY);
+    if (!raw) return;
+    var d = JSON.parse(raw);
+    var typeSel = document.getElementById('sec-main-type');
+
+    // 1. 截面类型 + 参数（先重建字段再填值）
+    if (typeSel && d.sectionType) {
+      var oldOnchange = typeSel.onchange;
+      typeSel.onchange = null;
+      typeSel.value = d.sectionType;
+      secMainTypeChange(d.sectionType);
+      typeSel.onchange = oldOnchange;
+      if (d.sectionParams) {
+        Object.keys(d.sectionParams).forEach(function(k) {
+          var el = document.getElementById(k);
+          if (el) el.value = d.sectionParams[k];
+        });
+      }
+      updateMainSectionCalc();
+    }
+    // 截面识别文字
+    var siEl = document.getElementById('secSmartInput');
+    if (siEl && d.secSmartInput) siEl.value = d.secSmartInput;
+
+    // 2. 分段/节点放大
+    var pfEl = document.getElementById('lift-seg-pf');
+    if (pfEl && d.liftSegPf) { pfEl.value = d.liftSegPf; flSegPfUpdateUI(d.liftSegPf); }
+    var ampEl = document.getElementById('lift-amp');
+    if (ampEl && d.liftAmp) ampEl.value = d.liftAmp;
+
+    // 3. 机械 + 半径（先选机械以加载臂长选项）
+    var craneSel = document.getElementById('lift-crane');
+    if (craneSel && d.liftCrane) {
+      craneSel.value = d.liftCrane;
+      liftOnCraneChange();
+      var boomSel = document.getElementById('lift-boom-sel');
+      if (boomSel && d.liftBoom) boomSel.value = d.liftBoom;
+    }
+    var rEl = document.getElementById('lift-radius');
+    if (rEl && d.liftRadius) rEl.value = d.liftRadius;
+
+    // 4. 层高表
+    if (d.flData && d.flData.length) {
+      window.FL_DATA = d.flData;
+      flRenderTable();
+    }
+
+    // 5. 吊次参数
+    var kwEl = document.getElementById('diaoci-k-weather');
+    if (kwEl && d.kWeather) kwEl.value = d.kWeather;
+    var kuEl = document.getElementById('diaoci-k-util');
+    if (kuEl && d.kUtil) kuEl.value = d.kUtil;
+    var hEl = document.getElementById('diaoci-hours');
+    if (hEl && d.hours) hEl.value = d.hours;
+    var koEl = document.getElementById('diaoci-k-other');
+    if (koEl && d.kOther) koEl.value = d.kOther;
+
+    // 6. 吊次机械 + 构件行
+    if (window._diaoci) {
+      if (d.diaociMachines && d.diaociMachines.length) _diaoci.machines = d.diaociMachines;
+      if (d.diaociRows && d.diaociRows.length) _diaoci.rows = d.diaociRows;
+      diaociRenderMachines();
+      diaociRenderRows();
+      diaociCalc();
+    }
+  } catch(e) { /* ignore restore errors */ }
+}
+
+// ── flSegPfUpdateUI：更新分段下拉文字显示 ──────────────────
+function flSegPfUpdateUI(val) {
+  var map = {1:'一层一段',2:'两层一段',3:'一层两段',4:'两层两段',5:'三层一段'};
+  var textEl = document.getElementById('lift-seg-pf-text');
+  var wrap = document.getElementById('lift-seg-pf-wrap');
+  if (textEl) textEl.textContent = map[val] || '一层一段';
+  if (wrap) wrap.classList.remove('open');
+  var dropdown = document.getElementById('lift-seg-pf-dropdown');
+  if (dropdown) dropdown.style.display = '';
+}
 
 // 全局错误捕获
 window.addEventListener('error', function(e) {
@@ -2544,6 +2673,7 @@ window.updateMainSectionCalc = function() {
 
   // 通知 liftCalc
   debounce(liftCalc, 'ls', 300);
+  saveFormData();
 };
 
 function showSecEmptyState() {
@@ -3089,6 +3219,7 @@ function flLoadFromUI() {
     if (!name && h <= 0) continue;
     FL_DATA.push({ name: name, elevation: elev, height: h, zone: zone || '' });
   }
+  saveFormData();
 }
 
 // 渲染层高表到 DOM（v3 — 紧凑行高 + 左侧分区边条 + 高度条加粗）
@@ -3489,6 +3620,7 @@ function flDoImportFromGrid() {
   flCancelImport();
   debounce(liftCalc, 'lc', 300);
   toast('✓ 导入 ' + imported.length + ' 层');
+  saveFormData();
 }
 
 // 旧 CSV 文件导入（兼容保留）
@@ -3584,6 +3716,7 @@ function flSegPfSelect(val, text) {
   if (wrap) wrap.classList.remove('open');
   // 触发重新计算
   debounce(liftCalc, 'lc', 150);
+  saveFormData();
 }
 // 点击外部关闭
 document.addEventListener('click', function(e) {
@@ -4954,6 +5087,7 @@ function diaociCalc() {
       if(tds[8]) tds[8].textContent = row.days>0?row.days.toFixed(1):'—';
     });
   }
+  saveFormData();
 }
 
 // ── 效率表渲染 ─────────────────────────────────────────────
@@ -5169,6 +5303,11 @@ function diaociSaveEffEdit() {
   _diaociEffEditMode = false;
   diaociToggleEffEdit();
 }
+
+// ── 页面加载时恢复表单数据 ─────────────────────────────────
+window.onload = function() {
+  restoreFormData();
+};
 
 function diaociResetEff() {
   if(!confirm('确认重置效率表？自定义修改将丢失。')) return;

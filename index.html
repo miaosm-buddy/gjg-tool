@@ -913,7 +913,7 @@
             <div class="sec-type-row">
               <div class="form-group">
                 <label>截面类型 <span class="req">*</span></label>
-                <select id="sec-main-type" onchange="secMainTypeChange()">
+                <select id="sec-main-type" onchange="secMainTypeChange();saveFormData()">
                   <option value="HW">H型钢</option>
                   <option value="BOX">箱型截面 □/▭</option>
                   <option value="CHS">圆管 Ø</option>
@@ -1085,7 +1085,7 @@
             </div>
             <div class="fl-seg-item">
               <label>节点放大系数</label>
-              <input type="number" inputmode="decimal" id="lift-amp" placeholder="1.05" step="0.01" min="1.0" value="1.05" oninput="let v=this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');if(v&&isNaN(parseFloat(v)))v='';this.value=v;debounce(liftCalc,'lc',200)">
+              <input type="number" inputmode="decimal" id="lift-amp" placeholder="1.05" step="0.01" min="1.0" value="1.05" oninput="let v=this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');if(v&&isNaN(parseFloat(v)))v='';this.value=v;debounce(liftCalc,'lc',200);saveFormData()">
             </div>
           </div>
           <div class="lift-calc-summary" id="liftCalcSummary"></div>
@@ -1103,18 +1103,18 @@
         <div class="lift-card-body">
         <div class="form-group">
           <label>选用机械 <span class="req">*</span></label>
-          <select id="lift-crane" onchange="liftOnCraneChange()">
+          <select id="lift-crane" onchange="liftOnCraneChange();saveFormData()">
             <option value="">— 先在「选型」页选型 —</option>
           </select>
         </div>
         <div class="form-grid-2">
           <div class="form-group">
             <label>吊装半径 R (m) <span class="req">*</span></label>
-            <input type="number" id="lift-radius" placeholder="如：30" step="0.5" min="1" value="30" oninput="debounce(updateLiftTableCrane, 'rc', 200)">
+            <input type="number" id="lift-radius" placeholder="如：30" step="0.5" min="1" value="30" oninput="debounce(updateLiftTableCrane, 'rc', 200);saveFormData()">
           </div>
           <div class="form-group">
             <label>臂长 (m)</label>
-            <select id="lift-boom-sel" onchange="debounce(updateLiftTableCrane, 'rc', 150)">
+            <select id="lift-boom-sel" onchange="debounce(updateLiftTableCrane, 'rc', 150);saveFormData()">
               <option value="">— 自动匹配 —</option>
             </select>
           </div>
@@ -1360,28 +1360,28 @@
         <div class="dc-param-item">
           <label class="dc-param-label">天气/工序系数</label>
           <div class="dc-param-control">
-            <input type="number" id="diaoci-k-weather" value="1.2" step="0.05" min="0.1" oninput="diaociCalc()">
+            <input type="number" id="diaoci-k-weather" value="1.2" step="0.05" min="0.1" oninput="diaociCalc();saveFormData()">
             <span class="dc-param-hint">雨雪/交叉</span>
           </div>
         </div>
         <div class="dc-param-item">
           <label class="dc-param-label">土建与钢结构占比</label>
           <div class="dc-param-control">
-            <input type="number" id="diaoci-k-util" value="0.8" step="0.05" min="0.1" max="1" oninput="diaociCalc()">
+            <input type="number" id="diaoci-k-util" value="0.8" step="0.05" min="0.1" max="1" oninput="diaociCalc();saveFormData()">
             <span class="dc-param-hint">塔吊设置</span>
           </div>
         </div>
         <div class="dc-param-item">
           <label class="dc-param-label">每日工作时长</label>
           <div class="dc-param-control">
-            <input type="number" id="diaoci-hours" value="10" step="1" min="1" oninput="diaociCalc()">
+            <input type="number" id="diaoci-hours" value="10" step="1" min="1" oninput="diaociCalc();saveFormData()">
             <span class="dc-param-hint">小时/天</span>
           </div>
         </div>
         <div class="dc-param-item">
           <label class="dc-param-label">其他吊装占比</label>
           <div class="dc-param-control">
-            <input type="number" id="diaoci-k-other" value="0.1" step="0.05" min="0" max="1" oninput="diaociCalc()">
+            <input type="number" id="diaoci-k-other" value="0.1" step="0.05" min="0" max="1" oninput="diaociCalc();saveFormData()">
             <span class="dc-param-hint">气瓶/焊机</span>
           </div>
         </div>
@@ -1613,7 +1613,7 @@
 
 </div><!-- /app-main -->
 <script src="data.js?v=v2-20260622b"></script>
-<script src="app.js?v=v2-20260709b"></script>
+<script src="app.js?v=v2-20260709c"></script>
 <!-- 分段类型建议（datalist，供input list属性引用） -->
 <datalist id="diaoci-segtype-list">
   <option value="整根吊装">
