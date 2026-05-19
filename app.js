@@ -2847,9 +2847,12 @@ function drawSectionSVG(s) {
     var BTot = Math.max(b1, h2);
     if (!h1||!b1||!h2||!b2) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'"><rect width="'+W+'" height="'+H+'" rx="8" fill="#f4f5f9"/><text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="#656d76" font-size="13">参数不全</text></svg>';
 
-    // ── 动态画布（加大边距适配大字号）───────────────────────
+    // ── 动态画布（加大边距适配大字号+延长引线）───────────────────────
     var needW = BTot + 360, needH = HTot + 420;
     var cW = Math.max(520, needW), cH = Math.max(460, needH);
+    // 增大画布以容纳延长引线
+    cW = Math.max(cW, BTot + 480);
+    cH = Math.max(cH, HTot + 500);
     var ccx = cW/2, ccy = cH/2;
     var scale = Math.min((cW - 160) / BTot, (cH - 160) / HTot) * 0.78;
 
@@ -2915,10 +2918,8 @@ function drawSectionSVG(s) {
     //  H=/B=：红点在截面轮廓实际边界上，水平/垂直引线无缝连接
     // ══════════════════════════════════════════════════════════
 
-    // 字号
-    var fsH = 32;   // H= / B= 总尺寸
-    var fsD = 28;   // h1/h2/b1/b2 副尺寸
-    var fsT = 26;   // tf/tw 厚度标注（翼缘/腹板厚度，加大）
+    // 字号（统一字号）
+    var FS = 28;    // 全部标注统一 28px
     var R = 3.5;    // 红点半径
 
     // ── 计算截面的实际几何边界（用于标注定位）─────────────
@@ -2930,49 +2931,42 @@ function drawSectionSVG(s) {
     var actLft = Math.min(vL, hL);       // 截面实际最左 x
     var actRgt = Math.max(vR, hR);       // 截面实际最右 x
 
-    // ── H= 总高：右侧垂直标注线 ────────────────────────────
-    // 红点直接在截面最右-最上角和最右-最下角，水平引线无缝连接
+    // ── H= 总高：右侧垂直标注线（延长引线+横向文字）────────
     {
-      var lxH = actRgt + 80;  // 垂直标注线 x（加大间距）
-      var y_top = actTop;      // ← 直接在截面上边界，无偏移
-      var y_bot = actBot;      // ← 直接在截面下边界，无偏移
+      var lxH = actRgt + 140;  // 延长引线
+      var y_top = actTop;
+      var y_bot = actBot;
       var y_mid = (y_top + y_bot) / 2;
-      // 水平引线（红点在截面边界上，无间隙直接引出）
       svg += '<circle cx="'+f2(actRgt)+'" cy="'+f2(y_top)+'" r="'+R+'" fill="'+DC+'"/>';
       svg += '<circle cx="'+f2(actRgt)+'" cy="'+f2(y_bot)+'" r="'+R+'" fill="'+DC+'"/>';
       svg += '<line x1="'+f2(actRgt)+'" y1="'+f2(y_top)+'" x2="'+f2(lxH)+'" y2="'+f2(y_top)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
       svg += '<line x1="'+f2(actRgt)+'" y1="'+f2(y_bot)+'" x2="'+f2(lxH)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
-      // 垂直粗虚线（连接两引出点）
       svg += '<line x1="'+f2(lxH)+'" y1="'+f2(y_top)+'" x2="'+f2(lxH)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="2" stroke-dasharray="8,4"/>';
-      // 端点短横线
       svg += '<line x1="'+f2(lxH-7)+'" y1="'+f2(y_top)+'" x2="'+f2(lxH+7)+'" y2="'+f2(y_top)+'" stroke="'+DC+'" stroke-width="2"/>';
       svg += '<line x1="'+f2(lxH-7)+'" y1="'+f2(y_bot)+'" x2="'+f2(lxH+7)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="2"/>';
-      // 文字（竖排，垂直标注线右侧）
-      svg += '<text x="'+f2(lxH+28)+'" y="'+f2(y_mid)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsH+'" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(lxH+28)+','+f2(y_mid)+')">H = '+HTot+' mm</text>';
+      // 文字横向显示于垂直引线左侧
+      svg += '<text x="'+f2(lxH-12)+'" y="'+f2(y_mid)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(lxH-12)+','+f2(y_mid)+')">H = '+HTot+' mm</text>';
     }
 
-    // ── B= 总宽：下方水平标注线 ────────────────────────────
-    // 红点在截面最左-最下角和最右-最下角，垂直引线无缝连接
+    // ── B= 总宽：下方水平标注线（延长引线）─────────────────
     {
-      var lyB = actBot + 80;  // 水平标注线 y（加大间距）
-      var x_left = actLft;     // ← 直接在截面左边界，无偏移
-      var x_right = actRgt;    // ← 直接在截面右边界，无偏移
+      var lyB = actBot + 140;  // 延长引线
+      var x_left = actLft;
+      var x_right = actRgt;
       var x_mid = (x_left + x_right) / 2;
       svg += '<circle cx="'+f2(x_left)+'"  cy="'+f2(actBot)+'" r="'+R+'" fill="'+DC+'"/>';
       svg += '<circle cx="'+f2(x_right)+'" cy="'+f2(actBot)+'" r="'+R+'" fill="'+DC+'"/>';
       svg += '<line x1="'+f2(x_left)+'"  y1="'+f2(actBot)+'" x2="'+f2(x_left)+'"  y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
       svg += '<line x1="'+f2(x_right)+'" y1="'+f2(actBot)+'" x2="'+f2(x_right)+'" y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
-      // 水平粗虚线
       svg += '<line x1="'+f2(x_left)+'" y1="'+f2(lyB)+'" x2="'+f2(x_right)+'" y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="2" stroke-dasharray="8,4"/>';
       svg += '<line x1="'+f2(x_left)+'"  y1="'+f2(lyB-7)+'" x2="'+f2(x_left)+'"  y2="'+f2(lyB+7)+'" stroke="'+DC+'" stroke-width="2"/>';
       svg += '<line x1="'+f2(x_right)+'" y1="'+f2(lyB-7)+'" x2="'+f2(x_right)+'" y2="'+f2(lyB+7)+'" stroke="'+DC+'" stroke-width="2"/>';
-      svg += '<text x="'+f2(x_mid)+'" y="'+f2(lyB+26)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsH+'" font-weight="700" font-family="system-ui,sans-serif">B = '+BTot+' mm</text>';
+      svg += '<text x="'+f2(x_mid)+'" y="'+f2(lyB+30)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="700" font-family="system-ui,sans-serif">B = '+BTot+' mm</text>';
     }
 
-    // ── b1：截面上方（始终标注）────────────────────────────
-    // 竖H翼缘左右边界各红点 → 垂直虚线向上 → 水平标注线
+    // ── b1：截面上方（始终标注，延长引线）──────────────────
     {
-      var y_b1 = actTop - 42;
+      var y_b1 = actTop - 65;  // 延长
       var xl_b1 = vL, xr_b1 = vR;
       svg += '<circle cx="'+f2(xl_b1)+'" cy="'+f2(actTop)+'" r="'+R+'" fill="'+DC+'"/>';
       svg += '<circle cx="'+f2(xr_b1)+'" cy="'+f2(actTop)+'" r="'+R+'" fill="'+DC+'"/>';
@@ -2981,13 +2975,12 @@ function drawSectionSVG(s) {
       svg += '<line x1="'+f2(xl_b1)+'" y1="'+f2(y_b1)+'" x2="'+f2(xr_b1)+'" y2="'+f2(y_b1)+'" stroke="'+DC+'" stroke-width="1.4"/>';
       svg += '<line x1="'+f2(xl_b1)+'" y1="'+f2(y_b1-5)+'" x2="'+f2(xl_b1)+'" y2="'+f2(y_b1+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
       svg += '<line x1="'+f2(xr_b1)+'" y1="'+f2(y_b1-5)+'" x2="'+f2(xr_b1)+'" y2="'+f2(y_b1+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
-      svg += '<text x="'+f2((xl_b1+xr_b1)/2)+'" y="'+f2(y_b1-9)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif">b₁ = '+b1+' mm</text>';
+      svg += '<text x="'+f2((xl_b1+xr_b1)/2)+'" y="'+f2(y_b1-10)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="600" font-family="system-ui,sans-serif">b₁ = '+b1+' mm</text>';
     }
 
-    // ── h2：截面上方（仅 h2<b1 时标注）────────────────────
-    // 网上移（大间距避免与b1文字重叠），字号缩小
+    // ── h2：截面上方（仅 h2<b1 时标注，延长引线）───────────
     {
-      var y_h2 = actTop - 120;  // 大幅上移，避免与b1重叠
+      var y_h2 = actTop - 155;  // 大幅上移，避免与b1重叠
       var xl_h2 = hL, xr_h2 = hR;
       svg += '<circle cx="'+f2(xl_h2)+'" cy="'+f2(ccy)+'" r="'+R+'" fill="'+DC+'"/>';
       svg += '<circle cx="'+f2(xr_h2)+'" cy="'+f2(ccy)+'" r="'+R+'" fill="'+DC+'"/>';
@@ -2997,14 +2990,13 @@ function drawSectionSVG(s) {
       svg += '<line x1="'+f2(xl_h2)+'" y1="'+f2(y_h2)+'" x2="'+f2(xr_h2)+'" y2="'+f2(y_h2)+'" stroke="'+DC+'" stroke-width="1.4"/>';
       svg += '<line x1="'+f2(xl_h2)+'" y1="'+f2(y_h2-5)+'" x2="'+f2(xl_h2)+'" y2="'+f2(y_h2+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
       svg += '<line x1="'+f2(xr_h2)+'" y1="'+f2(y_h2-5)+'" x2="'+f2(xr_h2)+'" y2="'+f2(y_h2+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
-      svg += '<text x="'+f2((xl_h2+xr_h2)/2)+'" y="'+f2(y_h2-9)+'" text-anchor="middle" fill="'+DC+'" font-size="20" font-weight="600" font-family="system-ui,sans-serif">h₂ = '+h2+' mm</text>';
+      svg += '<text x="'+f2((xl_h2+xr_h2)/2)+'" y="'+f2(y_h2-10)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="600" font-family="system-ui,sans-serif">h₂ = '+h2+' mm</text>';
     }
 
-    // ── 左侧副尺寸（h1 或 b2）─────────────────────────────
+    // ── 左侧副尺寸（h1 或 b2，延长引线）──────────────────
     {
       if (h1 < b2) {
-        // h1 < b2 → H=b2，左侧标注 h1
-        var xl = actLft - 52;
+        var xl = actLft - 90;  // 延长
         svg += '<circle cx="'+f2(vL)+'" cy="'+f2(vT)+'" r="'+R+'" fill="'+DC+'"/>';
         svg += '<circle cx="'+f2(vL)+'" cy="'+f2(vB)+'" r="'+R+'" fill="'+DC+'"/>';
         svg += '<line x1="'+f2(vL)+'" y1="'+f2(vT)+'" x2="'+f2(xl)+'" y2="'+f2(vT)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
@@ -3012,10 +3004,10 @@ function drawSectionSVG(s) {
         svg += '<line x1="'+f2(xl)+'" y1="'+f2(vT)+'" x2="'+f2(xl)+'" y2="'+f2(vB)+'" stroke="'+DC+'" stroke-width="1.4"/>';
         svg += '<line x1="'+f2(xl-5)+'" y1="'+f2(vT)+'" x2="'+f2(xl+5)+'" y2="'+f2(vT)+'" stroke="'+DC+'" stroke-width="1.4"/>';
         svg += '<line x1="'+f2(xl-5)+'" y1="'+f2(vB)+'" x2="'+f2(xl+5)+'" y2="'+f2(vB)+'" stroke="'+DC+'" stroke-width="1.4"/>';
-        svg += '<text x="'+f2(xl-12)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(xl-12)+','+f2(ccy)+')">h₁ = '+h1+' mm</text>';
+        // 横向文字：左侧垂直引线内侧
+        svg += '<text x="'+f2(xl-12)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(xl-12)+','+f2(ccy)+')">h₁ = '+h1+' mm</text>';
       } else if (b2 < h1) {
-        // b2 < h1 → H=h1，左侧标注 b2
-        var xl = actLft - 52;
+        var xl = actLft - 90;
         svg += '<circle cx="'+f2(hL)+'" cy="'+f2(hT)+'" r="'+R+'" fill="'+DC+'"/>';
         svg += '<circle cx="'+f2(hL)+'" cy="'+f2(hB)+'" r="'+R+'" fill="'+DC+'"/>';
         svg += '<line x1="'+f2(hL)+'" y1="'+f2(hT)+'" x2="'+f2(xl)+'" y2="'+f2(hT)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
@@ -3023,48 +3015,59 @@ function drawSectionSVG(s) {
         svg += '<line x1="'+f2(xl)+'" y1="'+f2(hT)+'" x2="'+f2(xl)+'" y2="'+f2(hB)+'" stroke="'+DC+'" stroke-width="1.4"/>';
         svg += '<line x1="'+f2(xl-5)+'" y1="'+f2(hT)+'" x2="'+f2(xl+5)+'" y2="'+f2(hT)+'" stroke="'+DC+'" stroke-width="1.4"/>';
         svg += '<line x1="'+f2(xl-5)+'" y1="'+f2(hB)+'" x2="'+f2(xl+5)+'" y2="'+f2(hB)+'" stroke="'+DC+'" stroke-width="1.4"/>';
-        svg += '<text x="'+f2(xl-12)+'" y="'+f2((hT+hB)/2)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(xl-12)+','+f2((hT+hB)/2)+')">b₂ = '+b2+' mm</text>';
+        svg += '<text x="'+f2(xl-12)+'" y="'+f2((hT+hB)/2)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(xl-12)+','+f2((hT+hB)/2)+')">b₂ = '+b2+' mm</text>';
       }
     }
 
-    // ── tf1：竖H上翼缘厚，左侧外（字号加大）────────────────
-    // 红点在翼缘厚度矩形中心 → 水平虚线向左外引 → 竖排文字
+    // ── tf1：竖H上翼缘厚，折线引出至截面上方空白，横向文字──
+    // 从翼缘分中点 → 垂直向下 → 水平向左 → 文字横向置于上方
     {
-      var xl_tf1 = actLft - 130;
-      var y_tf1 = vT + sTf1 / 2;  // 翼缘厚度矩形中心
-      svg += '<circle cx="'+f2(vL + sTf1/2)+'" cy="'+f2(y_tf1)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(vL + sTf1/2)+'" y1="'+f2(y_tf1)+'" x2="'+f2(xl_tf1)+'" y2="'+f2(y_tf1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<text x="'+f2(xl_tf1-10)+'" y="'+f2(y_tf1)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(xl_tf1-10)+','+f2(y_tf1)+')">tf₁ = '+tf1+'</text>';
+      var x_tf1_corner = vL + sTf1 / 2;  // 翼缘分中点 x
+      var y_tf1_corner = actTop - 60;     // 折线拐点 y（截面上方空白区）
+      var x_tf1_text = x_tf1_corner - 30; // 文字水平位置（向左伸出）
+      var y_tf1_src = vT + sTf1 / 2;     // 翼缘分中点 y
+      svg += '<circle cx="'+f2(x_tf1_corner)+'" cy="'+f2(y_tf1_src)+'" r="'+R+'" fill="'+DC+'"/>';
+      // 折线：翼缘分中点 → 垂直向下 → 水平向左
+      svg += '<polyline points="'+f2(x_tf1_corner)+','+f2(y_tf1_src)+' '+f2(x_tf1_corner)+','+f2(y_tf1_corner)+' '+f2(actLft-20)+','+f2(y_tf1_corner)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3" fill="none"/>';
+      // 横向文字
+      svg += '<text x="'+f2(x_tf1_text)+'" y="'+f2(y_tf1_corner-10)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="600" font-family="system-ui,sans-serif">tf₁ = '+tf1+'</text>';
     }
 
-    // ── tw1：竖H腹板厚，截面内侧（字号加大）────────────────
-    // 红点在竖腹板左边界中点 → 水平虚线向右内侧引 → 横排文字
+    // ── tw1：竖H腹板厚，折线引出至截面左侧空白，横向文字──
+    // 从竖腹板左边界中点 → 水平向左 → 折入左侧空白 → 文字横向
     {
-      var y_tw1 = ccy;
-      var x_tw1_l = vwL + sTw1 + 36;  // 腹板右侧内 + 间距
-      svg += '<circle cx="'+f2(vwL)+'" cy="'+f2(y_tw1)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(vwL)+'" y1="'+f2(y_tw1)+'" x2="'+f2(x_tw1_l - 6)+'" y2="'+f2(y_tw1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<text x="'+f2(x_tw1_l)+'" y="'+f2(y_tw1 + 8)+'" text-anchor="start" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif">tw₁ = '+tw1+'</text>';
+      var y_tw1_src = ccy;
+      var x_tw1_corner = actLft - 65;   // 折线拐点 x
+      var y_tw1_text = ccy + 40;         // 文字 y（向下偏移避免遮挡中心轴）
+      svg += '<circle cx="'+f2(vwL)+'" cy="'+f2(y_tw1_src)+'" r="'+R+'" fill="'+DC+'"/>';
+      // 折线：腹板左边界中点 → 水平向左 → 文字区
+      svg += '<polyline points="'+f2(vwL)+','+f2(y_tw1_src)+' '+f2(x_tw1_corner)+','+f2(y_tw1_src)+' '+f2(x_tw1_corner)+','+f2(y_tw1_text)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3" fill="none"/>';
+      svg += '<text x="'+f2(x_tw1_corner-8)+'" y="'+f2(y_tw1_text+10)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="600" font-family="system-ui,sans-serif">tw₁ = '+tw1+'</text>';
     }
 
-    // ── tf2：横H上翼缘厚，右侧外（字号加大）────────────────
-    // 红点在翼缘厚度矩形中心 → 水平虚线向右外引 → 竖排文字
+    // ── tf2：横H左翼缘厚，折线引出至截面右方空白，横向文字──
+    // 从横H左翼缘分中点 → 水平向右 → 折线上方 → 文字横向
     {
-      var xr_tf2 = actRgt + 95;
-      var y_tf2 = hT + sTf2 / 2;
-      svg += '<circle cx="'+f2(hR - sTf2/2)+'" cy="'+f2(y_tf2)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(hR - sTf2/2)+'" y1="'+f2(y_tf2)+'" x2="'+f2(xr_tf2)+'" y2="'+f2(y_tf2)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<text x="'+f2(xr_tf2+10)+'" y="'+f2(y_tf2)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(xr_tf2+10)+','+f2(y_tf2)+')">tf₂ = '+tf2+'</text>';
+      var y_tf2_src = hT + sTf2 / 2;  // 横H左翼缘分中点 y
+      var x_tf2_corner = actRgt + 160; // 折线终点 x
+      var y_tf2_corner = y_tf2_src;   // 水平引出
+      var x_tf2_text = x_tf2_corner + 25; // 文字位置
+      svg += '<circle cx="'+f2(hL + sTf2/2)+'" cy="'+f2(y_tf2_src)+'" r="'+R+'" fill="'+DC+'"/>';
+      // 折线：翼缘分中点 → 水平向右 → 文字区
+      svg += '<polyline points="'+f2(hL+sTf2/2)+','+f2(y_tf2_src)+' '+f2(x_tf2_corner)+','+f2(y_tf2_corner)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3" fill="none"/>';
+      svg += '<text x="'+f2(x_tf2_text)+'" y="'+f2(y_tf2_src-10)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="600" font-family="system-ui,sans-serif">tf₂ = '+tf2+'</text>';
     }
 
-    // ── tw2：横H腹板厚，截面内侧（字号加大）────────────────
-    // 红点在横腹板上边界中点 → 垂直虚线向下内侧引 → 横排文字
+    // ── tw2：横H腹板厚，折线引出至截面下方空白，横向文字──
+    // 从横腹板上边界中点 → 垂直向下穿过截面 → 折入下方空白 → 文字横向
     {
-      var x_tw2 = ccx;
-      var y_tw2_t = hwT + sTw2 + 20;  // 腹板下方内 + 间距，避免与截面线碰撞
-      svg += '<circle cx="'+f2(x_tw2)+'" cy="'+f2(hwT)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(x_tw2)+'" y1="'+f2(hwT)+'" x2="'+f2(x_tw2)+'" y2="'+f2(y_tw2_t + 5)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<text x="'+f2(x_tw2)+'" y="'+f2(y_tw2_t + 7)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif">tw₂ = '+tw2+'</text>';
+      var x_tw2_src = ccx;
+      var y_tw2_corner = actBot + 100;  // 折线拐点 y（截面下方空白区）
+      var x_tw2_text = ccx;
+      svg += '<circle cx="'+f2(x_tw2_src)+'" cy="'+f2(hwT)+'" r="'+R+'" fill="'+DC+'"/>';
+      // 折线：腹板上边界中点 → 垂直向下 → 文字区
+      svg += '<polyline points="'+f2(x_tw2_src)+','+f2(hwT)+' '+f2(x_tw2_src)+','+f2(y_tw2_corner)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3" fill="none"/>';
+      svg += '<text x="'+f2(x_tw2_text)+'" y="'+f2(y_tw2_corner+28)+'" text-anchor="middle" fill="'+DC+'" font-size="'+FS+'" font-weight="600" font-family="system-ui,sans-serif">tw₂ = '+tw2+'</text>';
     }
 
     // ── 标题栏（字号加大）────────────────────────────────────
