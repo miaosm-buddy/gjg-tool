@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<link rel="stylesheet" href="style.css?v=v2-20260622c"></head>
+<link rel="stylesheet" href="style.css?v=v2-20260709b"></head>
 <body>
 
 <!-- ========== 左侧可折叠导航栏 ========== -->
@@ -30,7 +30,7 @@
     </button>
     <button class="app-nav-btn" id="nav-lib" onclick="sp('lib')">
       <span class="app-nav-icon">📋</span>
-      <span class="app-nav-label">机型库</span>
+      <span class="app-nav-label">机械库</span>
     </button>
     <button class="app-nav-btn" id="nav-lift" onclick="sp('lift')">
       <span class="app-nav-icon">🏗</span>
@@ -87,7 +87,7 @@
     </div>
     <div class="func-card func-card-lib" onclick="sp('lib')">
       <div class="func-card-icon">📋</div>
-      <div class="func-card-title">机型库</div>
+      <div class="func-card-title">机械库</div>
       <div class="func-card-desc">浏览全部机型，查看详细参数和载荷表</div>
     </div>
     <div class="func-card func-card-lift" onclick="sp('lift')">
@@ -677,7 +677,7 @@
 <!-- ========== 机型库 ========== -->
 <div class="page" id="page-lib">
   <div class="lib-header">
-    <h2>机型库 <span id="libStat" class="lib-stat-text"></span></h2>
+    <h2>机械库 <span id="libStat" class="lib-stat-text"></span></h2>
   </div>
   <div class="search-bar">
     <input type="text" id="libS" placeholder="🔍 搜索品牌 / 型号…" oninput="renderLib(1)">
@@ -873,10 +873,40 @@
     <!-- 左栏：参数输入 -->
     <div class="lift-left">
 
-      <!-- 截面输入 -->
-      <div class="lift-card">
-        <h3 class="lift-card-title">截面信息</h3>
+      <!-- 截面识别（智能解析输入） -->
+      <div class="lift-card" id="secSmartCard">
+        <h3 class="lift-card-title">🔍 截面识别
+          <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.lift-card'))" title="折叠/展开">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </h3>
+        <div class="lift-card-body">
+        <div class="sec-smart-body">
+          <div class="sec-smart-input-row">
+            <input type="text" id="secSmartInput" class="sec-smart-input"
+              placeholder="输入截面型号，如 HN400×200、□500×500×12、Ø273×8"
+              onkeydown="if(event.key==='Enter')secSmartParse()">
+            <button class="btn btn-primary btn-sm" onclick="secSmartParse()">识别</button>
+          </div>
+          <div class="sec-smart-hint" id="secSmartHint">支持：H型钢(H)、箱型(B)、圆管(P)、十字柱(十)、异形截面(异)</div>
+          <div class="sec-smart-preview" id="secSmartPreview" style="display:none">
+            <span class="sec-smart-preview-type" id="secSmartPreviewType"></span>
+            <span class="sec-smart-preview-name" id="secSmartPreviewName"></span>
+            <span class="sec-smart-preview-dims" id="secSmartPreviewDims"></span>
+            <button class="btn btn-outline btn-xs" onclick="secSmartApply()">应用此截面</button>
+          </div>
+        </div>
+        </div><!-- /.lift-card-body -->
+      </div>
 
+      <!-- 截面输入 -->
+      <div class="lift-card" id="lift-card-sec">
+        <h3 class="lift-card-title">截面信息
+          <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.lift-card'))" title="折叠/展开">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </h3>
+        <div class="lift-card-body">
         <!-- ── 参数输入面板 ── -->
         <div id="secPanel-input">
           <div class="sec-main-input">
@@ -891,6 +921,7 @@
                   <option value="CUSTOM">异形截面</option>
                 </select>
               </div>
+              <button class="btn btn-outline btn-sm" style="margin-left:auto;white-space:nowrap" onclick="openSectionPicker()">📚 从截面库选择</button>
             </div>
             <div class="sec-dims-row" id="secMainDims">
               <!-- 动态参数输入（根据类型切换） -->
@@ -922,6 +953,7 @@
                   <span id="secTypeLabel">H型钢</span>
                 </div>
                 <div id="liftSecModel" class="sec-name">—</div>
+                <button class="btn btn-outline btn-xs" style="margin-left:auto;flex-shrink:0" onclick="openSectionPicker()">📚 重新选择</button>
               </div>
               <!-- 关键指标卡片（仅截面积 + 线重，两列） -->
               <div class="sec-metric-row">
@@ -941,12 +973,17 @@
             </div>
           </div>
         </div>
+        </div><!-- /.lift-card-body -->
       </div>
 
       <!-- 分段参数 -->
-      <div class="lift-card">
-        <h3 class="lift-card-title">层高表</h3>
-
+      <div class="lift-card" id="lift-card-height">
+        <h3 class="lift-card-title">层高表
+          <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.lift-card'))" title="折叠/展开">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </h3>
+        <div class="lift-card-body">
         <!-- 顶部工具栏 -->
         <div class="fl-toolbar">
           <div class="fl-toolbar-left">
@@ -1048,16 +1085,22 @@
             </div>
             <div class="fl-seg-item">
               <label>节点放大系数</label>
-              <input type="text" inputmode="decimal" id="lift-amp" placeholder="1.05" step="0.01" min="1.0" value="1.05" pattern="[0-9.]*" oninput="let v=this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');if(v&&isNaN(parseFloat(v)))v='';this.value=v;debounce(liftCalc,'lc',200)">
+              <input type="number" inputmode="decimal" id="lift-amp" placeholder="1.05" step="0.01" min="1.0" value="1.05" oninput="let v=this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');if(v&&isNaN(parseFloat(v)))v='';this.value=v;debounce(liftCalc,'lc',200)">
             </div>
           </div>
           <div class="lift-calc-summary" id="liftCalcSummary"></div>
         </div>
+        </div><!-- /.lift-card-body -->
       </div>
 
       <!-- 吊装参数 -->
-      <div class="lift-card">
-        <h3 class="lift-card-title">吊装参数</h3>
+      <div class="lift-card" id="lift-card-params">
+        <h3 class="lift-card-title">吊装参数
+          <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.lift-card'))" title="折叠/展开">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </h3>
+        <div class="lift-card-body">
         <div class="form-group">
           <label>选用机械 <span class="req">*</span></label>
           <select id="lift-crane" onchange="liftOnCraneChange()">
@@ -1081,6 +1124,7 @@
           <div class="lp-item"><span class="lp-l">额定起重量</span><span class="lp-v" id="liftCraneRated">—</span></div>
           <div class="lp-item"><span class="lp-l">当前半径额定</span><span class="lp-v accent" id="liftCraneAtR">—</span></div>
         </div>
+        </div><!-- /.lift-card-body -->
       </div>
 
       <button class="btn btn-primary lift-btn" onclick="liftCalc()">🧮 计算分段</button>
@@ -1089,13 +1133,18 @@
 
     <!-- 右栏：结果表格 -->
     <div class="lift-right">
-      <div class="lift-card lift-card-full">
+      <div class="lift-card lift-card-full" id="lift-card-table">
         <div class="lift-table-header">
-          <h3 class="lift-card-title">分段吊装表</h3>
+          <h3 class="lift-card-title">分段吊装表
+            <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.lift-card'))" title="折叠/展开">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </h3>
           <div class="lift-table-actions">
             <button class="btn btn-secondary btn-sm" onclick="liftExportCsv()">⬇ 导出 CSV</button>
           </div>
         </div>
+        <div class="lift-card-body">
         <div class="lift-table-wrap" id="liftTableWrap">
           <div class="lift-empty" id="liftEmpty">
             <div class="icon">📋</div>
@@ -1118,6 +1167,7 @@
             <tbody id="liftTableBody"></tbody>
           </table>
         </div>
+        </div><!-- /.lift-card-body -->
       </div>
     </div><!-- /lift-right -->
 
@@ -1282,33 +1332,30 @@
   <div id="diaoci-panel-table" style="display:flex;flex-direction:column;gap:16px;padding:20px">
 
     <!-- 机械组合区 -->
-    <div class="dc-card">
-      <div class="dc-card-header">
-        <div class="dc-card-title">
-          <span class="dc-icon">🚜</span>
-          <div>
-            <div>机械选择</div>
-            <div class="dc-card-desc">选择机械类型和吨位，设置每种机械的数量</div>
-          </div>
-        </div>
-        <button class="btn btn-primary btn-sm" onclick="diaociAddMachine()">＋ 添加机械</button>
-      </div>
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">🚜 机械选择
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="dc-card-desc">选择机械类型和吨位，设置每种机械的数量</div>
+      <div class="lift-card-body">
+      <button class="btn btn-primary btn-sm" onclick="diaociAddMachine()" style="margin-bottom:14px">＋ 添加机械</button>
       <div id="diaoci-machines">
         <!-- 动态填充 -->
       </div>
+      </div><!-- /.lift-card-body -->
     </div>
 
     <!-- 调整参数 -->
-    <div class="dc-card">
-      <div class="dc-card-header">
-        <div class="dc-card-title">
-          <span class="dc-icon">📝</span>
-          <div>
-            <div>调整参数</div>
-            <div class="dc-card-desc">天气系数、土建占比、每日时长等影响最终工期的关键系数</div>
-          </div>
-        </div>
-      </div>
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">📝 调整参数
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="dc-card-desc">天气系数、土建占比、每日时长等影响最终工期的关键系数</div>
+      <div class="lift-card-body">
       <div class="dc-param-grid">
         <div class="dc-param-item">
           <label class="dc-param-label">天气/工序系数</label>
@@ -1339,20 +1386,19 @@
           </div>
         </div>
       </div>
+      </div><!-- /.lift-card-body -->
     </div>
 
     <!-- 吊次数据表 -->
-    <div class="dc-card">
-      <div class="dc-card-header">
-        <div class="dc-card-title">
-          <span class="dc-icon">📦</span>
-          <div>
-            <div>构件吊次</div>
-            <div class="dc-card-desc">填写结构类型和构件数量，系统自动计算吊次和工期</div>
-          </div>
-        </div>
-        <button class="btn btn-primary btn-sm" onclick="diaociAddRow()">＋ 添加行</button>
-      </div>
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">📦 构件吊次
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="dc-card-desc">填写结构类型和构件数量，系统自动计算吊次和工期</div>
+      <div class="lift-card-body">
+      <button class="btn btn-primary btn-sm" onclick="diaociAddRow()" style="margin-bottom:14px">＋ 添加行</button>
       <div class="dc-table-wrap">
         <table class="dc-table">
           <thead>
@@ -1382,22 +1428,21 @@
           </tbody>
         </table>
       </div>
+      </div><!-- /.lift-card-body -->
     </div>
 
     <!-- 汇总 -->
-    <div class="dc-card">
-      <div class="dc-card-header">
-        <div class="dc-card-title">
-          <span class="dc-icon">📈</span>
-          <div>
-            <div>汇总结果</div>
-            <div class="dc-card-desc">基于机械效率和系数计算的总工期与日均吊次</div>
-          </div>
-        </div>
-        <button class="btn btn-outline btn-sm" onclick="diaociExportTable()">
-          <span>📄</span> 导出计算表
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">📈 汇总结果
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
-      </div>
+      </h3>
+      <div class="dc-card-desc">基于机械效率和系数计算的总工期与日均吊次</div>
+      <div class="lift-card-body">
+      <button class="btn btn-outline btn-sm" onclick="diaociExportTable()" style="margin-bottom:14px">
+        <span>📄</span> 导出计算表
+      </button>
       <div class="dc-summary-grid">
         <div class="dc-summary-item">
           <div class="dc-summary-value" id="diaoci-total-diaoci">0</div>
@@ -1416,19 +1461,18 @@
           <div class="dc-summary-label">机械数量(台)</div>
         </div>
       </div>
+      </div><!-- /.lift-card-body -->
     </div>
 
     <!-- 计算公式 -->
-    <div class="dc-card">
-      <div class="dc-card-header">
-        <div class="dc-card-title">
-          <span class="dc-icon">🔢</span>
-          <div>
-            <div>计算公式</div>
-            <div class="dc-card-desc">吊次分析模块的核心计算逻辑说明</div>
-          </div>
-        </div>
-      </div>
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">🔢 计算公式
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="dc-card-desc">吊次分析模块的核心计算逻辑说明</div>
+      <div class="lift-card-body">
       <div class="dc-formula-list">
         <div class="dc-formula-row">
           <div class="dc-formula-n">单行吊次</div>
@@ -1466,22 +1510,19 @@
           <div class="dc-formula-code">otherQty = mainDiaociSum × k_other</div>
         </div>
       </div>
+      </div><!-- /.lift-card-body -->
     </div>
   </div>
 
   <!-- ===== 吊装效率表 ===== -->
   <div id="diaoci-panel-eff" style="display:none">
-    <div class="card">
-      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
-        <span>📐 吊装效率基准表</span>
-        <div style="display:flex;gap:10px">
-          <button class="btn btn-ghost btn-sm" id="diaoci-eff-edit-btn" onclick="diaociToggleEffEdit()" style="font-size:14px">✏️ 编辑</button>
-          <button class="btn btn-ghost btn-sm" id="diaoci-eff-add-btn" onclick="diaociAddEffRow()" style="display:none;font-size:14px">＋ 新增行</button>
-          <button class="btn btn-ghost btn-sm" id="diaoci-eff-save-btn" onclick="diaociSaveEffEdit()" style="display:none;font-size:14px">✓ 保存</button>
-          <button class="btn btn-ghost btn-sm" id="diaoci-eff-reset-btn" onclick="diaociResetEff()" style="display:none;font-size:14px">↩ 重置</button>
-          <button class="btn btn-ghost btn-sm" onclick="diaociExportEffTable()" style="font-size:14px">📄 导出</button>
-        </div>
-      </div>
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">📐 吊装效率基准表
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="lift-card-body">
       <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;align-items:flex-end">
         <div class="form-group" style="flex:1;min-width:180px">
           <label>筛选结构类型</label>
@@ -1505,6 +1546,13 @@
           </select>
         </div>
       </div>
+      <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" id="diaoci-eff-edit-btn" onclick="diaociToggleEffEdit()" style="font-size:14px">✏️ 编辑</button>
+        <button class="btn btn-ghost btn-sm" id="diaoci-eff-add-btn" onclick="diaociAddEffRow()" style="display:none;font-size:14px">＋ 新增行</button>
+        <button class="btn btn-ghost btn-sm" id="diaoci-eff-save-btn" onclick="diaociSaveEffEdit()" style="display:none;font-size:14px">✓ 保存</button>
+        <button class="btn btn-ghost btn-sm" id="diaoci-eff-reset-btn" onclick="diaociResetEff()" style="display:none;font-size:14px">↩ 重置</button>
+        <button class="btn btn-ghost btn-sm" onclick="diaociExportEffTable()" style="font-size:14px">📄 导出</button>
+      </div>
       <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;background:var(--bg-elevated);padding:8px 12px;border-radius:6px;border-left:3px solid var(--accent)">
         📌 效率值单位：次/台班（10h），已含调整系数。可点"编辑"修改或新增行，修改会影响吊次计算。塔吊按高度范围选取。
       </div>
@@ -1514,9 +1562,44 @@
           <tbody id="diaoci-eff-tbody"></tbody>
         </table>
       </div>
+      </div><!-- /.lift-card-body -->
     </div>
   </div>
 </div><!-- /page-diaoci -->
+
+<!-- 截面选择器模态窗口 -->
+<div class="sec-picker-overlay" id="secPickerOverlay" style="display:none" onclick="if(event.target===this)closeSectionPicker()">
+  <div class="sec-picker-modal">
+    <div class="sp-header">
+      <div class="sp-title">📚 选择标准截面</div>
+      <button class="sp-close" onclick="closeSectionPicker()">✕</button>
+    </div>
+    <!-- 搜索栏 -->
+    <div class="sp-search-row">
+      <input type="text" id="spSearchInput" class="sp-search" placeholder="搜索截面型号，如 HN400×200" oninput="spOnSearch()">
+    </div>
+    <!-- 类型过滤标签 -->
+    <div class="sp-filter-row" id="spFilterRow">
+      <button class="sp-filter-btn active" data-type="ALL" onclick="spSetFilter('ALL')">全部</button>
+      <button class="sp-filter-btn" data-type="HW,HM,HN,HP" onclick="spSetFilter('HW,HM,HN,HP')">H型钢</button>
+      <button class="sp-filter-btn" data-type="BOX" onclick="spSetFilter('BOX')">箱型截面</button>
+      <button class="sp-filter-btn" data-type="CHS" onclick="spSetFilter('CHS')">圆管</button>
+      <button class="sp-filter-btn" data-type="CRU" onclick="spSetFilter('CRU')">十字形</button>
+    </div>
+    <!-- 卡片网格（滚动区） -->
+    <div class="sp-grid-wrap" id="spGridWrap">
+      <div class="sp-grid" id="spGrid"></div>
+    </div>
+    <!-- 底部操作栏 -->
+    <div class="sp-footer">
+      <div class="sp-hint" id="spHint">请从上方列表中选择一个截面</div>
+      <div class="sp-actions">
+        <button class="btn btn-ghost" onclick="closeSectionPicker()">取消</button>
+        <button class="btn btn-primary" id="spConfirmBtn" onclick="spConfirm()" disabled>确认选用</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Toast 提示 -->
 <div class="toast" id="toast" style="display:none"></div>
@@ -1530,7 +1613,7 @@
 
 </div><!-- /app-main -->
 <script src="data.js?v=v2-20260622b"></script>
-<script src="app.js?v=v2-20260519"></script>
+<script src="app.js?v=v2-20260709b"></script>
 <!-- 分段类型建议（datalist，供input list属性引用） -->
 <datalist id="diaoci-segtype-list">
   <option value="整根吊装">

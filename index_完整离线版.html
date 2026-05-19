@@ -874,9 +874,13 @@
     <div class="lift-left">
 
       <!-- 截面输入 -->
-      <div class="lift-card">
-        <h3 class="lift-card-title">截面信息</h3>
-
+      <div class="lift-card" id="lift-card-sec">
+        <h3 class="lift-card-title">截面信息
+          <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.lift-card'))" title="折叠/展开">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </h3>
+        <div class="lift-card-body">
         <!-- ── 参数输入面板 ── -->
         <div id="secPanel-input">
           <div class="sec-main-input">
@@ -891,6 +895,7 @@
                   <option value="CUSTOM">异形截面</option>
                 </select>
               </div>
+              <button class="btn btn-outline btn-sm" style="margin-left:auto;white-space:nowrap" onclick="openSectionPicker()">📚 从截面库选择</button>
             </div>
             <div class="sec-dims-row" id="secMainDims">
               <!-- 动态参数输入（根据类型切换） -->
@@ -922,6 +927,7 @@
                   <span id="secTypeLabel">H型钢</span>
                 </div>
                 <div id="liftSecModel" class="sec-name">—</div>
+                <button class="btn btn-outline btn-xs" style="margin-left:auto;flex-shrink:0" onclick="openSectionPicker()">📚 重新选择</button>
               </div>
               <!-- 关键指标卡片（仅截面积 + 线重，两列） -->
               <div class="sec-metric-row">
@@ -941,12 +947,17 @@
             </div>
           </div>
         </div>
+        </div><!-- /.lift-card-body -->
       </div>
 
       <!-- 分段参数 -->
-      <div class="lift-card">
-        <h3 class="lift-card-title">层高表</h3>
-
+      <div class="lift-card" id="lift-card-height">
+        <h3 class="lift-card-title">层高表
+          <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.lift-card'))" title="折叠/展开">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </h3>
+        <div class="lift-card-body">
         <!-- 顶部工具栏 -->
         <div class="fl-toolbar">
           <div class="fl-toolbar-left">
@@ -1048,16 +1059,22 @@
             </div>
             <div class="fl-seg-item">
               <label>节点放大系数</label>
-              <input type="text" inputmode="decimal" id="lift-amp" placeholder="1.05" step="0.01" min="1.0" value="1.05" pattern="[0-9.]*" oninput="let v=this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');if(v&&isNaN(parseFloat(v)))v='';this.value=v;debounce(liftCalc,'lc',200)">
+              <input type="number" inputmode="decimal" id="lift-amp" placeholder="1.05" step="0.01" min="1.0" value="1.05" oninput="let v=this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');if(v&&isNaN(parseFloat(v)))v='';this.value=v;debounce(liftCalc,'lc',200)">
             </div>
           </div>
           <div class="lift-calc-summary" id="liftCalcSummary"></div>
         </div>
+        </div><!-- /.lift-card-body -->
       </div>
 
       <!-- 吊装参数 -->
-      <div class="lift-card">
-        <h3 class="lift-card-title">吊装参数</h3>
+      <div class="lift-card" id="lift-card-params">
+        <h3 class="lift-card-title">吊装参数
+          <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.lift-card'))" title="折叠/展开">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </h3>
+        <div class="lift-card-body">
         <div class="form-group">
           <label>选用机械 <span class="req">*</span></label>
           <select id="lift-crane" onchange="liftOnCraneChange()">
@@ -1081,6 +1098,7 @@
           <div class="lp-item"><span class="lp-l">额定起重量</span><span class="lp-v" id="liftCraneRated">—</span></div>
           <div class="lp-item"><span class="lp-l">当前半径额定</span><span class="lp-v accent" id="liftCraneAtR">—</span></div>
         </div>
+        </div><!-- /.lift-card-body -->
       </div>
 
       <button class="btn btn-primary lift-btn" onclick="liftCalc()">🧮 计算分段</button>
@@ -1089,13 +1107,18 @@
 
     <!-- 右栏：结果表格 -->
     <div class="lift-right">
-      <div class="lift-card lift-card-full">
+      <div class="lift-card lift-card-full" id="lift-card-table">
         <div class="lift-table-header">
-          <h3 class="lift-card-title">分段吊装表</h3>
+          <h3 class="lift-card-title">分段吊装表
+            <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.lift-card'))" title="折叠/展开">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </h3>
           <div class="lift-table-actions">
             <button class="btn btn-secondary btn-sm" onclick="liftExportCsv()">⬇ 导出 CSV</button>
           </div>
         </div>
+        <div class="lift-card-body">
         <div class="lift-table-wrap" id="liftTableWrap">
           <div class="lift-empty" id="liftEmpty">
             <div class="icon">📋</div>
@@ -1118,6 +1141,7 @@
             <tbody id="liftTableBody"></tbody>
           </table>
         </div>
+        </div><!-- /.lift-card-body -->
       </div>
     </div><!-- /lift-right -->
 
@@ -1517,6 +1541,40 @@
     </div>
   </div>
 </div><!-- /page-diaoci -->
+
+<!-- 截面选择器模态窗口 -->
+<div class="sec-picker-overlay" id="secPickerOverlay" style="display:none" onclick="if(event.target===this)closeSectionPicker()">
+  <div class="sec-picker-modal">
+    <div class="sp-header">
+      <div class="sp-title">📚 选择标准截面</div>
+      <button class="sp-close" onclick="closeSectionPicker()">✕</button>
+    </div>
+    <!-- 搜索栏 -->
+    <div class="sp-search-row">
+      <input type="text" id="spSearchInput" class="sp-search" placeholder="搜索截面型号，如 HN400×200" oninput="spOnSearch()">
+    </div>
+    <!-- 类型过滤标签 -->
+    <div class="sp-filter-row" id="spFilterRow">
+      <button class="sp-filter-btn active" data-type="ALL" onclick="spSetFilter('ALL')">全部</button>
+      <button class="sp-filter-btn" data-type="HW,HM,HN,HP" onclick="spSetFilter('HW,HM,HN,HP')">H型钢</button>
+      <button class="sp-filter-btn" data-type="BOX" onclick="spSetFilter('BOX')">箱型截面</button>
+      <button class="sp-filter-btn" data-type="CHS" onclick="spSetFilter('CHS')">圆管</button>
+      <button class="sp-filter-btn" data-type="CRU" onclick="spSetFilter('CRU')">十字形</button>
+    </div>
+    <!-- 卡片网格（滚动区） -->
+    <div class="sp-grid-wrap" id="spGridWrap">
+      <div class="sp-grid" id="spGrid"></div>
+    </div>
+    <!-- 底部操作栏 -->
+    <div class="sp-footer">
+      <div class="sp-hint" id="spHint">请从上方列表中选择一个截面</div>
+      <div class="sp-actions">
+        <button class="btn btn-ghost" onclick="closeSectionPicker()">取消</button>
+        <button class="btn btn-primary" id="spConfirmBtn" onclick="spConfirm()" disabled>确认选用</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Toast 提示 -->
 <div class="toast" id="toast" style="display:none"></div>
@@ -3974,9 +4032,9 @@ window.updateMainSectionCalc = function() {
     var h2=g('sm_h2'),b2=g('sm_b2'),tw2=g('sm_tw2'),tf2=g('sm_tf2');
     if (!h1 || !b1 || !h2 || !b2) { showSecEmptyState(); return; }
     s = {type:'CRU',h1:h1,b1:b1,tw1:tw1,tf1:tf1,h2:h2,b2:b2,tw2:tw2,tf2:tf2,_custom:true, code:'+HN'+h1+'×'+b1+'+HN'+h2+'×'+b2};
-    // 总高 = 竖H腹板高 + 横H上下翼缘宽 = h1 + 2×b2
-    // 总宽 = 横H腹板高 + 竖H左右翼缘宽 = h2 + 2×b1
-    var Htotal = h1 + 2*b2, Btotal = h2 + 2*b1;
+    // 总高 = max(竖H腹板高, 横H翼缘宽) = max(h1, b2)
+    // 总宽 = max(横H腹板高, 竖H翼缘宽) = max(h2, b1)
+    var Htotal = Math.max(h1, b2), Btotal = Math.max(h2, b1);
     s.label = '十字形组合  H:' + Htotal + ' B:' + Btotal;
     s.specRows = [
       {l:'总高', v: Htotal+' mm'},
@@ -4161,7 +4219,7 @@ function drawSectionSVG(s) {
   var leaderClr = '#8b4513';   // 引线颜色（棕色）
 
   // SVG头 + 浅格纸背景
-  var SVG_HDR = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" style="display:block;">';
+  var SVG_HDR = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" style="display:block; width:100%; height:auto; max-width:100%;">';
 
   // 工程图纸格线背景
   var GRID = '<rect width="'+W+'" height="'+H+'" fill="'+paperBg+'"/>';
@@ -4231,17 +4289,19 @@ function drawSectionSVG(s) {
        几何模型：两个H型钢以截面形心为中心点正交焊接
        竖H: h₁×b₁×tw₁×tf₁, h₁=总高, b₁=翼缘总宽
        横H (旋转90°): h₂×b₂×tw₂×tf₂, h₂=总高(旋转后为宽), b₂=翼缘总宽(旋转后为高)
-       十字截面总高 = max(h₁, b₂)（横H翼缘单侧伸出b₂/2，双侧共b₂）
-       十字截面总宽 = max(h₂, b₁)
+       十字截面总高 HB = h₁（竖H高度）
+       十字截面总宽 BB = h₂（横H旋转后高度）
        交叉区（竖腹板∩横腹板）用深色独立绘制，不重复计算面积
   */
   if (t === 'CRU') {
     var h1=s.h1||0, b1=s.b1||0, tw1=s.tw1||6, tf1=s.tf1||8;
     var h2=s.h2||0, b2=s.b2||0, tw2=s.tw2||6, tf2=s.tf2||8;
-    var Htot = Math.max(h1, b2), Btot = Math.max(h2, b1); // 总高/总宽
+    var Htot = h1, Btot = h2; // 总高=竖H高度，总宽=横H（旋转后）高度
     if (!h1||!b1||!h2||!b2) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'"><rect width="'+W+'" height="'+H+'" rx="8" fill="#f4f5f9"/><text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="#656d76" font-size="13">参数不全</text></svg>';
 
-    var cW = 480, cH = 420;
+    // 动态画布：确保能容纳最极端标注（BB/HB引线每侧约60px，标题栏24px，网格线20px）
+    var needW = Btot + 180, needH = Htot + 180;
+    var cW = Math.max(480, needW), cH = Math.max(420, needH);
     var ccx = cW/2 - 10, ccy = cH/2 - 18;
     var margin = 72;
     var scale = Math.min((cW - margin*2 - 60) / Btot, (cH - margin*2 - 40) / Htot) * 0.80;
@@ -4261,7 +4321,13 @@ function drawSectionSVG(s) {
     var SSTK = '#2c4a7c', HFIL = '#ffffff', HSTK = '#b0b8c8';
     var DC = '#c0392b', DT = '#2d3748', LC = '#5a3e8a', AC = '#e53e3e';
 
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+cW+' '+cH+'" width="'+cW+'" height="'+cH+'" style="display:block;">';
+    // 文字放大：确保缩放后任意对话框宽度下字号 >= 10px
+    var minFs = 10;
+    var baseFs1 = Math.max(18, Math.ceil(minFs / scale)); // BB/HB 主标注
+    var baseFs2 = Math.max(14, Math.ceil(minFs / scale)); // b1/h1/b2 副标注
+    var baseFs3 = Math.max(12, Math.ceil(minFs / scale)); // tf/tw 细节标注
+
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+cW+' '+cH+'" style="display:block; width:100%; height:auto; max-width:100%;">';
     svg += '<rect width="'+cW+'" height="'+cH+'" fill="#f6f7fa"/>';
     for (var gx2=0; gx2<=cW; gx2+=20) svg += '<line x1="'+gx2+'" y1="0" x2="'+gx2+'" y2="'+cH+'" stroke="#dde0e8" stroke-width="'+(gx2%40===0?'0.65':'0.3')+'"/>';
     for (var gy2=0; gy2<=cH; gy2+=20) svg += '<line x1="0" y1="'+gy2+'" x2="'+cW+'" y2="'+gy2+'" stroke="#dde0e8" stroke-width="'+(gy2%40===0?'0.65':'0.3')+'"/>';
@@ -4293,77 +4359,108 @@ function drawSectionSVG(s) {
     svg += '<line x1="'+f2(xL)+'" y1="'+f2((xT+xB)/2)+'" x2="'+f2(xR)+'" y2="'+f2((xT+xB)/2)+'" stroke="#2c4a7c" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.6"/>';
     svg += '<line x1="'+f2((xL+xR)/2)+'" y1="'+f2(xT)+'" x2="'+f2((xL+xR)/2)+'" y2="'+f2(xB)+'" stroke="#2c4a7c" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.6"/>';
 
-    // 中心轴线
-    svg += '<line x1="'+f2(ccx)+'" y1="'+f2(vT-10)+'" x2="'+f2(ccx)+'" y2="'+f2(vB+10)+'" stroke="'+AC+'" stroke-width="0.7" stroke-dasharray="6,4" opacity="0.45"/>';
+    // 中心轴线（截面上方留出标注空间）
+    svg += '<line x1="'+f2(ccx)+'" y1="'+f2(Math.max(vT-18, 8))+'" x2="'+f2(ccx)+'" y2="'+f2(vB+10)+'" stroke="'+AC+'" stroke-width="0.7" stroke-dasharray="6,4" opacity="0.45"/>';
     svg += '<line x1="'+f2(hL-10)+'" y1="'+f2(ccy)+'" x2="'+f2(hR+10)+'" y2="'+f2(ccy)+'" stroke="'+AC+'" stroke-width="0.7" stroke-dasharray="6,4" opacity="0.45"/>';
 
-    // ── 主标注：B=总宽（截面下方），H=总高（截面右侧）──
-    // 总宽 B = max(h₂, b₁)，横跨十字柱实际最外侧边界
-    var bLeft = ccx - Btot/2, bRight = ccx + Btot/2;
-    var bDimY = Math.max(vB, ccy + Btot/2) + 34;
-    svg += '<line x1="'+f2(bLeft)+'" y1="'+f2(bDimY)+'" x2="'+f2(bRight)+'" y2="'+f2(bDimY)+'" stroke="'+DC+'" stroke-width="1.1"/>'+
-           '<line x1="'+f2(bLeft)+'" y1="'+f2(bDimY-4)+'" x2="'+f2(bLeft)+'" y2="'+f2(bDimY+4)+'" stroke="'+DC+'" stroke-width="1.1"/>'+
-           '<line x1="'+f2(bRight)+'" y1="'+f2(bDimY-4)+'" x2="'+f2(bRight)+'" y2="'+f2(bDimY+4)+'" stroke="'+DC+'" stroke-width="1.1"/>'+
-           '<line x1="'+f2(bLeft)+'" y1="'+f2(bDimY-4)+'" x2="'+f2(bLeft)+'" y2="'+f2(bDimY-16)+'" stroke="'+DC+'" stroke-width="0.6" stroke-dasharray="3,2" opacity="0.7"/>'+
-           '<line x1="'+f2(bRight)+'" y1="'+f2(bDimY-4)+'" x2="'+f2(bRight)+'" y2="'+f2(bDimY-16)+'" stroke="'+DC+'" stroke-width="0.6" stroke-dasharray="3,2" opacity="0.7"/>'+
-           '<text x="'+f2((bLeft+bRight)/2)+'" y="'+f2(bDimY+13)+'" text-anchor="middle" fill="'+DT+'" font-size="12" font-weight="700" font-family="system-ui,sans-serif">B='+Btot+'mm</text>';
-    // 总高 H = max(h₁, b₂)，竖跨十字柱实际最外侧边界
-    var hTop = ccy - Htot/2, hBot = ccy + Htot/2;
-    var hDimX = Math.max(hR, ccx + Btot/2) + 38;
-    svg += '<line x1="'+f2(hDimX)+'" y1="'+f2(hTop)+'" x2="'+f2(hDimX)+'" y2="'+f2(hBot)+'" stroke="'+DC+'" stroke-width="1.1"/>'+
-           '<line x1="'+f2(hDimX-4)+'" y1="'+f2(hTop)+'" x2="'+f2(hDimX+4)+'" y2="'+f2(hTop)+'" stroke="'+DC+'" stroke-width="1.1"/>'+
-           '<line x1="'+f2(hDimX-4)+'" y1="'+f2(hBot)+'" x2="'+f2(hDimX+4)+'" y2="'+f2(hBot)+'" stroke="'+DC+'" stroke-width="1.1"/>'+
-           '<line x1="'+f2(hDimX-4)+'" y1="'+f2(hTop)+'" x2="'+f2(hDimX-16)+'" y2="'+f2(hTop)+'" stroke="'+DC+'" stroke-width="0.6" stroke-dasharray="3,2" opacity="0.7"/>'+
-           '<line x1="'+f2(hDimX-4)+'" y1="'+f2(hBot)+'" x2="'+f2(hDimX-16)+'" y2="'+f2(hBot)+'" stroke="'+DC+'" stroke-width="0.6" stroke-dasharray="3,2" opacity="0.7"/>'+
-           '<text x="'+f2(hDimX+14)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+DT+'" font-size="12" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(hDimX+14)+','+f2(ccy)+')">H='+Htot+'mm</text>';
+    // ═══════════════════════════════════════════════════════════
+    //  标注布局策略：
+    //  BB（总宽）→ 截面下方最外层（红线）
+    //  b1（竖翼缘宽）→ 截面下方内层，在 BB 上方（紫线）
+    //  HB（总高）→ 截面右侧最外层（红线）
+    //  h1（竖总高）→ 截面左侧（紫线，标注竖H上下翼缘之间的距离）
+    //  tw1/tf1   → 截面左侧外引线（紫）
+    //  tw2/tf2   → 截面右侧外引线（紫）
+    //  b2（横翼缘宽）→ 截面左侧下方外（紫）
+    // ═══════════════════════════════════════════════════════════
 
-    // ── 引线标注（板件尺寸，紫色）──
-    // tf1：竖H翼缘厚，从上翼缘左侧引出
+    // ── 计算截面实际外边界 ───────────────────────────
+    // 底部外边界：竖H主导（h1>b2）时为 vB，否则为 hB
+    var secBottom = Math.max(vB, hB);
+    // 右侧外边界：横H主导（h2>b1）时为 hR，否则为 vR
+    var secRight  = Math.max(hR, vR);
+    // 顶部外边界
+    var secTop    = Math.min(vT, hT);
+
+    // ── 1. BB 总宽（红线，截面正下方，最外层）──
+    var BB_Y  = secBottom + 40; // 总宽线：截面底部以下 40px
+    var BB_x1 = ccx - Btot/2, BB_x2 = ccx + Btot/2;
+    svg += '<line x1="'+f2(BB_x1)+'" y1="'+f2(BB_Y)+'" x2="'+f2(BB_x2)+'" y2="'+f2(BB_Y)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
+           '<line x1="'+f2(BB_x1)+'" y1="'+f2(BB_Y-5)+'" x2="'+f2(BB_x1)+'" y2="'+f2(BB_Y+5)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
+           '<line x1="'+f2(BB_x2)+'" y1="'+f2(BB_Y-5)+'" x2="'+f2(BB_x2)+'" y2="'+f2(BB_Y+5)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
+           '<text x="'+f2(ccx)+'" y="'+f2(BB_Y+14)+'" text-anchor="middle" fill="'+DC+'" font-size="'+(baseFs1)+'" font-weight="700" font-family="system-ui,sans-serif">BB = '+Btot+' mm</text>';
+
+    // ── 2. b1 竖翼缘宽（紫线，截面下方内层，在 BB 上方）──
+    // b1 标注范围：竖H的左右翼缘边界（vL 到 vR），在 BB 线内侧
+    var b1_Y = BB_Y - 26; // 在 BB 线上方 26px
+    svg += '<line x1="'+f2(vL)+'" y1="'+f2(b1_Y)+'" x2="'+f2(vR)+'" y2="'+f2(b1_Y)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<line x1="'+f2(vL)+'" y1="'+f2(b1_Y-3)+'" x2="'+f2(vL)+'" y2="'+f2(b1_Y+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<line x1="'+f2(vR)+'" y1="'+f2(b1_Y-3)+'" x2="'+f2(vR)+'" y2="'+f2(b1_Y+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<text x="'+f2((vL+vR)/2)+'" y="'+f2(b1_Y-7)+'" text-anchor="middle" fill="'+LC+'" font-size="'+(baseFs2)+'" font-weight="600" font-family="system-ui,sans-serif">b₁='+b1+' mm</text>';
+
+    // ── 3. HB 总高（红线，截面右侧，最外层）──
+    var HB_X  = secRight + 52; // 总高线：截面右侧以外 52px
+    var HB_y1 = ccy - Htot/2, HB_y2 = ccy + Htot/2;
+    svg += '<line x1="'+f2(HB_X)+'" y1="'+f2(HB_y1)+'" x2="'+f2(HB_X)+'" y2="'+f2(HB_y2)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
+           '<line x1="'+f2(HB_X-5)+'" y1="'+f2(HB_y1)+'" x2="'+f2(HB_X+5)+'" y2="'+f2(HB_y1)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
+           '<line x1="'+f2(HB_X-5)+'" y1="'+f2(HB_y2)+'" x2="'+f2(HB_X+5)+'" y2="'+f2(HB_y2)+'" stroke="'+DC+'" stroke-width="1.3"/>'+
+           '<text x="'+f2(HB_X+16)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+DC+'" font-size="'+(baseFs1)+'" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(HB_X+16)+','+f2(ccy)+')">HB = '+Htot+' mm</text>';
+
+    // ── 4. h1 竖H总高（紫线，截面左侧，标注竖H上下翼缘之间的距离）──
+    // 标注位置：截面左侧，x = vL - 52，在 tf1/tw1 引线外侧
+    var h1_X = vL - 52;
+    svg += '<line x1="'+f2(h1_X)+'" y1="'+f2(vT)+'" x2="'+f2(h1_X)+'" y2="'+f2(vB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<line x1="'+f2(h1_X-3)+'" y1="'+f2(vT)+'" x2="'+f2(h1_X+3)+'" y2="'+f2(vT)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<line x1="'+f2(h1_X-3)+'" y1="'+f2(vB)+'" x2="'+f2(h1_X+3)+'" y2="'+f2(vB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<text x="'+f2(h1_X-7)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+LC+'" font-size="'+(baseFs2)+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(h1_X-7)+','+f2(ccy)+')">h₁='+h1+' mm</text>';
+
+    // ── 5. tf1 竖H上翼缘厚（紫，左侧引线，外侧超出 h1_X）──
     var tf1MidY = vT + sTf1/2;
-    svg += '<line x1="'+f2(vL)+'" y1="'+f2(tf1MidY)+'" x2="'+f2(vL-26)+'" y2="'+f2(tf1MidY)+'" stroke="'+LC+'" stroke-width="0.9" stroke-dasharray="3,2"/>'+
+    svg += '<line x1="'+f2(vL)+'" y1="'+f2(tf1MidY)+'" x2="'+f2(vL-18)+'" y2="'+f2(tf1MidY)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
+           '<line x1="'+f2(vL-18)+'" y1="'+f2(tf1MidY)+'" x2="'+f2(h1_X-4)+'" y2="'+f2(tf1MidY)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
            '<circle cx="'+f2(vL)+'" cy="'+f2(tf1MidY)+'" r="1.8" fill="'+LC+'"/>'+
-           '<text x="'+f2(vL-28)+'" y="'+f2(tf1MidY)+'" text-anchor="end" fill="'+LC+'" font-size="11" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle">tf₁='+tf1+'</text>';
-    // b1：竖H翼缘宽，在上翼缘上方小标注线
-    var b1DimY = vT - 14;
-    svg += '<line x1="'+f2(vL)+'" y1="'+f2(b1DimY)+'" x2="'+f2(vR)+'" y2="'+f2(b1DimY)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(vL)+'" y1="'+f2(b1DimY-3)+'" x2="'+f2(vL)+'" y2="'+f2(b1DimY+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(vR)+'" y1="'+f2(b1DimY-3)+'" x2="'+f2(vR)+'" y2="'+f2(b1DimY+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(vL)+'" y1="'+f2(vT)+'" x2="'+f2(vL)+'" y2="'+f2(b1DimY)+'" stroke="'+LC+'" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.7"/>'+
-           '<line x1="'+f2(vR)+'" y1="'+f2(vT)+'" x2="'+f2(vR)+'" y2="'+f2(b1DimY)+'" stroke="'+LC+'" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.7"/>'+
-           '<text x="'+f2((vL+vR)/2)+'" y="'+f2(b1DimY-5)+'" text-anchor="middle" fill="'+LC+'" font-size="11" font-weight="600" font-family="system-ui,sans-serif">b₁='+b1+'</text>';
-    // tw1：竖腹板厚，在横腹板中心高度处标注
+           '<text x="'+f2(h1_X-7)+'" y="'+f2(tf1MidY)+'" text-anchor="middle" fill="'+LC+'" font-size="'+(baseFs3)+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(h1_X-7)+','+f2(tf1MidY)+')">tf₁='+tf1+'</text>';
+
+    // ── 6. tw1 竖腹板厚（紫，左侧，vwL/vwR 之间）──
     var tw1MidY = ccy;
-    svg += '<line x1="'+f2(vwL)+'" y1="'+f2(tw1MidY)+'" x2="'+f2(vL-6)+'" y2="'+f2(tw1MidY)+'" stroke="'+LC+'" stroke-width="0.9" stroke-dasharray="3,2"/>'+
+    svg += '<line x1="'+f2(vwL)+'" y1="'+f2(tw1MidY)+'" x2="'+f2(vwR)+'" y2="'+f2(tw1MidY)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
            '<line x1="'+f2(vwL)+'" y1="'+f2(tw1MidY-3)+'" x2="'+f2(vwL)+'" y2="'+f2(tw1MidY+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
            '<line x1="'+f2(vwR)+'" y1="'+f2(tw1MidY-3)+'" x2="'+f2(vwR)+'" y2="'+f2(tw1MidY+3)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(vwL)+'" y1="'+f2(tw1MidY)+'" x2="'+f2(vwR)+'" y2="'+f2(tw1MidY)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<text x="'+f2(vL-8)+'" y="'+f2(tw1MidY)+'" text-anchor="end" fill="'+LC+'" font-size="11" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle">tw₁='+tw1+'</text>';
-    // b2：横H翼缘宽（旋转后为竖向），从左翼缘左侧引出
-    var b2DimX = hL - 16;
-    svg += '<line x1="'+f2(b2DimX)+'" y1="'+f2(hT)+'" x2="'+f2(b2DimX)+'" y2="'+f2(hB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(b2DimX-3)+'" y1="'+f2(hT)+'" x2="'+f2(b2DimX+3)+'" y2="'+f2(hT)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(b2DimX-3)+'" y1="'+f2(hB)+'" x2="'+f2(b2DimX+3)+'" y2="'+f2(hB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<line x1="'+f2(hL)+'" y1="'+f2(hT)+'" x2="'+f2(b2DimX)+'" y2="'+f2(hT)+'" stroke="'+LC+'" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.7"/>'+
-           '<line x1="'+f2(hL)+'" y1="'+f2(hB)+'" x2="'+f2(b2DimX)+'" y2="'+f2(hB)+'" stroke="'+LC+'" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.7"/>'+
-           '<text x="'+f2(b2DimX-5)+'" y="'+f2((hT+hB)/2)+'" text-anchor="middle" fill="'+LC+'" font-size="11" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(b2DimX-5)+','+f2((hT+hB)/2)+')">b₂='+b2+'</text>';
-    // tf2：横H翼缘厚（旋转后为水平厚），从左翼缘顶端引出向上
-    var tf2MidX = hL + sTf2/2;
-    svg += '<line x1="'+f2(tf2MidX)+'" y1="'+f2(hT)+'" x2="'+f2(tf2MidX)+'" y2="'+f2(hT-26)+'" stroke="'+LC+'" stroke-width="0.9" stroke-dasharray="3,2"/>'+
-           '<circle cx="'+f2(tf2MidX)+'" cy="'+f2(hT)+'" r="1.8" fill="'+LC+'"/>'+
-           '<text x="'+f2(tf2MidX)+'" y="'+f2(hT-28)+'" text-anchor="middle" fill="'+LC+'" font-size="11" font-weight="600" font-family="system-ui,sans-serif">tf₂='+tf2+'</text>';
-    // tw2：横腹板厚（旋转后为竖向），从横腹板右侧引出
-    var tw2MidX = hR + 16;
-    svg += '<line x1="'+f2(hR)+'" y1="'+f2(hwT)+'" x2="'+f2(tw2MidX)+'" y2="'+f2(hwT)+'" stroke="'+LC+'" stroke-width="0.9" stroke-dasharray="3,2"/>'+
-           '<line x1="'+f2(hR)+'" y1="'+f2(hwB)+'" x2="'+f2(tw2MidX)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.9" stroke-dasharray="3,2"/>'+
-           '<line x1="'+f2(tw2MidX)+'" y1="'+f2(hwT)+'" x2="'+f2(tw2MidX)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<line x1="'+f2(vwL)+'" y1="'+f2(tw1MidY)+'" x2="'+f2(h1_X-4)+'" y2="'+f2(tw1MidY)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
+           '<text x="'+f2(h1_X-7)+'" y="'+f2(tw1MidY)+'" text-anchor="middle" fill="'+LC+'" font-size="'+(baseFs3)+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(h1_X-7)+','+f2(tw1MidY)+')">tw₁='+tw1+'</text>';
+
+    // ── 7. tf2 横H翼缘厚（紫，右侧上方外）──
+    // 标注在截面右上方，在 HB 线下方留出空间
+    var tf2MidX = hR + 24;
+    svg += '<line x1="'+f2(hR)+'" y1="'+f2(hT)+'" x2="'+f2(tf2MidX)+'" y2="'+f2(hT)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
+           '<line x1="'+f2(tf2MidX)+'" y1="'+f2(hT)+'" x2="'+f2(HB_X-4)+'" y2="'+f2(hT)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
+           '<circle cx="'+f2(hR)+'" cy="'+f2(hT)+'" r="1.8" fill="'+LC+'"/>'+
+           '<text x="'+f2((tf2MidX+HB_X-4)/2)+'" y="'+f2(hT-6)+'" text-anchor="middle" fill="'+LC+'" font-size="'+(baseFs3)+'" font-weight="600" font-family="system-ui,sans-serif">tf₂='+tf2+'</text>';
+
+    // ── 8. tw2 横腹板厚（紫，右侧，从 hwT 到 hwB）──
+    var tw2MidX = hR + 24;
+    svg += '<line x1="'+f2(tw2MidX)+'" y1="'+f2(hwT)+'" x2="'+f2(tw2MidX)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
            '<line x1="'+f2(tw2MidX-3)+'" y1="'+f2(hwT)+'" x2="'+f2(tw2MidX+3)+'" y2="'+f2(hwT)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
            '<line x1="'+f2(tw2MidX-3)+'" y1="'+f2(hwB)+'" x2="'+f2(tw2MidX+3)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
-           '<text x="'+f2(tw2MidX+5)+'" y="'+f2((hwT+hwB)/2)+'" text-anchor="start" fill="'+LC+'" font-size="11" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle">tw₂='+tw2+'</text>';
+           '<line x1="'+f2(hR)+'" y1="'+f2(hwT)+'" x2="'+f2(tw2MidX)+'" y2="'+f2(hwT)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
+           '<line x1="'+f2(hR)+'" y1="'+f2(hwB)+'" x2="'+f2(tw2MidX)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
+           '<line x1="'+f2(tw2MidX)+'" y1="'+f2(hwT)+'" x2="'+f2(HB_X-4)+'" y2="'+f2(hwT)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
+           '<line x1="'+f2(tw2MidX)+'" y1="'+f2(hwB)+'" x2="'+f2(HB_X-4)+'" y2="'+f2(hwB)+'" stroke="'+LC+'" stroke-width="0.8" stroke-dasharray="3,2"/>'+
+           '<text x="'+f2(HB_X-16)+'" y="'+f2(ccy)+'" text-anchor="middle" fill="'+LC+'" font-size="'+(baseFs3)+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(HB_X-16)+','+f2(ccy)+')">tw₂='+tw2+'</text>';
 
-    // 标题栏
-    var cruTitle = '十字柱: H1('+h1+'×'+b1+'×'+tw1+'×'+tf1+') + H2('+h2+'×'+b2+'×'+tw2+'×'+tf2+')';
-    svg += '<rect x="0" y="'+(cH-22)+'" width="'+cW+'" height="22" fill="#e4e8f0"/>'+
-           '<text x="'+f2(cW/2)+'" y="'+(cH-7)+'" text-anchor="middle" fill="#2c4a7c" font-size="10" font-weight="700" font-family="system-ui,sans-serif">'+cruTitle+'</text>';
+    // ── 9. b2 横H翼缘宽（紫，左侧，标注横H翼缘的竖向高度）──
+    // 位置：左侧，b1标注下方（y > b1_Y），x = h1_X
+    var b2DimX = h1_X;
+    var b2Top = hT, b2Bot = hB;
+    svg += '<line x1="'+f2(b2DimX)+'" y1="'+f2(b2Top)+'" x2="'+f2(b2DimX)+'" y2="'+f2(b2Bot)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<line x1="'+f2(b2DimX-3)+'" y1="'+f2(b2Top)+'" x2="'+f2(b2DimX+3)+'" y2="'+f2(b2Top)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<line x1="'+f2(b2DimX-3)+'" y1="'+f2(b2Bot)+'" x2="'+f2(b2DimX+3)+'" y2="'+f2(b2Bot)+'" stroke="'+LC+'" stroke-width="0.9"/>'+
+           '<text x="'+f2(b2DimX-7)+'" y="'+f2((b2Top+b2Bot)/2)+'" text-anchor="middle" fill="'+LC+'" font-size="'+(baseFs2)+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(b2DimX-7)+','+f2((b2Top+b2Bot)/2)+')">b₂='+b2+' mm</text>';
+
+    // ── 标题栏（显示总高×总宽，以及各部件参数）──
+    var cruTitle = '十 ' + Htot + ' × ' + Btot + ' mm  |  竖H ' + h1 + '×'+b1+'  tw₁='+tw1+' tf₁='+tf1+'  |  横H ' + h2 + '×'+b2+'  tw₂='+tw2+' tf₂='+tf2;
+    svg += '<rect x="0" y="'+(cH-24)+'" width="'+cW+'" height="24" fill="#2c4a7c" rx="0"/>'+
+           '<text x="'+f2(cW/2)+'" y="'+(cH-8)+'" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="600" font-family="system-ui,sans-serif">'+cruTitle+'</text>';
 
     svg += '</svg>';
     return svg;
@@ -6843,6 +6940,235 @@ function diaociExportTable() {
   win.document.write(html);
   win.document.close();
 }
+
+// ══════════════════════════════════════════════════════════════
+//  截面选择器（截面库模态窗口）
+// ══════════════════════════════════════════════════════════════
+var _spFilter = 'ALL';       // 当前类型过滤：ALL | HW,HM,HN,HP | BOX | CHS | CRU
+var _spSearch = '';         // 当前搜索词
+var _spSelectedCode = null; // 当前选中截面 code
+
+// 打开选择器
+window.openSectionPicker = function() {
+  _spFilter = 'ALL';
+  _spSearch = '';
+  _spSelectedCode = null;
+  var overlay = document.getElementById('secPickerOverlay');
+  if (!overlay) return;
+  // 重置搜索框
+  var si = document.getElementById('spSearchInput');
+  if (si) si.value = '';
+  // 重置过滤按钮
+  document.querySelectorAll('.sp-filter-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.type === 'ALL');
+  });
+  // 重置确认按钮
+  var cb = document.getElementById('spConfirmBtn');
+  if (cb) cb.disabled = true;
+  var hint = document.getElementById('spHint');
+  if (hint) hint.textContent = '请从上方列表中选择一个截面';
+  // 渲染网格
+  spRenderGrid();
+  // 显示
+  overlay.style.display = 'flex';
+  // 关闭按钮获焦
+  setTimeout(function() { si && si.focus(); }, 100);
+};
+
+// 关闭选择器
+window.closeSectionPicker = function() {
+  var overlay = document.getElementById('secPickerOverlay');
+  if (overlay) overlay.style.display = 'none';
+};
+
+// 搜索处理
+window.spOnSearch = function() {
+  var si = document.getElementById('spSearchInput');
+  _spSearch = si ? si.value.trim().toLowerCase() : '';
+  spRenderGrid();
+};
+
+// 设置类型过滤
+window.spSetFilter = function(type) {
+  _spFilter = type;
+  document.querySelectorAll('.sp-filter-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.type === type);
+  });
+  spRenderGrid();
+};
+
+// 渲染截面卡片网格
+function spRenderGrid() {
+  var grid = document.getElementById('spGrid');
+  if (!grid) return;
+
+  var types = _spFilter === 'ALL' ? null : _spFilter.split(',');
+  var keyword = _spSearch;
+
+  var filtered = SECTION_DB.filter(function(sec) {
+    if (types && types.indexOf(sec.type) === -1) return false;
+    if (keyword) {
+      var code = (sec.code || '').toLowerCase();
+      // 解析 H400×200 格式中的数字用于搜索
+      var dims = [];
+      if (sec.H) dims.push(sec.H);
+      if (sec.B) dims.push(sec.B);
+      if (sec.D) dims.push(sec.D);
+      var dimsStr = dims.join(' ').toLowerCase();
+      if (code.indexOf(keyword) === -1 && dimsStr.indexOf(keyword) === -1) return false;
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="sp-empty">未找到匹配的截面<br><span style="font-size:12px;opacity:0.6">试试搜索 "HN400" 或 "400×200"</span></div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(function(sec) {
+    return spCardHTML(sec);
+  }).join('');
+}
+
+// 单个卡片 HTML
+function spCardHTML(sec) {
+  var code = sec.code || '';
+  var type = sec.type || '';
+  var badgeCls = type === 'BOX' ? 'sp-badge-box' : type === 'CHS' ? 'sp-badge-chs' : type === 'CRU' ? 'sp-badge-cru' : 'sp-badge-h';
+  var typeLabel = {HW:'H',HM:'H',HN:'H',HP:'H',BOX:'□',CHS:'Ø',CRU:'+'}[type] || type;
+
+  // 维度行文字
+  var dims = spGetDimsText(sec);
+  // 截面积
+  var A = secArea(sec);
+  var areaStr = A > 0 ? (A >= 1000 ? (A/1000).toFixed(1)+' ×10³ mm²' : A.toFixed(0)+' mm²') : '';
+
+  var selClass = _spSelectedCode === code ? ' selected' : '';
+  return '<div class="sp-card' + selClass + '" onclick="spSelectCard(\'' + code.replace(/'/g, "\\'") + '\')">' +
+    '<div class="sp-card-top">' +
+      '<span class="sp-badge ' + badgeCls + '">' + typeLabel + '</span>' +
+      '<span class="sp-code">' + code + '</span>' +
+    '</div>' +
+    '<div class="sp-dims">' + dims + '</div>' +
+    (areaStr ? '<div class="sp-area">A = ' + areaStr + '</div>' : '') +
+  '</div>';
+}
+
+// 获取维度描述文字
+function spGetDimsText(sec) {
+  var t = sec.type;
+  if (t === 'HW' || t === 'HM' || t === 'HN' || t === 'HP') {
+    return '<strong>H</strong>=' + sec.H + ' <strong>B</strong>=' + sec.B + ' tw=' + sec.tw + ' tf=' + sec.tf;
+  }
+  if (t === 'BOX') {
+    var t1v = sec.t1 || sec.t || 0;
+    return '<strong>H</strong>=' + sec.H + ' <strong>B</strong>=' + sec.B + ' t=' + t1v;
+  }
+  if (t === 'CHS') {
+    return '<strong>D</strong>=' + sec.D + ' t=' + sec.t;
+  }
+  if (t === 'CRU') {
+    var Htot = Math.max(sec.h1 || 0, sec.b2 || 0);
+    var Btot = Math.max(sec.h2 || 0, sec.b1 || 0);
+    return '<strong>H</strong>=' + Htot + ' <strong>B</strong>=' + Btot + ' (竖' + sec.h1 + '×' + sec.b1 + ' + 横' + sec.h2 + '×' + sec.b2 + ')';
+  }
+  return '';
+}
+
+// 选中卡片
+window.spSelectCard = function(code) {
+  _spSelectedCode = code;
+  // 更新选中状态（移除旧的，加上新的）
+  document.querySelectorAll('.sp-card').forEach(function(c) {
+    c.classList.remove('selected');
+  });
+  var cards = document.querySelectorAll('.sp-card');
+  for (var i = 0; i < cards.length; i++) {
+    var spCode = cards[i].querySelector('.sp-code');
+    if (spCode && spCode.textContent === code) {
+      cards[i].classList.add('selected');
+      // 自动滚动到可视区
+      if (cards[i].scrollIntoViewIfNeeded) {
+        cards[i].scrollIntoViewIfNeeded({ behavior: 'smooth', block: 'nearest' });
+      }
+      break;
+    }
+  }
+  // 更新提示
+  var sec = null;
+  for (var j = 0; j < SECTION_DB.length; j++) {
+    if (SECTION_DB[j].code === code) { sec = SECTION_DB[j]; break; }
+  }
+  var hint = document.getElementById('spHint');
+  if (hint) {
+    hint.textContent = sec ? '已选择：' + code + '（' + spGetDimsText(sec) + '）' : '请从上方列表中选择一个截面';
+  }
+  // 启用确认按钮
+  var cb = document.getElementById('spConfirmBtn');
+  if (cb) cb.disabled = !code;
+};
+
+// 确认选用
+window.spConfirm = function() {
+  if (!_spSelectedCode) return;
+  var sec = SECTION_DB.find(function(s) { return s.code === _spSelectedCode; });
+  if (!sec) return;
+
+  var type = sec.type;
+  // 设置下拉类型
+  var typeSel = document.getElementById('sec-main-type');
+  if (typeSel) {
+    // 特殊处理：HN/HM/HP → 显示为 HN 等
+    var displayType = type;
+    typeSel.value = displayType;
+    secMainTypeChange(displayType);
+  }
+
+  // 根据类型填充参数
+  if (type === 'HW' || type === 'HM' || type === 'HN' || type === 'HP') {
+    setInput('sm_H', sec.H);
+    setInput('sm_B', sec.B);
+    setInput('sm_tw', sec.tw);
+    setInput('sm_tf', sec.tf);
+  } else if (type === 'BOX') {
+    setInput('sm_H', sec.H);
+    setInput('sm_B', sec.B);
+    setInput('sm_t1', sec.t1 || sec.t);
+    setInput('sm_t2', sec.t2 || sec.t);
+  } else if (type === 'CHS') {
+    setInput('sm_D', sec.D);
+    setInput('sm_t', sec.t);
+  } else if (type === 'CRU') {
+    setInput('sm_h1', sec.h1);
+    setInput('sm_b1', sec.b1);
+    setInput('sm_tw1', sec.tw1);
+    setInput('sm_tf1', sec.tf1);
+    setInput('sm_h2', sec.h2);
+    setInput('sm_b2', sec.b2);
+    setInput('sm_tw2', sec.tw2);
+    setInput('sm_tf2', sec.tf2);
+  }
+
+  // 触发计算
+  updateMainSectionCalc();
+
+  // 关闭
+  closeSectionPicker();
+
+  // 提示
+  toast('已选用：' + _spSelectedCode);
+}
+
+// 辅助：设置 input 值（触发 input 事件以联动）
+function setInput(id, val) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.value = val;
+  // 触发一次 input 事件
+  var evt = new Event('input', { bubbles: true });
+  el.dispatchEvent(evt);
+}
+
 
 
 
