@@ -858,6 +858,26 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 .stepped-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 .stepped-total-h { font-size: 14px; font-weight: 700; color: var(--accent); }
 
+/* ── 自动分段模态 ────────────────────────── */
+.auto-seg-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(5px); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.auto-seg-overlay.hidden { display: none; }
+.auto-seg-box { background: var(--bg-surface); border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-2xl); width: 100%; max-width: 860px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-xl); }
+.auto-seg-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid rgba(0,0,0,0.05); position: sticky; top: 0; background: var(--bg-surface); z-index: 1; }
+.auto-seg-title { font-size: 17px; font-weight: 700; }
+.auto-seg-close { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-md); background: transparent; color: var(--text-muted); font-size: 18px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.auto-seg-close:hover { background: var(--bg-elevated); color: var(--text-primary); }
+.auto-seg-body { padding: 20px 24px; }
+.asummary { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 14px 16px; margin-bottom: 16px; }
+.asum-row { display: flex; flex-direction: column; gap: 2px; }
+.asum-l { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.asum-v { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.asum-v.accent { color: var(--accent); }
+.asum-v.warn { color: #e53e3e; }
+.as-seg-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.as-seg-table th { background: var(--bg-secondary); padding: 8px 10px; text-align: center; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid var(--border-subtle); }
+.as-seg-table td { padding: 8px 10px; border-bottom: 1px solid rgba(0,0,0,0.04); color: var(--text-primary); }
+.as-seg-table tbody tr:hover td { background: rgba(94,106,210,0.04); }
+
 
 /* ── 吊装计算 ────────────────────────────── */
 .lift-inputs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 16px; min-width: 0; }

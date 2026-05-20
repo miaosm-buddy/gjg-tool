@@ -922,6 +922,7 @@
                 </select>
               </div>
               <button class="btn btn-outline btn-sm" style="white-space:nowrap" onclick="openSectionPicker()">📚 从截面库选择</button>
+              <button class="btn btn-primary btn-sm" style="white-space:nowrap;margin-left:auto" onclick="showAutoSegModal()">🤖 自动分段</button>
             </div>
             <div class="sec-dims-row" id="secMainDims">
               <!-- 动态参数输入（根据类型切换） -->
@@ -935,6 +936,7 @@
             <span class="mode-label">截面模式：</span>
             <button class="stepped-mode-btn active" id="btn-mode-single" onclick="setColumnMode('single')">单一截面</button>
             <button class="stepped-mode-btn" id="btn-mode-stepped" onclick="setColumnMode('stepped')">变截面</button>
+            <button class="btn btn-primary btn-sm" onclick="showAutoSegModal()" style="margin-left:auto">🤖 自动分段</button>
           </div>
           <div class="stepped-segs-grid" id="stepped-segs-wrap">
             <!-- renderSteppedSegments() 动态渲染 -->
@@ -1654,6 +1656,19 @@
   <div class="szm-container">
     <button class="szm-close" onclick="closeSecZoom()">✕</button>
     <div class="szm-svg" id="secZoomSvg"></div>
+  </div>
+</div>
+
+<!-- 自动分段模态框 -->
+<div id="autoSegOverlay" class="auto-seg-overlay hidden" onclick="if(event.target===this)closeAutoSegModal()">
+  <div class="auto-seg-box">
+    <div class="auto-seg-header">
+      <div class="auto-seg-title">🤖 自动分段分析</div>
+      <button class="auto-seg-close" onclick="closeAutoSegModal()">✕</button>
+    </div>
+    <div class="auto-seg-body" id="autoSegModalBody">
+      <!-- showAutoSegModal() 动态填充 -->
+    </div>
   </div>
 </div>
 

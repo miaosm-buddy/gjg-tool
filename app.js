@@ -4238,7 +4238,263 @@ function updateLiftTableCrane() {
   if (infoEl) infoEl.textContent = cap ? cap.toFixed(1) + ' t' : '—';
 }
 
-// 计算分段
+// ═══════════════════════════════════════════════════════════════════════
+//  自动分段（Phase 2）
+//  autoSegment() → { feasible, craneNote, segs, summary, errors }
+// ═══════════════════════════════════════════════════════════════════════
+
+// 计算某段在给定机械/半径下的可吊最大长度
+// 返回 { maxLen (m), maxSegWt (t), hookWt (t), cap (t) }
+// sec: 截面对象，amp: 放大系数，crane/radius/boomLen
+function _getMaxSegLen(sec, amp, crane, radius, boomLen) {
+  var cap = crane ? getCraneCapacity(crane, radius, boomLen || null) : null;
+  if (!cap || cap <= 0) return { maxLen: 0, maxSegWt: 0, hookWt: 0, cap: 0 };
+  var hookWt = getCraneHookWeight(crane, cap);
+  var maxSegWt = cap - hookWt; // 段重上限（含放大系数）
+  if (maxSegWt <= 0) return { maxLen: 0, maxSegWt: 0, hookWt: hookWt, cap: cap };
+  var lw = secWeight(sec); // kg/m
+  if (lw <= 0) return { maxLen: 0, maxSegWt: 0, hookWt: hookWt, cap: cap };
+  // 段重 = len × lw × amp / 1000 ≤ maxSegWt
+  var maxLen = maxSegWt * 1000 / (lw * amp);
+  // 实际工程中单段不宜超过 18m（运输限制），取小者
+  var TRANSPORT_MAX = 18;
+  if (maxLen > TRANSPORT_MAX) maxLen = TRANSPORT_MAX;
+  return { maxLen: maxLen, maxSegWt: maxSegWt, hookWt: hookWt, cap: cap };
+}
+
+// 贪心自动分段
+// mode: 'single'（当前单一截面）| 'stepped'（当前变截面，验证/优化）
+// 返回分割方案
+function autoSegment() {
+  var craneId = parseInt((document.getElementById('lift-crane') || { value: '' }).value) || 0;
+  var radius  = parseFloat((document.getElementById('lift-radius') || { value: '30' }).value) || 30;
+  var boomLen = parseFloat((document.getElementById('lift-boom-sel') || { value: '' }).value) || 0;
+  var amp     = parseFloat((document.getElementById('lift-amp') || { value: '1.05' }).value) || 1.05;
+  var crane   = craneId && _craneMap[craneId] ? _craneMap[craneId] : null;
+
+  var result = {
+    feasible: false,
+    craneNote: '',
+    segs: [],       // [{name, length, section, selfWt, totalWt, cap, eff}]
+    summary: {},     // {totalH, totalWt, segCount, hookWt, cap}
+    errors: []
+  };
+
+  // ── 获取柱总高 ──
+  var totalH;
+  if (_columnProfile.mode === 'stepped') {
+    var segs0 = _columnProfile.segments.filter(function(s) { return s.length > 0; });
+    totalH = segs0.reduce(function(s, seg) { return s + (seg.length || 0); }, 0);
+    if (totalH <= 0) { result.errors.push('变截面总高度需 > 0'); return result; }
+  } else {
+    flLoadFromUI();
+    totalH = 0;
+    for (var fi = 0; fi < FL_DATA.length; fi++) totalH += FL_DATA[fi].height || 0;
+    if (totalH <= 0) { result.errors.push('请先填写层高表'); return result; }
+  }
+
+  if (!crane) { result.errors.push('请先选择机械'); return result; }
+
+  var cap = crane ? getCraneCapacity(crane, radius, boomLen || null) : null;
+  var hookWt = cap ? getCraneHookWeight(crane, cap) : 0;
+  result.craneNote = crane.type === '塔吊'
+    ? (crane.brand || '') + ' ' + (crane.model || '')
+    : Math.round(crane.max_load_t) + 't' + (crane.type || '');
+  result.summary = { totalH: totalH, segCount: 0, hookWt: hookWt, cap: cap };
+
+  if (!cap || cap <= 0) { result.errors.push('该半径下无可用载荷数据'); return result; }
+
+  // ── 变截面模式：验证每段是否可吊 ──
+  if (_columnProfile.mode === 'stepped') {
+    var segs0 = _columnProfile.segments.filter(function(s) { return s.length > 0 && s.section; });
+    if (!segs0.length) { result.errors.push('请先为每段选择截面'); return result; }
+    result.feasible = true;
+    for (var si = 0; si < segs0.length; si++) {
+      var seg = segs0[si];
+      var selfWt = seg.length * secWeight(seg.section) * amp / 1000;
+      var totalWt = selfWt + hookWt;
+      var eff = cap > 0 ? (selfWt / cap * 100).toFixed(0) : null;
+      var effCls = eff > 90 ? '🔴' : eff > 75 ? '🟡' : '🟢';
+      result.segs.push({
+        name: seg.name || ('第' + (si + 1) + '段'),
+        length: seg.length,
+        section: seg.section,
+        selfWt: selfWt,
+        totalWt: totalWt,
+        cap: cap,
+        eff: eff,
+        effCls: effCls,
+        status: selfWt + hookWt <= cap ? 'ok' : (selfWt <= cap ? 'warn' : 'fail')
+      });
+      result.summary.segCount++;
+      if (selfWt + hookWt > cap) result.feasible = false;
+    }
+    result.summary.totalWt = result.segs.reduce(function(s, seg) { return s + seg.selfWt; }, 0);
+    return result;
+  }
+
+  // ── 单一截面模式：贪心自动分段 ──
+  var sec = window._customSection || null;
+  if (!sec) { result.errors.push('请先输入截面参数或从截面库选择'); return result; }
+
+  // 获取该截面在此半径下的最大可吊长度
+  var info = _getMaxSegLen(sec, amp, crane, radius, boomLen);
+  if (info.maxLen <= 0) { result.errors.push('额定载荷过小，无法吊装此截面'); return result; }
+
+  // 贪心：从柱顶往下，每段取最大可吊长度
+  var remaining = totalH;
+  var segNum = 0;
+  var MIN_SEG = 1.0; // 最小段长 1m
+
+  while (remaining > 0.001) {
+    if (segNum > 200) { result.errors.push('分段数过多，请检查数据'); break; }
+    var segLen = Math.min(info.maxLen, remaining);
+    // 最后一段若 < MIN_SEG，合并到上一段
+    if (segLen < MIN_SEG && result.segs.length > 0) {
+      // 合并到上一段
+      result.segs[result.segs.length - 1].length += segLen;
+      remaining = 0;
+      break;
+    }
+    var selfWt = segLen * secWeight(sec) * amp / 1000;
+    var totalWt = selfWt + hookWt;
+    var eff = info.cap > 0 ? (selfWt / info.cap * 100).toFixed(0) : null;
+    var effCls = eff > 90 ? '🔴' : eff > 75 ? '🟡' : '🟢';
+    segNum++;
+    result.segs.push({
+      name: '第' + segNum + '段',
+      length: Math.round(segLen * 100) / 100,
+      section: sec,
+      selfWt: selfWt,
+      totalWt: totalWt,
+      cap: info.cap,
+      eff: eff,
+      effCls: effCls,
+      status: 'ok'
+    });
+    remaining = Math.round((remaining - segLen) * 100) / 100;
+  }
+
+  // 重新计算总重
+  result.summary.segCount = result.segs.length;
+  result.summary.totalWt = result.segs.reduce(function(s, seg) { return s + seg.selfWt; }, 0);
+  result.summary.maxSegLen = info.maxLen;
+  result.summary.hookWt = info.hookWt;
+  result.summary.cap = info.cap;
+  result.feasible = true;
+  return result;
+}
+
+// 显示自动分段结果（modal）
+window.showAutoSegModal = function() {
+  var plan = autoSegment();
+  var errors = plan.errors;
+
+  // 拼接错误信息
+  if (errors.length) {
+    var errHtml = '<div style="color:#e53e3e;font-size:14px;margin-bottom:12px">⚠ ' + errors.join('<br>⚠ ') + '</div>';
+    var mBody = document.getElementById('autoSegModalBody');
+    if (mBody) mBody.innerHTML = errHtml + '<div style="text-align:center;padding:20px 0"><button class="btn btn-primary" onclick="closeAutoSegModal()">关闭</button></div>';
+    openAutoSegModal();
+    return;
+  }
+
+  // 生成表格HTML
+  var rows = plan.segs.map(function(seg, i) {
+    var statusIcon = seg.status === 'fail' ? '❌' : seg.status === 'warn' ? '⚠️' : '✅';
+    var effDisp = seg.eff != null ? '<span style="color:' + (seg.eff > 90 ? '#e53e3e' : seg.eff > 75 ? '#d69e2e' : '#38a169') + '">' + seg.eff + '%</span>' : '—';
+    return '<tr>' +
+      '<td style="text-align:center;font-weight:700">' + (i + 1) + '</td>' +
+      '<td style="font-weight:600">' + escHtml(seg.section.label || seg.section.code || '—') + '</td>' +
+      '<td style="text-align:center">' + seg.length.toFixed(2) + '</td>' +
+      '<td style="text-align:center;color:var(--text-secondary)">' + seg.selfWt.toFixed(2) + '</td>' +
+      '<td style="text-align:center">' + seg.totalWt.toFixed(2) + '</td>' +
+      '<td style="text-align:center">' + (seg.cap ? seg.cap.toFixed(1) : '—') + '</td>' +
+      '<td style="text-align:center">' + effDisp + '</td>' +
+      '<td style="text-align:center">' + statusIcon + '</td>' +
+      '</tr>';
+  }).join('');
+
+  var summaryHtml = '';
+  if (_columnProfile.mode === 'single') {
+    summaryHtml =
+      '<div class="asum-row"><span class="asum-l">推荐方案</span><span class="asum-v accent">共 <strong>' + plan.summary.segCount + '</strong> 段</span></div>' +
+      '<div class="asum-row"><span class="asum-l">总高度</span><span class="asum-v">' + plan.summary.totalH.toFixed(2) + ' m</span></div>' +
+      '<div class="asum-row"><span class="asum-l">总重量</span><span class="asum-v">' + plan.summary.totalWt.toFixed(2) + ' t</span></div>' +
+      '<div class="asum-row"><span class="asum-l">额定载荷</span><span class="asum-v">' + (plan.summary.cap ? plan.summary.cap.toFixed(1) + ' t' : '—') + '</span></div>' +
+      '<div class="asum-row"><span class="asum-l">吊钩重量</span><span class="asum-v">' + (plan.summary.hookWt ? plan.summary.hookWt.toFixed(2) + ' t' : '—') + '</span></div>' +
+      '<div class="asum-row"><span class="asum-l">最大段长</span><span class="asum-v">' + (plan.summary.maxSegLen ? plan.summary.maxSegLen.toFixed(2) + ' m' : '—') + '</span></div>';
+  } else {
+    summaryHtml =
+      '<div class="asum-row"><span class="asum-l">验证结果</span><span class="asum-v ' + (plan.feasible ? 'accent' : 'warn') + '">' + (plan.feasible ? '✅ 全部可吊' : '❌ 部分超载') + '</span></div>' +
+      '<div class="asum-row"><span class="asum-l">分段数</span><span class="asum-v">' + plan.summary.segCount + '</span></div>' +
+      '<div class="asum-row"><span class="asum-l">总重量</span><span class="asum-v">' + (plan.summary.totalWt ? plan.summary.totalWt.toFixed(2) + ' t' : '—') + '</span></div>';
+  }
+
+  var html =
+    '<div class="asummary">' + summaryHtml + '</div>' +
+    '<table class="as-seg-table">' +
+    '<thead><tr><th>#</th><th>截面</th><th>段长(m)</th><th>自重(t)</th><th>总重(t)</th><th>额定(t)</th><th>效率</th><th>状态</th></tr></thead>' +
+    '<tbody>' + rows + '</tbody></table>' +
+    '<div style="text-align:center;margin-top:16px;display:flex;gap:10px;justify-content:center">' +
+    '<button class="btn btn-primary" onclick="applyAutoSeg()">✓ 应用此方案</button>' +
+    '<button class="btn btn-outline" onclick="closeAutoSegModal()">取消</button></div>';
+
+  var mBody = document.getElementById('autoSegModalBody');
+  if (mBody) mBody.innerHTML = html;
+  openAutoSegModal();
+};
+
+window.openAutoSegModal = function() {
+  var overlay = document.getElementById('autoSegOverlay');
+  if (overlay) overlay.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeAutoSegModal = function() {
+  var overlay = document.getElementById('autoSegOverlay');
+  if (overlay) overlay.classList.add('hidden');
+  document.body.style.overflow = '';
+};
+
+// 应用自动分段方案 → 切换到变截面模式并填入各段
+window.applyAutoSeg = function() {
+  var plan = autoSegment();
+  if (!plan.feasible || !plan.segs.length) return;
+
+  // 切换到变截面模式
+  _columnProfile.mode = 'stepped';
+  _columnProfile.segments = plan.segs.map(function(seg, i) {
+    return {
+      id: Date.now() + i,
+      name: seg.name,
+      length: seg.length,
+      section: seg.section
+    };
+  });
+  _activeSegIdx = -1;
+
+  // 切换UI
+  var singleArea = document.getElementById('secPanel-input');
+  var stepArea   = document.getElementById('secPanel-stepped');
+  var btnSingle  = document.getElementById('btn-mode-single');
+  var btnStepped = document.getElementById('btn-mode-stepped');
+  if (singleArea) singleArea.style.display = 'none';
+  if (stepArea)   stepArea.style.display   = '';
+  if (btnSingle)  btnSingle.classList.remove('active');
+  if (btnStepped) btnStepped.classList.add('active');
+
+  renderSteppedSegments();
+  updateColumnHeight();
+  liftCalc();
+  saveFormData();
+  closeAutoSegModal();
+  toast('自动分段方案已应用：' + plan.segs.length + ' 段');
+};
+
+// ═══════════════════════════════════════════════════════════════════════
+//  计算分段
+// ═══════════════════════════════════════════════════════════════════════
 function liftCalc() {
   var segPf  = parseInt((document.getElementById('lift-seg-pf')||{value:'3'}).value) || 3;
   var amp    = parseFloat((document.getElementById('lift-amp')||{value:'1.05'}).value) || 1.05;
