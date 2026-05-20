@@ -1126,6 +1126,10 @@
           <div class="lp-item"><span class="lp-l">额定起重量</span><span class="lp-v" id="liftCraneRated">—</span></div>
           <div class="lp-item"><span class="lp-l">当前半径额定</span><span class="lp-v accent" id="liftCraneAtR">—</span></div>
         </div>
+        <div class="lift-spreader-info" id="liftSpreaderInfo" style="display:none">
+          <div class="sp-header">吊具参数</div>
+          <div id="liftSpreaderTable"></div>
+        </div>
         </div><!-- /.lift-card-body -->
       </div>
 
@@ -1143,7 +1147,7 @@
             </button>
           </h3>
           <div class="lift-table-actions">
-            <button class="btn btn-secondary btn-sm" onclick="liftExportCsv()">⬇ 导出 CSV</button>
+            <button class="btn btn-secondary btn-sm" onclick="window.liftExportCsv()">⬇ 导出分段表</button>
           </div>
         </div>
         <div class="lift-card-body">
@@ -1168,6 +1172,12 @@
             </thead>
             <tbody id="liftTableBody"></tbody>
           </table>
+        </div>
+        <div id="liftNotes" class="note-box" style="display:none">
+          <b>⚠ 备注说明：</b><br>
+          ① 汽车吊/履带吊：总吊重已含吊钩重量，未含吊绳重量；实际总吊重 = 总吊重 + 吊绳重量，吊绳自重请根据吊装高度自行增加；<br>
+          ② 塔吊：额定起重量是否含吊钩重量需参考塔吊说明书，若额定值未去除吊钩则总吊重需减去相应吊钩重量；<br>
+          ③ 塔吊超出独立高度后或四倍率吊装时，钢丝绳自重随高度增加而增大，请根据高度适当增加吊绳自重。
         </div>
         </div><!-- /.lift-card-body -->
       </div>
@@ -1615,7 +1625,7 @@
 
 </div><!-- /app-main -->
 <script src="data.js?v=v2-20260622b"></script>
-<script src="app.js?v=v2-20260709k"></script>
+<script src="app.js?v=v2-20260720t"></script>
 <!-- 分段类型建议（datalist，供input list属性引用） -->
 <datalist id="diaoci-segtype-list">
   <option value="整根吊装">

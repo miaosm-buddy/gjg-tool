@@ -3,6 +3,66 @@
    新数据结构：crane.load_charts = {工况类型: {工况说明: {'配重|支腿': [行数据]}}}
    ============================================================ */
 
+// ── 吊具参数库 SPREAD_PARAMS_DB（来源：汽车吊数据库.xlsx 吊具参数 sheet）──
+var SPREAD_PARAMS_DB = {
+  "SAC1300C7/T2": [{r:12.5,h:0.27}, {r:80.0,h:0.695}],
+  "SAC16000S": [{r:150.0,h:4.67}, {r:250.0,h:8.35}],
+  "SAC1600T8": [{r:12.5,h:0.27}, {r:80.0,h:0.695}],
+  "SAC2000E": [{r:12.5,h:0.27}, {r:80.0,h:0.695}, {r:125.0,h:1.443}],
+  "SAC2200T": [{r:12.5,h:0.503}, {r:32.0,h:0.824}, {r:80.0,h:1.106}, {r:160.0,h:1.704}],
+  "SAC2300T8": [{r:12.5,h:0.27}, {r:32.0,h:0.479}, {r:80.0,h:0.695}, {r:125.0,h:1.443}],
+  "SAC2600T": [{r:12.5,h:0.447}, {r:32.0,h:0.824}, {r:80.0,h:1.106}, {r:160.0,h:1.704}],
+  "SAC2600T8": [{r:12.5,h:0.27}, {r:32.0,h:0.479}, {r:80.0,h:0.695}, {r:125.0,h:1.443}],
+  "SAC3000T": [{r:12.5,h:0.526}, {r:32.0,h:0.521}, {r:80.0,h:0.723}, {r:160.0,h:1.627}],
+  "SAC3500T": [{r:12.5,h:0.526}, {r:32.0,h:0.521}, {r:80.0,h:0.723}, {r:160.0,h:1.627}],
+  "SAC4000T7": [{r:12.5,h:0.526}, {r:32.0,h:0.521}, {r:80.0,h:0.723}, {r:160.0,h:1.627}],
+  "SAC4500": [{r:12.5,h:0.676}, {r:80.0,h:1.982}, {r:160.0,h:2.886}, {r:200.0,h:3.242}],
+  "SAC6000": [{r:13.5,h:0.5}, {r:80.0,h:0.7}, {r:160.0,h:1.8}, {r:250.0,h:2.8}],
+  "SAC8000T": [],  // 待补充
+  "SPC120T": [{r:12.0,h:0.12}, {r:12.0,h:0.06}],
+  "STC1000C7": [{r:8.0,h:0.25}, {r:50.0,h:0.595}, {r:75.0,h:0.735}, {r:80.0,h:0.8}, {r:100.0,h:1.03}],
+  "STC1000E7": [{r:8.0,h:0.25}, {r:50.0,h:0.595}, {r:75.0,h:0.735}, {r:80.0,h:0.8}, {r:100.0,h:1.03}],
+  "STC160E": [{r:3.0,h:0.06}, {r:16.0,h:0.2}],
+  "STC200E5": [{r:20.0,h:0.25}, {r:20.0,h:0.08}],
+  "STC200T5": [{r:20.0,h:0.25}, {r:20.0,h:0.08}],
+  "STC250C4": [{r:25.0,h:0.32}, {r:25.0,h:0.085}],
+  "STC250C5-1": [{r:25.0,h:0.32}, {r:25.0,h:0.09}],
+  "STC250C5-2/STC250T5-1": [{r:25.0,h:0.32}, {r:25.0,h:0.09}],
+  "STC250E5": [{r:25.0,h:0.32}, {r:25.0,h:0.09}],
+  "STC250E5-2": [{r:25.0,h:0.32}, {r:25.0,h:0.085}],
+  "STC250T-Y6": [{r:25.0,h:0.32}, {r:25.0,h:0.085}],
+  "STC250T4": [{r:25.0,h:0.32}, {r:25.0,h:0.09}],
+  "STC300T6": [{r:30.0,h:0.32}, {r:30.0,h:0.085}],
+  "STC350C5": [{r:5.0,h:0.09}, {r:40.0,h:0.4}],
+  "STC400T5-1": [{r:5.0,h:0.09}, {r:40.0,h:0.4}],
+  "STC500E": [{r:6.0,h:0.1}, {r:50.0,h:0.552}],
+  "STC500E5": [{r:6.0,h:0.1}, {r:50.0,h:0.552}],
+  "STC550T5-1": [{r:6.0,h:0.1}, {r:55.0,h:0.552}],
+  "STC550T6": [{r:6.0,h:0.12}, {r:55.0,h:0.635}],
+  "STC600T5": [{r:6.5,h:0.14}, {r:60.0,h:0.632}],
+  "STC600T6": [{r:6.5,h:0.14}, {r:60.0,h:0.632}],
+  "STC700T": [{r:6.5,h:0.14}, {r:65.0,h:0.69}],
+  "STC750T": [{r:6.5,h:0.14}, {r:65.0,h:0.69}, {r:75.0,h:0.8}],
+  "STC80": [{r:8.0,h:0.1}],
+  "STC800E5": [{r:7.5,h:0.15}, {r:75.0,h:0.735}],
+  "STC800E6": [{r:7.5,h:0.15}, {r:75.0,h:0.735}],
+  "STC900T": [{r:8.0,h:0.21}, {r:75.0,h:0.735}, {r:90.0,h:0.83}],
+  "STC900T6": [{r:8.0,h:0.21}, {r:75.0,h:0.735}, {r:90.0,h:0.83}],
+  "STC900T7": [{r:8.0,h:0.21}, {r:75.0,h:0.735}, {r:90.0,h:0.83}],
+};
+function getCraneHookWeight(crane, reqLoad) {
+  if (!crane || !reqLoad) return 0;
+  var model = crane.model || "";
+  var params = SPREAD_PARAMS_DB[model];
+  if (!params || !params.length) return 0;
+  var best = null;
+  for (var i = 0; i < params.length; i++) {
+    if (params[i].r >= reqLoad) { best = params[i]; break; }
+  }
+  if (!best) best = params[params.length - 1];
+  return best ? (best.h || 0) : 0;
+}
+
 // ── 表单数据持久化（防止刷新丢失）────────────────────────────
 var FORM_STORAGE_KEY = 'jg-lift-form-v1';
 
@@ -464,9 +524,38 @@ function renderLib(p,t){
   }).join('');
     grid.innerHTML=headerHtml+rowsHtml+'</tbody></table>';
   }
-  if(pgn)pgn.innerHTML=(pg>1?'<button class="pgBtn" onclick="renderLib('+(pg-1)+')">← 上一页</button>':'')
-    +'<span class="pgInfo">'+(start+1)+'–'+Math.min(start+_libPageSize,total)+' / '+total+' 台</span>'
-    +(pg<pages?'<button class="pgBtn" onclick="renderLib('+(pg+1)+')">下一页 →</button>':'');
+  if(pgn){
+    var pageHtml='<span class="pgInfo">'+(start+1)+'–'+Math.min(start+_libPageSize,total)+' / '+total+' 台</span>';
+    if(pages>1){
+      // 生成分页按钮：滑动窗口，省略时用...表示，点击跳转
+      // 窗口最多显示5个页码，首尾页始终可见
+      var arr=[];
+      if(pages<=5){
+        for(var p=1;p<=pages;p++) arr.push(p);
+      } else {
+        // 窗口逻辑：pg≤4 固定 [1,5]，pg≥pages-3 固定 [pages-4,pages]，中间随pg滑动
+        var winStart, winEnd;
+        if(pg<=4){
+          winStart=1; winEnd=5;
+        } else if(pg>=pages-3){
+          winStart=pages-4; winEnd=pages;
+        } else {
+          winStart=pg-2; winEnd=pg+2;
+        }
+        if(winStart>1){ arr.push(1); if(winStart>2) arr.push('...'); }
+        for(var p=winStart;p<=winEnd;p++) arr.push(p);
+        if(winEnd<pages){ if(winEnd<pages-1) arr.push('...'); arr.push(pages); }
+      }
+      for(var b=0;b<arr.length;b++){
+        if(arr[b]==='...'){
+          pageHtml+='<span class="pgEllipsis">…</span>';
+        } else {
+          pageHtml+='<button class="pgBtn'+(arr[b]===pg?' pgBtnActive':'')+'" onclick="renderLib('+arr[b]+')">'+arr[b]+'</button>';
+        }
+      }
+    }
+    pgn.innerHTML=pageHtml;
+  }
 }
 
 /* ── 快速选型（正确几何模型）───────────────────────────
@@ -1281,14 +1370,14 @@ function initSpreadTab(){
   if(spEmpty)spEmpty.style.display='none';
   if(spContent)spContent.style.display='';
 
-  // 显示档位说明
+  // 显示档位说明（表格形式，优先用原始字符串如'25（主）'）
   if(spTiersInfo){
-    // 按额定载荷升序排列，显示档位规则
     var sorted=[].concat(sp).sort(function(a,b){return a.rated_load-b.rated_load;});
-    var parts=sorted.map(function(c){
-      return'<span class="tier-chip">≤'+c.rated_load+'t → 吊钩'+c.hook_weight+'t</span>';
-    });
-    spTiersInfo.innerHTML='<div class="spread-tier-hint">📐 吊钩档位自动匹配规则：'+parts.join(' &nbsp;|&nbsp; ')+'</div>';
+    var rows=sorted.map(function(c){
+      var loadStr = c.rated_load_str || c.rated_load;
+      return'<tr><td>'+loadStr+'</td><td>'+c.hook_weight+'</td></tr>';
+    }).join('');
+    spTiersInfo.innerHTML='<table class="sp-tiers-table"><thead><tr><th>额载（t）</th><th>吊钩重量（t）</th></tr></thead><tbody>'+rows+'</tbody></table>';
   }
 }
 
@@ -3858,6 +3947,8 @@ function liftOnCraneChange() {
   var radius = parseFloat((rInput||{value:'30'}).value) || 30;
   if (!craneId || !data) {
     if (info) info.style.display = 'none';
+    var spEl = document.getElementById('liftSpreaderInfo');
+    if (spEl) spEl.style.display = 'none';
     if (boomSel) boomSel.innerHTML = '<option value="">— 自动 —</option>';
     // 清空表格中的机械列
     var tc = document.getElementById('liftTableBody');
@@ -3873,12 +3964,33 @@ function liftOnCraneChange() {
     return;
   }
   var crane = _craneMap[craneId] || null;
-  if (!crane) { if (info) info.style.display = 'none'; return; }
+  if (!crane) {
+    if (info) info.style.display = 'none';
+    var spEl2 = document.getElementById('liftSpreaderInfo');
+    if (spEl2) spEl2.style.display = 'none';
+    return;
+  }
   info.style.display = '';
   document.getElementById('liftCraneModel').textContent = (crane.brand||'') + ' ' + (crane.model||'');
   document.getElementById('liftCraneRated').textContent = (crane.max_load_t||'?') + ' t';
   var cap = getCraneCapacity(crane, radius, null);
   document.getElementById('liftCraneAtR').textContent = cap ? cap.toFixed(1) + ' t' : '无数据';
+  // 索具信息
+  var spInfo = document.getElementById('liftSpreaderInfo');
+  var spTable = document.getElementById('liftSpreaderTable');
+  var sp = crane && crane.spread_params;
+  if (!sp || !sp.length) {
+    if (spInfo) spInfo.style.display = 'none';
+  } else {
+    if (spInfo) spInfo.style.display = '';
+    var sorted = sp.slice().sort(function(a,b){ return (a.rated_load||0)-(b.rated_load||0); });
+    var rows = sorted.map(function(c){
+      var loadStr = c.rated_load_str || (c.rated_load!=null ? c.rated_load : '—');
+      var hookStr = c.hook_weight!=null ? c.hook_weight.toFixed(3) : '待填';
+      return '<tr><td>'+loadStr+'</td><td>'+hookStr+'</td></tr>';
+    }).join('');
+    spTable.innerHTML = '<table class="lift-sp-table"><thead><tr><th>额载（t）</th><th>吊钩重量（t）</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  }
   // 填充臂长选项
   var charts = getCharts(craneId);
   if (!charts || !charts.length) {
@@ -3895,8 +4007,8 @@ function liftOnCraneChange() {
     boomSel.innerHTML = '<option value="">— 自动匹配 —</option>' +
       booms.map(function(b){ return '<option value="'+b+'">'+b+'m</option>'; }).join('');
   }
-  // 只更新表格中的机械/性能列，不重建表格（保留用户输入的总吊重）
-  updateLiftTableCrane();
+  // 重建整个表格（总吊重 = 单重 + 新吊钩重量）
+  liftCalc();
 }
 
 // 更新表格中的机械/性能/效率列（不重建表格，保留用户输入）
@@ -3913,7 +4025,7 @@ function updateLiftTableCrane() {
     var cCell = rows[i].querySelector('.crane-cell');
     var pCell = rows[i].querySelector('[id^="lc_p"]');
     var eCell = rows[i].querySelector('[id^="lc_e"]');
-    if (cCell) cCell.textContent = crane ? escHtml((crane.brand||'') + ' ' + (crane.model||'')) : '—';
+    if (cCell) cCell.textContent = crane ? (crane.type === '塔吊' ? escHtml((crane.brand||'') + ' ' + (crane.model||'')) : Math.round(crane.max_load_t) + 't' + escHtml(crane.type)) : '—';
     if (pCell) pCell.textContent = cap ? cap.toFixed(1) : '—';
     // 重新算效率
     if (eCell) {
@@ -3979,6 +4091,10 @@ function liftCalc() {
   if (segLenBase > 15) {
     summaryEl.className = 'lift-calc-summary error';
     summaryEl.innerHTML = '⚠ 估算段长' + segLenBase.toFixed(1) + 'm > 15m限制！请减少每组楼层数';
+    tableEl.style.display = 'none';
+    emptyEl.style.display = '';
+    var notesEl = document.getElementById('liftNotes');
+    if (notesEl) notesEl.style.display = 'none';
     return;
   }
 
@@ -4000,23 +4116,35 @@ function liftCalc() {
   var linearWt = secWeight(sec); // kg/m
   var crane = craneId && _craneMap[craneId] ? _craneMap[craneId] : null;
 
+  // 先算所有段的重量，取最大值来确定吊钩档位
+  var maxSegWt = 0;
+  for (var _si = 0; _si < n; _si++) {
+    var _s = len[_si] * linearWt * amp / 1000;
+    if (_s > maxSegWt) maxSegWt = _s;
+  }
+  var hookWt = getCraneHookWeight(crane, maxSegWt); // 根据最大段重匹配吊钩档位(t)
+
   // 汇总信息
   summaryEl.className = 'lift-calc-summary';
   var segLabel = {1:'一层一段', 2:'两层一段', 3:'三层一段'}[segPf] || segPf+'层一段';
+  var hookWtInfo = hookWt > 0 ? '　吊钩 <strong>' + hookWt.toFixed(2) + '</strong>t' : '';
   summaryEl.innerHTML =
     '共 <strong>' + nFloors + '</strong>层 / <strong>' + segLabel + '</strong> = <strong>' + n + '</strong>段　' +
     '　估算段长 <strong>' + segLenBase.toFixed(2) + '</strong>m　' +
     '　线重 <strong>' + linearWt.toFixed(2) + '</strong>kg/m　' +
-    '　系数 <strong>' + amp.toFixed(2) + '</strong>';
+    '　系数 <strong>' + amp.toFixed(2) + '</strong>' + hookWtInfo;
 
   // 渲染表格
   tableEl.style.display = '';
   emptyEl.style.display = 'none';
+  var notesEl = document.getElementById('liftNotes');
+  if (notesEl) notesEl.style.display = '';
   tbody.innerHTML = '';
 
   for (var j = 0; j < n; j++) {
     var segLen = Math.round(len[j] * 100) / 100;
     var selfWt = segLen * linearWt * amp / 1000; // 单段自重（t）
+    var totalWt = selfWt + hookWt; // 总吊重 = 单重 + 吊钩重量
     var floorStart = j * segPf;
     var floorEnd = Math.min(floorStart + segPf, nFloors);
     var segFloorLabel = floorEnd - floorStart > 1
@@ -4028,8 +4156,8 @@ function liftCalc() {
       '<td>' + sec.code + '</td>' +
       '<td class="num">' + segLen.toFixed(2) + '</td>' +
       '<td class="num">' + selfWt.toFixed(2) + '</td>' +
-      '<td><input type="number" class="lift-w-input" data-idx="' + j + '" value="' + selfWt.toFixed(2) + '" step="0.01" min="0" oninput="liftRecalcEff(this)"></td>' +
-      '<td class="crane-cell" id="lc_c' + j + '">' + (crane ? escHtml(crane.brand) + ' ' + escHtml(crane.model) : '—') + '</td>' +
+      '<td><input type="number" class="lift-w-input" data-idx="' + j + '" value="' + totalWt.toFixed(2) + '" step="0.01" min="0" oninput="liftRecalcEff(this)"></td>' +
+      '<td class="crane-cell" id="lc_c' + j + '">' + (crane ? (crane.type === '塔吊' ? escHtml(crane.brand) + ' ' + escHtml(crane.model) : Math.round(crane.max_load_t) + 't' + escHtml(crane.type)) : '—') + '</td>' +
       '<td class="num">' + radius.toFixed(1) + '</td>' +
       '<td class="num" id="lc_p' + j + '">' + (crane ? (getCraneCapacity(crane, radius, boomLen||null)||'—').toFixed(1) : '—') + '</td>' +
       '<td class="num" id="lc_e' + j + '"><span class="eff-val">—</span></td>';
@@ -4071,11 +4199,9 @@ window.liftRecalcEff = function(inp) {
 window.liftExportCsv = function() {
   var rows = document.querySelectorAll('#liftTable tbody tr');
   if (!rows.length) { toast('无数据可导出'); return; }
-  var csv = '\uFEFF';
-  csv += '分段名称，截面，段长(m)，单重(t)，总吊重(t)，吊装机械，半径(m)，性能(t)，效率\n';
 
-  function q(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }
-
+  // 收集行数据
+  var rowsHTML = '';
   for (var i = 0; i < rows.length; i++) {
     var tds = rows[i].querySelectorAll('td');
     var seg = tds[0].textContent.trim();
@@ -4088,13 +4214,150 @@ window.liftExportCsv = function() {
     var rad = tds[6].textContent.trim();
     var cap = tds[7].textContent.trim();
     var effEl = tds[8].querySelector('.eff-val');
-    var eff = effEl ? effEl.textContent.trim() : '';
-    csv += q(seg) + ',' + q(sec) + ',' + q(len) + ',' + q(wt) + ',' + q(tot) + ',' + q(crn) + ',' + q(rad) + ',' + q(cap) + ',' + q(eff) + '\n';
+    var eff = effEl ? effEl.textContent.trim() : '—';
+    var effCls = effEl ? effEl.className.replace('eff-val ','') : '';
+
+    rowsHTML += '<tr>' +
+      '<td style="text-align:center">' + esc(seg) + '</td>' +
+      '<td style="text-align:center">' + esc(sec) + '</td>' +
+      '<td style="text-align:right">' + esc(len) + '</td>' +
+      '<td style="text-align:right">' + esc(wt) + '</td>' +
+      '<td style="text-align:right;font-weight:600">' + esc(tot) + '</td>' +
+      '<td>' + esc(crn) + '</td>' +
+      '<td style="text-align:right">' + esc(rad) + '</td>' +
+      '<td style="text-align:right">' + esc(cap) + '</td>' +
+      '<td style="text-align:center">' + (eff !== '—' ? '<span class="eff-badge ' + esc(effCls) + '">' + esc(eff) + '</span>' : '—') + '</td>' +
+      '</tr>';
   }
-  var blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
-  var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-  a.download = '钢柴分段吊装表_' + new Date().toISOString().slice(0,10) + '.csv'; a.click();
-  toast('已导出 ' + rows.length + ' 段');
+
+  // 构建 CSV 内容（供弹出页下载）
+  var csvContent = '\uFEFF';
+  csvContent += '分段名称,截面,段长(m),单重(t),总吊重(t),吊装机械,半径(m),性能(t),效率\n';
+  for (var ci2 = 0; ci2 < rows.length; ci2++) {
+    var td2 = rows[ci2].querySelectorAll('td');
+    var s2 = td2[0].textContent.trim();
+    var x2 = td2[1].textContent.trim();
+    var l2 = td2[2].textContent.trim();
+    var w2 = td2[3].textContent.trim();
+    var inp2 = td2[4].querySelector('input');
+    var t2 = inp2 ? inp2.value.trim() : td2[4].textContent.trim();
+    var c2 = td2[5].textContent.trim();
+    var r2 = td2[6].textContent.trim();
+    var p2 = td2[7].textContent.trim();
+    var ef2 = td2[8].querySelector('.eff-val');
+    var e2 = ef2 ? ef2.textContent.trim() : '';
+    csvContent += '"' + s2 + '","' + x2 + '",' + l2 + ',' + w2 + ',' + t2 + ',"' + c2 + '",' + r2 + ',' + p2 + ',"' + e2 + '"\n';
+  }
+
+  // 基本参数
+  var summaryEl = document.getElementById('lift-summary');
+  var summaryHTML = summaryEl ? summaryEl.innerHTML : '';
+  var craneSel = document.getElementById('lift-crane');
+  var craneId = craneSel ? parseInt(craneSel.value) : 0;
+  var crane = craneId && _craneMap[craneId] ? _craneMap[craneId] : null;
+  var radius = parseFloat((document.getElementById('lift-radius')||{value:''}).value) || 0;
+  var boomLen = parseFloat((document.getElementById('lift-boom-sel')||{value:''}).value) || 0;
+  var craneName = crane ? (crane.type === '塔吊' ? escHtml(crane.brand) + ' ' + escHtml(crane.model) : Math.round(crane.max_load_t) + 't' + escHtml(crane.type)) : '—';
+  var craneRated = crane && crane.max_load_t ? crane.max_load_t + ' t' : '—';
+  var boomText = boomLen ? boomLen + ' m' : '—';
+
+  var now = new Date();
+  var dateStr = now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日';
+
+  var html = '<!DOCTYPE html><html lang="zh"><head>' +
+    '<meta charset="UTF-8">' +
+    '<title>分段吊装计算表</title>' +
+    '<style>' +
+    '  * { box-sizing: border-box; margin: 0; padding: 0; }' +
+    '  body { font-family: "Microsoft YaHei","SimSun",Arial,sans-serif; font-size: 13px; color: #222; background: #fff; padding: 20px; }' +
+    '  .report-header { text-align: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid #1a5fb4; }' +
+    '  .report-header h1 { font-size: 22px; font-weight: 700; color: #1a5fb4; margin-bottom: 6px; letter-spacing: 1px; }' +
+    '  .report-header p { color: #666; font-size: 12px; }' +
+    '  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; background: #f5f8ff; border: 1px solid #d0ddf5; border-radius: 6px; padding: 14px 18px; margin-bottom: 20px; }' +
+    '  .info-item { display: flex; align-items: baseline; gap: 6px; }' +
+    '  .info-label { font-size: 12px; color: #555; white-space: nowrap; min-width: 110px; }' +
+    '  .info-value { font-size: 13px; font-weight: 600; color: #222; }' +
+    '  .section-title { font-size: 15px; font-weight: 700; color: #1a5fb4; margin: 20px 0 10px; padding-left: 8px; border-left: 4px solid #1a5fb4; }' +
+    '  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: auto; }' +
+    '  th { background: #1a5fb4; color: #fff; padding: 9px 12px; font-size: 12px; font-weight: 700; text-align: center; border: 1px solid #145099; white-space: nowrap; }' +
+    '  td { padding: 8px 12px; font-size: 13px; border: 1px solid #d8e0ed; vertical-align: middle; text-align: center; }' +
+    '  tr:nth-child(even) td { background: #f5f8ff; }' +
+    '  .eff-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; }' +
+    '  .eff-ok { background: #d4edda; color: #155724; }' +
+    '  .eff-warn { background: #fff3cd; color: #856404; }' +
+    '  .eff-bad { background: #f8d7da; color: #721c24; }' +
+    '  .note-box { background: #fffbea; border: 1px solid #f0c040; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #555; line-height: 1.8; margin-bottom: 20px; }' +
+    '  .footer { text-align: center; color: #999; font-size: 11px; margin-top: 30px; padding-top: 12px; border-top: 1px solid #ddd; }' +
+    '  @media print { body { padding: 10px; font-size: 12px; } .no-print { display: none; } table { page-break-inside: avoid; } }' +
+    '</style>' +
+    '</head><body>' +
+
+    '<div class="no-print" style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap">' +
+    '  <button onclick="window.print()" style="padding:8px 20px;background:#1a5fb4;color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit">🖨️ 打印 / 另存为PDF</button>' +
+    '  <button onclick="downloadCSV()" style="padding:8px 20px;background:#107b1a;color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit">📥 导出 Excel/CSV</button>' +
+    '  <button onclick="window.close()" style="padding:8px 16px;background:#f0f0f0;color:#333;border:1px solid #ccc;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit">✕ 关闭</button>' +
+    '</div>' +
+
+    '<div class="report-header">' +
+    '  <h1>起重吊装 · 分段吊装计算表</h1>' +
+    '  <p>编制日期：' + dateStr + '　　机械选型系统自动生成</p>' +
+    '</div>' +
+
+    '<div class="section-title">一、机械与参数</div>' +
+    '<div class="info-grid">' +
+    '  <div class="info-item"><span class="info-label">吊装机械：</span><span class="info-value">' + craneName + '</span></div>' +
+    '  <div class="info-item"><span class="info-label">额定起重量：</span><span class="info-value">' + craneRated + '</span></div>' +
+    '  <div class="info-item"><span class="info-label">作业半径：</span><span class="info-value">' + radius + ' m</span></div>' +
+    '  <div class="info-item"><span class="info-label">选用臂长：</span><span class="info-value">' + boomText + '</span></div>' +
+    '</div>' +
+
+    '<div class="section-title">二、分段吊装明细</div>' +
+    '<div style="overflow-x:auto">' +
+    '<table>' +
+    '<thead><tr>' +
+    '<th style="width:120px">分段名称</th>' +
+    '<th style="width:160px">截面</th>' +
+    '<th style="width:80px">段长(m)</th>' +
+    '<th style="width:80px">单重(t)</th>' +
+    '<th style="width:90px">总吊重(t)</th>' +
+    '<th>吊装机械</th>' +
+    '<th style="width:80px">半径(m)</th>' +
+    '<th style="width:80px">性能(t)</th>' +
+    '<th style="width:80px">效率</th>' +
+    '</tr></thead>' +
+    '<tbody>' + rowsHTML + '</tbody>' +
+    '</table>' +
+    '</div>' +
+
+    '<div class="note-box">' +
+    '  <b>⚠ 备注说明：</b><br>' +
+    '  ① 汽车吊/履带吊：总吊重已含吊钩重量，未含吊绳重量；实际总吊重 = 总吊重 + 吊绳重量，吊绳自重请根据吊装高度自行增加；<br>' +
+    '  ② 塔吊：额定起重量是否含吊钩重量需参考塔吊说明书，若额定值未去除吊钩则总吊重需减去相应吊钩重量；<br>' +
+    '  ③ 塔吊超出独立高度后或四倍率吊装时，钢丝绳自重随高度增加而增大，请根据高度适当增加吊绳自重；<br>' +
+    '  ④ 总吊重可在上方表格中直接修改，修改后请重新点击"导出计算表"以更新本表；<br>' +
+    '  ⑤ 效率 = 总吊重 ÷ 性能(%)，绿色≤75% / 黄色75~90% / 红色＞90%，效率超过90%时应更换大型号机械或调整吊装方案。' +
+    '</div>' +
+
+    '<div class="footer">本表由起重机械智能选型系统自动生成 · ' + dateStr + '</div>' +
+
+    '<script>' +
+    'var CSV_DATA = ' + JSON.stringify(csvContent) + ';' +
+    'function downloadCSV() {' +
+    '  var blob = new Blob(["\\uFEFF" + CSV_DATA], {type:"text/csv;charset=utf-8"});' +
+    '  var a = document.createElement("a");' +
+    '  a.href = URL.createObjectURL(blob);' +
+    '  a.download = "分段吊装表_' + dateStr.replace(/年|月|日/g,"") + '.csv";' +
+    '  document.body.appendChild(a);' +
+    '  a.click();' +
+    '  document.body.removeChild(a);' +
+    '}' +
+    '</script>' +
+    '</body></html>';
+
+  var win = window.open('', '_blank', 'width=1100,height=800,scrollbars=yes');
+  if (!win) { toast('请允许弹出窗口以导出表格'); return; }
+  win.document.write(html);
+  win.document.close();
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -5463,6 +5726,36 @@ function diaociExportTable() {
   var hours     = parseFloat((document.getElementById('diaoci-hours')||{value:10}).value)     || 10;
   var k_other   = parseFloat((document.getElementById('diaoci-k-other')||{value:0.1}).value)   || 0.1;
 
+  // 构建 CSV 内容
+  var csvContent = '\uFEFF';
+  csvContent += '起重吊装·吊次分析计算表\n';
+  csvContent += '一、基本参数\n';
+  csvContent += '机械组合,' + JSON.stringify(machDesc || '—') + '\n';
+  csvContent += '每日工作时长,' + hours + ' h\n';
+  csvContent += '天气/工序系数,' + k_weather + '\n';
+  csvContent += '土建与钢结构使用占比,' + k_util + '\n';
+  csvContent += '其他吊装占比,' + k_other + '\n';
+  csvContent += '机械数量合计,' + totalCranes + ' 台\n';
+  csvContent += '\n二、构件吊次明细\n';
+  csvContent += '序号,结构类型,构件位置,构件类型,施工方法,构件数量,分段调整系数,吊次合计,效率(次/台班),单台机械时间(d)\n';
+  _diaoci.rows.forEach(function(row, i) {
+    csvContent += (i+1) + ','
+      + '"' + (row.structure_type||'') + '",'
+      + '"' + (row.pos||'') + '",'
+      + '"' + (row.comp_type||'') + '",'
+      + '"' + (row.seg_type === '—' ? '—' : row.seg_type) + '",'
+      + (row.qty||0) + ','
+      + (row.seg_coef!=null ? row.seg_coef : '—') + ','
+      + (row.diaoci>0 ? Math.round(row.diaoci) : '—') + ','
+      + (row.eff_d>0 ? row.eff_d.toFixed(1) : '—') + ','
+      + (row.days>0 ? row.days.toFixed(1) : '—') + '\n';
+  });
+  csvContent += '\n三、汇总结果\n';
+  csvContent += '总吊次,' + (parseInt(totalDiaoci)||0) + '\n';
+  csvContent += '综合日吊次,' + (parseFloat(totalEffDay)||0) + '\n';
+  csvContent += '机械数量,' + totalCranes + ' 台\n';
+  csvContent += '预计总工期,' + (totalDays||'') + ' d\n';
+
   // 机械组合描述
   var machDesc = _diaoci.machines.map(function(m) {
     var craneText = '';
@@ -5513,12 +5806,13 @@ function diaociExportTable() {
     '  .info-label { font-size: 12px; color: #555; white-space: nowrap; min-width: 100px; }' +
     '  .info-value { font-size: 13px; font-weight: 600; color: #222; }' +
     '  .section-title { font-size: 15px; font-weight: 700; color: #1a5fb4; margin: 20px 0 10px; padding-left: 8px; border-left: 4px solid #1a5fb4; }' +
-    '  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }' +
-    '  th { background: #1a5fb4; color: #fff; padding: 9px 8px; font-size: 12px; font-weight: 600; text-align: center; border: 1px solid #145099; white-space: nowrap; }' +
-    '  td { padding: 8px 8px; font-size: 13px; border: 1px solid #d8e0ed; vertical-align: middle; }' +
+    '  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: auto; }' +
+    '  th { background: #1a5fb4; color: #fff; padding: 9px 12px; font-size: 12px; font-weight: 700; text-align: center; border: 1px solid #145099; white-space: nowrap; }' +
+    '  td { padding: 8px 12px; font-size: 13px; border: 1px solid #d8e0ed; vertical-align: middle; text-align: center; }' +
     '  tr:nth-child(even) td { background: #f5f8ff; }' +
     '  tr:last-child td { font-weight: 600; }' +
-    '  .summary-table td { font-size: 14px; padding: 10px 14px; }' +
+    '  .summary-table th { font-weight: 700; text-align: center; }' +
+    '  .summary-table td { font-size: 14px; padding: 10px 14px; text-align: center; }' +
     '  .summary-table .val { font-size: 20px; font-weight: 700; color: #1a5fb4; text-align: center; }' +
     '  .summary-table .lbl { font-size: 12px; color: #666; text-align: center; }' +
     '  .note-box { background: #fffbea; border: 1px solid #f0c040; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #555; line-height: 1.8; margin-bottom: 20px; }' +
@@ -5532,8 +5826,9 @@ function diaociExportTable() {
     '</style>' +
     '</head><body>' +
 
-    '<div class="no-print" style="margin-bottom:16px;display:flex;gap:10px">' +
+    '<div class="no-print" style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap">' +
     '  <button onclick="window.print()" style="padding:8px 20px;background:#1a5fb4;color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit">🖨️ 打印 / 另存为PDF</button>' +
+    '  <button onclick="downloadCSV()" style="padding:8px 20px;background:#107b1a;color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit">📥 导出 Excel/CSV</button>' +
     '  <button onclick="window.close()" style="padding:8px 16px;background:#f0f0f0;color:#333;border:1px solid #ccc;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit">✕ 关闭</button>' +
     '</div>' +
 
@@ -5599,6 +5894,19 @@ function diaociExportTable() {
     '</div>' +
 
     '<div class="footer">本表由起重机械智能选型系统自动生成 · ' + dateStr + '</div>' +
+
+    '<script>' +
+    'var CSV_DATA = ' + JSON.stringify(csvContent) + ';' +
+    'function downloadCSV() {' +
+    '  var blob = new Blob(["\\uFEFF" + CSV_DATA], {type:"text/csv;charset=utf-8"});' +
+    '  var a = document.createElement("a");' +
+    '  a.href = URL.createObjectURL(blob);' +
+    '  a.download = "吊次分析计算表_' + dateStr.replace(/年|月|日/g,"") + '.csv";' +
+    '  document.body.appendChild(a);' +
+    '  a.click();' +
+    '  document.body.removeChild(a);' +
+    '}' +
+    '</script>' +
     '</body></html>';
 
   var win = window.open('', '_blank', 'width=1100,height=800,scrollbars=yes');
