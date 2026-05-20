@@ -930,6 +930,22 @@
           </div>
         </div>
 
+        <!-- ── 变截面分段面板 ── -->
+        <div id="secPanel-stepped" class="stepped-panel" style="display:none">
+          <div class="stepped-mode-row">
+            <span class="mode-label">截面模式：</span>
+            <button class="stepped-mode-btn active" id="btn-mode-single" onclick="setColumnMode('single')">单一截面</button>
+            <button class="stepped-mode-btn" id="btn-mode-stepped" onclick="setColumnMode('stepped')">变截面</button>
+          </div>
+          <div class="stepped-segs-grid" id="stepped-segs-wrap">
+            <!-- renderSteppedSegments() 动态渲染 -->
+          </div>
+          <div class="stepped-footer">
+            <button class="btn btn-outline btn-sm" onclick="colAddSegment()">+ 添加分段</button>
+            <span>柱总高：<span class="stepped-total-h" id="col-total-h">—</span></span>
+          </div>
+        </div>
+
         <!-- 截面详情（始终可见：SVG + 参数） -->
         <div id="liftSecInfo">
           <!-- 空状态 -->
