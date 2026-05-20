@@ -2638,6 +2638,9 @@ window.updateMainSectionCalc = function() {
   var wrap = document.getElementById('secSvgWrap');
   if (wrap) wrap.style.cursor = 'zoom-in';
   document.getElementById('secSvgWrap') && (document.getElementById('secSvgWrap').onclick = function(){ openSecZoom(); });
+  // 下载按钮显示
+  var dlBtn = document.getElementById('secDownloadBtn');
+  if (dlBtn) dlBtn.style.display = svgEl && svgEl.firstChild ? 'inline-block' : 'none';
 
   // 力学参数网格（对齐msteel格式）
   function fmtN(v, dec) {
@@ -2871,7 +2874,8 @@ function drawSectionSVG(s) {
 
     var f2 = function(v){ return (+v).toFixed(1); };
     var SSTK = '#2c4a7c', HFIL = '#ffffff', HSTK = '#b0b8c8';
-    var DC   = '#c0392b';  // 红色 - 总尺寸 + 厚度标注
+    var DC   = '#c0392b';  // 红色 - 厚度标注
+    var HB_COLOR = '#2c4a7c';  // 深蓝色 - H/B 总尺寸标注（与H型钢标题栏同色）
 
     // ── SVG 框架 ────────────────────────────────────────────
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+f2(cW)+' '+f2(cH)+'" style="display:block;width:100%;height:auto;max-width:100%;">';
@@ -2915,11 +2919,11 @@ function drawSectionSVG(s) {
     //  H=/B=：红点在截面轮廓实际边界上，水平/垂直引线无缝连接
     // ══════════════════════════════════════════════════════════
 
-    // 字号
-    var fsH = 32;   // H= / B= 总尺寸
-    var fsD = 28;   // h1/h2/b1/b2 副尺寸
-    var fsT = 26;   // tf/tw 厚度标注（翼缘/腹板厚度，加大）
-    var R = 3.5;    // 红点半径
+    // 字号（随截面尺寸动态调整，H/B比其他标注大2号）
+    var baseFs = Math.max(14, Math.min(24, Math.round((HTot + BTot) / 32)));
+    var fsD = baseFs;     // h1/h2/b1/b2/tf/tw 统一基础字号
+    var fsH = baseFs + 2;  // H= / B= 总尺寸，比其他大2号
+    var R = Math.max(3, baseFs / 7);  // 红点半径随字号等比调整
 
     // ── 计算截面的实际几何边界（用于标注定位）─────────────
     // 竖H各矩形 y 范围：[vT, vT+sTf1]（上翼缘）、[hwT, hwB]（竖腹板）、[vB-sTf1, vB]（下翼缘）
@@ -2930,74 +2934,74 @@ function drawSectionSVG(s) {
     var actLft = Math.min(vL, hL);       // 截面实际最左 x
     var actRgt = Math.max(vR, hR);       // 截面实际最右 x
 
-    // ── H= 总高：右侧垂直标注线 ────────────────────────────
-    // 红点直接在截面最右-最上角和最右-最下角，水平引线无缝连接
+    // ── H= 总高：右侧，竖H上下翼缘表面 ───────────────────
+    // 红点：竖H上翼缘表面(vT) 和 下翼缘表面(vB)
     {
-      var lxH = actRgt + 80;  // 垂直标注线 x（加大间距）
-      var y_top = actTop;      // ← 直接在截面上边界，无偏移
-      var y_bot = actBot;      // ← 直接在截面下边界，无偏移
+      var lxH = actRgt + 50;
+      var y_top = vT;           // 竖H上翼缘表面
+      var y_bot = vB;           // 竖H下翼缘表面
       var y_mid = (y_top + y_bot) / 2;
-      // 水平引线（红点在截面边界上，无间隙直接引出）
-      svg += '<circle cx="'+f2(actRgt)+'" cy="'+f2(y_top)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<circle cx="'+f2(actRgt)+'" cy="'+f2(y_bot)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(actRgt)+'" y1="'+f2(y_top)+'" x2="'+f2(lxH)+'" y2="'+f2(y_top)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
-      svg += '<line x1="'+f2(actRgt)+'" y1="'+f2(y_bot)+'" x2="'+f2(lxH)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
-      // 垂直粗虚线（连接两引出点）
+      svg += '<circle cx="'+f2(vR)+'"   cy="'+f2(y_top)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<circle cx="'+f2(vR)+'"   cy="'+f2(y_bot)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<line x1="'+f2(vR)+'"   y1="'+f2(y_top)+'" x2="'+f2(lxH)+'" y2="'+f2(y_top)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
+      svg += '<line x1="'+f2(vR)+'"   y1="'+f2(y_bot)+'" x2="'+f2(lxH)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
       svg += '<line x1="'+f2(lxH)+'" y1="'+f2(y_top)+'" x2="'+f2(lxH)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="2" stroke-dasharray="8,4"/>';
-      // 端点短横线
       svg += '<line x1="'+f2(lxH-7)+'" y1="'+f2(y_top)+'" x2="'+f2(lxH+7)+'" y2="'+f2(y_top)+'" stroke="'+DC+'" stroke-width="2"/>';
       svg += '<line x1="'+f2(lxH-7)+'" y1="'+f2(y_bot)+'" x2="'+f2(lxH+7)+'" y2="'+f2(y_bot)+'" stroke="'+DC+'" stroke-width="2"/>';
-      // 文字（竖排，垂直标注线右侧）
-      svg += '<text x="'+f2(lxH+28)+'" y="'+f2(y_mid)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsH+'" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(lxH+28)+','+f2(y_mid)+')">H = '+HTot+' mm</text>';
+      svg += '<text x="'+f2(lxH+28)+'" y="'+f2(y_mid)+'" text-anchor="middle" fill="'+HB_COLOR+'" font-size="'+fsH+'" font-weight="700" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(lxH+28)+','+f2(y_mid)+')">H = '+HTot+' mm</text>';
     }
 
-    // ── B= 总宽：下方水平标注线 ────────────────────────────
-    // 红点在截面最左-最下角和最右-最下角，垂直引线无缝连接
+    // ── B= 总宽：下方，截面下方+50 ─────────────────────────
+    // 红点：截面四角(actLft,actTop) 和 (actRgt,actBot)
     {
-      var lyB = actBot + 80;  // 水平标注线 y（加大间距）
-      var x_left = actLft;     // ← 直接在截面左边界，无偏移
-      var x_right = actRgt;    // ← 直接在截面右边界，无偏移
+      var lyB = vB + 50;
+      var x_left  = actLft;
+      var x_right = actRgt;
       var x_mid = (x_left + x_right) / 2;
-      svg += '<circle cx="'+f2(x_left)+'"  cy="'+f2(actBot)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<circle cx="'+f2(x_left)+'"  cy="'+f2(actTop)+'" r="'+R+'" fill="'+DC+'"/>';
       svg += '<circle cx="'+f2(x_right)+'" cy="'+f2(actBot)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(x_left)+'"  y1="'+f2(actBot)+'" x2="'+f2(x_left)+'"  y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
+      svg += '<line x1="'+f2(x_left)+'"  y1="'+f2(actTop)+'" x2="'+f2(x_left)+'"  y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
       svg += '<line x1="'+f2(x_right)+'" y1="'+f2(actBot)+'" x2="'+f2(x_right)+'" y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="1.1" stroke-dasharray="5,3"/>';
-      // 水平粗虚线
       svg += '<line x1="'+f2(x_left)+'" y1="'+f2(lyB)+'" x2="'+f2(x_right)+'" y2="'+f2(lyB)+'" stroke="'+DC+'" stroke-width="2" stroke-dasharray="8,4"/>';
       svg += '<line x1="'+f2(x_left)+'"  y1="'+f2(lyB-7)+'" x2="'+f2(x_left)+'"  y2="'+f2(lyB+7)+'" stroke="'+DC+'" stroke-width="2"/>';
       svg += '<line x1="'+f2(x_right)+'" y1="'+f2(lyB-7)+'" x2="'+f2(x_right)+'" y2="'+f2(lyB+7)+'" stroke="'+DC+'" stroke-width="2"/>';
-      svg += '<text x="'+f2(x_mid)+'" y="'+f2(lyB+26)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsH+'" font-weight="700" font-family="system-ui,sans-serif">B = '+BTot+' mm</text>';
+      svg += '<text x="'+f2(x_mid)+'" y="'+f2(lyB+26)+'" text-anchor="middle" fill="'+HB_COLOR+'" font-size="'+fsH+'" font-weight="700" font-family="system-ui,sans-serif">B = '+BTot+' mm</text>';
     }
 
-    // ── b1：截面上方（始终标注）────────────────────────────
-    // 竖H翼缘左右边界各红点 → 垂直虚线向上 → 水平标注线
+    // ── b1：截面上方，竖H上翼缘上方 ───────────────────────
+    // 红点：竖H左右翼缘表面(vL/vR) 在上翼缘表面(vT) 处
+    // 标注线：vT - 50
     {
-      var y_b1 = actTop - 42;
+      var y_b1 = vT - 50;
       var xl_b1 = vL, xr_b1 = vR;
-      svg += '<circle cx="'+f2(xl_b1)+'" cy="'+f2(actTop)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<circle cx="'+f2(xr_b1)+'" cy="'+f2(actTop)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(xl_b1)+'" y1="'+f2(actTop)+'" x2="'+f2(xl_b1)+'" y2="'+f2(y_b1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<line x1="'+f2(xr_b1)+'" y1="'+f2(actTop)+'" x2="'+f2(xr_b1)+'" y2="'+f2(y_b1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<circle cx="'+f2(xl_b1)+'" cy="'+f2(vT)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<circle cx="'+f2(xr_b1)+'" cy="'+f2(vT)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<line x1="'+f2(xl_b1)+'" y1="'+f2(vT)+'" x2="'+f2(xl_b1)+'" y2="'+f2(y_b1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<line x1="'+f2(xr_b1)+'" y1="'+f2(vT)+'" x2="'+f2(xr_b1)+'" y2="'+f2(y_b1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
       svg += '<line x1="'+f2(xl_b1)+'" y1="'+f2(y_b1)+'" x2="'+f2(xr_b1)+'" y2="'+f2(y_b1)+'" stroke="'+DC+'" stroke-width="1.4"/>';
       svg += '<line x1="'+f2(xl_b1)+'" y1="'+f2(y_b1-5)+'" x2="'+f2(xl_b1)+'" y2="'+f2(y_b1+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
       svg += '<line x1="'+f2(xr_b1)+'" y1="'+f2(y_b1-5)+'" x2="'+f2(xr_b1)+'" y2="'+f2(y_b1+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
       svg += '<text x="'+f2((xl_b1+xr_b1)/2)+'" y="'+f2(y_b1-9)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif">b₁ = '+b1+' mm</text>';
     }
 
-    // ── h2：截面上方（仅 h2<b1 时标注）────────────────────
-    // 网上移（大间距避免与b1文字重叠），字号缩小
+    // ── h2：截面上方，横向H型钢上下翼缘顶点 ─────────────────
+    // 红点：横H上下翼缘顶点(hT/hB)，引线为竖直向上直线
+    // 标注线：vT - 120（在b1上方）
     {
-      var y_h2 = actTop - 120;  // 大幅上移，避免与b1重叠
+      var y_h2 = vT - 100;
       var xl_h2 = hL, xr_h2 = hR;
-      svg += '<circle cx="'+f2(xl_h2)+'" cy="'+f2(ccy)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<circle cx="'+f2(xr_h2)+'" cy="'+f2(ccy)+'" r="'+R+'" fill="'+DC+'"/>';
-      var y_h2_conn = y_h2 + 10;
-      svg += '<line x1="'+f2(xl_h2)+'" y1="'+f2(ccy)+'" x2="'+f2(xl_h2)+'" y2="'+f2(y_h2_conn)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<line x1="'+f2(xr_h2)+'" y1="'+f2(ccy)+'" x2="'+f2(xr_h2)+'" y2="'+f2(y_h2_conn)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      svg += '<circle cx="'+f2(xl_h2)+'" cy="'+f2(hT)+'" r="'+R+'" fill="'+DC+'"/>';
+      svg += '<circle cx="'+f2(xr_h2)+'" cy="'+f2(hB)+'" r="'+R+'" fill="'+DC+'"/>';
+      // 左引线：竖直向上直线（hT → y_h2）
+      svg += '<line x1="'+f2(xl_h2)+'" y1="'+f2(hT)+'" x2="'+f2(xl_h2)+'" y2="'+f2(y_h2)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
+      // 右引线：竖直向上直线（hB → y_h2）
+      svg += '<line x1="'+f2(xr_h2)+'" y1="'+f2(hB)+'" x2="'+f2(xr_h2)+'" y2="'+f2(y_h2)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
       svg += '<line x1="'+f2(xl_h2)+'" y1="'+f2(y_h2)+'" x2="'+f2(xr_h2)+'" y2="'+f2(y_h2)+'" stroke="'+DC+'" stroke-width="1.4"/>';
       svg += '<line x1="'+f2(xl_h2)+'" y1="'+f2(y_h2-5)+'" x2="'+f2(xl_h2)+'" y2="'+f2(y_h2+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
       svg += '<line x1="'+f2(xr_h2)+'" y1="'+f2(y_h2-5)+'" x2="'+f2(xr_h2)+'" y2="'+f2(y_h2+5)+'" stroke="'+DC+'" stroke-width="1.4"/>';
-      svg += '<text x="'+f2((xl_h2+xr_h2)/2)+'" y="'+f2(y_h2-9)+'" text-anchor="middle" fill="'+DC+'" font-size="20" font-weight="600" font-family="system-ui,sans-serif">h₂ = '+h2+' mm</text>';
+      svg += '<text x="'+f2((xl_h2+xr_h2)/2)+'" y="'+f2(y_h2-9)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif">h₂ = '+h2+' mm</text>';
+      // h2右侧小红点：横H右侧翼缘右上角顶点(hR, hT)
+      svg += '<circle cx="'+f2(hR)+'" cy="'+f2(hT)+'" r="'+(R+1)+'" fill="#CC0000"/>';
     }
 
     // ── 左侧副尺寸（h1 或 b2）─────────────────────────────
@@ -3027,50 +3031,42 @@ function drawSectionSVG(s) {
       }
     }
 
-    // ── tf1：竖H上翼缘厚，左侧外（字号加大）────────────────
-    // 红点在翼缘厚度矩形中心 → 水平虚线向左外引 → 竖排文字
+    // ── tf1：竖H上翼缘厚，横向，竖H上翼缘上方-10 ──────────
+    // 水平线在vT-10，无引线，横排文字居中于翼缘宽度方向
     {
-      var xl_tf1 = actLft - 130;
-      var y_tf1 = vT + sTf1 / 2;  // 翼缘厚度矩形中心
-      svg += '<circle cx="'+f2(vL + sTf1/2)+'" cy="'+f2(y_tf1)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(vL + sTf1/2)+'" y1="'+f2(y_tf1)+'" x2="'+f2(xl_tf1)+'" y2="'+f2(y_tf1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<text x="'+f2(xl_tf1-10)+'" y="'+f2(y_tf1)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(-90,'+f2(xl_tf1-10)+','+f2(y_tf1)+')">tf₁ = '+tf1+'</text>';
+      var y_tf1 = vT - 10;
+      var x_tf1_mid = (vL + vR) / 2;
+      svg += '<text x="'+f2(x_tf1_mid)+'" y="'+f2(y_tf1-7)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif">tf₁ = '+tf1+'</text>';
     }
 
-    // ── tw1：竖H腹板厚，截面内侧（字号加大）────────────────
-    // 红点在竖腹板左边界中点 → 水平虚线向右内侧引 → 横排文字
+    // ── tw1：竖H腹板厚，竖向，竖H腹板右侧靠上 ───────────
+    // 无引线无红点，竖排文字位于腹板右侧偏上
     {
-      var y_tw1 = ccy;
-      var x_tw1_l = vwL + sTw1 + 36;  // 腹板右侧内 + 间距
-      svg += '<circle cx="'+f2(vwL)+'" cy="'+f2(y_tw1)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(vwL)+'" y1="'+f2(y_tw1)+'" x2="'+f2(x_tw1_l - 6)+'" y2="'+f2(y_tw1)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<text x="'+f2(x_tw1_l)+'" y="'+f2(y_tw1 + 8)+'" text-anchor="start" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif">tw₁ = '+tw1+'</text>';
+      var x_tw1 = vwL + sTw1 + 18;
+      var y_tw1 = ccy - 150;
+      svg += '<text x="'+f2(x_tw1)+'" y="'+f2(y_tw1)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(x_tw1)+','+f2(y_tw1)+')">tw₁ = '+tw1+'</text>';
     }
 
-    // ── tf2：横H上翼缘厚，右侧外（字号加大）────────────────
-    // 红点在翼缘厚度矩形中心 → 水平虚线向右外引 → 竖排文字
+    // ── tf2：横H上翼缘厚，H标注与右翼缘之间，竖向显示 ─────
+    // 竖排文字居中于 actRgt+55，y在截面高度中央
     {
-      var xr_tf2 = actRgt + 95;
-      var y_tf2 = hT + sTf2 / 2;
-      svg += '<circle cx="'+f2(hR - sTf2/2)+'" cy="'+f2(y_tf2)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(hR - sTf2/2)+'" y1="'+f2(y_tf2)+'" x2="'+f2(xr_tf2)+'" y2="'+f2(y_tf2)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<text x="'+f2(xr_tf2+10)+'" y="'+f2(y_tf2)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(xr_tf2+10)+','+f2(y_tf2)+')">tf₂ = '+tf2+'</text>';
+      var x_tf2 = actRgt + 20;
+      var y_tf2 = ccy;
+      svg += '<text x="'+f2(x_tf2)+'" y="'+f2(y_tf2)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif" dominant-baseline="middle" transform="rotate(90,'+f2(x_tf2)+','+f2(y_tf2)+')">tf₂ = '+tf2+'</text>';
     }
 
-    // ── tw2：横H腹板厚，截面内侧（字号加大）────────────────
-    // 红点在横腹板上边界中点 → 垂直虚线向下内侧引 → 横排文字
+    // ── tw2：横H腹板厚，横向，横向H腹板左侧下方 ──────────
+    // 无引线无红点，横排文字位于腹板左侧偏下
     {
-      var x_tw2 = ccx;
-      var y_tw2_t = hwT + sTw2 + 20;  // 腹板下方内 + 间距，避免与截面线碰撞
-      svg += '<circle cx="'+f2(x_tw2)+'" cy="'+f2(hwT)+'" r="'+R+'" fill="'+DC+'"/>';
-      svg += '<line x1="'+f2(x_tw2)+'" y1="'+f2(hwT)+'" x2="'+f2(x_tw2)+'" y2="'+f2(y_tw2_t + 5)+'" stroke="'+DC+'" stroke-width="1.0" stroke-dasharray="5,3"/>';
-      svg += '<text x="'+f2(x_tw2)+'" y="'+f2(y_tw2_t + 7)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsT+'" font-weight="600" font-family="system-ui,sans-serif">tw₂ = '+tw2+'</text>';
+      var x_tw2 = ccx - 150;
+      var y_tw2 = hwT + sTw2 + 25;
+      svg += '<text x="'+f2(x_tw2)+'" y="'+f2(y_tw2)+'" text-anchor="middle" fill="'+DC+'" font-size="'+fsD+'" font-weight="600" font-family="system-ui,sans-serif">tw₂ = '+tw2+'</text>';
     }
 
     // ── 标题栏（字号加大）────────────────────────────────────
     var cruTitle = '十' + h1 + '×' + b1 + '×' + tw1 + '×' + tf1 + ' + ' + h2 + '×' + b2 + '×' + tw2 + '×' + tf2;
     svg += '<rect x="0" y="'+f2(cH-38)+'" width="'+f2(cW)+'" height="38" fill="#2c4a7c" rx="0"/>'+
-           '<text x="'+f2(cW/2)+'" y="'+f2(cH-12)+'" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="600" font-family="system-ui,sans-serif">'+cruTitle+'</text>';
+           '<text x="'+f2(cW/2)+'" y="'+f2(cH-12)+'" text-anchor="middle" fill="#ffffff" font-size="'+(fsH+2)+'" font-weight="600" font-family="system-ui,sans-serif">'+cruTitle+'</text>';
 
     svg += '</svg>';
     return svg;
@@ -4020,7 +4016,7 @@ function liftCalc() {
 
   for (var j = 0; j < n; j++) {
     var segLen = Math.round(len[j] * 100) / 100;
-    var selfWt = segLen * linearWt * amp; // 单段自重（t）
+    var selfWt = segLen * linearWt * amp / 1000; // 单段自重（t）
     var floorStart = j * segPf;
     var floorEnd = Math.min(floorStart + segPf, nFloors);
     var segFloorLabel = floorEnd - floorStart > 1
@@ -4031,8 +4027,8 @@ function liftCalc() {
       '<td>' + segFloorLabel + '</td>' +
       '<td>' + sec.code + '</td>' +
       '<td class="num">' + segLen.toFixed(2) + '</td>' +
-      '<td class="num">' + selfWt.toFixed(3) + '</td>' +
-      '<td><input type="number" class="lift-w-input" data-idx="' + j + '" value="' + selfWt.toFixed(3) + '" step="0.001" min="0" oninput="liftRecalcEff(this)"></td>' +
+      '<td class="num">' + selfWt.toFixed(2) + '</td>' +
+      '<td><input type="number" class="lift-w-input" data-idx="' + j + '" value="' + selfWt.toFixed(2) + '" step="0.01" min="0" oninput="liftRecalcEff(this)"></td>' +
       '<td class="crane-cell" id="lc_c' + j + '">' + (crane ? escHtml(crane.brand) + ' ' + escHtml(crane.model) : '—') + '</td>' +
       '<td class="num">' + radius.toFixed(1) + '</td>' +
       '<td class="num" id="lc_p' + j + '">' + (crane ? (getCraneCapacity(crane, radius, boomLen||null)||'—').toFixed(1) : '—') + '</td>' +
@@ -5776,7 +5772,301 @@ window.spSelectCard = function(code) {
   // 启用确认按钮
   var cb = document.getElementById('spConfirmBtn');
   if (cb) cb.disabled = !code;
+  // 显示详情展开区
+  if (sec) spShowDetail(sec); else spHideDetail();
 };
+
+// 显示截面详情展开区
+window.spShowDetail = function(sec) {
+  var detail = document.getElementById('spDetail');
+  if (!detail) return;
+  var svgEl = document.getElementById('spDetailSvg');
+  var paramsEl = document.getElementById('spDetailParams');
+  if (!svgEl || !paramsEl) return;
+
+  // SVG 截面图（mini版，200px宽）
+  var miniSvg = spDrawMiniSVG(sec);
+  svgEl.innerHTML = miniSvg;
+
+  // 参数表（小写标签：s n mx my vx vy rx ry）
+  paramsEl.innerHTML = spBuildParamTable(sec);
+
+  detail.style.display = '';
+  // 滚动到详情区
+  detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+};
+
+// 收起详情展开区
+window.spHideDetail = function() {
+  var detail = document.getElementById('spDetail');
+  if (detail) detail.style.display = 'none';
+};
+
+// 绘制 mini SVG 截面图（200px宽）
+function spDrawMiniSVG(sec) {
+  if (!sec) return '';
+  var W = 200, H = 160;
+  var t = sec.type;
+  var sc, sx, sy;
+
+  // ── H型钢 (HW/HM/HN/HP) ──
+  if (t === 'HW' || t === 'HM' || t === 'HN' || t === 'HP') {
+    var B = sec.B || 0, h = sec.H || 0, tw = sec.tw || 0, tf = sec.tf || 0;
+    if (!h || !B) return '';
+    sc = Math.min((W - 40) / (B + 20), (H - 40) / (h + 20), 1.2);
+    var cw = B * sc, ch = h * sc, ctw = tw * sc, ctf = tf * sc;
+    var ox = (W - cw) / 2, oy = (H + ch) / 2;
+    sx = function(x) { return ox + (x + B / 2) * sc; };
+    sy = function(y) { return oy - y * sc; };
+    var x1 = sx(-B / 2), x2 = sx(B / 2);
+    var yt = sy(h / 2), yb = sy(-h / 2);
+    var ytf = sy(h / 2 - tf), ybf = sy(-h / 2 + tf);
+    var xtw1 = sx(-tw / 2), xtw2 = sx(tw / 2);
+    var fill = '#c8d4f4', stroke = '#4a56b8', sw = '1.5';
+    var fs = Math.max(7, Math.min(11, sc * 80)); // 字体随比例尺自适应（7~11px）
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+    svg += '<rect width="' + W + '" height="' + H + '" fill="#f6f7fa"/>';
+    svg += '<rect x="' + x1 + '" y="' + (yt - ctf) + '" width="' + cw + '" height="' + ctf + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    svg += '<rect x="' + x1 + '" y="' + ybf + '" width="' + cw + '" height="' + ctf + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    svg += '<rect x="' + xtw1 + '" y="' + ytf + '" width="' + ctw + '" height="' + (ybf - ytf) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    svg += '<line x1="10" y1="' + sy(0) + '" x2="' + (W - 10) + '" y2="' + sy(0) + '" stroke="rgba(74,86,184,0.25)" stroke-width="0.8" stroke-dasharray="3 3"/>';
+    svg += '<line x1="' + sx(0) + '" y1="8" x2="' + sx(0) + '" y2="' + (H - 8) + '" stroke="rgba(74,86,184,0.25)" stroke-width="0.8" stroke-dasharray="3 3"/>';
+    svg += '<line x1="' + x1 + '" y1="' + (yt - ctf - 5) + '" x2="' + x1 + '" y2="' + (yb + ctf + 5) + '" stroke="#5e6ad2" stroke-width="0.8"/>';
+    svg += '<line x1="' + (x1 - 4) + '" y1="' + (yt - ctf - 5) + '" x2="' + (x1 + 4) + '" y2="' + (yt - ctf - 5) + '" stroke="#5e6ad2" stroke-width="0.8"/>';
+    svg += '<line x1="' + (x1 - 4) + '" y1="' + (yb + ctf + 5) + '" x2="' + (x1 + 4) + '" y2="' + (yb + ctf + 5) + '" stroke="#5e6ad2" stroke-width="0.8"/>';
+    svg += '<text x="' + (x1 - 6) + '" y="' + (sy(0) + 4) + '" text-anchor="end" font-size="' + fs.toFixed(1) + '" fill="#5e6ad2" font-weight="600">H=' + h + '</text>';
+    svg += '<line x1="' + (x1 - 5) + '" y1="' + (yt - ctf) + '" x2="' + (x2 + 5) + '" y2="' + (yt - ctf) + '" stroke="#5e6ad2" stroke-width="0.8"/>';
+    svg += '<line x1="' + (x1 - 5) + '" y1="' + (yt - ctf - 3) + '" x2="' + (x1 - 5) + '" y2="' + (yt - ctf + 3) + '" stroke="#5e6ad2" stroke-width="0.8"/>';
+    svg += '<line x1="' + (x2 + 5) + '" y1="' + (yt - ctf - 3) + '" x2="' + (x2 + 5) + '" y2="' + (yt - ctf + 3) + '" stroke="#5e6ad2" stroke-width="0.8"/>';
+    svg += '<text x="' + sx(0) + '" y="' + (yt - ctf - 6) + '" text-anchor="middle" font-size="' + fs.toFixed(1) + '" fill="#5e6ad2" font-weight="600">B=' + B + '</text>';
+    svg += '</svg>';
+    return svg;
+  }
+
+  // ── 箱型截面 ──
+  if (t === 'BOX') {
+    var B = sec.B || 0, h = sec.H || 0, t1 = sec.t1 || sec.t || 0;
+    if (!h || !B) return '';
+    sc = Math.min((W - 40) / (B + 20), (H - 40) / (h + 20), 1.2);
+    var cw = B * sc, ch = h * sc;
+    var ct = (sec.t1 && sec.t2) ? [sec.t1 * sc, sec.t2 * sc] : [t1 * sc, t1 * sc];
+    var ox = (W - cw) / 2, oy = (H + ch) / 2;
+    var x1 = ox, x2 = ox + cw, yt = oy - h / 2 * sc, yb = oy + h / 2 * sc;
+    var fill = '#b8d9c8', stroke = '#1a7a4a', sw = '1.5';
+    var fs = Math.max(7, Math.min(11, sc * 80)); // 字体随比例尺自适应（7~11px）
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+    svg += '<rect width="' + W + '" height="' + H + '" fill="#f6f7fa"/>';
+    svg += '<rect x="' + x1 + '" y="' + yt + '" width="' + cw + '" height="' + ch + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    var iw = cw - ct[0] - ct[1], ih = ch - ct[0] - ct[1];
+    if (iw > 0 && ih > 0) {
+      svg += '<rect x="' + (x1 + ct[0]) + '" y="' + (yt + ct[0]) + '" width="' + iw + '" height="' + ih + '" fill="white" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    }
+    svg += '<line x1="10" y1="' + oy + '" x2="' + (W - 10) + '" y2="' + oy + '" stroke="rgba(26,122,74,0.2)" stroke-width="0.8" stroke-dasharray="3 3"/>';
+    svg += '<line x1="' + ox + '" y1="8" x2="' + ox + '" y2="' + (H - 8) + '" stroke="rgba(26,122,74,0.2)" stroke-width="0.8" stroke-dasharray="3 3"/>';
+    svg += '<text x="' + (ox - 6) + '" y="' + (oy + 4) + '" text-anchor="end" font-size="' + fs.toFixed(1) + '" fill="#1a7a4a" font-weight="600">口' + h + '×' + B + '</text>';
+    svg += '</svg>';
+    return svg;
+  }
+
+  // ── 圆管 (CHS) ──
+  if (t === 'CHS') {
+    var D = sec.D || 0, tt = sec.t || 0;
+    if (!D) return '';
+    var r = (Math.min(W, H) - 30) / 2;
+    var cx = W / 2, cy = H / 2;
+    var sc_chs = (Math.min(W, H) - 30) / D; // 等效比例尺
+    var fs = Math.max(8, Math.min(18, sc_chs * 160)); // 字体随比例尺自适应（8~18px，圆管文字空间较大）
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+    svg += '<rect width="' + W + '" height="' + H + '" fill="#f6f7fa"/>';
+    svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="#fce4c8" stroke="#c07a20" stroke-width="1.5"/>';
+    svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + Math.max(2, r - tt * r / (D / 2)) + '" fill="white" stroke="#c07a20" stroke-width="1.5"/>';
+    svg += '<line x1="10" y1="' + cy + '" x2="' + (W - 10) + '" y2="' + cy + '" stroke="rgba(192,122,32,0.25)" stroke-width="0.8" stroke-dasharray="3 3"/>';
+    svg += '<line x1="' + cx + '" y1="8" x2="' + cx + '" y2="' + (H - 8) + '" stroke="rgba(192,122,32,0.25)" stroke-width="0.8" stroke-dasharray="3 3"/>';
+    svg += '<text x="' + cx + '" y="' + (cy - r - 6) + '" text-anchor="middle" font-size="' + fs.toFixed(1) + '" fill="#c07a20" font-weight="600">D=' + D + '</text>';
+    svg += '</svg>';
+    return svg;
+  }
+
+  // ── 十字形 (CRU) ──
+  if (t === 'CRU') {
+    var h1 = sec.h1 || 0, b1 = sec.b1 || 0, tw1 = sec.tw1 || 0, tf1 = sec.tf1 || 0;
+    var h2 = sec.h2 || 0, b2 = sec.b2 || 0, tw2 = sec.tw2 || 0, tf2 = sec.tf2 || 0;
+    if (!h1 || !b1 || !h2 || !b2) return '';
+    var Htot = Math.max(h1, b2), Btot = Math.max(h2, b1);
+    sc = Math.min((W - 40) / (Btot + 10), (H - 40) / (Htot + 10), 1.0);
+    var ox = W / 2, oy = H / 2;
+    var sx = function(x) { return ox + x * sc; };
+    var sy = function(y) { return oy - y * sc; };
+    var fill = '#ddc8f5', stroke = '#7c3aed', sw = '1.5';
+    // 自适应字号体系：fs为其他标注基础字号，fsH比fs大2号
+    var fs = Math.max(7, Math.min(11, sc * 80));
+    var fsH = Math.max(12, Math.min(16, fs + 2));
+    // 竖H（HN旋转90°，翼缘宽b1，腹板高h1）
+    var vx1 = sx(-b1 / 2), vx2 = sx(b1 / 2);
+    var vyt = sy(h1 / 2), vyb = sy(-h1 / 2), vyft = sy(h1 / 2 - tf1), vyfb = sy(-h1 / 2 + tf1);
+    // 横H（翼缘宽h2，腹板高b2）
+    var hx1 = sx(-h2 / 2), hx2 = sx(h2 / 2);
+    var hyt = sy(b2 / 2), hyb = sy(-b2 / 2), hyft = sy(b2 / 2 - tf2), hyfb = sy(-b2 / 2 + tf2);
+    // 右侧标注定位（横H右翼缘 + 偏移）
+    var actRgt = hx2;                          // 横H右翼缘x坐标
+    // tw1/tw2 引出标注位置（图形外边缘，viewBox 临界）
+    var tw1LabelX = vx2 + tw1 * sc + 18;       // 竖H腹板标注x
+    var tw1LabelY = oy + 15;                    // 竖H腹板标注y（图形下方）
+    var tw2LabelX = hx1 - tw2 * sc - 18;       // 横H腹板标注x（图形左侧外）
+    var tw2LabelY = oy - 15;                    // 横H腹板标注y（图形上方）
+    // 竖H腹板中心x
+    var vWebCx = sx(0);
+    // 横H腹板中心y
+    var hWebCy = oy;
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+    svg += '<rect width="' + W + '" height="' + H + '" fill="#f6f7fa"/>';
+    // 竖H翼缘（宽b1，高tf1）
+    svg += '<rect x="' + vx1 + '" y="' + (vyt - tf1 * sc) + '" width="' + (b1 * sc) + '" height="' + (tf1 * sc) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    svg += '<rect x="' + vx1 + '" y="' + vyfb + '" width="' + (b1 * sc) + '" height="' + (tf1 * sc) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    // 竖H腹板（宽tw1，高h1）
+    svg += '<rect x="' + sx(-tw1 / 2) + '" y="' + vyft + '" width="' + (tw1 * sc) + '" height="' + (vyfb - vyft) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    // 横H翼缘（宽h2，高tf2）
+    svg += '<rect x="' + hx1 + '" y="' + (hyt - tf2 * sc) + '" width="' + (h2 * sc) + '" height="' + (tf2 * sc) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    svg += '<rect x="' + hx1 + '" y="' + hyfb + '" width="' + (h2 * sc) + '" height="' + (tf2 * sc) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    // 横H腹板（宽tw2，高b2）
+    svg += '<rect x="' + sx(-tw2 / 2) + '" y="' + hyft + '" width="' + (tw2 * sc) + '" height="' + (hyfb - hyft) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
+    // ── 标注线 ──
+    // tw1 竖H腹板厚度（从腹板中心oy斜向右下至标签，左侧再垂直向上回到oy）
+    svg += '<line x1="' + vWebCx + '" y1="' + oy + '" x2="' + tw1LabelX + '" y2="' + tw1LabelY + '" stroke="#7c3aed" stroke-width="0.8"/>';
+    svg += '<line x1="' + tw1LabelX + '" y1="' + oy + '" x2="' + tw1LabelX + '" y2="' + tw1LabelY + '" stroke="#7c3aed" stroke-width="0.8"/>';
+    svg += '<text x="' + tw1LabelX + '" y="' + (tw1LabelY - 3) + '" text-anchor="middle" font-size="' + fs.toFixed(1) + '" fill="#7c3aed" font-weight="600">tw1=' + tw1 + '</text>';
+    // tw2 横H腹板厚度（从腹板中心oy斜向左上至标签，左侧再垂直向上回到oy）
+    svg += '<line x1="' + hWebCy + '" y1="' + oy + '" x2="' + tw2LabelX + '" y2="' + tw2LabelY + '" stroke="#7c3aed" stroke-width="0.8"/>';
+    svg += '<line x1="' + tw2LabelX + '" y1="' + oy + '" x2="' + tw2LabelX + '" y2="' + tw2LabelY + '" stroke="#7c3aed" stroke-width="0.8"/>';
+    svg += '<text x="' + tw2LabelX + '" y="' + tw2LabelY + '" text-anchor="middle" font-size="' + fs.toFixed(1) + '" fill="#7c3aed" font-weight="600" transform="rotate(-90,' + tw2LabelX + ',' + tw2LabelY + ')">tw2=' + tw2 + '</text>';
+    // tf1 竖H翼缘厚度（仅文字，无引线）
+    svg += '<text x="' + (vx1 - 5) + '" y="' + (vyt - 2) + '" text-anchor="end" font-size="' + fs.toFixed(1) + '" fill="#7c3aed" font-weight="600">tf1=' + tf1 + '</text>';
+    // h2 右侧小红点（横H右翼缘右上角顶点）
+    var h2DotX = hx2;
+    var h2DotY = hyt - tf2 * sc;
+    svg += '<circle cx="' + h2DotX + '" cy="' + h2DotY + '" r="2.5" fill="#e53e3e"/>';
+    // tf2 竖向标注（横H右侧，H标注与右翼缘之间）
+    svg += '<text x="' + (actRgt + 20) + '" y="' + hWebCy + '" text-anchor="start" font-size="' + fs.toFixed(1) + '" fill="#7c3aed" font-weight="600" transform="rotate(-90,' + (actRgt + 20) + ',' + hWebCy + ')">tf2=' + tf2 + '</text>';
+    // H 总高蓝标注（横H右侧，与tf2同侧，偏移更大）
+    svg += '<text x="' + (actRgt + 50) + '" y="' + hWebCy + '" text-anchor="start" font-size="' + fsH.toFixed(1) + '" fill="#5e6ad2" font-weight="600" transform="rotate(-90,' + (actRgt + 50) + ',' + hWebCy + ')">H=' + Htot + '</text>';
+    // B 总宽蓝标注（横H下方，与总高对应位置）
+    svg += '<text x="' + ox + '" y="' + (H - 5) + '" text-anchor="middle" font-size="' + fsH.toFixed(1) + '" fill="#5e6ad2" font-weight="600">B=' + Btot + '</text>';
+    // 底部截面名称（28px）
+    svg += '<text x="' + ox + '" y="' + (H - 22) + '" text-anchor="middle" font-size="28" fill="#7c3aed" font-weight="600">十' + h1 + '×' + b1 + '+' + h2 + '×' + b2 + '</text>';
+    svg += '</svg>';
+    return svg;
+  }
+
+  return '';
+}
+
+// 构建截面参数表格（小写标签）
+function spBuildParamTable(sec) {
+  if (!sec) return '';
+  var t = sec.type;
+  var H = sec.H || 0, B = sec.B || 0, tw = sec.tw || 0, tf = sec.tf || 0;
+  var t1 = sec.t1 || sec.t || 0, t2 = sec.t2 || sec.t || 0;
+  var D = sec.D || 0, tt = sec.t || 0;
+
+  // 计算力学参数
+  var A = 0, Ix = 0, Iy = 0, Wx = 0, Wy = 0, ix = 0, iy = 0;
+  if (t === 'HW' || t === 'HM' || t === 'HN' || t === 'HP') {
+    A = 2 * B * tf + (H - 2 * tf) * tw;
+    Ix = (B * H * H * H - (B - tw) * Math.pow(H - 2 * tf, 3)) / 12;
+    Iy = (2 * tf * B * B * B + (H - 2 * tf) * tw * tw * tw) / 12;
+    Wx = Ix / (H / 2);
+    Wy = Iy / (B / 2);
+    ix = Math.sqrt(Ix / A);
+    iy = Math.sqrt(Iy / A);
+  } else if (t === 'BOX') {
+    A = 2 * B * t1 + 2 * (H - 2 * t1) * t2;
+    Ix = (B * H * H * H - (B - 2 * t2) * Math.pow(H - 2 * t1, 3)) / 12;
+    Iy = (H * B * B * B - (H - 2 * t1) * Math.pow(B - 2 * t2, 3)) / 12;
+    Wx = Ix / (H / 2);
+    Wy = Iy / (B / 2);
+    ix = Math.sqrt(Ix / A);
+    iy = Math.sqrt(Iy / A);
+  } else if (t === 'CHS') {
+    var ri = D / 2 - tt;
+    A = Math.PI * tt * (D - tt);
+    Ix = Math.PI / 64 * (Math.pow(D, 4) - Math.pow(2 * ri, 4));
+    Iy = Ix;
+    Wx = Ix / (D / 2);
+    Wy = Wx;
+    ix = Math.sqrt(Ix / A);
+    iy = ix;
+  } else if (t === 'CRU') {
+    var h1 = sec.h1 || 0, b1 = sec.b1 || 0, tw1 = sec.tw1 || 0, tf1 = sec.tf1 || 0;
+    var h2 = sec.h2 || 0, b2 = sec.b2 || 0, tw2 = sec.tw2 || 0, tf2 = sec.tf2 || 0;
+    A = h1 * tw1 + 2 * b1 * tf1 + h2 * tw2 + 2 * b2 * tf2 - tw1 * tw2;
+    var I_vertical = (b1 * h1 * h1 * h1 - (b1 - tw1) * Math.pow(h1 - 2 * tf1, 3)) / 12;
+    var I_horizontal = (tf2 * h2 * h2 * h2 + (b2 - tw2) * Math.pow(h2 - 2 * tf2, 3)) / 12 + 2 * b2 * tf2 * (h1 - tf1) * (h1 - tf1);
+    Ix = I_vertical + I_horizontal;
+    Iy = (tf1 * b1 * b1 * b1 + (h1 - 2 * tf1) * tw1 * tw1 * tw1) / 12 + (h2 * b2 * b2 * b2 - (h2 - 2 * tf2) * Math.pow(b2 - tw2, 3)) / 12;
+    Wx = Ix / (Math.max(h1, b2) / 2);
+    Wy = Iy / (Math.max(h2, b1) / 2);
+    ix = Math.sqrt(Ix / A);
+    iy = Math.sqrt(Iy / A);
+  }
+
+  // 格式化数值
+  var fmt = function(v, dec) { if (!v || isNaN(v)) return '—'; return v.toLocaleString('en', {maximumFractionDigits: dec || 1}); };
+  var fmtD = function(v, dec) { if (!v || isNaN(v)) return '—'; return v.toFixed(dec || 2); };
+
+  // 截面积 s (mm²)
+  var sVal = A > 0 ? (A >= 10000 ? (A / 10000).toFixed(3) + '' : A.toFixed(1) + '') : '—';
+  var sUnit = A >= 10000 ? '×10⁴ mm²' : 'mm²';
+  // rx/ry (mm)
+  var rxVal = ix > 0 ? fmtD(ix, 2) : '—';
+  var ryVal = iy > 0 ? fmtD(iy, 2) : '—';
+  // mx/my (mm³ → 换算为 cm³ 用于显示)
+  var mxVal = Wx > 0 ? (Wx >= 1e6 ? (Wx / 1e6).toFixed(3) : (Wx / 1e3).toFixed(2)) : '—';
+  var myVal = Wy > 0 ? (Wy >= 1e6 ? (Wy / 1e6).toFixed(3) : (Wy / 1e3).toFixed(2)) : '—';
+  var mxUnit = Wx >= 1e6 ? '×10⁶ mm³' : '×10³ mm³';
+  var myUnit = Wy >= 1e6 ? '×10⁶ mm³' : '×10³ mm³';
+  // vx/vy（腹板抗剪:mm²）
+  var Aw = (t === 'HW' || t === 'HM' || t === 'HN' || t === 'HP') ? (H - 2 * tf) * tw : (t === 'BOX') ? 2 * (H - 2 * t1) * t2 : (t === 'CHS') ? A * 0.5 : 0;
+  var vxVal = Aw > 0 ? (Aw >= 1000 ? (Aw / 1000).toFixed(1) + '' : Aw.toFixed(1)) : '—';
+  var vyVal = vxVal;
+  var vUnit = Aw >= 1000 ? '×10³ mm²' : 'mm²';
+  // n（轴力设计值 N = A×f，f=215 N/mm² Q345，取Q235:f=215）
+  var nVal = A > 0 ? (A * 215 / 1000).toFixed(0) : '—'; // kN
+
+  var html = '<table class="sp-param-table">';
+  html += '<thead><tr><th>参数</th><th>数值</th><th>单位</th></tr></thead>';
+  html += '<tbody>';
+  // 几何尺寸
+  html += '<tr class="sp-param-group-row"><td colspan="3">几何尺寸</td></tr>';
+  if (t === 'HW' || t === 'HM' || t === 'HN' || t === 'HP') {
+    html += '<tr><td>H</td><td>' + fmt(H) + '</td><td>mm</td></tr>';
+    html += '<tr><td>B</td><td>' + fmt(B) + '</td><td>mm</td></tr>';
+    html += '<tr><td>tw</td><td>' + fmt(tw) + '</td><td>mm</td></tr>';
+    html += '<tr><td>tf</td><td>' + fmt(tf) + '</td><td>mm</td></tr>';
+  } else if (t === 'BOX') {
+    html += '<tr><td>H</td><td>' + fmt(H) + '</td><td>mm</td></tr>';
+    html += '<tr><td>B</td><td>' + fmt(B) + '</td><td>mm</td></tr>';
+    html += '<tr><td>t1</td><td>' + fmt(t1) + '</td><td>mm</td></tr>';
+    if (t2 !== t1) html += '<tr><td>t2</td><td>' + fmt(t2) + '</td><td>mm</td></tr>';
+  } else if (t === 'CHS') {
+    html += '<tr><td>D</td><td>' + fmt(D) + '</td><td>mm</td></tr>';
+    html += '<tr><td>t</td><td>' + fmt(tt) + '</td><td>mm</td></tr>';
+  } else if (t === 'CRU') {
+    html += '<tr><td>竖H</td><td>' + (sec.h1 || '—') + '×' + (sec.b1 || '—') + '×' + (sec.tw1 || '—') + '×' + (sec.tf1 || '—') + '</td><td>mm</td></tr>';
+    html += '<tr><td>横H</td><td>' + (sec.h2 || '—') + '×' + (sec.b2 || '—') + '×' + (sec.tw2 || '—') + '×' + (sec.tf2 || '—') + '</td><td>mm</td></tr>';
+  }
+  // 力学特性（小写标签）
+  html += '<tr class="sp-param-group-row"><td colspan="3">力学特性</td></tr>';
+  html += '<tr><td>s</td><td>' + sVal + '</td><td>' + sUnit + '</td></tr>';
+  html += '<tr><td>n</td><td>' + nVal + '</td><td>kN</td></tr>';
+  html += '<tr><td>mx</td><td>' + mxVal + '</td><td>' + mxUnit + '</td></tr>';
+  html += '<tr><td>my</td><td>' + myVal + '</td><td>' + myUnit + '</td></tr>';
+  html += '<tr><td>vx</td><td>' + vxVal + '</td><td>' + vUnit + '</td></tr>';
+  html += '<tr><td>vy</td><td>' + vyVal + '</td><td>' + vUnit + '</td></tr>';
+  html += '<tr><td>rx</td><td>' + rxVal + '</td><td>mm</td></tr>';
+  html += '<tr><td>ry</td><td>' + ryVal + '</td><td>mm</td></tr>';
+  html += '</tbody></table>';
+  return html;
+}
 
 // 确认选用
 window.spConfirm = function() {
@@ -5830,6 +6120,8 @@ window.spConfirm = function() {
 }
 
 // 辅助：设置 input 值（触发 input 事件以联动）
+// 批量填值期间延迟更新，确保所有字段填完后再统一计算截面
+var _setInputDirty = false;
 function setInput(id, val) {
   var el = document.getElementById(id);
   if (!el) return;
@@ -5837,9 +6129,14 @@ function setInput(id, val) {
   // 触发一次 input 事件（让 oninput="updateMainSectionCalc()" 捕获）
   var evt = new Event('input', { bubbles: true });
   el.dispatchEvent(evt);
-  // 显式调用一次：确保 diagram 必定更新（不受事件冒泡异常影响）
-  // 但需尊重防重入标志，避免在 secMainTypeChange 期间干扰
-  if (!_secCalcDeferred) updateMainSectionCalc();
+  // 标记脏位，用 microtask 延迟更新（避免批量填值期间 guard 条件误触发）
+  _setInputDirty = true;
+  Promise.resolve().then(function() {
+    if (_setInputDirty && !_secCalcDeferred) {
+      _setInputDirty = false;
+      updateMainSectionCalc();
+    }
+  });
 }
 
 // ═══════════════════════════════════════════
@@ -6071,10 +6368,77 @@ function openSecZoom() {
     zoomSvg.innerHTML = svgEl.innerHTML;
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    // 右键保存：4倍高清
+    zoomSvg.oncontextmenu = function(e) {
+      e.preventDefault();
+      var svg = zoomSvg.querySelector('svg');
+      if (!svg) return;
+      var svgData = new XMLSerializer().serializeToString(svg);
+      var url = URL.createObjectURL(new Blob([svgData], {type:'image/svg+xml;charset=utf-8'}));
+      var img = new Image();
+      img.onload = function() {
+        var scale = 4;
+        var canvas = document.createElement('canvas');
+        canvas.width = 380 * scale;
+        canvas.height = 300 * scale;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#f4f5f9';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+        canvas.toBlob(function(blob) {
+          if (!blob) return;
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = '截面图-高清.png';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(a.href);
+        }, 'image/png');
+      };
+      img.src = url;
+    };
   }
 }
 function closeSecZoom() {
   var modal = document.getElementById('secZoomModal');
   if (modal) { modal.style.display = 'none'; }
   document.body.style.overflow = '';
+}
+
+// ── 截面图高清下载 ──────────────────────────────────────────────
+function downloadSectionImg() {
+  var svgEl = document.getElementById('secSvg');
+  if (!svgEl || !svgEl.firstChild) return;
+  var svg = svgEl.firstChild.cloneNode(true);
+  svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  var name = document.getElementById('liftSecModel');
+  var fileName = (name && name.textContent && name.textContent !== '—') ? name.textContent.trim() : '截面图';
+  var svgData = new XMLSerializer().serializeToString(svg);
+  var url = URL.createObjectURL(new Blob([svgData], {type:'image/svg+xml;charset=utf-8'}));
+  var img = new Image();
+  img.onload = function() {
+    var scale = 4;
+    var canvas = document.createElement('canvas');
+    canvas.width = 380 * scale;
+    canvas.height = 300 * scale;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#f4f5f9';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    URL.revokeObjectURL(url);
+    canvas.toBlob(function(blob) {
+      if (!blob) return;
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = fileName + '.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+      toast('✓ 截面图已保存：' + fileName + '.png');
+    }, 'image/png');
+  };
+  img.src = url;
 }

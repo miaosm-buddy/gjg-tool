@@ -921,7 +921,8 @@
                   <option value="CUSTOM">异形截面</option>
                 </select>
               </div>
-              <button class="btn btn-outline btn-sm" style="margin-left:auto;white-space:nowrap" onclick="openSectionPicker()">📚 从截面库选择</button>
+              <button class="btn btn-outline btn-sm" style="white-space:nowrap" onclick="openSectionPicker()">📚 从截面库选择</button>
+              <button class="btn btn-secondary btn-sm" id="secDownloadBtn" onclick="downloadSectionImg()" style="display:none">⬇ 下载截面图</button>
             </div>
             <div class="sec-dims-row" id="secMainDims">
               <!-- 动态参数输入（根据类型切换） -->
@@ -953,7 +954,8 @@
                   <span id="secTypeLabel">H型钢</span>
                 </div>
                 <div id="liftSecModel" class="sec-name">—</div>
-                <button class="btn btn-outline btn-xs" style="margin-left:auto;flex-shrink:0" onclick="openSectionPicker()">📚 重新选择</button>
+                <button class="btn btn-outline btn-xs" onclick="openSectionPicker()">📚 重新选择</button>
+                <button class="btn btn-secondary btn-xs" onclick="downloadSectionImg()">⬇ 下载截面图</button>
               </div>
               <!-- 关键指标卡片（仅截面积 + 线重，两列） -->
               <div class="sec-metric-row">
@@ -1613,7 +1615,7 @@
 
 </div><!-- /app-main -->
 <script src="data.js?v=v2-20260622b"></script>
-<script src="app.js?v=v2-20260709i"></script>
+<script src="app.js?v=v2-20260709k"></script>
 <!-- 分段类型建议（datalist，供input list属性引用） -->
 <datalist id="diaoci-segtype-list">
   <option value="整根吊装">

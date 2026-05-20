@@ -14,7 +14,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @app.route('/')
 def index():
-    """主页 - 使用外部JS版本（方便调试）"""
+    """主页 - 使用 index.html + 外部 app.js"""
     return send_file(
         os.path.join(APP_DIR, 'index.html'),
         mimetype='text/html'
