@@ -113,6 +113,7 @@ function saveFormData() {
       hours: hours,
       kOther: kOther,
       flData: window.FL_DATA ? JSON.parse(JSON.stringify(window.FL_DATA)) : [],
+      sectionRanges: _sectionRanges ? JSON.parse(JSON.stringify(_sectionRanges)) : [],
       diaociMachines: window._diaoci ? JSON.parse(JSON.stringify(window._diaoci.machines)) : [],
       diaociRows: window._diaoci ? JSON.parse(JSON.stringify(window._diaoci.rows)) : [],
       colProfileMode: _columnProfile.mode,
@@ -169,6 +170,10 @@ function restoreFormData() {
     if (d.flData && d.flData.length) {
       window.FL_DATA = d.flData;
       flRenderTable();
+    }
+    // 4b. 截面分段表
+    if (d.sectionRanges && Array.isArray(d.sectionRanges)) {
+      _sectionRanges = d.sectionRanges;
     }
 
     // 5. 吊次参数
@@ -2033,132 +2038,128 @@ function downloadXlsxTemplate(){
 
 
 var STEEL_RHO = 7850;
-var SECTION_DB = [
-  // ── H型钢：HW 宽翼缘 ──────────────────────────────────────────
-  {code:'HW100×100', type:'HW', H:100,  B:100,  tw:6,   tf:8},
-  {code:'HW125×125', type:'HW', H:125,  B:125,  tw:6.5, tf:9},
-  {code:'HW150×150', type:'HW', H:150,  B:150,  tw:7,   tf:10},
-  {code:'HW175×175', type:'HW', H:175,  B:175,  tw:7.5, tf:11},
-  {code:'HW200×200', type:'HW', H:200,  B:200,  tw:8,   tf:12},
-  {code:'HW250×250', type:'HW', H:250,  B:250,  tw:9,   tf:14},
-  {code:'HW300×300', type:'HW', H:300,  B:300,  tw:10,  tf:15},
-  {code:'HW350×350', type:'HW', H:350,  B:350,  tw:12,  tf:19},
-  {code:'HW400×400', type:'HW', H:400,  B:400,  tw:13,  tf:21},
-  // HM 中翼缘
-  {code:'HM144×74',  type:'HM', H:144,  B:74,   tw:6,   tf:8.5},
-  {code:'HM194×150', type:'HM', H:194,  B:150,  tw:6,   tf:9},
-  {code:'HM244×175', type:'HM', H:244,  B:175,  tw:7,   tf:11},
-  {code:'HM294×200', type:'HM', H:294,  B:200,  tw:8,   tf:12},
-  {code:'HM340×250', type:'HM', H:340,  B:250,  tw:9,   tf:14},
-  {code:'HM390×300', type:'HM', H:390,  B:300,  tw:10,  tf:16},
-  {code:'HM440×300', type:'HM', H:440,  B:300,  tw:11,  tf:18},
-  {code:'HM482×300', type:'HM', H:482,  B:300,  tw:11,  tf:15},
-  {code:'HM530×300', type:'HM', H:530,  B:300,  tw:12,  tf:15},
-  // HN 窄翼缘
-  {code:'HN100×50',  type:'HN', H:100,  B:50,   tw:5,   tf:7},
-  {code:'HN125×60',  type:'HN', H:125,  B:60,   tw:6,   tf:8},
-  {code:'HN150×75',  type:'HN', H:150,  B:75,   tw:5,   tf:7},
-  {code:'HN175×90',  type:'HN', H:175,  B:90,   tw:5,   tf:8},
-  {code:'HN198×99',  type:'HN', H:198,  B:99,   tw:4.5, tf:7},
-  {code:'HN200×100', type:'HN', H:200,  B:100,  tw:5.5, tf:8},
-  {code:'HN250×125', type:'HN', H:250,  B:125,  tw:6,   tf:9},
-  {code:'HN300×150', type:'HN', H:300,  B:150,  tw:6.5, tf:10},
-  {code:'HN350×175', type:'HN', H:350,  B:175,  tw:7,   tf:11},
-  {code:'HN400×150', type:'HN', H:400,  B:150,  tw:8,   tf:13},
-  {code:'HN400×200', type:'HN', H:400,  B:200,  tw:8,   tf:13},
-  {code:'HN450×150', type:'HN', H:450,  B:150,  tw:9,   tf:14},
-  {code:'HN450×200', type:'HN', H:450,  B:200,  tw:9,   tf:14},
-  {code:'HN500×150', type:'HN', H:500,  B:150,  tw:10,  tf:16},
-  {code:'HN500×200', type:'HN', H:500,  B:200,  tw:10,  tf:16},
-  {code:'HN550×200', type:'HN', H:550,  B:200,  tw:10,  tf:16},
-  {code:'HN600×200', type:'HN', H:600,  B:200,  tw:11,  tf:17},
-  {code:'HN700×300', type:'HN', H:700,  B:300,  tw:13,  tf:20},
-  {code:'HN800×300', type:'HN', H:800,  B:300,  tw:14,  tf:22},
-  {code:'HN900×300', type:'HN', H:900,  B:300,  tw:16,  tf:24},
-  // HP 桩基
-  {code:'HP200×200', type:'HP', H:200,  B:204,  tw:12,  tf:12},
-  {code:'HP250×250', type:'HP', H:250,  B:255,  tw:14,  tf:14},
-  {code:'HP300×300', type:'HP', H:300,  B:301,  tw:14,  tf:14},
-  {code:'HP350×350', type:'HP', H:350,  B:350,  tw:12,  tf:12},
-  // 方管 □B×H×t
-  {code:'□100×100×4', type:'BOX', H:100,  B:100,  t:4},
-  {code:'□100×100×5', type:'BOX', H:100,  B:100,  t:5},
-  {code:'□120×120×4', type:'BOX', H:120,  B:120,  t:4},
-  {code:'□120×120×6', type:'BOX', H:120,  B:120,  t:6},
-  {code:'□150×150×5', type:'BOX', H:150,  B:150,  t:5},
-  {code:'□150×150×6', type:'BOX', H:150,  B:150,  t:6},
-  {code:'□150×150×8', type:'BOX', H:150,  B:150,  t:8},
-  {code:'□180×180×6', type:'BOX', H:180,  B:180,  t:6},
-  {code:'□200×200×6', type:'BOX', H:200,  B:200,  t:6},
-  {code:'□200×200×8', type:'BOX', H:200,  B:200,  t:8},
-  {code:'□200×200×10',type:'BOX', H:200,  B:200,  t:10},
-  {code:'□250×250×6', type:'BOX', H:250,  B:250,  t:6},
-  {code:'□250×250×8', type:'BOX', H:250,  B:250,  t:8},
-  {code:'□250×250×10',type:'BOX', H:250,  B:250,  t:10},
-  {code:'□300×300×8', type:'BOX', H:300,  B:300,  t:8},
-  {code:'□300×300×10',type:'BOX', H:300,  B:300,  t:10},
-  {code:'□300×300×12',type:'BOX', H:300,  B:300,  t:12},
-  {code:'□350×350×10',type:'BOX', H:350,  B:350,  t:10},
-  {code:'□350×350×12',type:'BOX', H:350,  B:350,  t:12},
-  {code:'□400×400×10',type:'BOX', H:400,  B:400,  t:10},
-  {code:'□400×400×12',type:'BOX', H:400,  B:400,  t:12},
-  {code:'□400×400×16',type:'BOX', H:400,  B:400,  t:16},
-  {code:'□500×500×12',type:'BOX', H:500,  B:500,  t:12},
-  {code:'□500×500×16',type:'BOX', H:500,  B:500,  t:16},
-  // 矩形管 □B×H×t（统一归入 BOX 类型）
-  {code:'□150×100×6', type:'BOX', H:150,  B:100,  t:6},
-  {code:'□200×100×6', type:'BOX', H:200,  B:100,  t:6},
-  {code:'□200×150×8', type:'BOX', H:200,  B:150,  t:8},
-  {code:'□250×150×8', type:'BOX', H:250,  B:150,  t:8},
-  {code:'□300×200×10',type:'BOX', H:300,  B:200,  t:10},
-  {code:'□400×200×12',type:'BOX', H:400,  B:200,  t:12},
-  // 圆管 ØD×t  (GB/T 8162 结构管)
-  {code:'Ø89×4',     type:'CHS', D:89,   t:4},
-  {code:'Ø108×4',    type:'CHS', D:108,  t:4},
-  {code:'Ø114×4',    type:'CHS', D:114,  t:4},
-  {code:'Ø133×5',    type:'CHS', D:133,  t:5},
-  {code:'Ø140×4.5',  type:'CHS', D:140,  t:4.5},
-  {code:'Ø159×5',    type:'CHS', D:159,  t:5},
-  {code:'Ø159×6',    type:'CHS', D:159,  t:6},
-  {code:'Ø180×6',    type:'CHS', D:180,  t:6},
-  {code:'Ø180×8',    type:'CHS', D:180,  t:8},
-  {code:'Ø194×6',    type:'CHS', D:194,  t:6},
-  {code:'Ø203×6',    type:'CHS', D:203,  t:6},
-  {code:'Ø203×8',    type:'CHS', D:203,  t:8},
-  {code:'Ø219×6',    type:'CHS', D:219,  t:6},
-  {code:'Ø219×8',    type:'CHS', D:219,  t:8},
-  {code:'Ø245×8',    type:'CHS', D:245,  t:8},
-  {code:'Ø273×8',    type:'CHS', D:273,  t:8},
-  {code:'Ø273×10',   type:'CHS', D:273,  t:10},
-  {code:'Ø299×8',    type:'CHS', D:299,  t:8},
-  {code:'Ø325×8',    type:'CHS', D:325,  t:8},
-  {code:'Ø325×10',   type:'CHS', D:325,  t:10},
-  {code:'Ø351×10',   type:'CHS', D:351,  t:10},
-  {code:'Ø377×10',   type:'CHS', D:377,  t:10},
-  {code:'Ø400×10',   type:'CHS', D:400,  t:10},
-  {code:'Ø400×12',   type:'CHS', D:400,  t:12},
-  {code:'Ø426×10',   type:'CHS', D:426,  t:10},
-  {code:'Ø426×12',   type:'CHS', D:426,  t:12},
-  {code:'Ø480×12',   type:'CHS', D:480,  t:12},
-  {code:'Ø500×12',   type:'CHS', D:500,  t:12},
-  {code:'Ø530×12',   type:'CHS', D:530,  t:12},
-  {code:'Ø560×14',   type:'CHS', D:560,  t:14},
-  {code:'Ø600×14',   type:'CHS', D:600,  t:14},
-  {code:'Ø630×14',   type:'CHS', D:630,  t:14},
-  {code:'Ø700×16',   type:'CHS', D:700,  t:16},
-  {code:'Ø800×16',   type:'CHS', D:800,  t:16},
-  // 十字形 +HN…+HN… (两H型钢焊接)
-  {code:'+HN150×75+HN150×75',     type:'CRU', h1:150,b1:75,tw1:5,tf1:7,  h2:150,b2:75,tw2:5,tf2:7},
-  {code:'+HN198×99+HN198×99',     type:'CRU', h1:198,b1:99,tw1:4.5,tf1:7, h2:198,b2:99,tw2:4.5,tf2:7},
-  {code:'+HN200×100+HN200×100',   type:'CRU', h1:200,b1:100,tw1:5.5,tf1:8, h2:200,b2:100,tw2:5.5,tf2:8},
-  {code:'+HN250×125+HN250×125',   type:'CRU', h1:250,b1:125,tw1:6,tf1:9,  h2:250,b2:125,tw2:6,tf2:9},
-  {code:'+HN300×150+HN300×150',   type:'CRU', h1:300,b1:150,tw1:6.5,tf1:10, h2:300,b2:150,tw2:6.5,tf2:10},
-  {code:'+HN350×175+HN350×175',   type:'CRU', h1:350,b1:175,tw1:7,tf1:11, h2:350,b2:175,tw2:7,tf2:11},
-  {code:'+HN400×200+HN400×200',   type:'CRU', h1:400,b1:200,tw1:8,tf1:13, h2:400,b2:200,tw2:8,tf2:13},
-  {code:'+HN300×150+HN400×200',   type:'CRU', h1:300,b1:150,tw1:6.5,tf1:10, h2:400,b2:200,tw2:8,tf2:13},
-  {code:'+HN250×125+HN350×175',   type:'CRU', h1:250,b1:125,tw1:6,tf1:9,   h2:350,b2:175,tw2:7,tf2:11},
-  {code:'+HN200×100+HN300×150',   type:'CRU', h1:200,b1:100,tw1:5.5,tf1:8, h2:300,b2:150,tw2:6.5,tf2:10},
-];
+var SECTION_DB = [];
+
+// ═══════════════════════════════════════════════════════════════════
+//  用户截面库（localStorage 持久化）
+//  用户通过「💾 保存到截面库」按钮从表单累积添加
+// ═══════════════════════════════════════════════════════════════════
+var SECTION_LIB_LS_KEY = 'crane_section_lib_v1';
+
+function getUserSections() {
+  try { return JSON.parse(localStorage.getItem(SECTION_LIB_LS_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+
+function saveUserSections(list) {
+  try { localStorage.setItem(SECTION_LIB_LS_KEY, JSON.stringify(list)); } catch(e) {}
+}
+
+function spLibGetAll() {
+  return getUserSections().slice();
+}
+
+function spLibFind(code) {
+  var all = spLibGetAll();
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].code === code) return all[i];
+  }
+  return null;
+}
+
+function spLibIsUser(code) {
+  return !!(code && code.startsWith('USR-'));
+}
+
+function spLibCount() {
+  return getUserSections().length;
+}
+
+function spLibDelete(code) {
+  var list = getUserSections().filter(function(s) { return s.code !== code; });
+  saveUserSections(list);
+}
+
+window.spLibDeleteCard = function(code) {
+  spLibDelete(code);
+  spRenderGrid();
+  if (_spSelectedCode === code) {
+    _spSelectedCode = null;
+    var cb = document.getElementById('spConfirmBtn');
+    if (cb) cb.disabled = true;
+    var hint = document.getElementById('spHint');
+    if (hint) hint.textContent = '截面已删除，请选择其他截面';
+    spHideDetail();
+  }
+  toast('已删除：' + code);
+};
+document.addEventListener('click', function(e) {
+  var del = e.target.closest('.sp-user-del');
+  if (!del) return;
+  var code = del.getAttribute('data-code');
+  if (!code) return;
+  e.stopPropagation();
+  spLibDeleteCard(code);
+});
+
+
+
+window.saveSectionToLib = function() {
+  var typeSel = document.getElementById('sec-main-type');
+  var t = typeSel ? typeSel.value : 'HW';
+  var p = {};
+  if (t === 'HW' || t === 'HM' || t === 'HN' || t === 'HP') {
+    p.H  = parseFloat(document.getElementById('sm_H').value)  || 0;
+    p.B  = parseFloat(document.getElementById('sm_B').value)  || 0;
+    p.tw = parseFloat(document.getElementById('sm_tw').value) || 0;
+    p.tf = parseFloat(document.getElementById('sm_tf').value) || 0;
+    if (!p.H || !p.B || !p.tw || !p.tf) { toast('请填写完整参数（H、B、tw、tf）'); return; }
+  } else if (t === 'BOX') {
+    p.H  = parseFloat(document.getElementById('sm_H').value)  || 0;
+    p.B  = parseFloat(document.getElementById('sm_B').value)  || 0;
+    p.t1 = parseFloat(document.getElementById('sm_t1').value) || 0;
+    if (!p.H || !p.B || !p.t1) { toast('请填写完整参数（H、B、t1）'); return; }
+  } else if (t === 'CHS') {
+    p.D = parseFloat(document.getElementById('sm_D').value) || 0;
+    p.t = parseFloat(document.getElementById('sm_t').value) || 0;
+    if (!p.D || !p.t) { toast('请填写完整参数（D、t）'); return; }
+  } else if (t === 'CRU') {
+    p.h1  = parseFloat(document.getElementById('sm_h1').value)  || 0;
+    p.b1  = parseFloat(document.getElementById('sm_b1').value)  || 0;
+    p.tw1 = parseFloat(document.getElementById('sm_tw1').value) || 0;
+    p.tf1 = parseFloat(document.getElementById('sm_tf1').value) || 0;
+    p.h2  = parseFloat(document.getElementById('sm_h2').value)  || 0;
+    p.b2  = parseFloat(document.getElementById('sm_b2').value)  || 0;
+    p.tw2 = parseFloat(document.getElementById('sm_tw2').value) || 0;
+    p.tf2 = parseFloat(document.getElementById('sm_tf2').value) || 0;
+    if (!p.h1 || !p.b1 || !p.tw1 || !p.tf1 || !p.h2 || !p.b2 || !p.tw2 || !p.tf2) {
+      toast('请填写完整参数（竖H1/B1/tw1/tf1 + 横H2/B2/tw2/tf2）'); return;
+    }
+  } else {
+    toast('异形截面（CUSTOM）无需保存到库'); return;
+  }
+  var n = spLibCount() + 1;
+  var code = 'USR-' + String(n).padStart(3, '0');
+  var labelMap = {HW:'H型钢',HM:'H型钢',HN:'H型钢',HP:'H型钢',BOX:'箱型',CHS:'圆管',CRU:'十字形'};
+  var label = labelMap[t] || t;
+  var sec = {code: code, type: t, label: label};
+  if (t === 'HW' || t === 'HM' || t === 'HN' || t === 'HP') {
+    sec.H = p.H; sec.B = p.B; sec.tw = p.tw; sec.tf = p.tf;
+  } else if (t === 'BOX') {
+    sec.H = p.H; sec.B = p.B; sec.t1 = p.t1; sec.t2 = p.t2 || p.t1; sec.t = p.t1;
+  } else if (t === 'CHS') {
+    sec.D = p.D; sec.t = p.t;
+  } else if (t === 'CRU') {
+    sec.h1 = p.h1; sec.b1 = p.b1; sec.tw1 = p.tw1; sec.tf1 = p.tf1;
+    sec.h2 = p.h2; sec.b2 = p.b2; sec.tw2 = p.tw2; sec.tf2 = p.tf2;
+  }
+  var list = getUserSections();
+  list.push(sec);
+  saveUserSections(list);
+  toast('已保存：' + code + '（共 ' + list.length + ' 个）');
+};
+
+
 var H_BEAM_DB = SECTION_DB;
 
 // ── 截面计算 ──────────────────────────────────────────────────
@@ -2797,6 +2798,70 @@ var _secCalcDeferred = false;
 window.updateMainSectionCalc = function() {
   // 如果处于字段重建阶段（setInput 批量填值期间），延迟执行
   if (_secCalcDeferred) return;
+
+  // ── 变截面模式：直接使用当前激活段的截面数据 ──
+  if (_columnProfile.mode === 'stepped' && _activeSegIdx >= 0 && _activeSegIdx < _columnProfile.segments.length) {
+    var segSec = _columnProfile.segments[_activeSegIdx].section;
+    if (segSec) {
+      _mainSectionData = segSec;
+      window._customSection = segSec;
+      _showSectionInfo();
+      document.getElementById('secEmptyState').style.display = 'none';
+      document.getElementById('secVizLayout').style.display = 'flex';
+      document.getElementById('liftSecModel').textContent = segSec.label || segSec.code || '—';
+      var A = secArea(segSec), w = secWeight(segSec);
+      var aEl = document.getElementById('secMetA');
+      var wEl = document.getElementById('secMetW');
+      if (aEl) aEl.textContent = Math.round(A).toLocaleString();
+      if (wEl) wEl.textContent = w.toFixed(3);
+      var svgEl = document.getElementById('secSvg');
+      if (svgEl) svgEl.innerHTML = drawSectionSVG(segSec);
+      var dlBtn = document.getElementById('secDownloadBtn');
+      if (dlBtn) dlBtn.style.display = svgEl && svgEl.firstChild ? 'inline-block' : 'none';
+      var typeIconMap = {HW:'H',HM:'H',HN:'H',HP:'H',BOX:'▭',CHS:'○',CRU:'✚',CUSTOM:'◇'};
+      var typeTextMap  = {HW:'H型钢',HM:'H型钢',HN:'H型钢',HP:'H型钢',BOX:'箱型截面',CHS:'圆管截面',CRU:'十字形截面',CUSTOM:'异形截面'};
+      var iconEl = document.getElementById('secTypeIcon');
+      var labelEl = document.getElementById('secTypeLabel');
+      if (iconEl) iconEl.textContent = typeIconMap[segSec.type] || '?';
+      if (labelEl) labelEl.textContent = typeTextMap[segSec.type] || segSec.type;
+      // 力学参数
+      var props = secProps(segSec);
+      var t = segSec.type;
+      function fmtN(v, dec) { if (v == null || isNaN(v)) return '—'; return v.toFixed(dec != null ? dec : 3); }
+      var H2 = segSec.H||1, B2 = segSec.B||1, tw2 = segSec.tw||0, tf2 = segSec.tf||0;
+      var hw2 = H2 - 2*tf2;
+      var A2 = secArea(segSec);
+      var formulas = getMechFormulas(segSec, t, H2, B2, tw2, tf2, hw2, A2);
+      var mechData = [
+        ['Ix',  fmtN(props.Ix, 1) + ' mm\u2074',  formulas.Ix],
+        ['Iy',  fmtN(props.Iy, 1) + ' mm\u2074',  formulas.Iy],
+        ['Wx',  fmtN(props.Wx, 1) + ' mm\u00B3',  formulas.Wx],
+        ['Wy',  fmtN(props.Wy, 1) + ' mm\u00B3',  formulas.Wy],
+        ['ix',  fmtN(props.ix, 3) + ' mm',         formulas.ix],
+        ['iy',  fmtN(props.iy, 3) + ' mm',         formulas.iy],
+      ];
+      var mechRows = mechData.map(function(r) {
+        return '<div class="sec-mech-item">' +
+          '<div class="sec-param-row">' +
+            '<span class="sec-param-l">'+r[0]+'</span>' +
+            '<span class="sec-param-v">'+r[1]+'</span>' +
+          '</div>' +
+          '<div class="sec-mech-formula">'+r[2]+'</div>' +
+        '</div>';
+      }).join('');
+      var geomRows = (segSec.specRows || []).map(function(r) {
+        return '<div class="sec-param-row"><span class="sec-param-l">'+r.l+'</span><span class="sec-param-v">'+r.v+'</span></div>';
+      }).join('');
+      var allRows = '';
+      if (geomRows) allRows += '<div class="sec-param-group-title">几何尺寸</div>' + geomRows;
+      if (mechRows) allRows += '<div class="sec-param-group-title">力学特性</div>' + mechRows;
+      document.getElementById('liftSpecRows').innerHTML = allRows;
+      debounce(liftCalc, 'ls', 300);
+      saveFormData();
+      return;
+    }
+  }
+
   var typeSel = document.getElementById('sec-main-type');
   var t = typeSel ? typeSel.value : 'HW';
   var g = function(id) {
@@ -3559,6 +3624,10 @@ function getCraneCapacity(crane, radius, boomLen) {
 // 层高表数据（运行时数组）
 var FL_DATA = [];
 
+// 截面分段表：记录每个截面被分配到的楼层范围（用于生成编号如"1-5"）
+// { rangeLabel: "1-5", startIdx: 0, endIdx: 4, sectionCode: "HW400×200×8×13", sectionLabel: "H400×200×8×13", weight: 0.0673 }
+var _sectionRanges = [];
+
 // 预设层高表3：32层超高层办公楼（来源：D:\虾场\层高表3.dxf）
 var FL_PRESET_3 = [
   {name:"-4F", elevation:-20.850, height:5.200, zone:"地下层"},
@@ -3621,8 +3690,11 @@ function flLoadFromUI() {
     var elev = parseFloat((rows[i].querySelector('.fl-elev') || {value: ''}).value) || 0;
     var h    = parseFloat((rows[i].querySelector('.fl-h')    || {value: ''}).value) || 0;
     var zone = (rows[i].querySelector('.fl-zone') || {value: ''}).value.trim();
+    // 截面列：直接存储 sectionCode 字符串（由 flSecSetRow / flSecRemoveSection 写入）
+    var secInp = rows[i].querySelector('.fl-sec-input');
+    var sectionCode = secInp ? secInp.value.trim() : (FL_DATA[i] ? FL_DATA[i].section : '');
     if (!name && h <= 0) continue;
-    FL_DATA.push({ name: name, elevation: elev, height: h, zone: zone || '' });
+    FL_DATA.push({ name: name, elevation: elev, height: h, zone: zone || '', section: sectionCode || '' });
   }
   saveFormData();
 }
@@ -3654,6 +3726,29 @@ function flRenderTable() {
     // 分区背景色块
     var zoneBg  = '<div class="fl-zone-cell-bg" style="background:' + zoneColor + '"></div>';
 
+    // 截面列内容
+    var secCode = f.section || '';
+    var secCellContent;
+    if (secCode) {
+      var secInfo = _sectionRanges.find(function(r) { return r.sectionCode === secCode; }) || {};
+      var rangeLabel = secInfo.rangeLabel || '';
+      secCellContent =
+        '<div class="fl-sec-cell">' +
+          '<span class="fl-sec-badge" onclick="flSecOpenPickerForRow(' + i + ')" title="点击修改截面">' +
+            (rangeLabel ? '<span style="opacity:0.65;font-size:10px">' + rangeLabel + '</span>' : '') +
+            escHtml(secCode) +
+            '<span class="fl-sec-rm" onclick="event.stopPropagation();flSecRemoveSection(' + i + ')">✕</span>' +
+          '</span>' +
+        '</div>' +
+        '<input type="hidden" class="fl-sec-input" value="' + escHtml(secCode) + '">';
+    } else {
+      secCellContent =
+        '<div class="fl-sec-cell">' +
+          '<span class="fl-sec-empty" onclick="flSecOpenPickerForRow(' + i + ')" title="为此层指定截面">—</span>' +
+        '</div>' +
+        '<input type="hidden" class="fl-sec-input" value="">';
+    }
+
     tr.innerHTML =
       '<td class="fl-col-del"><button class="del-row-btn" onclick="flRemoveRow(this)">✕</button></td>' +
       '<td class="fl-col-num">' + (i + 1) + '</td>' +
@@ -3662,7 +3757,8 @@ function flRenderTable() {
       '<td class="fl-h-cell">' + zoneBg +
         '<div class="fl-h-bar-wrap"><div class="fl-h-bar" data-h="' + (f.height || 0) + '" style="width:' + hPct + '%"></div></div>' +
         '<input type="number" class="fl-h" value="' + (f.height || '') + '" placeholder="0" step="0.01" min="0" oninput="flOnRowChange(this)"></td>' +
-      '<td class="fl-col-tag">' + zoneBg + '<input type="text" class="fl-zone" value="' + escHtml(f.zone) + '" placeholder="分区" list="flZoneList" oninput="flOnZoneChange(this)"></td>';
+      '<td class="fl-col-tag">' + zoneBg + '<input type="text" class="fl-zone" value="' + escHtml(f.zone) + '" placeholder="分区" list="flZoneList" oninput="flOnZoneChange(this)"></td>' +
+      '<td class="fl-col-section">' + secCellContent + '</td>';
     tbody.appendChild(tr);
   }
   flUpdateStat();
@@ -4166,8 +4262,8 @@ function liftOnCraneChange() {
   }
   info.style.display = '';
   document.getElementById('liftCraneModel').textContent = (crane.brand||'') + ' ' + (crane.model||'');
-  document.getElementById('liftCraneRated').textContent = (crane.max_load_t||'?') + ' t';
   var cap = getCraneCapacity(crane, radius, null);
+  document.getElementById('liftCraneRated').textContent = cap ? cap.toFixed(1) + ' t' : '无数据';
   document.getElementById('liftCraneAtR').textContent = cap ? cap.toFixed(1) + ' t' : '无数据';
   // 索具信息
   var spInfo = document.getElementById('liftSpreaderInfo');
@@ -6497,7 +6593,8 @@ function spRenderGrid() {
   var types = _spFilter === 'ALL' ? null : _spFilter.split(',');
   var keyword = _spSearch;
 
-  var filtered = SECTION_DB.filter(function(sec) {
+  var all = spLibGetAll();
+  var filtered = all.filter(function(sec) {
     if (types && types.indexOf(sec.type) === -1) return false;
     if (keyword) {
       var code = (sec.code || '').toLowerCase();
@@ -6536,8 +6633,8 @@ function spCardHTML(sec) {
   var areaStr = A > 0 ? (A >= 1000 ? (A/1000).toFixed(1)+' ×10³ mm²' : A.toFixed(0)+' mm²') : '';
 
   var selClass = _spSelectedCode === code ? ' selected' : '';
-  return '<div class="sp-card' + selClass + '" onclick="spSelectCard(\'' + code.replace(/'/g, "\\'") + '\')">' +
-    '<div class="sp-card-top">' +
+  var isUser = spLibIsUser(code); var cardCls = 'sp-card' + selClass + (isUser ? ' is-user' : ''); var delBtn = isUser ?'<span class="sp-user-del" data-code="' + code.replace(/"/g, '&quot;').replace(/&/g, '&amp;') + '">&#x2715;</span>' : '';
+  return '<div class="' + cardCls + '" data-code="' + code + '" onclick="spSelectCard(this.dataset.code)">' + delBtn + '<div class="sp-card-top">' +
       '<span class="sp-badge ' + badgeCls + '">' + typeLabel + '</span>' +
       '<span class="sp-code">' + code + '</span>' +
     '</div>' +
@@ -6587,10 +6684,7 @@ window.spSelectCard = function(code) {
     }
   }
   // 更新提示
-  var sec = null;
-  for (var j = 0; j < SECTION_DB.length; j++) {
-    if (SECTION_DB[j].code === code) { sec = SECTION_DB[j]; break; }
-  }
+  var sec = spLibFind(code);
   var hint = document.getElementById('spHint');
   if (hint) {
     hint.textContent = sec ? '已选择：' + code + '（' + spGetDimsText(sec) + '）' : '请从上方列表中选择一个截面';
@@ -6897,14 +6991,16 @@ function spBuildParamTable(sec) {
 // 确认选用
 window.spConfirm = function() {
   if (!_spSelectedCode) return;
-  var sec = SECTION_DB.find(function(s) { return s.code === _spSelectedCode; });
-  if (!sec) return;
+  var sec = spLibFind(_spSelectedCode);
+  if (!sec) { toast('截面库为空，请先保存截面'); return; }
 
   // ── 变截面模式：直接写入当前激活段 ──
   if (_columnProfile.mode === 'stepped' && _activeSegIdx >= 0 && _activeSegIdx < _columnProfile.segments.length) {
     _columnProfile.segments[_activeSegIdx].section = sec;
     renderSteppedSegments();
     updateColumnHeight();
+    // 同时更新主截面信息区（SVG示意图 + 参数面板）
+    updateMainSectionCalc();
     liftCalc();
     closeSectionPicker();
     toast('第' + (_activeSegIdx + 1) + '段已选用：' + sec.label);
@@ -6945,6 +7041,10 @@ window.spConfirm = function() {
     setInput('sm_b2', sec.b2);
     setInput('sm_tw2', sec.tw2);
     setInput('sm_tf2', sec.tf2);
+  } else if (type === 'CUSTOM') {
+    setInput('sm_name', sec.label || sec.code);
+    setInput('sm_H', sec.H || 0);
+    setInput('sm_w', sec.w || 0);
   }
 
   // 触发计算
@@ -7280,3 +7380,305 @@ function downloadSectionImg() {
   };
   img.src = url;
 }
+
+// ═══════════════════════════════════════════════════════════════
+//  截面导入层高表
+// ═══════════════════════════════════════════════════════════════
+
+// 当前正在导入截面的行范围选择状态
+var _flSecModalState = {
+  sectionCode: '',
+  sectionLabel: '',
+  sectionWeight: 0,
+  selectedStart: null,  // 起始行号（1-based）
+  selectedEnd: null,    // 结束行号（1-based）
+  isCustom: false
+};
+
+// 获取当前截面信息面板中的截面
+function _flSecGetCurrentSection() {
+  var s = window._customSection || window._mainSectionData || null;
+  return s;
+}
+
+// 打开导入层高表模态框
+window.openFlSecImport = function() {
+  var s = _flSecGetCurrentSection();
+  if (!s || !s.code) {
+    toast('请先在截面信息中输入或选择一个截面');
+    return;
+  }
+  // 检查层高表是否为空
+  if (!FL_DATA || FL_DATA.length === 0) {
+    toast('层高表为空，请先导入或添加楼层数据');
+    return;
+  }
+
+  _flSecModalState.sectionCode = s.code;
+  _flSecModalState.sectionLabel = s.label || s.code;
+  _flSecModalState.sectionWeight = secWeight(s);
+  _flSecModalState.selectedStart = null;
+  _flSecModalState.selectedEnd = null;
+  _flSecModalState.isCustom = false;
+
+  _flSecRenderModalBody();
+  document.getElementById('flSecImportModal').style.display = '';
+};
+
+// 关闭模态框
+window.closeFlSecImport = function() {
+  document.getElementById('flSecImportModal').style.display = 'none';
+};
+
+// 重新渲染模态框主体（每次选范围后调用）
+function _flSecRenderModalBody() {
+  var body = document.getElementById('flSecImportBody');
+  if (!body) return;
+
+  var s = _flSecGetCurrentSection();
+  var w = _flSecModalState.sectionWeight;
+
+  // 构建可用范围列表（从未分配的连续行）
+  var availableRanges = _flSecBuildAvailableRanges();
+  // 该截面已分配的范围
+  var usedByThis = _sectionRanges.filter(function(r) { return r.sectionCode === _flSecModalState.sectionCode; });
+
+  var html = '';
+
+  // 截面信息摘要
+  html += '<div class="fl-sec-modal-info">';
+  html += '<div class="fl-sec-sec-name">📐 ' + escHtml(_flSecModalState.sectionLabel) + '</div>';
+  html += '<div class="fl-sec-sec-meta">线重 ' + w.toFixed(4) + ' kg/m · 截面积 ' + secArea(s).toLocaleString() + ' mm²</div>';
+  html += '</div>';
+
+  // 已有分配记录
+  if (usedByThis.length > 0) {
+    html += '<div style="margin-bottom:14px">';
+    html += '<div class="fl-sec-range-label" style="color:var(--text-muted)">已分配楼层：</div>';
+    html += '<div class="fl-sec-used-list">';
+    usedByThis.forEach(function(r) {
+      html += '<div class="fl-sec-used-item">' +
+        '<div class="fl-sec-used-dot"></div>' +
+        '<span style="font-weight:600;color:var(--accent)">' + r.rangeLabel + '</span>' +
+        '<span style="color:var(--text-muted)">(' + r.sectionLabel + ')</span>' +
+        '<span style="margin-left:auto;color:var(--text-muted);cursor:pointer;font-size:12px" onclick="flSecDeleteRange(\'' + r.rangeLabel + '\')">移除</span>' +
+      '</div>';
+    });
+    html += '</div></div>';
+  }
+
+  // 可用范围 chips
+  if (availableRanges.length > 0) {
+    html += '<div class="fl-sec-range-label">选择楼层范围（点击选中，再次点击取消）：</div>';
+    html += '<div class="fl-sec-ranges-wrap">';
+    availableRanges.forEach(function(r) {
+      html += '<div class="fl-sec-range-chip' + (_flSecModalState.selectedStart === r.start && _flSecModalState.selectedEnd === r.end ? ' selected' : '') + '" ' +
+        'data-start="' + r.start + '" data-end="' + r.end + '" ' +
+        'onclick="flSecToggleRange(' + r.start + ',' + r.end + ',this)">' +
+        r.label + ' <span style="opacity:0.65;font-size:11px">(' + r.count + '层)</span>' +
+      '</div>';
+    });
+    html += '</div>';
+  } else {
+    html += '<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px">所有楼层已分配完毕</div>';
+  }
+
+  // 自定义范围
+  var ss = _flSecModalState.selectedStart;
+  var se = _flSecModalState.selectedEnd;
+  html += '<div class="fl-sec-custom-range">';
+  html += '<span>或指定范围：</span>';
+  html += '<input type="number" class="fl-sec-range-start" id="flSecRangeStart" min="1" max="' + FL_DATA.length + '" ' +
+    'placeholder="起始行" value="' + (ss != null ? ss : '') + '" oninput="flSecOnCustomInput()">';
+  html += '<span>—</span>';
+  html += '<input type="number" class="fl-sec-range-end" id="flSecRangeEnd" min="1" max="' + FL_DATA.length + '" ' +
+    'placeholder="结束行" value="' + (se != null ? se : '') + '" oninput="flSecOnCustomInput()">';
+  html += '<span style="color:var(--text-muted);font-size:12px">共 ' +
+    ((ss != null && se != null && se >= ss) ? (se - ss + 1) : '—') + ' 层</span>';
+  html += '</div>';
+
+  html += '<div class="fl-sec-range-hint">💡 点击上方芯片可快速选择未分配的连续楼层范围；也可手动输入起止行号指定任意范围（会覆盖已有分配）。</div>';
+
+  // 确认按钮状态
+  var canConfirm = (ss != null && se != null && se >= ss);
+  var confirmBtn = document.getElementById('flSecImportConfirm');
+  if (confirmBtn) confirmBtn.disabled = !canConfirm;
+
+  body.innerHTML = html;
+}
+
+// 构建未分配的连续楼层范围
+function _flSecBuildAvailableRanges() {
+  if (!FL_DATA || FL_DATA.length === 0) return [];
+  var ranges = [];
+  var n = FL_DATA.length;
+
+  // 标记已分配的楼层
+  var assigned = new Array(n).fill(false);
+  _sectionRanges.forEach(function(r) {
+    for (var i = r.startIdx; i <= r.endIdx && i < n; i++) {
+      assigned[i] = true;
+    }
+  });
+
+  // 找出连续未分配段
+  var i = 0;
+  while (i < n) {
+    if (!assigned[i]) {
+      var start = i;
+      while (i < n && !assigned[i]) i++;
+      var end = i - 1;
+      var count = end - start + 1;
+      // 合并相邻短段（≤3层显示为单独范围，>3层显示为整体）
+      var label = (start + 1) + '-' + (end + 1);
+      ranges.push({ start: start + 1, end: end + 1, label: label, count: count });
+    } else {
+      i++;
+    }
+  }
+  return ranges;
+}
+
+// 点击 chip 切换选择
+window.flSecToggleRange = function(start, end, el) {
+  if (_flSecModalState.selectedStart === start && _flSecModalState.selectedEnd === end) {
+    // 取消选择
+    _flSecModalState.selectedStart = null;
+    _flSecModalState.selectedEnd = null;
+    _flSecModalState.isCustom = false;
+  } else {
+    _flSecModalState.selectedStart = start;
+    _flSecModalState.selectedEnd = end;
+    _flSecModalState.isCustom = false;
+  }
+  _flSecRenderModalBody();
+};
+
+// 自定义范围输入
+function flSecOnCustomInput() {
+  var sEl = document.getElementById('flSecRangeStart');
+  var eEl = document.getElementById('flSecRangeEnd');
+  var ss = parseInt(sEl && sEl.value ? sEl.value : '');
+  var se = parseInt(eEl && eEl.value ? eEl.value : '');
+  _flSecModalState.isCustom = !!(ss && se && se >= ss && ss >= 1 && se <= FL_DATA.length);
+  _flSecModalState.selectedStart = _flSecModalState.isCustom ? ss : null;
+  _flSecModalState.selectedEnd = _flSecModalState.isCustom ? se : null;
+  _flSecRenderModalBody();
+}
+
+// 执行导入
+window.flSecDoImport = function() {
+  var ss = _flSecModalState.selectedStart;
+  var se = _flSecModalState.selectedEnd;
+  if (ss == null || se == null || se < ss) {
+    toast('请先选择楼层范围');
+    return;
+  }
+  var secCode = _flSecModalState.sectionCode;
+  var secLabel = _flSecModalState.sectionLabel;
+  var weight = _flSecModalState.sectionWeight;
+
+  // 分配到 FL_DATA（1-based → 0-based）
+  var startIdx = ss - 1;
+  var endIdx = se - 1;
+  for (var i = startIdx; i <= endIdx; i++) {
+    FL_DATA[i].section = secCode;
+  }
+
+  // 更新截面分段表（移除旧记录，添加新记录）
+  _sectionRanges = _sectionRanges.filter(function(r) {
+    return !(r.startIdx >= startIdx && r.endIdx <= endIdx);
+  });
+  // 如果该截面已有其他范围，保留（不过滤掉它们）
+  // 新分配：追加
+  _sectionRanges.push({
+    rangeLabel: ss + '-' + se,
+    startIdx: startIdx,
+    endIdx: endIdx,
+    sectionCode: secCode,
+    sectionLabel: secLabel,
+    weight: weight
+  });
+
+  closeFlSecImport();
+  flRenderTable();
+  saveFormData();
+  toast('✓ 已将「' + secLabel + '」导入楼层 ' + ss + '-' + se + '，共 ' + (endIdx - startIdx + 1) + ' 层');
+  liftCalc();
+};
+
+// 删除某个已分配范围
+window.flSecDeleteRange = function(rangeLabel) {
+  var rng = _sectionRanges.find(function(r) { return r.rangeLabel === rangeLabel; });
+  if (!rng) return;
+  // 清除 FL_DATA 中该范围的截面
+  for (var i = rng.startIdx; i <= rng.endIdx; i++) {
+    if (FL_DATA[i]) FL_DATA[i].section = '';
+  }
+  // 从分段表移除
+  _sectionRanges = _sectionRanges.filter(function(r) { return r.rangeLabel !== rangeLabel; });
+  flRenderTable();
+  saveFormData();
+  _flSecRenderModalBody();
+  toast('已移除分配：' + rangeLabel);
+};
+
+// 为指定行打开截面选择（使用现有 spConfirm 逻辑改造）
+var _flSecSingleRowMode = false;
+var _flSecSingleRowIdx = -1;
+
+window.flSecOpenPickerForRow = function(rowIdx) {
+  _flSecSingleRowMode = true;
+  _flSecSingleRowIdx = rowIdx;
+  openSectionPicker();
+};
+
+// 拦截 spConfirm，在单行模式下只更新该行
+var _origSpConfirm = window.spConfirm;
+window.spConfirm = function() {
+  if (_flSecSingleRowMode && _flSecSingleRowIdx >= 0) {
+    // 单行模式
+    if (!_spSelectedCode) return;
+    var sec = SECTION_DB.find(function(s) { return s.code === _spSelectedCode; });
+    if (!sec) return;
+    var idx = _flSecSingleRowIdx;
+    FL_DATA[idx].section = sec.code;
+    // 更新分段表
+    var existing = _sectionRanges.filter(function(r) { return r.startIdx === idx && r.endIdx === idx; });
+    _sectionRanges = _sectionRanges.filter(function(r) { return !(r.startIdx === idx && r.endIdx === idx); });
+    _sectionRanges.push({
+      rangeLabel: (idx + 1) + '',
+      startIdx: idx,
+      endIdx: idx,
+      sectionCode: sec.code,
+      sectionLabel: sec.label || sec.code,
+      weight: secWeight(sec)
+    });
+    _flSecSingleRowMode = false;
+    _flSecSingleRowIdx = -1;
+    closeSectionPicker();
+    flRenderTable();
+    saveFormData();
+    liftCalc();
+    toast('已为第 ' + (idx + 1) + ' 层指定截面：' + sec.label);
+    return;
+  }
+  // 原逻辑
+  _origSpConfirm.call(this);
+};
+
+// 从层高表某行移除截面
+window.flSecRemoveSection = function(rowIdx) {
+  if (!FL_DATA || !FL_DATA[rowIdx]) return;
+  var oldCode = FL_DATA[rowIdx].section;
+  FL_DATA[rowIdx].section = '';
+  // 如果该行是该截面的唯一分配，清理分段表条目
+  _sectionRanges = _sectionRanges.filter(function(r) {
+    // 保留跨多行的范围（只清这一行不算清范围）
+    return !(r.startIdx === rowIdx && r.endIdx === rowIdx);
+  });
+  flRenderTable();
+  saveFormData();
+  liftCalc();
+  toast('已移除第 ' + (rowIdx + 1) + ' 层的截面');
+};
