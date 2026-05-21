@@ -456,6 +456,19 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 .form-group input::placeholder { color: var(--text-muted); }
 .form-group select option { background: var(--bg-surface); }
 
+/* ── 吊装参数 — 三级联动机械选择器 ──────────────────────────── */
+.lift-crane-3level {
+  display: flex;
+  gap: 6px;
+}
+.lift-crane-3level select {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  height: 36px;
+  padding: 0 8px;
+}
+
 /* ── 按钮 ───────────────────────────────── */
 .btn {
   padding: 0 24px;
@@ -727,6 +740,27 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 
 /* 性能表滚动容器 */
 .perf-scroll { overflow-x: auto; }
+
+/* ── 塔吊性能表（新格式：行=臂长×倍率，列=吊装半径）── */
+.tower-info-bar { display: flex; gap: 12px; align-items: center; padding: 8px 4px 4px; font-size: 12px; color: var(--text-muted); }
+.tinfo { color: var(--text-muted); font-size: 12px; }
+.tower-perf-table { border-collapse: collapse; font-size: 13px; min-width: 100%; white-space: nowrap; }
+.tower-perf-table thead tr { position: sticky; top: 0; z-index: 2; }
+.tower-th { background: var(--bg-primary); padding: 8px 10px; border: 1px solid var(--border-standard); text-align: center; font-weight: 700; color: var(--text-primary); font-size: 12px; white-space: nowrap; position: relative; }
+.t-th-arm { min-width: 70px; background: rgba(94,106,210,0.10); color: var(--accent-glow); }
+.t-th-mult { min-width: 44px; background: rgba(94,106,210,0.10); color: var(--accent-glow); }
+.t-th-r { min-width: 52px; font-size: 11px; }
+.t-th-max { min-width: 60px; background: rgba(94,106,210,0.10); color: var(--accent-glow); }
+.tower-cell { padding: 8px 10px; border: 1px solid rgba(208,215,222,0.4); text-align: center; font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 700; color: var(--text-primary); transition: background 0.1s; }
+.tower-row:hover .tower-cell { background: rgba(94,106,210,0.04); }
+.tower-row-sep td { border-top: 2px solid var(--accent-glow) !important; }
+.t-arm { text-align: center; font-weight: 800; color: var(--accent-glow); font-size: 14px; }
+.t-mult { text-align: center; font-weight: 700; color: var(--text-primary); font-size: 13px; }
+.t-na { color: var(--text-muted) !important; font-weight: 400 !important; }
+.t-max { font-size: 14px; }
+.tower-cell.hi  { background: rgba(207,34,46,0.15); color: var(--red); }
+.tower-cell.mid { background: rgba(154,103,0,0.12); color: var(--yellow); }
+.tower-cell.lo  { background: rgba(94,106,210,0.08); color: var(--accent-glow); }
 
 /* ── 工况选择器 ─────────────────────────── */
 .cond-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
@@ -1298,11 +1332,11 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 /* 列宽分配 */
 .fl-col-del   { width: 44px; padding: 0 !important; text-align: center; border-bottom: none !important; vertical-align: middle; }
 .fl-col-num   { width: 40px; padding: 0 6px !important; text-align: center; color: var(--text-muted); font-size: 12px; font-weight: 600; vertical-align: middle; border-bottom: none !important; }
-.fl-col-name  { width: 26%; text-align: center; }
+.fl-col-name  { width: 19.5%; text-align: center; }   /* 原26%，减少约80px */
 .fl-col-elev  { width: 90px; text-align: center; }
-.fl-col-h     { width: 22%; text-align: center; }
-.fl-col-tag     { width: 90px; text-align: center; }
-.fl-col-section { width: 150px; text-align: center; }
+.fl-col-h     { width: 28.5%; text-align: center; }   /* 原22%，吸收+40+40=80px差值 */
+.fl-col-tag   { width: 130px; text-align: center; }  /* 原90px，+40px */
+.fl-col-section { width: 190px; text-align: center; } /* 原150px，+40px */
 /* 截面列单元格样式 */
 .fl-sec-cell { display: flex; align-items: center; justify-content: center; gap: 4px; flex-wrap: wrap; }
 .fl-sec-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px; background: var(--accent-bg); color: var(--accent); border-radius: var(--radius-sm); font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; max-width: 100%; }
@@ -1806,6 +1840,15 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 .lift-sp-table td { text-align: center; padding: 5px 10px; color: var(--text-primary); border-bottom: 1px solid var(--border-subtle); }
 .lift-sp-table tr:last-child td { border-bottom: none; }
 .lift-sp-table td:last-child { color: var(--orange); font-weight: 600; }
+/* 载荷性能表 */
+.lift-load-chart { padding: 14px 0 4px; }
+.lift-load-chart .sp-header { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+.lift-lc-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.lift-lc-table th { text-align: center; padding: 6px 10px; background: var(--bg-surface); color: var(--text-muted); font-weight: 700; font-size: 13px; border-bottom: 2px solid var(--border-standard); }
+.lift-lc-table td { text-align: center; padding: 5px 10px; color: var(--text-primary); border-bottom: 1px solid var(--border-subtle); }
+.lift-lc-table tr:last-child td { border-bottom: none; }
+.lift-lc-table tr.lc-row-active td { background: rgba(25, 118, 210, 0.08); color: var(--accent); font-weight: 600; }
+.lift-lc-table td:first-child { font-weight: 600; }
 .lift-calc-summary { background: var(--bg-surface); border: 1px solid var(--border-standard); border-radius: var(--radius); padding: 16px; margin-top: 12px; font-size: 14px; }
 .lift-table-wrap {
   overflow-x: auto;
@@ -2116,11 +2159,15 @@ tr:hover td { background: rgba(94,106,210,0.07); }
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(94,106,210,0.12);
 }
-.fl-seg-item input[type="number"] {
+.fl-seg-item input[type="number"],
+.fl-seg-item input[type="text"] {
   width: 80px;
   padding: 0 8px;
   text-align: center;
   font-variant-numeric: tabular-nums;
+}
+#lift-amp {
+  width: 58px !important;
 }
 /* SVG 下拉箭头跟随焦点变色 */
 .fl-seg-item select:focus {

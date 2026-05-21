@@ -1024,7 +1024,7 @@
         <!-- 粘贴导入区 -->
         <div class="fl-import-area" id="flImportArea" style="display:none">
           <div class="fl-import-top">
-            <div class="fl-import-hint">📋 支持 Excel/Sheets 直接粘贴，或粘贴 Tab 分隔的纯文本。最多导入 50 行。</div>
+            <div class="fl-import-hint">📋 支持 Excel/Sheets 直接粘贴，或粘贴 Tab 分隔的纯文本。最多导入 300 行。</div>
             <div class="fl-import-btns">
               <button class="btn btn-primary btn-xs" onclick="flDoImportFromGrid()">✓ 导入并应用</button>
               <button class="btn btn-ghost btn-xs" onclick="flDownloadTemplate()">📄 下载模版</button>
@@ -1096,16 +1096,19 @@
                 <span class="fl-seg-sel-text" id="lift-seg-pf-text">一层一段</span>
                 <svg class="fl-seg-sel-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 <div class="fl-seg-dropdown" id="lift-seg-pf-dropdown">
-                  <div class="fl-seg-opt" data-val="1" onclick="flSegPfSelect(1,'一层一段')">一层一段</div>
-                  <div class="fl-seg-opt" data-val="2" onclick="flSegPfSelect(2,'两层一段')">两层一段</div>
-                  <div class="fl-seg-opt" data-val="3" onclick="flSegPfSelect(3,'三层一段')">三层一段</div>
+                  <div class="fl-seg-opt" data-val="1-1" onclick="flSegPfSelect('1-1','一层一段')">一层一段</div>
+                  <div class="fl-seg-opt" data-val="1-2" onclick="flSegPfSelect('1-2','一层两段')">一层两段</div>
+                  <div class="fl-seg-opt" data-val="1-3" onclick="flSegPfSelect('1-3','一层三段')">一层三段</div>
+                  <div class="fl-seg-opt" data-val="2-1" onclick="flSegPfSelect('2-1','两层一段')">两层一段</div>
+                  <div class="fl-seg-opt" data-val="3-1" onclick="flSegPfSelect('3-1','三层一段')">三层一段</div>
+                  <div class="fl-seg-opt" data-val="auto" onclick="flSegPfSelect('auto','一层多段')">一层多段</div>
                 </div>
               </div>
-              <input type="hidden" id="lift-seg-pf" value="1">
+              <input type="hidden" id="lift-seg-pf" value="1-1">
             </div>
             <div class="fl-seg-item">
               <label>节点放大系数</label>
-              <input type="number" inputmode="decimal" id="lift-amp" placeholder="1.05" step="0.01" min="1.0" value="1.05" oninput="let v=this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');if(v&&isNaN(parseFloat(v)))v='';this.value=v;debounce(liftCalc,'lc',200);saveFormData()">
+              <input type="text" inputmode="decimal" id="lift-amp" placeholder="1.05" value="1.05" oninput="let v=this.value.replace(/[^0-9.]/g,'').replace(/^\./g,'0.').replace(/(\..*)\./g,'$1');if(v&&parseFloat(v)<1.0)v='1.0';this.value=v;debounce(liftCalc,'lc',200);saveFormData()">
             </div>
           </div>
           <div class="lift-calc-summary" id="liftCalcSummary"></div>
@@ -1123,9 +1126,20 @@
         <div class="lift-card-body">
         <div class="form-group">
           <label>选用机械 <span class="req">*</span></label>
-          <select id="lift-crane" onchange="liftOnCraneChange();saveFormData()">
-            <option value="">— 先在「选型」页选型 —</option>
-          </select>
+          <div class="lift-crane-3level">
+            <select id="lift-crane-type" onchange="liftOnTypeChange();saveFormData()">
+              <option value="">— 类型 —</option>
+              <option value="汽车吊">汽车吊</option>
+              <option value="履带吊">履带吊</option>
+              <option value="塔吊">塔吊</option>
+            </select>
+            <select id="lift-crane-brand" onchange="liftOnBrandChange();saveFormData()">
+              <option value="">— 品牌 —</option>
+            </select>
+            <select id="lift-crane" onchange="liftOnCraneChange();saveFormData()">
+              <option value="">— 型号 —</option>
+            </select>
+          </div>
         </div>
         <div class="form-grid-2">
           <div class="form-group">
@@ -1142,7 +1156,10 @@
         <div class="lift-crane-info" id="liftCraneInfo" style="display:none">
           <div class="lp-item"><span class="lp-l">机械型号</span><span class="lp-v" id="liftCraneModel">—</span></div>
           <div class="lp-item"><span class="lp-l">额定起重量</span><span class="lp-v" id="liftCraneRated">—</span></div>
-          <div class="lp-item"><span class="lp-l">当前半径额定</span><span class="lp-v accent" id="liftCraneAtR">—</span></div>
+        </div>
+        <div class="lift-load-chart" id="liftLoadChart" style="display:none">
+          <div class="sp-header">📊 载荷性能表（半径 <span id="lcRadiusVal">—</span> m）</div>
+          <div id="liftLoadChartBody"></div>
         </div>
         <div class="lift-spreader-info" id="liftSpreaderInfo" style="display:none">
           <div class="sp-header">吊具参数</div>
@@ -1264,7 +1281,32 @@
             <option value="">全部</option>
           </select>
         </div>
-        <div class="perf-filter-row">
+        <div class="perf-filter-row" id="tower-filter-row" style="display:none">
+          <span class="perf-filter-label">臂长</span>
+          <select id="towerArmSelect" class="boom-len-select" onchange="onTowerArmChange()">
+            <option value="">全部臂长</option>
+          </select>
+          <span class="perf-filter-label">倍率</span>
+          <select id="towerMultSelect" class="boom-len-select" onchange="onTowerMultChange()">
+            <option value="">全部倍率</option>
+          </select>
+          <span class="perf-hint" id="perfDataInfo"></span>
+        </div>
+        <div class="perf-filter-row" id="nontower-filter-row-1">
+          <span class="perf-filter-label">工况类型</span>
+          <select id="typeSelect" class="cond-select" onchange="onTypeChange()">
+            <option value="">全部</option>
+          </select>
+          <span class="perf-filter-label">工况说明</span>
+          <select id="condSelect" class="cond-select" onchange="onCondChange()" style="display:none">
+            <option value="">全部</option>
+          </select>
+          <span class="perf-filter-label">配重/支腿</span>
+          <select id="cgSelect" class="cond-select" onchange="onCgChange()" style="display:none">
+            <option value="">全部</option>
+          </select>
+        </div>
+        <div class="perf-filter-row" id="nontower-filter-row-2">
           <span class="perf-filter-label">主臂长度</span>
           <select id="boomLenSelect" class="boom-len-select" onchange="onBoomLenChange()">
             <option value="">全部臂长</option>
@@ -1288,6 +1330,7 @@
         <div class="form-group"><label>吊装半径 R (m)</label><input type="number" id="qR" placeholder="例：30" step="0.5"></div>
         <div class="form-group"><label>构件重量 (t)</label><input type="number" id="qW" placeholder="留空仅查额定值"></div>
         <div class="form-group"><label>臂长 (m)</label><select id="qBoom"></select></div>
+        <div class="form-group" id="qMultGroup" style="display:none"><label>倍率</label><select id="qMult"></select></div>
         <button class="btn btn-primary" onclick="runQ()">计算 →</button>
       </div>
       <div id="qResult"></div>
