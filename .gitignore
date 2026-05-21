@@ -17,3 +17,9 @@ data.js
 crane_images/
 # 启动脚本放外面
 *.bat
+
+# 临时构建/调试脚本（以_开头的临时文件）
+_*/
+_*.py
+_*.xlsx
+nul

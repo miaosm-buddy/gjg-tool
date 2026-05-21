@@ -670,16 +670,30 @@ function renderLib(p,t){
    L1_min = √(R² + (h_req - H_crane)²)
    ─────────────────────────────────────────────────── */
 
-/* 场景切换：场景A=无建筑物（纯平面约束），场景B=有建筑物（碰撞检查） */
+/* 场景切换：
+   场景A=无建筑物（纯平面约束），主臂/超起工况
+   场景B=有建筑物（碰撞检查），主臂/超起工况（工况同A但增加碰撞约束）
+   场景C=有建筑物（仅能用副臂/塔式工况）  */
 var _curScenario = 'A';
 function toggleScenario(s){
   _curScenario = s;
   document.getElementById('sceneA').classList.toggle('active', s==='A');
   document.getElementById('sceneB').classList.toggle('active', s==='B');
-  document.getElementById('sceneBFields').style.display = s==='B' ? '' : 'none';
+  document.getElementById('sceneC').classList.toggle('active', s==='C');
+  var hasBuilding = (s==='B'||s==='C');
+  document.getElementById('sceneBFields').style.display = hasBuilding ? '' : 'none';
+  document.getElementById('sceneCNote').style.display   = (s==='C') ? '' : 'none';
   // 切换参数示意图 SVG
+  // 场景A：纯平面约束，主臂/超起工况
+  // 场景B：有建筑物碰撞约束，主臂/超起工况
+  // 场景C：有建筑物碰撞约束，副臂/塔式工况（专用SVG）
   document.getElementById('svgSceneA').style.display = s==='A' ? '' : 'none';
-  document.getElementById('svgSceneB').style.display = s==='B' ? '' : 'none';
+  document.getElementById('svgSceneB').style.display = (s==='B') ? '' : 'none';
+  document.getElementById('svgSceneC').style.display = (s==='C') ? '' : 'none';
+  // 场景C外层容器也需要显示
+  if(document.getElementById('svgSceneCWrap')){
+    document.getElementById('svgSceneCWrap').style.display = (s==='C') ? '' : 'none';
+  }
 }
 
 function doSelect(){
@@ -767,20 +781,45 @@ function doSelect(){
       continue;
     }
 
-    // ===== 汽车吊 / 履带吊分支（原逻辑） =====
-    // 优先 main_boom 工况
-    var pts=getCranePoints(c,'main_boom',null,null);
-    if(!pts.length)pts=getCranePoints(c,null,null,null);
-    var result=null;
-    if(pts.length){
-      result=findBestConfig(pts,c,R,hRequired,req,d,hBuilding,Hc,hInstall);
+    // ===== 汽车吊 / 履带吊分支 =====
+    // 场景决定尝试哪些工况类型：
+    //   场景A（无建筑物）：main_boom → super_lift → 全部（降级）
+    //   场景B（有建筑物，主臂）：main_boom + super_lift（不降级到jib，因为jib不适于有建筑物场景）
+    //   场景C（有建筑物，副臂）：jib_boom / jib_superlift / tower_jib_superlift（排除main_boom）
+    var workModes;
+    if(_curScenario === 'C'){
+      workModes = ['jib_boom','jib_superlift','tower_jib_superlift'];
+    }else if(_curScenario === 'B'){
+      workModes = ['main_boom','super_lift'];
+    }else{
+      workModes = ['main_boom','super_lift'];  // 场景A同B的工况范围
     }
+
+    var result = null;
+    var pts = null;
+
+    // 遍历允许的工况类型，找第一个可行的
+    for(var wi=0; wi<workModes.length && !result; wi++){
+      pts = getCranePoints(c, workModes[wi], null, null);
+      if(pts.length){
+        result = findBestConfig(pts, c, R, hRequired, req, d, hBuilding, Hc, hInstall);
+      }
+    }
+
+    // 场景A：main_boom/super_lift均无数据，降级尝试所有工况
+    if(!result && _curScenario === 'A'){
+      pts = getCranePoints(c, null, null, null);
+      if(pts.length){
+        result = findBestConfig(pts, c, R, hRequired, req, d, hBuilding, Hc, hInstall);
+      }
+    }
+
     if(result){
       list.push({c:c,rated:result.rated,eff:w/result.rated*100,
         boomLen:result.mainBoom,boomNote:result.note,
         hMax:result.hMax,hReach:result.hReach,jibInfo:result.jibInfo,
         collision:result.collision||null});
-    }else if(!pts.length&&c.max_load_t){
+    }else if((!pts || !pts.length) && c.max_load_t){
       // 无载荷表，用 max_load_t 估算
       var estRated=c.max_load_t*0.6;
       if(estRated>=req)list.push({c:c,rated:estRated,eff:w/estRated*100,
@@ -804,7 +843,8 @@ function doSelect(){
 
   var summary=document.getElementById('resultSummary');
   if(summary){
-    var cond='R='+R+'m';
+    var sceneLabel = _curScenario==='A'?'场景A·无建筑物':_curScenario==='B'?'场景B·有建筑物·主臂':'场景C·有建筑物·副臂';
+    var cond = sceneLabel + ' · R='+R+'m';
     if(hRequired>0)cond+=' · h≥'+hRequired.toFixed(1)+'m';
     cond+=' · 构件'+w+'t×'+sf+'='+req.toFixed(1)+'t';
     summary.innerHTML='<strong>'+list.length+' 台可选机械</strong><span>'+cond+'</span>';
