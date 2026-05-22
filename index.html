@@ -40,6 +40,14 @@
       <span class="app-nav-icon">📊</span>
       <span class="app-nav-label">吊次分析</span>
     </button>
+    <button class="app-nav-btn" id="nav-schedule" onclick="sp('schedule')">
+      <span class="app-nav-icon">📅</span>
+      <span class="app-nav-label">工期计划</span>
+    </button>
+    <button class="app-nav-btn" id="nav-labor" onclick="sp('labor')">
+      <span class="app-nav-icon">👷</span>
+      <span class="app-nav-label">劳动力</span>
+    </button>
   </nav>
   <div class="sidebar-footer">
     <button class="app-nav-btn" id="nav-add" onclick="sp('add')">
@@ -122,7 +130,7 @@
     <div class="param-diagram-wrap" id="paramDiagramWrap">
 
       <!-- ==================== 场景A 图（无建筑物）==================== -->
-      <svg id="svgSceneA" viewBox="0 0 760 480" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <svg id="svgSceneA" viewBox="0 0 760 480" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:none">
         <title>场景A · 无建筑物参数示意图</title>
         <desc>吊装半径R、构件安装标高Ha、机械高度h、构件重量G的空间关系</desc>
         <defs>
@@ -1910,6 +1918,326 @@
     </div>
   </div>
 </div><!-- /page-diaoci -->
+
+<!-- ========== 工期计划 ========== -->
+<div class="page" id="page-schedule">
+  <div class="lift-hero">
+    <h1>📅 工期计划</h1>
+    <p>钢结构施工工期编排，支持按施工阶段或按自然年月两种视图</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="hero-stat-dot"></div>阶段/月度双视图</div>
+      <div class="hero-stat"><div class="hero-stat-dot" style="background:#10b981"></div>联动吊次分析数据</div>
+      <div class="hero-stat"><div class="hero-stat-dot" style="background:#f59e0b"></div>关键线路自动标注</div>
+    </div>
+  </div>
+
+  <!-- 子 Tab -->
+  <div class="sub-tabs" style="margin-bottom:20px">
+    <button class="sub-tab active" id="schedule-tab-phase" onclick="scheduleSwitchTab('phase')">🏗 按施工阶段</button>
+    <button class="sub-tab" id="schedule-tab-monthly" onclick="scheduleSwitchTab('monthly')">📆 按年月</button>
+  </div>
+
+  <!-- ===== 按施工阶段视图 ===== -->
+  <div id="schedule-panel-phase" style="display:flex;flex-direction:column;gap:16px;padding:0 0 20px 0">
+
+    <!-- 项目基本信息 -->
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">📋 项目基本信息
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="lift-card-body">
+      <div class="dc-param-grid">
+        <div class="dc-param-item">
+          <label class="dc-param-label">项目名称</label>
+          <div class="dc-param-control">
+            <input type="text" id="sched-project-name" placeholder="如：XX厂房钢结构工程" style="width:200px" oninput="scheduleCalc();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">结构类型</label>
+          <div class="dc-param-control">
+            <select id="sched-struct-type" style="width:160px" onchange="scheduleCalc();saveFormData()">
+              <option value="high">高层框架（含地下/裙房）</option>
+              <option value="multi">多层框架</option>
+              <option value="space">空间结构（桁架/网架）</option>
+              <option value="plant">工业厂房</option>
+              <option value="grid">网架结构</option>
+            </select>
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">总用钢量(吨)</label>
+          <div class="dc-param-control">
+            <input type="number" id="sched-total-tons" value="1000" min="1" style="width:100px" oninput="scheduleCalc();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">开工日期</label>
+          <div class="dc-param-control">
+            <input type="date" id="sched-start-date" onchange="scheduleCalc();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">竣工日期</label>
+          <div class="dc-param-control">
+            <input type="date" id="sched-end-date" onchange="scheduleCalc();saveFormData()">
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- 施工阶段配置 -->
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">🔧 施工阶段配置
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="dc-card-desc">设置各施工阶段的起止时间、工程量和机械配置</div>
+      <div class="lift-card-body">
+      <button class="btn btn-primary btn-sm" onclick="scheduleAddPhase()" style="margin-bottom:14px">＋ 添加阶段</button>
+      <div id="schedule-phases">
+        <!-- 动态填充 -->
+      </div>
+      </div>
+    </div>
+
+    <!-- 工期汇总 -->
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">📊 工期汇总</h3>
+      <div class="lift-card-body">
+      <div id="schedule-summary" style="font-size:14px;color:var(--text-secondary)">
+        <!-- 动态填充 -->
+      </div>
+      </div>
+    </div>
+
+  </div><!-- /schedule-panel-phase -->
+
+  <!-- ===== 按年月视图 ===== -->
+  <div id="schedule-panel-monthly" style="display:none;flex-direction:column;gap:16px;padding:0 0 20px 0">
+
+    <!-- 月度范围 -->
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">📆 月度工期视图
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="lift-card-body">
+      <div class="dc-param-grid">
+        <div class="dc-param-item">
+          <label class="dc-param-label">开始月份</label>
+          <div class="dc-param-control">
+            <input type="month" id="sched-month-start" onchange="scheduleRenderMonthly();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">结束月份</label>
+          <div class="dc-param-control">
+            <input type="month" id="sched-month-end" onchange="scheduleRenderMonthly();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">每月有效施工天数</label>
+          <div class="dc-param-control">
+            <input type="number" id="sched-days-per-month" value="25" min="1" max="31" style="width:80px" oninput="scheduleRenderMonthly();saveFormData()">
+          </div>
+        </div>
+      </div>
+      <div id="schedule-monthly-table" style="margin-top:16px;overflow-x:auto">
+        <!-- 动态填充 -->
+      </div>
+      </div>
+    </div>
+
+  </div><!-- /schedule-panel-monthly -->
+</div><!-- /page-schedule -->
+
+<!-- ========== 劳动力分析 ========== -->
+<div class="page" id="page-labor">
+  <div class="lift-hero">
+    <h1>👷 劳动力分析</h1>
+    <p>基于工期计划与施工工程量，精准测算各工种劳动力需求与进退场节奏</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="hero-stat-dot"></div>工期×工程量×产能三联动</div>
+      <div class="hero-stat"><div class="hero-stat-dot" style="background:#10b981"></div>峰值/闲置预警</div>
+      <div class="hero-stat"><div class="hero-stat-dot" style="background:#f59e0b"></div>成本自动测算</div>
+    </div>
+  </div>
+
+  <!-- 子 Tab -->
+  <div class="sub-tabs" style="margin-bottom:20px">
+    <button class="sub-tab active" id="labor-tab-summary" onclick="laborSwitchTab('summary')">📋 劳动力总表</button>
+    <button class="sub-tab" id="labor-tab-types" onclick="laborSwitchTab('types')">👷 工种配置</button>
+    <button class="sub-tab" id="labor-tab-io" onclick="laborSwitchTab('io')">📥📤 进退场</button>
+  </div>
+
+  <!-- ===== 劳动力总表 ===== -->
+  <div id="labor-panel-summary" style="display:flex;flex-direction:column;gap:16px;padding:0 0 20px 0">
+
+    <!-- 劳动力汇总 -->
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">👷 劳动力总表
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="lift-card-body">
+      <div style="overflow-x:auto">
+        <table class="mini-table" id="labor-summary-table">
+          <thead>
+            <tr>
+              <th>工种类别</th>
+              <th>工种名称</th>
+              <th>人数</th>
+              <th>日薪(元)</th>
+              <th>在岗天数</th>
+              <th>总工日</th>
+              <th>人工成本(元)</th>
+            </tr>
+          </thead>
+          <tbody id="labor-summary-tbody">
+            <!-- 动态填充 -->
+          </tbody>
+        </table>
+      </div>
+      <div id="labor-total-stats" style="margin-top:16px;padding:12px;background:var(--bg-surface);border-radius:8px;font-size:14px;display:flex;gap:24px;flex-wrap:wrap">
+        <!-- 动态填充 -->
+      </div>
+      </div>
+    </div>
+
+  </div><!-- /labor-panel-summary -->
+
+  <!-- ===== 工种配置 ===== -->
+  <div id="labor-panel-types" style="display:none;flex-direction:column;gap:16px;padding:0 0 20px 0">
+
+    <!-- 工种参数 -->
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">⚙ 工种参数配置
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="dc-card-desc">设置各工种人数、日薪和人均日产能（吨/人·天）</div>
+      <div class="lift-card-body">
+      <div style="overflow-x:auto">
+        <table class="mini-table" id="labor-types-table">
+          <thead>
+            <tr>
+              <th>工种</th>
+              <th>人数</th>
+              <th>日薪(元)</th>
+              <th>人均日产能(吨/人·天)</th>
+              <th>小计(工日)</th>
+            </tr>
+          </thead>
+          <tbody id="labor-types-tbody">
+            <!-- 动态填充 -->
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <span style="font-size:13px;color:var(--text-muted)">常用工种快速添加：</span>
+        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px" onclick="laborQuickAdd('焊工,8,350,0.8')">焊工</button>
+        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px" onclick="laborQuickAdd('起重工,4,300,1.5')">起重工</button>
+        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px" onclick="laborQuickAdd('安装工,10,280,1.2')">安装工</button>
+        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px" onclick="laborQuickAdd('油漆工,5,260,0.5')">油漆工</button>
+        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px" onclick="laborQuickAdd('管理人员,6,500,0')">管理人员</button>
+        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px" onclick="laborQuickAdd('测量员,2,320,0')">测量员</button>
+        <button class="btn btn-sm" style="padding:4px 10px;font-size:12px" onclick="laborQuickAdd('信号司索工,4,300,0')">信号司索工</button>
+      </div>
+      </div>
+    </div>
+
+    <!-- 产能参数 -->
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">📐 产能与效率参数</h3>
+      <div class="lift-card-body">
+      <div class="dc-param-grid">
+        <div class="dc-param-item">
+          <label class="dc-param-label">总钢构量(吨)</label>
+          <div class="dc-param-control">
+            <input type="number" id="labor-total-tons" value="1000" min="1" style="width:100px" oninput="laborCalc();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">总有效工期(天)</label>
+          <div class="dc-param-control">
+            <input type="number" id="labor-total-days" value="180" min="1" style="width:100px" oninput="laborCalc();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">日均安装(吨/天)</label>
+          <div class="dc-param-control">
+            <input type="number" id="labor-daily-rate" value="5" step="0.1" min="0.1" style="width:100px" oninput="laborCalc();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">高峰系数</label>
+          <div class="dc-param-control">
+            <input type="number" id="labor-peak-factor" value="1.2" step="0.05" min="1" style="width:80px" oninput="laborCalc();saveFormData()">
+            <span class="dc-param-hint">预留弹性</span>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+  </div><!-- /labor-panel-types -->
+
+  <!-- ===== 进退场计划 ===== -->
+  <div id="labor-panel-io" style="display:none;flex-direction:column;gap:16px;padding:0 0 20px 0">
+
+    <!-- 进退场计划 -->
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">📥📤 人员进退场计划
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="dc-card-desc">各工种进场时间、退场时间和人员梯度增减计划</div>
+      <div class="lift-card-body">
+      <div style="overflow-x:auto">
+        <table class="mini-table" id="labor-io-table">
+          <thead>
+            <tr>
+              <th>工种</th>
+              <th>进场日期</th>
+              <th>退场日期</th>
+              <th>在岗天数</th>
+              <th>峰值人数</th>
+              <th>增减节奏</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="labor-io-tbody">
+            <!-- 动态填充 -->
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary btn-sm" onclick="laborAddIO()">＋ 添加工种进退场</button>
+      </div>
+      </div>
+    </div>
+
+    <!-- 成本汇总 -->
+    <div class="dc-card lift-card">
+      <h3 class="lift-card-title">💰 劳动力成本汇总</h3>
+      <div class="lift-card-body">
+      <div id="labor-cost-summary" style="font-size:14px;line-height:2">
+        <!-- 动态填充 -->
+      </div>
+      </div>
+    </div>
+
+  </div><!-- /labor-panel-io -->
+</div><!-- /page-labor -->
 
 <!-- 截面选择器模态窗口 -->
 <div class="sec-picker-overlay" id="secPickerOverlay" style="display:none" onclick="if(event.target===this)closeSectionPicker()">

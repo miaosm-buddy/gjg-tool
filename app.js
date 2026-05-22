@@ -544,6 +544,8 @@ function sp(n){
   if(n==='add')initAddPage();
   if(n==='lift')initLiftPage();
   if(n==='diaoci')initDiaoci();
+  if(n==='schedule')initSchedulePage();
+  if(n==='labor')initLaborPage();
   window.scrollTo(0,0);
 }
 
@@ -4719,6 +4721,8 @@ function initLiftPage() {
     FL_DATA = [{ name: '1F', elevation: 0, height: 4.5, zone: '' }];
   }
   flRenderTable();
+  // 同步场景状态（SVG 显隐 + 按钮 active）—— 防止从其他页返回时场景状态残留
+  toggleScenario(_curScenario);
 }
 
 // ── 吊装参数 — 机械三级联动 ─────────────────────────────────
@@ -7527,6 +7531,472 @@ function diaociExportTable() {
   if(!win) { toast('请允许弹出窗口以导出表格'); return; }
   win.document.write(html);
   win.document.close();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  工期计划模块
+// ══════════════════════════════════════════════════════════════
+
+// ── 工期计划：阶段数据结构 ────────────────────────────────
+var _schedule = {
+  phases: [
+    {name:'施工准备',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'测量放线',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'钢柱预埋安装', start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'钢柱吊装',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'主次梁安装',   start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'高强螺栓',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'现场焊接',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'探伤检测',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'除锈防腐涂装', start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'围护安装',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+    {name:'校正验收',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
+  ]
+};
+
+// ── 初始化工期计划页 ──────────────────────────────────────
+function initSchedulePage() {
+  // 填充默认开工/竣工日期
+  var today = new Date();
+  var startInput = document.getElementById('sched-start-date');
+  var endInput = document.getElementById('sched-end-date');
+  if(startInput && !startInput.value) {
+    startInput.value = today.toISOString().slice(0,10);
+  }
+  if(endInput && !endInput.value) {
+    var end = new Date(today);
+    end.setMonth(end.getMonth() + 12);
+    endInput.value = end.toISOString().slice(0,10);
+  }
+  // 恢复阶段数据
+  var raw = localStorage.getItem('sched_data');
+  if(raw) {
+    try { _schedule = JSON.parse(raw); } catch(e) {}
+  }
+  scheduleRenderPhases();
+  scheduleCalc();
+}
+
+// ── 阶段切换 Tab ──────────────────────────────────────────
+function scheduleSwitchTab(tab) {
+  document.getElementById('schedule-tab-phase').classList.toggle('active', tab==='phase');
+  document.getElementById('schedule-tab-monthly').classList.toggle('active', tab==='monthly');
+  document.getElementById('schedule-panel-phase').style.display   = tab==='phase'   ? 'flex' : 'none';
+  document.getElementById('schedule-panel-monthly').style.display  = tab==='monthly' ? 'flex' : 'none';
+  if(tab==='monthly') scheduleRenderMonthly();
+}
+
+// ── 渲染施工阶段列表 ──────────────────────────────────────
+function scheduleRenderPhases() {
+  var container = document.getElementById('schedule-phases');
+  if(!container) return;
+  var html = '';
+  _schedule.phases.forEach(function(p, i) {
+    html += '<div style="margin-bottom:12px;padding:12px;background:var(--bg-surface);border-radius:8px;border:1px solid var(--border-subtle)">' +
+      '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap">' +
+        '<input type="text" value="'+escHtml(p.name)+'" style="width:130px;font-weight:600" '+
+        'onchange="_schedule.phases['+i+'].name=this.value;saveSchedData()">' +
+        '<span style="font-size:12px;color:var(--text-muted)">起</span>'+
+        '<input type="date" value="'+p.start+'" onchange="_schedule.phases['+i+'].start=this.value;scheduleCalc();saveSchedData()">' +
+        '<span style="font-size:12px;color:var(--text-muted)">止</span>'+
+        '<input type="date" value="'+p.end+'" onchange="_schedule.phases['+i+'].end=this.value;scheduleCalc();saveSchedData()">' +
+        '<span style="font-size:12px;color:var(--text-muted)">工程量(吨)</span>'+
+        '<input type="number" value="'+p.tons+'" min="0" style="width:80px" '+
+        'onchange="_schedule.phases['+i+'].tons=+this.value;scheduleCalc();saveSchedData()">' +
+        '<span style="font-size:12px;color:var(--text-muted)">机械台数</span>'+
+        '<input type="number" value="'+p.crane_qty+'" min="0" style="width:60px" '+
+        'onchange="_schedule.phases['+i+'].crane_qty=+this.value;scheduleCalc();saveSchedData()">' +
+        '<button class="btn btn-sm" style="padding:3px 8px;color:#ef4444;font-size:11px" onclick="scheduleRemovePhase('+i+')">删除</button>' +
+      '</div>' +
+      '<div style="font-size:12px;color:var(--text-muted)">' +
+        '工期：<span class="sched-phase-days" data-idx="'+i+'">'+(p.start&&p.end?Math.max(0,Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1):'-')+'</span> 天' +
+        (p.crane_qty>0?' | 需 '+p.crane_qty+' 台机械':'') +
+      '</div>' +
+    '</div>';
+  });
+  container.innerHTML = html;
+}
+
+// ── 添加阶段 ──────────────────────────────────────────────
+function scheduleAddPhase() {
+  _schedule.phases.push({name:'新阶段',start:'',end:'',tons:0,crane_qty:0,crane_type:'',note:''});
+  saveSchedData();
+  scheduleRenderPhases();
+}
+
+// ── 删除阶段 ──────────────────────────────────────────────
+function scheduleRemovePhase(idx) {
+  if(_schedule.phases.length <= 1) { toast('至少保留一个阶段'); return; }
+  _schedule.phases.splice(idx, 1);
+  saveSchedData();
+  scheduleRenderPhases();
+  scheduleCalc();
+}
+
+// ── 计算工期汇总 ──────────────────────────────────────────
+function scheduleCalc() {
+  var summary = document.getElementById('schedule-summary');
+  if(!summary) return;
+
+  var totalTons = _schedule.phases.reduce(function(s,p){ return s+(+p.tons||0); }, 0);
+  var totalDays = 0;
+  var phases = _schedule.phases.map(function(p, i) {
+    var days = (p.start && p.end) ? Math.max(0, Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1) : 0;
+    totalDays += days;
+    return {name:p.name, days:days, tons:+p.tons||0};
+  });
+
+  var startDate = _schedule.phases.filter(function(p){return p.start;}).map(function(p){return new Date(p.start);}).sort(function(a,b){return a-b})[0];
+  var endDate = _schedule.phases.filter(function(p){return p.end;}).map(function(p){return new Date(p.end);}).sort(function(a,b){return b-a})[0];
+
+  var startInput = document.getElementById('sched-start-date');
+  var endInput = document.getElementById('sched-end-date');
+  var startVal = startInput ? startInput.value : '';
+  var endVal = endInput ? endInput.value : '';
+
+  var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">';
+  html += '<div style="padding:10px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">总工期</div><div style="font-size:22px;font-weight:700">'+totalDays+' <span style="font-size:13px;font-weight:400">天</span></div></div>';
+  html += '<div style="padding:10px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">总用钢量</div><div style="font-size:22px;font-weight:700">'+(totalTons>0?totalTons:'—')+' <span style="font-size:13px;font-weight:400">吨</span></div></div>';
+  html += '<div style="padding:10px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">日均产能</div><div style="font-size:22px;font-weight:700">'+(totalDays>0&&totalTons>0?Math.round(totalTons/totalDays*10)/10:'—')+' <span style="font-size:13px;font-weight:400">吨/天</span></div></div>';
+  html += '<div style="padding:10px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">机械总台班</div><div style="font-size:22px;font-weight:700">'+
+    _schedule.phases.reduce(function(s,p){return s+(+p.crane_qty||0)*((p.start&&p.end)?Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1:0);},0)+
+    ' <span style="font-size:13px;font-weight:400">台·天</span></div></div>';
+  html += '</div>';
+
+  if(totalTons > 0) {
+    html += '<div style="margin-top:16px"><div style="font-size:13px;font-weight:600;margin-bottom:8px">各阶段工期分布</div>';
+    var maxDays = Math.max.apply(null, phases.map(function(p){return p.days;}));
+    phases.forEach(function(p) {
+      var barW = maxDays > 0 ? Math.round(p.days/maxDays*100) : 0;
+      var pct = totalTons > 0 ? Math.round(p.tons/totalTons*100) : 0;
+      html += '<div style="margin-bottom:6px;display:flex;align-items:center;gap:8px;font-size:13px">' +
+        '<span style="width:80px;flex-shrink:0;text-align:right;color:var(--text-secondary)">'+p.name+'</span>' +
+        '<div style="flex:1;background:var(--bg-surface);border-radius:4px;height:16px;overflow:hidden"><div style="width:'+barW+'%;background:var(--accent);height:100%;border-radius:4px;transition:width .3s"></div></div>' +
+        '<span style="width:70px;flex-shrink:0">'+p.days+'天</span>' +
+        '<span style="width:60px;flex-shrink:0;color:var(--text-muted)">'+(p.tons>0?p.tons+'t':'—')+'</span>' +
+      '</div>';
+    });
+    html += '</div>';
+  }
+
+  summary.innerHTML = html;
+
+  // 更新阶段天数显示
+  _schedule.phases.forEach(function(p, i) {
+    var el = document.querySelector('.sched-phase-days[data-idx="'+i+'"]');
+    if(el) {
+      var days = (p.start && p.end) ? Math.max(0, Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1) : '-';
+      el.textContent = days;
+    }
+  });
+}
+
+// ── 渲染月度视图 ──────────────────────────────────────────
+function scheduleRenderMonthly() {
+  var container = document.getElementById('schedule-monthly-table');
+  if(!container) return;
+  var startVal = document.getElementById('sched-month-start') ? document.getElementById('sched-month-start').value : '';
+  var endVal = document.getElementById('sched-month-end') ? document.getElementById('sched-month-end').value : '';
+  var daysPerMonth = parseFloat(document.getElementById('sched-days-per-month') ? document.getElementById('sched-days-per-month').value : 25);
+
+  if(!startVal || !endVal) {
+    container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted)">请设置开始和结束月份</div>';
+    return;
+  }
+
+  var start = new Date(startVal + '-01');
+  var end = new Date(endVal + '-01');
+  var rows = [];
+  var cur = new Date(start);
+  while(cur <= end) {
+    var y = cur.getFullYear(), m = cur.getMonth()+1;
+    rows.push({year:y, month:m, label:y+'年'+(m<10?'0':'')+m+'月'});
+    cur.setMonth(cur.getMonth()+1);
+  }
+
+  var totalTons = _schedule.phases.reduce(function(s,p){return s+(+p.tons||0);},0);
+  var html = '<table class="mini-table"><thead><tr><th>月份</th><th>有效天数</th><th>计划工程量(吨)</th><th>配置机械(台)</th><th>主要工序</th><th>完成比例</th></tr></thead><tbody>';
+  rows.forEach(function(row) {
+    var monthDays = daysInMonth(row.year, row.month);
+    var workDays = Math.min(daysPerMonth, monthDays);
+    // 按阶段分配工程量
+    var phaseTons = totalTons > 0 ? Math.round(totalTons / rows.length * 10)/10 : 0;
+    var totalPhaseDays = _schedule.phases.reduce(function(s,p){return s+((p.start&&p.end)?Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1:0);},0);
+    var activePhase = _schedule.phases.find(function(p){
+      if(!p.start || !p.end) return false;
+      var ps = new Date(p.start), pe = new Date(p.end);
+      var ms = new Date(row.year, row.month-1, 1);
+      var me = new Date(row.year, row.month, 0);
+      return ms <= pe && me >= ps;
+    });
+    var activeCranes = activePhase ? activePhase.crane_qty : 0;
+    var barPct = totalTons > 0 ? Math.round(phaseTons/totalTons*100) : 0;
+    html += '<tr>' +
+      '<td style="font-weight:600">'+row.label+'</td>' +
+      '<td>'+workDays+'天</td>' +
+      '<td>'+(phaseTons>0?phaseTons:'—')+'</td>' +
+      '<td>'+(activeCranes>0?activeCranes:'—')+'</td>' +
+      '<td>'+(activePhase?activePhase.name:'—')+'</td>' +
+      '<td><div style="display:flex;align-items:center;gap:6px"><div style="flex:1;background:var(--bg-surface);border-radius:4px;height:10px"><div style="width:'+barPct+'%;background:var(--accent);height:100%;border-radius:4px"></div></div><span style="font-size:12px">'+barPct+'%</span></td>' +
+    '</tr>';
+  });
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function daysInMonth(y,m){return new Date(y,m,0).getDate();}
+
+function saveSchedData() {
+  try { localStorage.setItem('sched_data', JSON.stringify(_schedule)); } catch(e){}
+}
+
+// ══════════════════════════════════════════════════════════════
+//  劳动力分析模块
+// ══════════════════════════════════════════════════════════════
+
+// ── 劳动力数据结构 ─────────────────────────────────────────
+var _labor = {
+  workers: [
+    // {name, qty, daily_salary, daily_capacity, start_date, end_date, category}
+  ],
+  io: [
+    // {name, qty, start_date, end_date, trend, note}
+  ]
+};
+
+// ── 工种类别 ──────────────────────────────────────────────
+var LABOR_CATEGORIES = {
+  '管理岗': ['项目经理','生产经理','施工员','安全员','质检员','测量员','资料员','预算员'],
+  '特种工': ['焊工','起重工','电工','架子工','塔吊司机','信号司索工','探伤工'],
+  '安装主力': ['钢构安装工','拼装工','高强螺栓工','校正工'],
+  '配套工种': ['除锈工','油漆工','围护安装工','普工/杂工','构件装卸工','场内转运工']
+};
+
+// ── 初始化劳动力页 ────────────────────────────────────────
+function initLaborPage() {
+  var raw = localStorage.getItem('labor_data');
+  if(raw) {
+    try { _labor = JSON.parse(raw); } catch(e) {}
+  }
+  laborRenderTypes();
+  laborCalc();
+  laborRenderIO();
+}
+
+// ── Tab 切换 ──────────────────────────────────────────────
+function laborSwitchTab(tab) {
+  ['summary','types','io'].forEach(function(t){
+    document.getElementById('labor-tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('labor-panel-'+t).style.display = (t===tab) ? 'flex' : 'none';
+  });
+  if(tab==='summary') laborCalc();
+  if(tab==='types') laborRenderTypes();
+  if(tab==='io') laborRenderIO();
+}
+
+// ── 渲染工种配置表 ────────────────────────────────────────
+function laborRenderTypes() {
+  var tbody = document.getElementById('labor-types-tbody');
+  if(!tbody) return;
+  var totalTons = parseFloat(document.getElementById('labor-total-tons') ? document.getElementById('labor-total-tons').value : 1000);
+  var totalDays = parseFloat(document.getElementById('labor-total-days') ? document.getElementById('labor-total-days').value : 180);
+  var dailyRate = parseFloat(document.getElementById('labor-daily-rate') ? document.getElementById('labor-daily-rate').value : 5);
+
+  if(_labor.workers.length === 0) {
+    // 默认钢构工种
+    _labor.workers = [
+      {name:'管理人员', qty:6, daily_salary:500, daily_capacity:0, category:'管理岗'},
+      {name:'焊工', qty:8, daily_salary:350, daily_capacity:0.8, category:'特种工'},
+      {name:'起重工', qty:4, daily_salary:300, daily_capacity:0, category:'特种工'},
+      {name:'安装工', qty:10, daily_salary:280, daily_capacity:1.2, category:'安装主力'},
+      {name:'信号司索工', qty:4, daily_salary:300, daily_capacity:0, category:'特种工'},
+      {name:'油漆工', qty:5, daily_salary:260, daily_capacity:0.5, category:'配套工种'},
+      {name:'测量员', qty:2, daily_salary:320, daily_capacity:0, category:'管理岗'},
+    ];
+  }
+
+  var html = '';
+  _labor.workers.forEach(function(w, i) {
+    var workDays = (w.start_date && w.end_date) ? Math.max(0, Math.ceil((new Date(w.end_date)-new Date(w.start_date))/86400000)+1) : totalDays;
+    var manDays = w.qty * workDays;
+    html += '<tr>' +
+      '<td>' +
+        '<select style="width:120px;font-size:12px" onchange="_labor.workers['+i+'].category=this.value;laborRenderTypes();saveLaborData()">';
+    Object.keys(LABOR_CATEGORIES).forEach(function(cat){
+      html += '<option value="'+cat+'"'+(w.category===cat?' selected':'')+'>'+cat+' - '+w.name+'</option>';
+    });
+    html += '</select>' +
+      '</td>' +
+      '<td><input type="number" value="'+w.qty+'" min="0" style="width:60px" onchange="_labor.workers['+i+'].qty=+this.value;laborCalc();saveLaborData()"></td>' +
+      '<td><input type="number" value="'+w.daily_salary+'" min="0" style="width:80px" onchange="_labor.workers['+i+'].daily_salary=+this.value;laborCalc();saveLaborData()"></td>' +
+      '<td><input type="number" value="'+(w.daily_capacity||'')+'" step="0.1" min="0" style="width:80px" placeholder="吨/人·天" onchange="_labor.workers['+i+'].daily_capacity=+this.value;laborCalc();saveLaborData()"></td>' +
+      '<td style="color:var(--text-secondary);font-size:12px">'+manDays.toLocaleString()+'</td>' +
+      '<td><button class="btn btn-sm" style="padding:2px 8px;color:#ef4444;font-size:11px" onclick="laborRemoveWorker('+i+')">×</button></td>' +
+    '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+// ── 添加工种 ──────────────────────────────────────────────
+function laborAddWorker() {
+  _labor.workers.push({name:'新工种', qty:4, daily_salary:300, daily_capacity:0.5, category:'配套工种'});
+  saveLaborData();
+  laborRenderTypes();
+  laborCalc();
+}
+
+// ── 删除工种 ──────────────────────────────────────────────
+function laborRemoveWorker(idx) {
+  _labor.workers.splice(idx, 1);
+  saveLaborData();
+  laborRenderTypes();
+  laborCalc();
+}
+
+// ── 快速添加工种（按钮）───────────────────────────────────
+function laborQuickAdd(dataStr) {
+  var parts = dataStr.split(',');
+  if(parts.length < 4) return;
+  var existing = _labor.workers.findIndex(function(w){ return w.name === parts[0]; });
+  if(existing >= 0) { toast(parts[0]+' 已存在'); return; }
+  _labor.workers.push({
+    name: parts[0], qty: +parts[1], daily_salary: +parts[2],
+    daily_capacity: +parts[3], category: '配套工种'
+  });
+  saveLaborData();
+  laborRenderTypes();
+  laborCalc();
+}
+
+// ── 核心计算 ──────────────────────────────────────────────
+function laborCalc() {
+  var totalTons = parseFloat(document.getElementById('labor-total-tons') ? document.getElementById('labor-total-tons').value : 1000);
+  var totalDays = parseFloat(document.getElementById('labor-total-days') ? document.getElementById('labor-total-days').value : 180);
+  var dailyRate = parseFloat(document.getElementById('labor-daily-rate') ? document.getElementById('labor-daily-rate').value : 5);
+  var peakFactor = parseFloat(document.getElementById('labor-peak-factor') ? document.getElementById('labor-peak-factor').value : 1.2);
+
+  var totalWorkers = _labor.workers.reduce(function(s,w){ return s+(+w.qty||0); }, 0);
+  var peakWorkers = Math.round(totalWorkers * peakFactor);
+  var totalSalary = _labor.workers.reduce(function(s,w){ return s+((+w.qty||0)*(+w.daily_salary||0)*totalDays); }, 0);
+  var totalManDays = _labor.workers.reduce(function(s,w){ return s+(+w.qty||0)*totalDays; }, 0);
+
+  // 计算所需最少人数 vs 实际配置
+  var requiredMin = Math.ceil(totalTons / (dailyRate * totalDays));
+
+  // 渲染总表
+  var tbody = document.getElementById('labor-summary-tbody');
+  if(tbody) {
+    var html = '';
+    _labor.workers.forEach(function(w, i) {
+      var workDays = (w.start_date && w.end_date) ? Math.max(0, Math.ceil((new Date(w.end_date)-new Date(w.start_date))/86400000)+1) : totalDays;
+      var manDays = w.qty * workDays;
+      var cost = w.qty * workDays * w.daily_salary;
+      var rowClass = '';
+      if(w.daily_capacity > 0 && w.qty * w.daily_capacity * workDays < totalTons * 0.5) rowClass = 'style="background:rgba(245,158,11,0.08)"';
+      html += '<tr '+rowClass+'>' +
+        '<td style="font-size:12px">'+w.category+'</td>' +
+        '<td style="font-weight:600">'+w.name+'</td>' +
+        '<td style="font-weight:700">'+w.qty+'</td>' +
+        '<td>'+w.daily_salary+'</td>' +
+        '<td>'+workDays+'</td>' +
+        '<td>'+manDays.toLocaleString()+'</td>' +
+        '<td style="font-weight:600">'+(cost>0?cost.toLocaleString():'—')+'</td>' +
+      '</tr>';
+    });
+    tbody.innerHTML = html;
+  }
+
+  // 汇总统计
+  var stats = document.getElementById('labor-total-stats');
+  if(stats) {
+    var alertMsg = '';
+    if(totalWorkers < requiredMin) {
+      alertMsg = '<span style="color:#ef4444;font-weight:600">⚠ 人数偏少（建议≥'+requiredMin+'人）</span>';
+    } else if(totalWorkers > requiredMin * 1.5) {
+      alertMsg = '<span style="color:#f59e0b;font-weight:600">⚠ 人数偏多（建议≤'+Math.round(requiredMin*1.5)+'人）</span>';
+    } else {
+      alertMsg = '<span style="color:#10b981;font-weight:600">✓ 人数配置合理</span>';
+    }
+    stats.innerHTML = '<div><span style="color:var(--text-muted)">总人数：</span><span style="font-weight:700;font-size:16px">'+totalWorkers+'</span> 人' +
+      (alertMsg?'&nbsp;&nbsp;'+alertMsg:'') +
+      '</div>' +
+      '<div><span style="color:var(--text-muted)">高峰人数：</span><span style="font-weight:700;font-size:16px">'+peakWorkers+'</span> 人</div>' +
+      '<div><span style="color:var(--text-muted)">总工日：</span><span style="font-weight:700;font-size:16px">'+totalManDays.toLocaleString()+'</span> 工日</div>' +
+      '<div><span style="color:var(--text-muted)">人工成本：</span><span style="font-weight:700;font-size:16px">¥'+(totalSalary>0?totalSalary.toLocaleString():'—')+'</span></div>' +
+      '<div><span style="color:var(--text-muted)">所需最少人数：</span><span style="font-weight:700;font-size:16px">'+requiredMin+'</span> 人（日均'+dailyRate+'t×'+totalDays+'天）</div>';
+  }
+
+  // 成本汇总
+  var costSummary = document.getElementById('labor-cost-summary');
+  if(costSummary) {
+    costSummary.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">' +
+      '<div style="padding:12px;background:var(--bg-surface);border-radius:8px;text-align:center">' +
+        '<div style="font-size:24px;font-weight:800;color:var(--accent)">¥'+(totalSalary>0?(totalSalary/10000).toFixed(1):'—')+'万</div>' +
+        '<div style="font-size:12px;color:var(--text-muted);margin-top:4px">总人工成本</div>' +
+      '</div>' +
+      '<div style="padding:12px;background:var(--bg-surface);border-radius:8px;text-align:center">' +
+        '<div style="font-size:24px;font-weight:800">'+totalWorkers+'</div>' +
+        '<div style="font-size:12px;color:var(--text-muted);margin-top:4px">总在岗人数</div>' +
+      '</div>' +
+      '<div style="padding:12px;background:var(--bg-surface);border-radius:8px;text-align:center">' +
+        '<div style="font-size:24px;font-weight:800">'+peakWorkers+'</div>' +
+        '<div style="font-size:12px;color:var(--text-muted);margin-top:4px">高峰人数</div>' +
+      '</div>' +
+      '<div style="padding:12px;background:var(--bg-surface);border-radius:8px;text-align:center">' +
+        '<div style="font-size:24px;font-weight:800">'+(totalManDays>0?(totalSalary/totalManDays).toFixed(0):'—')+'</div>' +
+        '<div style="font-size:12px;color:var(--text-muted);margin-top:4px">人均日成本(元)</div>' +
+      '</div>' +
+    '</div>';
+  }
+}
+
+// ── 进退场渲染 ───────────────────────────────────────────
+function laborRenderIO() {
+  var tbody = document.getElementById('labor-io-tbody');
+  if(!tbody) return;
+  var totalDays = parseFloat(document.getElementById('labor-total-days') ? document.getElementById('labor-total-days').value : 180);
+  if(_labor.io.length === 0 && _labor.workers.length > 0) {
+    // 初始化进退场数据
+    _labor.io = _labor.workers.map(function(w) {
+      return {name:w.name, qty:w.qty, start_date:'', end_date:'', trend:'平', note:''};
+    });
+  }
+  var html = '';
+  _labor.io.forEach(function(item, i) {
+    var workDays = (item.start_date && item.end_date) ? Math.max(0, Math.ceil((new Date(item.end_date)-new Date(item.start_date))/86400000)+1) : totalDays;
+    html += '<tr>' +
+      '<td style="font-weight:600">'+item.name+'</td>' +
+      '<td><input type="date" value="'+item.start_date+'" onchange="_labor.io['+i+'].start_date=this.value;laborCalc();saveLaborData()"></td>' +
+      '<td><input type="date" value="'+item.end_date+'" onchange="_labor.io['+i+'].end_date=this.value;laborCalc();saveLaborData()"></td>' +
+      '<td style="font-weight:600">'+workDays+'</td>' +
+      '<td><input type="number" value="'+item.qty+'" min="0" style="width:60px" onchange="_labor.io['+i+'].qty=+this.value;laborCalc();saveLaborData()"></td>' +
+      '<td>' +
+        '<select style="width:80px;font-size:12px" onchange="_labor.io['+i+'].trend=this.value;saveLaborData()">' +
+          '<option value="平"'+(item.trend==='平'?' selected':'')+'>→ 平</option>' +
+          '<option value="增"'+(item.trend==='增'?' selected':'')+'>↗ 增</option>' +
+          '<option value="减"'+(item.trend==='减'?' selected':'')+'>↘ 减</option>' +
+        '</select>' +
+      '</td>' +
+      '<td><button class="btn btn-sm" style="padding:2px 8px;color:#ef4444;font-size:11px" onclick="laborRemoveIO('+i+')">×</button></td>' +
+    '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function laborAddIO() {
+  _labor.io.push({name:'新工种', qty:4, start_date:'', end_date:'', trend:'平', note:''});
+  saveLaborData();
+  laborRenderIO();
+}
+
+function laborRemoveIO(idx) {
+  _labor.io.splice(idx, 1);
+  saveLaborData();
+  laborRenderIO();
+}
+
+function saveLaborData() {
+  try { localStorage.setItem('labor_data', JSON.stringify(_labor)); } catch(e){}
 }
 
 // ══════════════════════════════════════════════════════════════
