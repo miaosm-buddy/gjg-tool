@@ -690,10 +690,6 @@ function toggleScenario(s){
   document.getElementById('svgSceneA').style.display = s==='A' ? '' : 'none';
   document.getElementById('svgSceneB').style.display = (s==='B') ? '' : 'none';
   document.getElementById('svgSceneC').style.display = (s==='C') ? '' : 'none';
-  // 场景C外层容器也需要显示
-  if(document.getElementById('svgSceneCWrap')){
-    document.getElementById('svgSceneCWrap').style.display = (s==='C') ? '' : 'none';
-  }
 }
 
 function doSelect(){
