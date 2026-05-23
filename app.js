@@ -83,7 +83,7 @@ function saveFormData() {
     // 截面识别文字
     var secSmartInput = (document.getElementById('secSmartInput') || {value: ''}).value;
     // 分段/参数
-    var liftSegPf   = (document.getElementById('lift-seg-pf') || {value: '1'}).value;
+    var liftSegPf   = (document.getElementById('lift-seg-pf') || {value: 'auto'}).value;
     var liftAmp     = (document.getElementById('lift-amp') || {value: ''}).value;
     var liftCrane   = (document.getElementById('lift-crane') || {value: ''}).value;
     var liftRadius  = (document.getElementById('lift-radius') || {value: ''}).value;
@@ -159,25 +159,18 @@ function restoreFormData() {
     var ampEl = document.getElementById('lift-amp');
     if (ampEl && d.liftAmp) ampEl.value = d.liftAmp;
 
-    // 3. 机械 + 半径（三级联动：先设 _selectedCraneId，再重建列表）
+    // 3. 机械 + 半径（避免二次 cascade：直接设 craneSel，由其 onchange 触发完整联动）
     var craneSel = document.getElementById('lift-crane');
-    var typeSel = document.getElementById('lift-crane-type');
-    var brandSel = document.getElementById('lift-crane-brand');
     var boomSel = document.getElementById('lift-boom-sel');
     if (craneSel && d.liftCrane) {
-      // 查机械对象（需要 data 已加载）
       var craneId = parseInt(d.liftCrane) || 0;
       var crane = _craneMap[craneId] || null;
-      // ★ 提前设置 _selectedCraneId，使 cascade 链能正确恢复型号
+      // 先把 _selectedCraneId 置好，这样 cascade 链中 liftOnBrandChange 能取到正确值来恢复型号
       window._selectedCraneId = craneId;
-      // 重建类型下拉（此时 _selectedCraneId 已就位）
-      if (typeSel && crane) typeSel.value = crane.type || '';
-      liftOnTypeChange(true); // 重建品牌列表 + 调用 liftOnBrandChange
-      // 重建品牌下拉（此时品牌 options 已存在，直接赋值触发 model 恢复）
-      if (brandSel && crane) brandSel.value = crane.brand || '';
-      // 重建型号下拉 + 恢复选中的型号（_selectedCraneId 已设，selectedModelId 正确）
+      // 直接设 craneSel.value 会触发其 onchange → liftOnCraneChange，
+      // 在 liftOnCraneChange 内部完成 type/brand/model 全套 cascade，
+      // 避免 restoreFormData 手动 set type→触发cascade→再 set brand→再次cascade 的重复动作
       if (crane) craneSel.value = craneId;
-      // 臂长选项已在 liftOnCraneChange → renderLiftLoadChart 中重建，恢复保存的值
       if (boomSel && d.liftBoom) boomSel.value = d.liftBoom;
     }
     var rEl = document.getElementById('lift-radius');
@@ -222,6 +215,8 @@ function restoreFormData() {
       setColumnMode(d.colProfileMode);
     }
   } catch(e) { /* ignore restore errors */ }
+  // ★ 全部恢复完毕后，延迟触发表格重算（等待 FL_DATA 完成恢复）
+  setTimeout(liftCalc, 200);
 }
 
 // ── 分段形式映射：key = "floorsCount-segsCount" 或 "auto" ─────
@@ -232,9 +227,9 @@ var SEG_FORM_MAP = {
   '1-3': '一层三段',
   '2-1': '两层一段',
   '3-1': '三层一段',
-  'auto': '一层多段'
+  'auto': '自动分段'
 };
-// 固定顺序（用于"一层多段"自动优选时遍历）
+// 固定顺序（用于"自动分段"自动优选时遍历）
 // 顺序原则：总分段数少的优先（总分段数 = floorCount / floorsPerSeg × segsPerFloor）
 // 3-1 → 两端各多留0.5m，实际分段高度≈3×层高-1m，总段数最少优先
 // 2-1 → 两端各多留0.5m，实际分段高度≈2×层高-1m
@@ -256,13 +251,16 @@ function parseSegForm(key) {
 }
 
 // ── flSegPfUpdateUI：更新分段下拉文字显示 ──────────────────
+// 注意：此函数由 restoreFormData 调用（localStorage 恢复），需触发 liftCalc 重算表格
 function flSegPfUpdateUI(val) {
   var textEl = document.getElementById('lift-seg-pf-text');
   var wrap = document.getElementById('lift-seg-pf-wrap');
-  if (textEl) textEl.textContent = SEG_FORM_MAP[val] || '一层一段';
+  if (textEl) textEl.textContent = SEG_FORM_MAP[val] || '自动分段';
   if (wrap) wrap.classList.remove('open');
   var dropdown = document.getElementById('lift-seg-pf-dropdown');
   if (dropdown) dropdown.style.display = '';
+  // 从 localStorage 恢复后触发表格重算（防抖 100ms，等待 FL_DATA 也恢复完成）
+  debounce(liftCalc, 'lc', 100);
 }
 
 // 全局错误捕获
@@ -2529,7 +2527,94 @@ function downloadXlsxTemplate(){
 
 
 var STEEL_RHO = 7850;
-var SECTION_DB = [];
+var SECTION_DB = [
+  // ── H型钢：HW（宽翼缘，B≈H）GB/T 11263 ──────────────────
+  {code:'H100×100×6×8',    type:'HW', label:'H型钢', H:100,  B:100,  tw:6,   tf:8  },
+  {code:'H125×125×6.5×9', type:'HW', label:'H型钢', H:125,  B:125,  tw:6.5, tf:9  },
+  {code:'H150×150×7×10',  type:'HW', label:'H型钢', H:150,  B:150,  tw:7,   tf:10 },
+  {code:'H175×175×7.5×11',type:'HW', label:'H型钢', H:175,  B:175,  tw:7.5, tf:11},
+  {code:'H200×200×8×12',  type:'HW', label:'H型钢', H:200,  B:200,  tw:8,   tf:12},
+  {code:'H250×250×9×14',  type:'HW', label:'H型钢', H:250,  B:250,  tw:9,   tf:14},
+  {code:'H300×300×10×15', type:'HW', label:'H型钢', H:300,  B:300,  tw:10,  tf:15},
+  {code:'H350×350×12×19', type:'HW', label:'H型钢', H:350,  B:350,  tw:12,  tf:19},
+  {code:'H400×400×13×21', type:'HW', label:'H型钢', H:400,  B:400,  tw:13,  tf:21},
+  {code:'H600×300×12×20', type:'HW', label:'H型钢', H:600,  B:300,  tw:12,  tf:20},
+  {code:'H700×300×13×24', type:'HW', label:'H型钢', H:700,  B:300,  tw:13,  tf:24},
+  {code:'H800×300×14×26', type:'HW', label:'H型钢', H:800,  B:300,  tw:14,  tf:26},
+  {code:'H900×300×16×28', type:'HW', label:'H型钢', H:900,  B:300,  tw:16,  tf:28},
+  // ── H型钢：HM（中翼缘，B≈0.5~0.7H）──────────────────────
+  {code:'H150×100×6×9',   type:'HM', label:'H型钢', H:150,  B:100,  tw:6,   tf:9  },
+  {code:'H200×150×6×9',   type:'HM', label:'H型钢', H:200,  B:150,  tw:6,   tf:9  },
+  {code:'H250×175×7×11',  type:'HM', label:'H型钢', H:250,  B:175,  tw:7,   tf:11 },
+  {code:'H300×200×8×12',  type:'HM', label:'H型钢', H:300,  B:200,  tw:8,   tf:12 },
+  {code:'H350×250×10×16', type:'HM', label:'H型钢', H:350,  B:250,  tw:10,  tf:16 },
+  {code:'H400×300×11×18', type:'HM', label:'H型钢', H:400,  B:300,  tw:11,  tf:18 },
+  {code:'H450×300×11×18', type:'HM', label:'H型钢', H:450,  B:300,  tw:11,  tf:18 },
+  {code:'H500×300×11×18', type:'HM', label:'H型钢', H:500,  B:300,  tw:11,  tf:18 },
+  {code:'H600×300×12×20', type:'HM', label:'H型钢', H:600,  B:300,  tw:12,  tf:20 },
+  // ── H型钢：HN（窄翼缘，B≈0.3~0.5H）──────────────────────
+  {code:'H100×50×5×7',    type:'HN', label:'H型钢', H:100,  B:50,   tw:5,   tf:7  },
+  {code:'H125×60×6×8',    type:'HN', label:'H型钢', H:125,  B:60,   tw:6,   tf:8  },
+  {code:'H150×75×5×7',    type:'HN', label:'H型钢', H:150,  B:75,   tw:5,   tf:7  },
+  {code:'H175×90×5×8',    type:'HN', label:'H型钢', H:175,  B:90,   tw:5,   tf:8  },
+  {code:'H200×100×5.5×8',type:'HN', label:'H型钢', H:200,  B:100,  tw:5.5, tf:8  },
+  {code:'H250×125×6×9',  type:'HN', label:'H型钢', H:250,  B:125,  tw:6,   tf:9  },
+  {code:'H300×150×6.5×9', type:'HN', label:'H型钢', H:300,  B:150,  tw:6.5, tf:9  },
+  {code:'H350×175×7×11',  type:'HN', label:'H型钢', H:350,  B:175,  tw:7,   tf:11 },
+  {code:'H400×200×7×11',  type:'HN', label:'H型钢', H:400,  B:200,  tw:7,   tf:11 },
+  {code:'H450×200×7×12',  type:'HN', label:'H型钢', H:450,  B:200,  tw:7,   tf:12 },
+  {code:'H500×200×8×14',  type:'HN', label:'H型钢', H:500,  B:200,  tw:8,   tf:14 },
+  {code:'H550×200×8×16',  type:'HN', label:'H型钢', H:550,  B:200,  tw:8,   tf:16 },
+  {code:'H600×200×10×17', type:'HN', label:'H型钢', H:600,  B:200,  tw:10,  tf:17 },
+  {code:'H700×200×10×20', type:'HN', label:'H型钢', H:700,  B:200,  tw:10,  tf:20 },
+  {code:'H750×210×10×22', type:'HN', label:'H型钢', H:750,  B:210,  tw:10,  tf:22 },
+  {code:'H800×200×10×20', type:'HN', label:'H型钢', H:800,  B:200,  tw:10,  tf:20 },
+  {code:'H850×250×10×20', type:'HN', label:'H型钢', H:850,  B:250,  tw:10,  tf:20 },
+  {code:'H900×250×13×24', type:'HN', label:'H型钢', H:900,  B:250,  tw:13,  tf:24 },
+  {code:'H1000×300×14×26',type:'HN', label:'H型钢', H:1000, B:300,  tw:14,  tf:26 },
+  // ── H型钢：HP（桩用，B≈H）────────────────────────────────
+  {code:'H200×200×8×12',  type:'HP', label:'H型钢', H:200,  B:200,  tw:8,   tf:12 },
+  {code:'H250×250×9×14',  type:'HP', label:'H型钢', H:250,  B:250,  tw:9,   tf:14 },
+  {code:'H300×300×10×15', type:'HP', label:'H型钢', H:300,  B:300,  tw:10,  tf:15 },
+  {code:'H350×350×12×19', type:'HP', label:'H型钢', H:350,  B:350,  tw:12,  tf:19 },
+  {code:'H400×400×13×21', type:'HP', label:'H型钢', H:400,  B:400,  tw:13,  tf:21 },
+  // ── 箱型截面 GB/T 6728 ───────────────────────────────────
+  {code:'□200×200×8',     type:'BOX', label:'箱型截面', H:200, B:200, t1:8,  t2:8  },
+  {code:'□250×250×10',    type:'BOX', label:'箱型截面', H:250, B:250, t1:10, t2:10 },
+  {code:'□300×300×12',    type:'BOX', label:'箱型截面', H:300, B:300, t1:12, t2:12 },
+  {code:'□350×350×14',    type:'BOX', label:'箱型截面', H:350, B:350, t1:14, t2:14 },
+  {code:'□400×400×16',    type:'BOX', label:'箱型截面', H:400, B:400, t1:16, t2:16 },
+  {code:'□500×500×16',    type:'BOX', label:'箱型截面', H:500, B:500, t1:16, t2:16 },
+  {code:'□500×400×16',    type:'BOX', label:'箱型截面', H:500, B:400, t1:16, t2:16 },
+  {code:'□600×400×20',    type:'BOX', label:'箱型截面', H:600, B:400, t1:20, t2:20 },
+  {code:'□700×500×22',    type:'BOX', label:'箱型截面', H:700, B:500, t1:22, t2:22 },
+  {code:'□800×600×25',    type:'BOX', label:'箱型截面', H:800, B:600, t1:25, t2:25 },
+  {code:'□900×600×30',    type:'BOX', label:'箱型截面', H:900, B:600, t1:30, t2:30 },
+  {code:'□1000×700×35',   type:'BOX', label:'箱型截面', H:1000,B:700, t1:35, t2:35 },
+  // ── 圆管截面 GB/T 8162 / YBT 60 ─────────────────────────
+  {code:'Ø114×6',         type:'CHS', label:'圆管', D:114,  t:6   },
+  {code:'Ø140×8',         type:'CHS', label:'圆管', D:140,  t:8   },
+  {code:'Ø168×10',        type:'CHS', label:'圆管', D:168,  t:10  },
+  {code:'Ø180×12',        type:'CHS', label:'圆管', D:180,  t:12  },
+  {code:'Ø219×14',        type:'CHS', label:'圆管', D:219,  t:14  },
+  {code:'Ø245×16',        type:'CHS', label:'圆管', D:245,  t:16  },
+  {code:'Ø273×18',        type:'CHS', label:'圆管', D:273,  t:18  },
+  {code:'Ø325×20',        type:'CHS', label:'圆管', D:325,  t:20  },
+  {code:'Ø351×22',        type:'CHS', label:'圆管', D:351,  t:22  },
+  {code:'Ø377×25',        type:'CHS', label:'圆管', D:377,  t:25  },
+  {code:'Ø426×28',        type:'CHS', label:'圆管', D:426,  t:28  },
+  {code:'Ø530×30',        type:'CHS', label:'圆管', D:530,  t:30  },
+  {code:'Ø630×35',        type:'CHS', label:'圆管', D:630,  t:35  },
+  {code:'Ø720×40',        type:'CHS', label:'圆管', D:720,  t:40  },
+  {code:'Ø820×45',        type:'CHS', label:'圆管', D:820,  t:45  },
+  // ── 十字形截面（CRU）───────────────────────────────────────
+  // 竖H1 + 横H2（旋转90°）焊接；格式：十+H1×B1+H2×B2
+  {code:'十+H200×150+H200×150', type:'CRU', label:'十字形', h1:200, b1:150, tw1:8, tf1:12, h2:200, b2:150, tw2:8, tf2:12},
+  {code:'十+H300×200+H300×200', type:'CRU', label:'十字形', h1:300, b1:200, tw1:10, tf1:16, h2:300, b2:200, tw2:10, tf2:16},
+  {code:'十+H400×300+H400×300', type:'CRU', label:'十字形', h1:400, b1:300, tw1:12, tf1:20, h2:400, b2:300, tw2:12, tf2:20},
+  {code:'十+H500×300+H500×300', type:'CRU', label:'十字形', h1:500, b1:300, tw1:14, tf1:24, h2:500, b2:300, tw2:14, tf2:24},
+  {code:'十+H600×400+H600×400', type:'CRU', label:'十字形', h1:600, b1:400, tw1:16, tf1:28, h2:600, b2:400, tw2:16, tf2:28},
+];
 
 // ═══════════════════════════════════════════════════════════════════
 //  用户截面库（localStorage 持久化）
@@ -2547,7 +2632,7 @@ function saveUserSections(list) {
 }
 
 function spLibGetAll() {
-  return getUserSections().slice();
+  return SECTION_DB.slice().concat(getUserSections());
 }
 
 function spLibFind(code) {
@@ -2626,23 +2711,25 @@ window.saveSectionToLib = function() {
     if (!p.h1 || !p.b1 || !p.tw1 || !p.tf1 || !p.h2 || !p.b2 || !p.tw2 || !p.tf2) {
       toast('请填写完整参数（竖H1/B1/tw1/tf1 + 横H2/B2/tw2/tf2）'); return;
     }
-  } else {
-    toast('异形截面（CUSTOM）无需保存到库'); return;
   }
-  var n = spLibCount() + 1;
-  var code = 'USR-' + String(n).padStart(3, '0');
   var labelMap = {HW:'H型钢',HM:'H型钢',HN:'H型钢',HP:'H型钢',BOX:'箱型',CHS:'圆管',CRU:'十字形'};
   var label = labelMap[t] || t;
-  var sec = {code: code, type: t, label: label};
+  var code, sec;
   if (t === 'HW' || t === 'HM' || t === 'HN' || t === 'HP') {
-    sec.H = p.H; sec.B = p.B; sec.tw = p.tw; sec.tf = p.tf;
+    code = 'H' + p.H + '×' + p.B + '×' + p.tw + '×' + p.tf;
+    sec = {code: code, type: t, label: label, H: p.H, B: p.B, tw: p.tw, tf: p.tf};
   } else if (t === 'BOX') {
-    sec.H = p.H; sec.B = p.B; sec.t1 = p.t1; sec.t2 = p.t2 || p.t1; sec.t = p.t1;
+    var t2v = p.t2 || p.t1;
+    code = '□' + p.B + '×' + p.H + '×' + p.t1 + '×' + t2v;
+    sec = {code: code, type: t, label: label, H: p.H, B: p.B, t1: p.t1, t2: t2v, t: p.t1};
   } else if (t === 'CHS') {
-    sec.D = p.D; sec.t = p.t;
+    code = 'Ø' + p.D + '×' + p.t;
+    sec = {code: code, type: t, label: label, D: p.D, t: p.t};
   } else if (t === 'CRU') {
-    sec.h1 = p.h1; sec.b1 = p.b1; sec.tw1 = p.tw1; sec.tf1 = p.tf1;
-    sec.h2 = p.h2; sec.b2 = p.b2; sec.tw2 = p.tw2; sec.tf2 = p.tf2;
+    code = '+' + p.h1 + '×' + p.b1 + '×' + p.h2 + '×' + p.b2;
+    sec = {code: code, type: t, label: label, h1: p.h1, b1: p.b1, tw1: p.tw1, tf1: p.tf1, h2: p.h2, b2: p.b2, tw2: p.tw2, tf2: p.tf2};
+  } else {
+    toast('异形截面（CUSTOM）无需保存到库'); return;
   }
   var list = getUserSections();
   list.push(sec);
@@ -4083,6 +4170,10 @@ function drawSectionSVG(s) {
 //   逻辑：指定臂长 → 各倍率内半径插值 → 取所有倍率中的最大值
 // 非塔吊：原逻辑，按 boom_length 分组后半径插值
 function getCraneCapacity(crane, radius, boomLen) {
+  if (!crane) {
+    console.warn('[DEBUG getCraneCapacity] crane 为 null/undefined → return null（请检查是否已选机械）');
+    return null;
+  }
   var r = radius || 0;
 
   // ── 塔吊专用 ──────────────────────────────────────────────
@@ -4092,11 +4183,18 @@ function getCraneCapacity(crane, radius, boomLen) {
     // 找出最接近的可用臂长
     if (!armKey) {
       var armKeys = Object.keys(tlc).map(Number).sort(function(a,b){return a-b;});
-      if (!armKeys.length) return null;
+      if (!armKeys.length) {
+        console.warn('[DEBUG getCraneCapacity] 塔吊 tower_load_charts 为空，boomLen=' + boomLen + ' → return null');
+        return null;
+      }
       // 选最接近且可达的臂长（取最大臂长作为默认值）
       armKey = String(armKeys[armKeys.length - 1]);
+      console.log('[DEBUG getCraneCapacity] 塔吊 boomLen 未指定，自动选用最大臂长=' + armKey);
     }
-    if (!tlc[armKey]) return null;
+    if (!tlc[armKey]) {
+      console.warn('[DEBUG getCraneCapacity] 塔吊 boomLen=' + boomLen + ' 在 tower_load_charts 中不存在，可用键：' + Object.keys(tlc).join(',') + ' → return null');
+      return null;
+    }
     var mults = Object.keys(tlc[armKey]).map(Number).sort(function(a,b){return a-b;});
     var bestCap = 0;
     for (var mi = 0; mi < mults.length; mi++) {
@@ -4123,7 +4221,10 @@ function getCraneCapacity(crane, radius, boomLen) {
 
   // ── 汽车吊 / 履带吊 / 随车吊 ───────────────────────────────
   var charts = getCharts(crane.id);
-  if (!charts || !charts.length) return null;
+  if (!charts || !charts.length) {
+    console.warn('[DEBUG getCraneCapacity] 机械 id=' + (crane ? crane.id : 'null') + ' 无 load_charts 数据 → return null');
+    return null;
+  }
   var lo = 0, hi = charts.length - 1;
   var target = { boom_length: boomLen || 999, radius: r };
   while (lo < hi - 1) {
@@ -4736,6 +4837,13 @@ window.liftOnTypeChange = function(noSave) {
   var selectedBrand = brandSel ? brandSel.value : '';
   var selectedModelId = modelSel ? parseInt(modelSel.value) : 0;
 
+  // ── 优化：type 值未变时跳过无意义的 cascade ─────────────────────
+  // 防止用户选了同一类型下另一型号时，却把品牌+型号下拉清掉重建
+  if (modelSel && selectedModelId > 0) {
+    var existingOption = Array.from(modelSel.options).some(function(o) { return parseInt(o.value) === selectedModelId; });
+    if (existingOption) return; // 型号仍在列表中，无需任何 cascade
+  }
+
   // 收集该类型下所有品牌
   var brands = {};
   if (data && data.cranes) {
@@ -4907,9 +5015,22 @@ function liftOnCraneChange() {
   }
   info.style.display = '';
   document.getElementById('liftCraneModel').textContent = (crane.brand||'') + ' ' + (crane.model||'');
-  var ratedMax = crane.max_load_t;
-  document.getElementById('liftCraneRated').textContent = ratedMax ? ratedMax.toFixed(1) + ' t' : '无数据';
   var boomLen = parseFloat((document.getElementById('lift-boom-sel')||{value:''}).value) || 0;
+  // ★ 修复：额定起重量显示当前半径×臂长下的实际插值，而非静态 max_load_t
+  //    max_load_t（最大额定）仅作参考标注，帮助用户理解"12.8t标称 vs 30m半径实际2.5t"的差异
+  var capAtRadius = crane ? getCraneCapacity(crane, radius, boomLen||null) : null;
+  var ratedMax = crane.max_load_t || 0;
+  var ratedEl = document.getElementById('liftCraneRated');
+  if (capAtRadius !== null) {
+    // 实际插值 > 0：显示插值结果，并在括号内标注标称最大值
+    var note = ratedMax > 0 && Math.abs(capAtRadius - ratedMax) > 0.5
+      ? '（标称 ' + ratedMax.toFixed(1) + 't）'
+      : '';
+    ratedEl.textContent = capAtRadius.toFixed(1) + ' t' + note;
+  } else {
+    // 无载荷表数据：fallback 到标称值
+    ratedEl.textContent = ratedMax ? ratedMax.toFixed(1) + ' t（标称）' : '无数据';
+  }
   // 载荷性能表
   renderLiftLoadChart(crane, radius, boomLen);
   // 索具信息（优先 crane.spread_params，没有则 fallback 到 SPREAD_PARAMS_DB）
@@ -4981,7 +5102,10 @@ function renderLiftLoadChart(crane, radius, boomLen) {
   var lcBody = document.getElementById('liftLoadChartBody');
   if (!lcEl || !lcBody) return;
 
-  var r = radius || 0;
+  // 防御：radius 为空/NaN 时用默认值 30，确保性能表总能在选型后显示
+  var rawR = parseFloat(radius);
+  var r = (isNaN(rawR) || rawR <= 0) ? 30 : rawR;
+  var rIsDefault = isNaN(rawR) || rawR <= 0;
 
   // ── 塔吊专用渲染 ──────────────────────────────────────────
   if (crane && crane.tower_load_charts) {
@@ -5047,6 +5171,7 @@ function renderLiftLoadChart(crane, radius, boomLen) {
   var booms = Object.keys(boomMap).map(Number).sort(function(a, b) { return a - b; });
 
   // ── 只保留最大半径 ≥ 用户输入半径的臂长 ─────────────────────
+  // 若 r 为默认值（未输入），显示所有臂长；否则按用户输入的半径过滤
   var rUser = r;
   booms = booms.filter(function(bl) {
     var maxR = 0;
@@ -5055,16 +5180,20 @@ function renderLiftLoadChart(crane, radius, boomLen) {
         if ((pts[i].radius || 0) > maxR) maxR = pts[i].radius || 0;
       }
     }
+    if (rIsDefault) return true; // 默认半径时显示所有臂长
     return maxR >= rUser;
   });
   if (booms.length === 0) {
-    lcBody.innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">⚠ 半径 ' + rUser.toFixed(1) + 'm 超出该机械载荷表范围</div>';
+    var hint = rIsDefault
+      ? '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">📌 性能表（默认半径 30m），请在"吊装半径"输入实际值以查看精确载荷</div>'
+      : '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">⚠ 半径 ' + rUser.toFixed(1) + 'm 超出该机械载荷表范围</div>';
+    lcBody.innerHTML = hint;
     lcEl.style.display = '';
     return;
   }
 
   var rEl = document.getElementById('lcRadiusVal');
-  if (rEl) rEl.textContent = r.toFixed(1);
+  if (rEl) rEl.textContent = rIsDefault ? ('*' + r.toFixed(1)) : r.toFixed(1);
 
   var selectedBoom = boomLen > 0 ? Math.round(boomLen * 10) / 10 : 0;
   var rows = booms.map(function(bl) {
@@ -5225,13 +5354,20 @@ function _getMaxSegLen(sec, amp, crane, radius, boomLen) {
 // FLOOR_OFFSET: 楼面往上偏移（默认1.2m）
 // 返回: 成功→[{name, length, floorStart, floorEnd, isFirstSegOfCol}], 失败→null（某段超17.5m）
 function _buildSegsByForm(formKey, FL_DATA, FLOOR_OFFSET) {
-  if (!FL_DATA || !FL_DATA.length) return null;
+  console.log('[DEBUG _buildSegsByForm] formKey=' + formKey + ' FL_DATA=' + (FL_DATA ? FL_DATA.length : 'null') + ' FLOOR_OFFSET=' + FLOOR_OFFSET);
+  if (!FL_DATA || !FL_DATA.length) {
+    console.warn('[DEBUG _buildSegsByForm] ❌ FL_DATA 为空，返回 null');
+    return null;
+  }
   var parsed = parseSegForm(formKey);
   if (parsed.isAuto) return null; // auto 由 _buildSegsAuto 处理
 
   var floorsPerSeg = parsed.floorsPerSeg;
   var segsPerFloor = parsed.segsPerFloor;
-  var nFloors = FL_DATA.length;
+  // ★ Bug C 修复：过滤掉顶层 height=0 的虚拟行（不计入有效层数）
+  var _fl = FL_DATA.slice();
+  while (_fl.length > 0 && (_fl[_fl.length - 1].height || 0) === 0) { _fl.pop(); }
+  var nFloors = _fl.length;
 
   var nGroups = Math.ceil(nFloors / floorsPerSeg);
   var totalSegs = nGroups * segsPerFloor;
@@ -5241,7 +5377,7 @@ function _buildSegsByForm(formKey, FL_DATA, FLOOR_OFFSET) {
 
   for (var i = 0; i < totalSegs; i++) {
     var segStart = i / segsPerFloor;
-    var segEnd = (i + 1) / segsPerFloor;
+    var segEnd = (i + floorsPerSeg) / segsPerFloor;
     if (segStart >= nFloors) break;
     if (segStart < 0) segStart = 0;
     if (segEnd > nFloors) segEnd = nFloors;
@@ -5250,21 +5386,21 @@ function _buildSegsByForm(formKey, FL_DATA, FLOOR_OFFSET) {
     var floorStartWhole = Math.ceil(segStart);
     var floorEndWhole = Math.floor(segEnd);
     for (var fi = floorStartWhole; fi < floorEndWhole; fi++) {
-      segH += FL_DATA[fi] ? (FL_DATA[fi].height || 0) : 0;
+      segH += _fl[fi] ? (_fl[fi].height || 0) : 0;
     }
     var remStart = segStart - Math.floor(segStart);
     var remEnd = segEnd - Math.floor(segEnd);
     if (remEnd <= 0) remEnd = 1;
     if (floorStartWhole === floorEndWhole) {
-      segH = FL_DATA[floorStartWhole] ? (FL_DATA[floorStartWhole].height || 0) * (remEnd - remStart) : 0;
+      segH = _fl[floorStartWhole] ? (_fl[floorStartWhole].height || 0) * (remEnd - remStart) : 0;
     } else {
       if (remStart > 0 && floorStartWhole > 0) {
         // remStart > 0：段起点在层内某位置，取前一层残余；(1-remStart) 即残余比例
         // remStart === 0：段起点恰好在整数层边界，段属于下一层，不取前一层
-        segH += FL_DATA[floorStartWhole - 1] ? (FL_DATA[floorStartWhole - 1].height || 0) * (1 - remStart) : 0;
+        segH += _fl[floorStartWhole - 1] ? (_fl[floorStartWhole - 1].height || 0) * (1 - remStart) : 0;
       }
       if (remEnd < 1 && floorEndWhole < nFloors) {
-        segH += FL_DATA[floorEndWhole] ? (FL_DATA[floorEndWhole].height || 0) * remEnd : 0;
+        segH += _fl[floorEndWhole] ? (_fl[floorEndWhole].height || 0) * remEnd : 0;
       }
     }
 
@@ -5291,46 +5427,460 @@ function _assignSegNames(segs) {
   }
 }
 
-// 全局最优策略：遍历所有可行分段形式，取总分段数最少者
-// 三重约束：①段长≤17.5m ②吊装效率≤90% ③最多三层一段（建筑不超四层）
-// 顺序原则：少分段优先（3-1→2-1→1-1→1-2→1-3）
-// 效率值仅用于过滤，不作为排序依据
-function _buildSegsAuto(FL_DATA, FLOOR_OFFSET, sec, amp, cap) {
-  if (!FL_DATA || !FL_DATA.length || !sec || !cap || cap <= 0) return null;
-  var nFloors = FL_DATA.length;
-  var candidates = [];
-  for (var o = 0; o < SEG_FORM_ORDER.length; o++) {
-    var formKey = SEG_FORM_ORDER[o];
-    // 约束③：最多三层一段，建筑超过四层时跳过 3-1
-    if (formKey === '3-1' && nFloors > 4) continue;
+// 当固定分段形式效率超标时，自动向更细分段形式查找可行方案
+// 遍历 SEG_FORM_ORDER 中比当前形式更细的形式，找到第一个效率≤90%的
+// 返回新的 formKey（未找到则返回 null）
+function _findFinerForm(curFormKey, FL_DATA, FLOOR_OFFSET, sec, amp, cap) {
+  var curIdx = SEG_FORM_ORDER.indexOf(curFormKey);
+  if (curIdx < 0 || curIdx >= SEG_FORM_ORDER.length - 1) return null;
+  for (var i = curIdx + 1; i < SEG_FORM_ORDER.length; i++) {
+    var formKey = SEG_FORM_ORDER[i];
     var segs = _buildSegsByForm(formKey, FL_DATA, FLOOR_OFFSET);
-    if (!segs) continue; // 约束①：某段超17.5m，跳过此形式
-    // 约束②：逐段检查吊装效率 ≤ 90%
-    var passEff = true;
-    for (var si = 0; si < segs.length; si++) {
-      var selfWt = segs[si].length * secWeight(sec) * amp / 1000; // ton
-      var eff = selfWt / cap * 100;
-      if (eff > 90) { passEff = false; break; }
+    if (!segs) continue; // 某段超17.5m，跳过
+    var pass = true;
+    for (var j = 0; j < segs.length; j++) {
+      var selfWt = segs[j].length * secWeight(sec) * amp / 1000;
+      if (selfWt / cap * 100 > 90) { pass = false; break; }
     }
-    if (!passEff) continue;
-    _assignSegNames(segs);
-    candidates.push({ formKey: formKey, segs: segs, segCount: segs.length });
+    if (pass) return formKey;
   }
-  if (!candidates.length) return null; // 全部不合格
-  candidates.sort(function(a, b) { return a.segCount - b.segCount; });
-  return candidates[0]; // 全局最优：总吊次最少
+  return null;
+}
+
+// ── 自适应贪婪自动分段 ──────────────────────────────────────
+// 核心策略：从首层楼面开始，逐组尝试各分段形式，
+// 每步取"段长≤17.5m 且效率≤90%"的最粗形式
+// 不同位置允许混用不同形式（如底层3-1，上层2-1，顶层1-1）
+// ══════════════════════════════════════════════════════════════════
+// 全局DP最优分段引擎
+// 目标：最少吊装次数（最少组数），同组数时优先最长段长
+// 约束：段长≤17.5m，效率≤90%，最多3层/段
+// ══════════════════════════════════════════════════════════════════
+function _buildSegsOptimalDP(FL_DATA, FLOOR_OFFSET, sec, amp, cap) {
+  // ★ Bug C 修复：过滤掉顶层 height=0 的虚拟行（不计入有效层数）
+  var _fl = FL_DATA.slice();
+  while (_fl.length > 0 && (_fl[_fl.length - 1].height || 0) === 0) { _fl.pop(); }
+  var nFloors = _fl.length;
+  var LEN_MAX = 17.5;
+  var EFF_MAX = 90;
+  var sw = secWeight(sec);
+
+  console.warn('[DEBUG _buildSegsOptimalDP] ★ START ★ nFloors=' + nFloors + ' cap=' + cap + ' amp=' + amp + ' sw=' + sw);
+  if (!FL_DATA || !FL_DATA.length) { console.error('[DEBUG _buildSegsOptimalDP] ❌ FL_DATA 为空'); return { segs: null, reason: 'length' }; }
+  if (!sec) { console.error('[DEBUG _buildSegsOptimalDP] ❌ sec 为空'); return { segs: null, reason: 'length' }; }
+  if (!cap || cap <= 0) { console.error('[DEBUG _buildSegsOptimalDP] ❌ cap 无效 cap=' + cap); return { segs: null, reason: 'length' }; }
+
+  // ── 预计算累积高度 cumH[i] = 第i层底部到结构基底的高度 ──
+  var cumH = [0];
+  for (var ci = 0; ci < nFloors; ci++) {
+    cumH.push(cumH[ci] + (_fl[ci].height || 0));
+  }
+
+  // ── 计算一段组的长度（标准版，与贪心算法一致）──
+  // formKey: '3-1'/'2-1'/'1-1'/'1-2'/'1-3'
+  // floorsPerSeg: 该组覆盖多少层
+  // slotsPerSeg: 该组分多少段（= floorsPerSeg × segsPerFloor）
+  // segIdx: 该段在组内的索引（0-based）
+  function groupSegLen(formKey, groupStartFloor, segIdx) {
+    var parts = formKey.split('-');
+    var floorsPerSeg = parseInt(parts[0]) || 1;
+    var segsPerFloor  = parseInt(parts[1]) || 1;
+    var slotsPerSeg = floorsPerSeg * segsPerFloor;
+
+    var segStartSlot = groupStartFloor + segIdx / segsPerFloor;
+    var segEndSlotRaw = groupStartFloor + (segIdx + 1) / segsPerFloor;
+    var segEndSlot = segEndSlotRaw > nFloors ? nFloors : segEndSlotRaw;
+
+    // 如果段底已在建筑顶之外，整段无效
+    if (segStartSlot >= nFloors) {
+      console.log('[DEBUG groupSegLen] ' + formKey + ' floor' + groupStartFloor + ' slot' + segIdx + ': segStartSlot=' + segStartSlot + ' >= nFloors=' + nFloors + ' → return 0 (virtual)');
+      return 0;
+    }
+    // 如果段顶超出建筑顶，有效高度 = 建筑顶 - 段底（不含超出的那部分）
+    if (segEndSlotRaw > nFloors) {
+      var segH = cumH[nFloors] - cumH[Math.floor(segStartSlot)];
+      // 段顶超出建筑时：该段物理上不存在于建筑内，偏移量不适用
+      console.log('[DEBUG groupSegLen] ' + formKey + ' floor' + groupStartFloor + ' slot' + segIdx + ': segStartSlot=' + segStartSlot.toFixed(2) + ' segEndSlotRaw=' + segEndSlotRaw.toFixed(2) + ' > nFloors=' + nFloors + ' → segH=' + segH.toFixed(2) + 'm (top-exceeded, no offset)');
+      return segH;
+    }
+
+    // 正常情况：段顶未超出建筑
+    var segH = cumH[Math.floor(segEndSlot)] - cumH[Math.floor(segStartSlot)];
+    // 处理段顶落在楼层中间的情况
+    var remEnd = segEndSlotRaw - Math.floor(segEndSlotRaw);
+    if (remEnd > 0) {
+      segH += (_fl[Math.floor(segEndSlotRaw)] ? (_fl[Math.floor(segEndSlotRaw)].height || 0) : 0) * remEnd;
+    }
+
+    // 首段加楼板偏移，末段减楼板偏移（仅当段顶仍在建筑范围内时）
+    // 重要：若段顶超出或正好到达建筑顶（segEndSlotRaw >= nFloors），则无"楼板"可减
+    var segLen = segH;
+    if (segIdx === 0) segLen += FLOOR_OFFSET;
+    // 末段减偏移的条件：①是末段 ②段顶仍在建筑内部（< nFloors）
+    if (segIdx === slotsPerSeg - 1 && segEndSlotRaw < nFloors) segLen -= FLOOR_OFFSET;
+    console.log('[DEBUG groupSegLen] ' + formKey + ' floor' + groupStartFloor + ' slot' + segIdx + ': segStartSlot=' + segStartSlot.toFixed(2) + ' segEndSlotRaw=' + segEndSlotRaw.toFixed(2) + ' segEndSlot=' + segEndSlot.toFixed(2) + ' remEnd=' + remEnd.toFixed(3) + ' segH=' + segH.toFixed(3) + ' +offset=' + (segIdx === 0 ? FLOOR_OFFSET : 0) + '/-' + ((segIdx === slotsPerSeg - 1 && segEndSlotRaw < nFloors) ? FLOOR_OFFSET : 0) + ' → sl=' + segLen.toFixed(3) + 'm');
+    return segLen;
+  }
+
+  // ── 评估从某层开始、采用某form，是否全部段都valid ──
+  function evalForm(formKey, startFloor) {
+    var parts = formKey.split('-');
+    var floorsPerSeg = parseInt(parts[0]) || 1;
+    var segsPerFloor  = parseInt(parts[1]) || 1;
+    var slotsPerSeg = floorsPerSeg * segsPerFloor;
+
+    if (startFloor + floorsPerSeg > nFloors) {
+      console.log('[DEBUG evalForm] ⏭ ' + formKey + ' @ floor' + startFloor + ': startFloor+floorsPerSeg=' + (startFloor + floorsPerSeg) + ' > nFloors=' + nFloors + ' → skip (out of range)');
+      return null; // 超出范围
+    }
+
+    var segLens = [];
+    for (var si = 0; si < slotsPerSeg; si++) {
+      var sl = groupSegLen(formKey, startFloor, si);
+      // 每个段的详细诊断日志
+      var segStartSlot = startFloor + si / segsPerFloor;
+      var segEndSlotRaw = startFloor + (si + 1) / segsPerFloor;
+      if (sl < 0) {
+        console.log('[DEBUG evalForm] ❌ ' + formKey + ' @ floor' + startFloor + ' slot' + si + ': sl=' + sl.toFixed(4) + 'm [segStart=' + segStartSlot.toFixed(2) + ' segEndRaw=' + segEndSlotRaw.toFixed(2) + '] (NEGATIVE)');
+        return null;
+      }
+      if (sl > LEN_MAX) {
+        console.log('[DEBUG evalForm] ❌ ' + formKey + ' @ floor' + startFloor + ' slot' + si + ': sl=' + sl.toFixed(2) + 'm [segStart=' + segStartSlot.toFixed(2) + ' segEndRaw=' + segEndSlotRaw.toFixed(2) + '] (EXCEEDS 17.5m)');
+        return null;
+      }
+      // sl=0 的段：建筑顶虚拟段（无重量），无需检查效率
+      if (sl > 0) {
+        var wt = sl * sw * amp / 1000;
+        var eff = wt / cap * 100;
+        if (eff > EFF_MAX) {
+          console.log('[DEBUG evalForm] ❌ ' + formKey + ' @ floor' + startFloor + ' slot' + si + ': sl=' + sl.toFixed(2) + 'm sw=' + sw.toFixed(2) + 'kg/m amp=' + amp + ' wt=' + wt.toFixed(2) + 't cap=' + cap.toFixed(2) + 't eff=' + eff.toFixed(1) + '% (eff fail >' + EFF_MAX + '%)');
+          return null;
+        }
+        console.log('[DEBUG evalForm] ✅ ' + formKey + ' @ floor' + startFloor + ' slot' + si + ': sl=' + sl.toFixed(2) + 'm wt=' + wt.toFixed(2) + 't eff=' + eff.toFixed(1) + '%');
+      } else {
+        console.log('[DEBUG evalForm] ✅ ' + formKey + ' @ floor' + startFloor + ' slot' + si + ': sl=' + sl.toFixed(2) + 'm (virtual top slot)');
+      }
+      segLens.push(sl);
+    }
+    console.log('[DEBUG evalForm] ✅ ' + formKey + ' @ floor' + startFloor + ': PASSES all checks (segLens=' + segLens.map(function(x){return x.toFixed(2);}).join(',') + ')');
+    return { segLens: segLens, nextFloor: startFloor + floorsPerSeg };
+  }
+
+  // ── DP：从下往上计算最优分段 ──
+  // dp[i] = { groupCount, negAvgLen, formKey, segLens, nextFloor }
+  // dp[i] = null 表示从第i层开始无解
+  var dp = [];
+  dp[nFloors] = { groupCount: 0, negAvgLen: 0, formKey: null, segLens: [], nextFloor: nFloors };
+
+  for (var i = nFloors - 1; i >= 0; i--) {
+    var best = null;
+    var triedForms = [];
+    for (var fi = 0; fi < SEG_FORM_ORDER.length; fi++) {
+      var formKey = SEG_FORM_ORDER[fi];
+      var p = parseSegForm(formKey);
+      if (p.floorsPerSeg >= 4) {
+        console.log('[DEBUG DP] floorIdx=' + i + ' ⏭ form=' + formKey + ' (floorsPerSeg=' + p.floorsPerSeg + ' >= 4 → skip)');
+        continue;
+      }
+
+      var result = evalForm(formKey, i);
+      if (!result) { triedForms.push(formKey + '❌'); continue; }
+
+      var nf = result.nextFloor;
+      if (!dp[nf]) {
+        console.log('[DEBUG DP] floorIdx=' + i + ' ⏭ form=' + formKey + ' → nf=' + nf + ' but dp[nf] is null');
+        continue;
+      }
+
+      var totalGroups = dp[nf].groupCount + 1;
+      var avgLen = result.segLens.reduce(function(a, b) { return a + b; }, 0) / result.segLens.length;
+
+      var cand = {
+        groupCount: totalGroups,
+        negAvgLen: -avgLen,
+        formKey: formKey,
+        segLens: result.segLens,
+        nextFloor: nf
+      };
+
+      triedForms.push(formKey + '✅(g=' + totalGroups + ')');
+      if (!best ||
+          cand.groupCount < best.groupCount ||
+          (cand.groupCount === best.groupCount && cand.negAvgLen < best.negAvgLen)) {
+        best = cand;
+      }
+    }
+    dp[i] = best || null;
+    if (dp[i]) {
+      console.log('[DEBUG DP] floorIdx=' + i + ' ✅ best=' + dp[i].formKey + ' groupsSoFar=' + dp[i].groupCount + ' avgLen=' + (-dp[i].negAvgLen).toFixed(2) + ' | tried: ' + triedForms.join(', '));
+    } else {
+      console.warn('[DEBUG DP] floorIdx=' + i + ' ❌ no valid form | tried: ' + triedForms.join(', '));
+    }
+  }
+
+  if (!dp[0]) {
+    console.warn('[DEBUG _buildSegsOptimalDP] ❌ 无合法分段方案');
+    return { segs: null, reason: 'length' };
+  }
+
+  // ── 重建分段结果 ──
+  var segs = [];
+  var usedForms = {};
+  var curFloor = 0;
+
+  while (curFloor < nFloors) {
+    var state = dp[curFloor];
+    if (!state || !state.formKey) break;
+
+    var p2 = parseSegForm(state.formKey);
+    for (var si = 0; si < state.segLens.length; si++) {
+      var sl = state.segLens[si];
+      segs.push({
+        name: '',
+        length: Math.round(sl * 100) / 100,
+        floorStart: curFloor + si / p2.segsPerFloor,
+        floorEnd: Math.min(curFloor + (si + 1) / p2.segsPerFloor, nFloors),
+        isFirstSegOfCol: segs.length === 0
+      });
+    }
+
+    usedForms[state.formKey] = (usedForms[state.formKey] || 0) + 1;
+    curFloor = state.nextFloor;
+  }
+
+  _assignSegNames(segs);
+
+  // ── 生成汇总描述 ──
+  var parts = [];
+  for (var fk in usedForms) {
+    var labels = { '3-1': '三层一段', '2-1': '两层一段', '1-1': '一层一段', '1-2': '一层两段', '1-3': '一层三段' };
+    parts.push((labels[fk] || fk) + '×' + usedForms[fk] + '组');
+  }
+  var totalGroups = Object.values(usedForms).reduce(function(a, b) { return a + b; }, 0);
+
+  console.log('[DEBUG _buildSegsOptimalDP] ✅ 分段完成: ' + parts.join(' + ') + ' = ' + totalGroups + '组/' + segs.length + '段');
+
+  return {
+    segs: segs,
+    formKey: 'adaptive',
+    formSummary: '混合：' + parts.join('；') || '自适应',
+    totalGroups: totalGroups
+  };
+}
+
+// ── 贪婪自动分段（旧算法，保留用于对比/指定分段形式）──
+// 段长直接用"slot累积高度差"计算，不依赖 _buildSegsByForm
+// 返回 { segs, formKey:'adaptive', formSummary:'混合：...' }
+function _buildSegsAuto(FL_DATA, FLOOR_OFFSET, sec, amp, cap) {
+  console.log('[DEBUG _buildSegsAuto] FL_DATA=' + (FL_DATA ? FL_DATA.length : 'null/undefined') +
+    ' sec=' + (sec ? (sec.code || sec.label || 'ok') : 'null/undefined') +
+    ' amp=' + amp +
+    ' cap=' + cap +
+    ' FLOOR_OFFSET=' + FLOOR_OFFSET);
+  if (!FL_DATA || !FL_DATA.length) {
+    console.warn('[DEBUG _buildSegsAuto] ❌ FL_DATA 为空，返回 null');
+    return null;
+  }
+  if (!sec) {
+    console.warn('[DEBUG _buildSegsAuto] ❌ sec 为空（未选截面），返回 null');
+    return null;
+  }
+  if (!cap || cap <= 0) {
+    console.warn('[DEBUG _buildSegsAuto] ❌ cap 无效 (=' + cap + ')，返回 null — 检查机械选择或 getCraneCapacity');
+    return null;
+  }
+  // ★ Bug C 修复：过滤掉顶层 height=0 的虚拟行（不计入有效层数）
+  var _fl = FL_DATA.slice();
+  while (_fl.length > 0 && (_fl[_fl.length - 1].height || 0) === 0) { _fl.pop(); }
+  // 🔍 深度诊断：把所有关键值打出来
+  var sw = secWeight(sec);
+  console.log('[DEBUG _buildSegsAuto 深度] sw=' + sw + ' kg/m | cap=' + cap + ' (type=' + (typeof cap) + ') | ' +
+    'sw*amp/1000=' + (sw * amp / 1000).toFixed(4) + ' | cap in kg=' + (cap * 1000) +
+    ' | eff(5m段)=' + ((5 * sw * amp / 1000) / cap * 100).toFixed(4) + '%' +
+    ' | eff(10m段)=' + ((10 * sw * amp / 1000) / cap * 100).toFixed(4) + '%' +
+    ' | eff(15m段)=' + ((15 * sw * amp / 1000) / cap * 100).toFixed(4) + '%' +
+    ' | nFloors(过滤前)=' + FL_DATA.length + ' | nFloors(过滤后)=' + _fl.length);
+  var nFloors = _fl.length;
+  var LEN_MAX = 17.5;
+  var EFF_MAX = 90;
+
+  // ── 预计算：从第0层到每层顶部的累计高度 ──────────────────
+  // cumH[i] = _fl[0]顶到 _fl[i]顶 的累计高度（不含i层自身顶板）
+  // 即：楼层0底到楼层i底的高度
+  // segSlot范围 [a, b] 的段长 = cumH[b] - cumH[a] + 顶板残差
+  var cumH = [0];
+  for (var ci = 0; ci < nFloors; ci++) {
+    cumH.push(cumH[ci] + (_fl[ci].height || 0));
+  }
+
+  var segs = [];
+  var usedForms = [];
+  var curSlot = 0; // 当前处理到的槽位置（整数=层底，分数=层内）
+
+  while (curSlot < nFloors) {
+    var remainSlots = nFloors - curSlot;
+    // 边界保护：如果 curSlot 已到或超过倒数第2层（索引 nFloors-2），
+    // 最后一层本身（索引 nFloors-1）的顶 = 结构总高，
+    // 尝试创建从 curSlot 到 nFloors 的段会得到 segH=0 → 必然失败。
+    // 直接用1-1形式收尾（作为"最后一段"），然后退出循环。
+    if (curSlot >= nFloors - 1) {
+      // 最后一段：从 curSlot 到底，顶板偏移减1.2m
+      if (curSlot < nFloors) {
+        var lastSegH = cumH[nFloors] - cumH[Math.floor(curSlot)];
+        var remRaw = curSlot - Math.floor(curSlot);
+        if (remRaw > 0) lastSegH += (_fl[Math.floor(curSlot)] ? (_fl[Math.floor(curSlot)].height || 0) : 0) * remRaw;
+        var lastLen = lastSegH - FLOOR_OFFSET; // 末段减偏移
+        if (lastLen > 0) {
+          segs.push({
+            name: '',
+            length: Math.round(lastLen * 100) / 100,
+            floorStart: curSlot,
+            floorEnd: nFloors,
+            isFirstSegOfCol: segs.length === 0
+          });
+        }
+      }
+      break;
+    }
+    var failReason = null; // 记录本次失败原因：'length' 或 'eff'
+
+    // ── 从最粗形式开始尝试，找第一个同时满足段长和效率约束的 ──
+    var chosen = null;
+    outer:
+    for (var oi = 0; oi < SEG_FORM_ORDER.length; oi++) {
+      var formKey = SEG_FORM_ORDER[oi];
+      var p = parseSegForm(formKey);
+      var floorsPerSeg = p.floorsPerSeg;
+      var segsPerFloor  = p.segsPerFloor;
+
+      // 该形式的段覆盖槽数（每段 floorsPerSeg 个槽，每槽 1/(segsPerFloor) 层）
+      var slotsPerSeg = floorsPerSeg * segsPerFloor;
+      // 本次尝试需要覆盖的槽数
+      if (slotsPerSeg > remainSlots) continue;
+      // 禁止 floorsPerSeg >= 4（最多3层合并为1段）；若剩余不足3层则跳过
+      if (floorsPerSeg >= 4) continue;
+
+      // 计算本组分几段（真正要创建的段数）
+      var nSegsThisGroup = floorsPerSeg * segsPerFloor; // 例：1-2→2段，1-3→3段，3-1→3段
+
+        // 逐段验证：遍历每个slot位置，检验各段是否满足长度和效率约束
+        // 对于 1-2：slotsPerSeg=1，验证 si=0（0→0.5slot）
+        for (var si = 0; si < slotsPerSeg; si++) {
+          var segStartSlot = curSlot + si / segsPerFloor;
+          var segEndSlotRaw = curSlot + (si + 1) / segsPerFloor; // 不在此处clamp
+
+          // 段长 = 累计高度差（使用clamp保证数组不越界）
+          var segEndSlotClamped = segEndSlotRaw > nFloors ? nFloors : segEndSlotRaw;
+          var segH = cumH[Math.floor(segEndSlotClamped)] - cumH[Math.floor(segStartSlot)];
+          // 分数残余：用原始值（未clamp）计算；若 segEndSlotRaw 超出 nFloors（最后一层片段），
+          // 则 remEndRaw 代表本应超出数据范围的那部分，对应最后一层的残余比例
+          var remEndRaw = segEndSlotRaw - Math.floor(segEndSlotRaw);
+          if (remEndRaw > 0 && segEndSlotRaw <= nFloors) {
+            // segEndSlotRaw 在数据范围内：取该层残余比例的高度
+            segH += (_fl[Math.floor(segEndSlotRaw)] ? (_fl[Math.floor(segEndSlotRaw)].height || 0) : 0) * remEndRaw;
+          } else if (remEndRaw > 0 && segEndSlotRaw > nFloors) {
+            // segEndSlotRaw 超出 nFloors：残余部分应属于最后一层（nFloors-1）的残余
+            segH += (_fl[nFloors - 1] ? (_fl[nFloors - 1].height || 0) : 0) * remEndRaw;
+          }
+
+          // 首段加底部楼板偏移，末段减顶部楼板偏移
+          // ★ 关键修复：末段减偏移前需确认段顶仍在建筑范围内（segEndSlotRaw < nFloors）
+          //   若段顶正好对齐建筑顶（segEndSlotRaw === nFloors），sl=0，不得再减
+          var segLen = segH;
+          if (si === 0) segLen += FLOOR_OFFSET;
+          if (si === nSegsThisGroup - 1 && segEndSlotRaw < nFloors) segLen -= FLOOR_OFFSET;
+          // 🔍 逐段诊断（日志与 groupSegLen 保持一致）
+          var negOffset = (si === nSegsThisGroup - 1 && segEndSlotRaw < nFloors) ? FLOOR_OFFSET : 0;
+          console.log('[DEBUG segCheck] form=' + formKey + ' curSlot=' + curSlot + ' si=' + si +
+            ' segStart=' + segStartSlot.toFixed(3) + ' segEndRaw=' + segEndSlotRaw.toFixed(3) +
+            ' remEndRaw=' + remEndRaw.toFixed(3) + ' segH=' + segH.toFixed(4) +
+            ' segLen=' + segLen.toFixed(4) + ' >' + LEN_MAX + '?' + (segLen > LEN_MAX) +
+            ' wt=' + (segLen * sw * amp / 1000).toFixed(4) + ' eff=' + ((segLen * sw * amp / 1000) / cap * 100).toFixed(2) + '%' +
+            ' offset=' + (si === 0 ? '+' : '-') + (si === 0 ? FLOOR_OFFSET : negOffset).toFixed(2));
+          if (segLen <= 0) { failReason = 'length'; continue outer; } // 非法段
+          if (segLen > LEN_MAX) { failReason = 'length'; continue outer; } // 段超长，换形式
+          var wt = segLen * sw * amp / 1000;
+          var eff = wt / cap * 100;
+          if (eff > EFF_MAX) { failReason = 'eff'; continue outer; } // 效率超标，换形式
+        }
+
+      // 全部段验证通过
+      chosen = {
+        formKey: formKey,
+        nSegs: nSegsThisGroup,
+        slotsCovered: slotsPerSeg,
+        spf: segsPerFloor
+      };
+      break; // 找到最粗的可行形式
+    }
+
+    if (!chosen) {
+      // 返回详细失败原因，供调用方显示精确错误信息
+      return { segs: null, reason: failReason || 'length' };
+    } // 所有形式都无法满足约束
+
+    // 将本组分段加入结果
+    for (var ci = 0; ci < chosen.nSegs; ci++) {
+      var segStartSlot = curSlot + ci / chosen.spf;
+      var segEndSlotRaw = curSlot + (ci + 1) / chosen.spf;
+      var segEndSlotClamped = segEndSlotRaw > nFloors ? nFloors : segEndSlotRaw;
+      var segH = cumH[Math.floor(segEndSlotClamped)] - cumH[Math.floor(segStartSlot)];
+      var remEndRaw = segEndSlotRaw - Math.floor(segEndSlotRaw);
+      if (remEndRaw > 0 && segEndSlotRaw <= nFloors) {
+        segH += (_fl[Math.floor(segEndSlotRaw)] ? (_fl[Math.floor(segEndSlotRaw)].height || 0) : 0) * remEndRaw;
+      } else if (remEndRaw > 0 && segEndSlotRaw > nFloors) {
+        segH += (_fl[nFloors - 1] ? (_fl[nFloors - 1].height || 0) : 0) * remEndRaw;
+      }
+
+      var segLen = segH;
+      if (ci === 0) segLen += FLOOR_OFFSET;
+      if (ci === chosen.nSegs - 1) segLen -= FLOOR_OFFSET;
+
+      segs.push({
+        name: '',
+        length: Math.round(segLen * 100) / 100,
+        floorStart: segStartSlot,
+        floorEnd: segEndSlotClamped,
+        isFirstSegOfCol: segs.length === 0
+      });
+    }
+
+    usedForms.push(chosen.formKey);
+    curSlot += chosen.slotsCovered; // 整数推进，无碎片
+  }
+
+  if (!segs.length) return null;
+  _assignSegNames(segs);
+
+  // 生成汇总描述
+  var counts = {};
+  for (var ci2 = 0; ci2 < usedForms.length; ci2++) {
+    counts[usedForms[ci2]] = (counts[usedForms[ci2]] || 0) + 1;
+  }
+  var parts = [];
+  for (var fk in counts) {
+    parts.push((SEG_FORM_MAP[fk] || fk) + '\u00d7' + counts[fk] + '\u7ec4');
+  }
+  return {
+    segs: segs,
+    formKey: 'adaptive',
+    formSummary: '\u6df7\u5408\uff1a' + parts.join('\uff1b') || '\u81ea\u9002\u5e94'
+  };
 }
 
 // 贪心自动分段（新版本）
-// 分段形式由 segPf 决定，支持"一层多段"(auto)自动优选
+// 分段形式由 segPf 决定，支持"自动分段"(auto)自动优选
 function autoSegment() {
   var craneId = parseInt((document.getElementById('lift-crane') || { value: '' }).value) || 0;
   var radius  = parseFloat((document.getElementById('lift-radius') || { value: '30' }).value) || 30;
   var boomLen = parseFloat((document.getElementById('lift-boom-sel') || { value: '' }).value) || 0;
   var amp     = parseFloat((document.getElementById('lift-amp') || { value: '1.05' }).value) || 1.05;
-  var segPf   = (document.getElementById('lift-seg-pf') || { value: '1-1' }).value;
+  var segPf   = (document.getElementById('lift-seg-pf') || { value: 'auto' }).value;
   var crane   = craneId && _craneMap[craneId] ? _craneMap[craneId] : null;
   var FLOOR_OFFSET = 1.2; // 楼面往上1.2m
+
+  console.log('[DEBUG autoSegment] craneId=' + craneId + ' crane=' + (crane ? (crane.brand + ' ' + crane.model) : 'null') +
+    ' radius=' + radius + ' boomLen=' + boomLen + ' amp=' + amp);
 
   var result = {
     feasible: false,
@@ -5405,9 +5955,13 @@ function autoSegment() {
 
   if (segPf === 'auto') {
     // ── 一层多段：自动寻找最优可行分段形式 ──
-    var autoResult = _buildSegsAuto(FL_DATA, FLOOR_OFFSET, sec, amp, cap);
-    if (!autoResult) {
-      result.errors.push('所有分段形式均超出17.5m限制');
+    var autoResult = _buildSegsOptimalDP(FL_DATA, FLOOR_OFFSET, sec, amp, cap);
+    if (!autoResult || autoResult.segs === null) {
+      if (autoResult && autoResult.reason === 'eff') {
+        result.errors.push('机械载荷不足：当前截面重量导致所有分段效率超标（>90%额定载荷），请选择更大吨位的机械或检查吊装半径');
+      } else {
+        result.errors.push('所有分段形式均超出17.5m限制：建筑层数或层高导致任何分段组合均超长，请增加分段数或减少每段层数');
+      }
       return result;
     }
     segs = autoResult.segs;
@@ -5416,8 +5970,21 @@ function autoSegment() {
     // ── 指定分段形式 ──
     segs = _buildSegsByForm(segPf, FL_DATA, FLOOR_OFFSET);
     if (!segs || segs.length === 0) {
-      result.errors.push('分段形式 ' + (SEG_FORM_MAP[segPf] || segPf) + ' 产生无效分段');
+      result.errors.push('分段形式 ' + (SEG_FORM_MAP[segPf] || segPf) + ' 存在超过17.5m的超长段，请选择更细分段形式');
       return result;
+    }
+    // 检查效率是否超标；若有，自动向更细分段形式查找
+    var needsFiner = false;
+    for (var _ei = 0; _ei < segs.length; _ei++) {
+      var _ew = segs[_ei].length * linearWt * amp / 1000;
+      if (cap > 0 && _ew / cap * 100 > 90) { needsFiner = true; break; }
+    }
+    if (needsFiner) {
+      var finerKey = _findFinerForm(segPf, FL_DATA, FLOOR_OFFSET, sec, amp, cap);
+      if (finerKey) {
+        segs = _buildSegsByForm(finerKey, FL_DATA, FLOOR_OFFSET);
+        result.switchedForm = finerKey; // 标记自动切换，供 UI 使用
+      }
     }
     _assignSegNames(segs); // 统一命名为"第X段"
     result.recommendedForm = segPf;
@@ -5461,7 +6028,9 @@ function autoSegment() {
   result.summary.maxSegLen = maxSegLen;
   result.summary.hookWt = hookWt;
   result.summary.cap = cap;
-  result.summary.formLabel = SEG_FORM_MAP[result.recommendedForm] || result.recommendedForm;
+  result.summary.formLabel = result.recommendedForm === 'adaptive'
+    ? (autoResult ? autoResult.formSummary : '\u81ea\u9002\u5e94')
+    : (SEG_FORM_MAP[result.recommendedForm] || result.recommendedForm);
   result.feasible = !anyOverLen && !anyOverEff;
   return result;
 }
@@ -5470,6 +6039,11 @@ function autoSegment() {
 window.showAutoSegModal = function() {
   var plan = autoSegment();
   var errors = plan.errors;
+  var segPfRaw = (document.getElementById('lift-seg-pf') || { value: 'auto' }).value;
+  console.log('[DEBUG showAutoSegModal] segPf=' + segPfRaw + ' recommendedForm=' + plan.recommendedForm + ' formLabel=' + plan.summary.formLabel + ' segCount=' + plan.summary.segCount + ' feasible=' + plan.feasible + ' errors=' + JSON.stringify(plan.errors));
+  if (plan.segs.length > 0) {
+    console.log('[DEBUG showAutoSegModal] plan.segs.length=' + plan.segs.length + ' 前3段: ' + plan.segs.slice(0,3).map(function(s){return s.name+'('+s.length.toFixed(2)+'m)';}).join(', '));
+  }
 
   // 拼接错误信息
   if (errors.length) {
@@ -5547,6 +6121,11 @@ window.closeAutoSegModal = function() {
 // 应用自动分段方案 → 切换到变截面模式并填入各段
 window.applyAutoSeg = function() {
   var plan = autoSegment();
+  console.log('[DEBUG applyAutoSeg] plan.feasible=' + plan.feasible + ' plan.segs.length=' + plan.segs.length + ' plan.errors=' + JSON.stringify(plan.errors) + ' plan.recommendedForm=' + plan.recommendedForm + ' formLabel=' + plan.summary.formLabel);
+  if (plan.segs.length) {
+    console.log('[DEBUG applyAutoSeg] plan.segs[0] length=' + plan.segs[0].length + ' name=' + plan.segs[0].name + ' section=' + (plan.segs[0].section ? (plan.segs[0].section.code || plan.segs[0].section.label) : 'null'));
+    console.log('[DEBUG applyAutoSeg] 共 ' + plan.segs.length + ' 段，将写入 _columnProfile.segments');
+  }
   if (!plan.feasible || !plan.segs.length) return;
 
   // 切换到变截面模式
@@ -5583,7 +6162,6 @@ window.applyAutoSeg = function() {
 //  计算分段
 // ═══════════════════════════════════════════════════════════════════════
 function liftCalc() {
-  var segPf  = parseInt((document.getElementById('lift-seg-pf')||{value:'3'}).value) || 3;
   var amp    = parseFloat((document.getElementById('lift-amp')||{value:'1.05'}).value) || 1.05;
   var rInput = document.getElementById('lift-radius');
   var radius = parseFloat((rInput||{value:'30'}).value) || 30;
@@ -5600,6 +6178,10 @@ function liftCalc() {
   // ── 变截面模式 ──────────────────────────────────────────────
   if (_columnProfile.mode === 'stepped') {
     var segs = getColumnSegments(); // [{section, length, name}]
+    console.log('[DEBUG liftCalc stepped] _columnProfile.mode=' + _columnProfile.mode + ' getColumnSegments() returned ' + segs.length + ' segments');
+    if (segs.length > 0) {
+      console.log('[DEBUG liftCalc stepped] seg0: name=' + segs[0].name + ' length=' + segs[0].length + ' section=' + (segs[0].section ? (segs[0].section.code || segs[0].section.label || 'ok') : 'NULL!!'));
+    }
 
     // 校验
     if (!segs.length || segs.some(function(s) { return !s.section; })) {
@@ -5684,11 +6266,17 @@ function liftCalc() {
   var segPfRaw = (document.getElementById('lift-seg-pf')||{value:'1-1'}).value;
   var parsed = parseSegForm(segPfRaw);
   flLoadFromUI();
+  // ★ Bug C 修复：过滤掉顶层 height=0 的虚拟行（不计入有效层数）
+  //    避免 nFloors 把"虚拟顶层"算进去，导致分段数量多一个无效组
+  while (FL_DATA.length > 0 && (FL_DATA[FL_DATA.length - 1].height || 0) === 0) {
+    FL_DATA.pop();
+  }
   var nFloors = FL_DATA.length;
   var colH = 0;
   for (var fi = 0; fi < FL_DATA.length; fi++) colH += FL_DATA[fi].height || 0;
 
   var sec = window._customSection || null;
+  console.log('[DEBUG liftCalc single] _columnProfile.mode=' + _columnProfile.mode + ' sec=' + (sec ? (sec.code || sec.label || 'ok') : 'NULL!!') + ' segPf=' + segPfRaw + ' isAuto=' + parsed.isAuto);
 
   if (!sec) {
     tableEl.style.display = 'none';
@@ -5708,10 +6296,16 @@ function liftCalc() {
   if (parsed.isAuto) {
     // auto模式：调用完整选优逻辑获取最优分段形式
     var cap4auto = crane ? getCraneCapacity(crane, radius, boomLen || null) : null;
-    var autoResult = _buildSegsAuto(FL_DATA, FLOOR_OFFSET, sec, amp, cap4auto);
-    if (!autoResult) {
+    console.log('[DEBUG liftCalc auto] crane=' + (crane ? (crane.brand + ' ' + crane.model + ' id=' + crane.id) : 'null') +
+      ' radius=' + radius + ' boomLen=' + boomLen + ' → cap4auto=' + cap4auto);
+    var autoResult = _buildSegsOptimalDP(FL_DATA, FLOOR_OFFSET, sec, amp, cap4auto);
+    if (!autoResult || autoResult.segs === null) {
       summaryEl.className = 'lift-calc-summary error';
-      summaryEl.innerHTML = '⚠ 所有分段形式均超出17.5m限制';
+      if (autoResult && autoResult.reason === 'eff') {
+        summaryEl.innerHTML = '⚠ 机械载荷不足：所有分段效率超标（>90%），请选择更大吨位的机械';
+      } else {
+        summaryEl.innerHTML = '⚠ 所有分段形式均超出17.5m限制：层数或层高导致，请尝试更细分段形式';
+      }
       tableEl.style.display = 'none';
       emptyEl.style.display = '';
       return;
@@ -5723,13 +6317,35 @@ function liftCalc() {
     var segs4calc = _buildSegsByForm(previewFormKey, FL_DATA, 0);
     if (!segs4calc || segs4calc.length === 0) {
       summaryEl.className = 'lift-calc-summary error';
-      summaryEl.innerHTML = '⚠ 当前分段形式（' + SEG_FORM_MAP[segPfRaw] + '）产生无效分段，请检查层高表';
+      summaryEl.innerHTML = '⚠ 当前分段形式（' + SEG_FORM_MAP[segPfRaw] + '）存在超过17.5m的超长段，请选择更细分段形式';
       tableEl.style.display = 'none';
       emptyEl.style.display = '';
       return;
     }
     previewSegs = _buildSegsByForm(previewFormKey, FL_DATA, FLOOR_OFFSET);
     _assignSegNames(previewSegs);
+    // 效率超标检测：自动向更细分段形式查找可行方案
+    var _swCap = crane ? getCraneCapacity(crane, radius, boomLen || null) : null;
+    if (_swCap && _swCap > 0) {
+      var _needsFiner2 = false;
+      for (var _fi2 = 0; _fi2 < previewSegs.length; _fi2++) {
+        var _fw2 = previewSegs[_fi2].length * linearWt * amp / 1000;
+        if (_fw2 / _swCap * 100 > 90) { _needsFiner2 = true; break; }
+      }
+      if (_needsFiner2) {
+        var _finerKey2 = _findFinerForm(previewFormKey, FL_DATA, FLOOR_OFFSET, sec, amp, _swCap);
+        if (_finerKey2) {
+          previewFormKey = _finerKey2;
+          previewSegs = _buildSegsByForm(_finerKey2, FL_DATA, FLOOR_OFFSET);
+          _assignSegNames(previewSegs);
+          // 同步更新 UI 下拉框显示
+          var _txtEl = document.getElementById('lift-seg-pf-text');
+          var _inpEl = document.getElementById('lift-seg-pf');
+          if (_txtEl) _txtEl.textContent = SEG_FORM_MAP[_finerKey2] || _finerKey2;
+          if (_inpEl) _inpEl.value = _finerKey2;
+        }
+      }
+    }
   }
 
   if (!previewSegs || previewSegs.length === 0) {
@@ -8061,7 +8677,8 @@ function spRenderGrid() {
   if (!grid) return;
 
   var types = _spFilter === 'ALL' ? null : _spFilter.split(',');
-  var keyword = _spSearch;
+  // 将 x/X 统一替换为 ×，支持 "H800X600" 搜索 "H800×600"
+  var keyword = _spSearch.replace(/x/gi, '\u00d7');
 
   var all = spLibGetAll();
   var filtered = all.filter(function(sec) {

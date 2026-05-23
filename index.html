@@ -81,7 +81,7 @@
 
   <!-- Hero 统计区 -->
   <div class="home-hero">
-    <h1>起重机械智能选型</h1>
+    <h1>钢结构方案辅助工具</h1>
     <p>基于真实载荷表数据 · 线性差值精确计算 · 碰撞风险实时评估</p>
     <div class="stats-grid" id="statsRow"></div>
   </div>
@@ -107,6 +107,16 @@
       <div class="func-card-icon">📊</div>
       <div class="func-card-title">吊次分析</div>
       <div class="func-card-desc">多机械组合吊次计算，工期与效率分析</div>
+    </div>
+    <div class="func-card func-card-schedule" onclick="sp('schedule')">
+      <div class="func-card-icon">📅</div>
+      <div class="func-card-title">工期计划</div>
+      <div class="func-card-desc">钢结构施工工期编排，支持阶段/月度双视图</div>
+    </div>
+    <div class="func-card func-card-labor" onclick="sp('labor')">
+      <div class="func-card-icon">👷</div>
+      <div class="func-card-title">劳动力分析</div>
+      <div class="func-card-desc">基于工期与工程量测算各工种劳动力需求与进退场节奏</div>
     </div>
   </div>
 </div>
@@ -1249,6 +1259,7 @@
                 </div>
                 <div id="liftSecModel" class="sec-name">—</div>
                 <button class="btn btn-outline btn-xs" onclick="openSectionPicker()">📚 重新选择</button>
+                <button class="btn btn-outline btn-xs" style="color:var(--accent);border-color:var(--accent)" onclick="saveSectionToLib()">💾 添加到截面库</button>
                 <button class="btn btn-secondary btn-xs" onclick="downloadSectionImg()">⬇ 下载截面图</button>
                 <button class="btn btn-outline btn-xs" style="color:var(--accent);border-color:var(--accent)" onclick="openFlSecImport()">📥 导入层高表</button>
               </div>
@@ -1372,18 +1383,18 @@
             <div class="fl-seg-item">
               <label>分段方式 <span class="req">*</span></label>
               <div class="fl-seg-select" id="lift-seg-pf-wrap" onclick="flSegPfToggle()">
-                <span class="fl-seg-sel-text" id="lift-seg-pf-text">一层一段</span>
+                <span class="fl-seg-sel-text" id="lift-seg-pf-text">自动分段</span>
                 <svg class="fl-seg-sel-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 <div class="fl-seg-dropdown" id="lift-seg-pf-dropdown">
+                  <div class="fl-seg-opt" data-val="auto" onclick="flSegPfSelect('auto','自动分段')">自动分段</div>
+                  <div class="fl-seg-opt" data-val="3-1" onclick="flSegPfSelect('3-1','三层一段')">三层一段</div>
+                  <div class="fl-seg-opt" data-val="2-1" onclick="flSegPfSelect('2-1','两层一段')">两层一段</div>
                   <div class="fl-seg-opt" data-val="1-1" onclick="flSegPfSelect('1-1','一层一段')">一层一段</div>
                   <div class="fl-seg-opt" data-val="1-2" onclick="flSegPfSelect('1-2','一层两段')">一层两段</div>
                   <div class="fl-seg-opt" data-val="1-3" onclick="flSegPfSelect('1-3','一层三段')">一层三段</div>
-                  <div class="fl-seg-opt" data-val="2-1" onclick="flSegPfSelect('2-1','两层一段')">两层一段</div>
-                  <div class="fl-seg-opt" data-val="3-1" onclick="flSegPfSelect('3-1','三层一段')">三层一段</div>
-                  <div class="fl-seg-opt" data-val="auto" onclick="flSegPfSelect('auto','一层多段')">一层多段</div>
                 </div>
               </div>
-              <input type="hidden" id="lift-seg-pf" value="1-1">
+              <input type="hidden" id="lift-seg-pf" value="auto">
             </div>
             <div class="fl-seg-item">
               <label>节点放大系数</label>
@@ -2285,7 +2296,7 @@
 
 </div><!-- /app-main -->
 <script src="data.js?v=v2-20260622b"></script>
-<script src="app.js?v=v2-20260720t"></script>
+<script src="app.js?v=v2-20260725-nsegsfix"></script>
 <!-- 分段类型建议（datalist，供input list属性引用） -->
 <datalist id="diaoci-segtype-list">
   <option value="整根吊装">

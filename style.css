@@ -293,6 +293,8 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 .func-card-lib { border-color: rgba(130,80,223,0.20); background: linear-gradient(135deg, rgba(130,80,223,0.04) 0%, rgba(130,80,223,0.01) 100%); }
 .func-card-lift { border-color: rgba(188,76,0,0.20); background: linear-gradient(135deg, rgba(188,76,0,0.05) 0%, rgba(188,76,0,0.01) 100%); }
 .func-card-diaoci { border-color: rgba(62,154,185,0.20); background: linear-gradient(135deg, rgba(62,154,185,0.04) 0%, rgba(62,154,185,0.01) 100%); }
+.func-card-schedule { border-color: rgba(217,119,6,0.25); background: linear-gradient(135deg, rgba(217,119,6,0.05) 0%, rgba(217,119,6,0.01) 100%); }
+.func-card-labor { border-color: rgba(16,185,129,0.25); background: linear-gradient(135deg, rgba(16,185,129,0.05) 0%, rgba(16,185,129,0.01) 100%); }
 
 /* 统计网格 */
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
