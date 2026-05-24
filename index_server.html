@@ -824,9 +824,10 @@
             <div class="form-group">
               <label>分段方式 <span class="req">*</span></label>
               <select id="lift-seg-pf" onchange="debounce(liftCalc, 'lc', 150)">
-                <option value="1" selected>一层一段</option>
-                <option value="2">两层一段</option>
+                <option value="auto" selected>自动分段</option>
                 <option value="3">三层一段</option>
+                <option value="2">两层一段</option>
+                <option value="1">一层一段</option>
               </select>
             </div>
             <div class="form-group">

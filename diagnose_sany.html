@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>三一品牌诊断</title>
+<style>
+body{font-family:monospace;padding:20px;background:#1a1a2e;color:#eee}
+h2{color:#e94560}
+.good{color:#0f0}
+.bad{color:#f00}
+.info{color:#ffd700}
+pre{background:#16213e;padding:15px;border-radius:8px;overflow-x:auto}
+button{background:#e94560;color:#fff;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;margin:5px}
+button:hover{background:#ff6b6b}
+</style>
+</head>
+<body>
+<h2>🔍 三一品牌消失诊断工具</h2>
+<p>使用方法：在浏览器控制台（F12 → Console）中直接粘贴以下代码并回车</p>
+
+<button onclick="runAll()">▶ 一键诊断（推荐）</button>
+<button onclick="cleanup()">🧹 清理并修复（慎用）</button>
+
+<pre id="output">等待运行...</pre>
+
+<script>
+var OUT = document.getElementById('output');
+
+function log(msg, type){
+  var cls = type || '';
+  OUT.innerHTML += '<span class="'+cls+'">'+msg+'</span>\n';
+  OUT.scrollTop = OUT.scrollHeight;
+}
+
+function hr(){
+  OUT.innerHTML += '<span style="color:#555">──────────────────────────────</span>\n';
+}
+
+function runAll(){
+  OUT.innerHTML = '';
+  log('开始诊断...', 'info');
+  hr();
+
+  // Step 1: 检查 localStorage
+  log('[Step 1] 检查 localStorage', 'info');
+  var uc = [];
+  try { uc = JSON.parse(localStorage.getItem('crane_portable_user_cranes') || '[]'); } catch(e){}
+  log('  localStorage 条目总数: ' + uc.length, uc.length > 0 ? 'bad' : 'good');
+
+  var sanyAll = uc.filter(function(c){ return c.brand === '三一'; });
+  log('  其中三一条目: ' + sanyAll.length, sanyAll.length > 0 ? 'bad' : 'good');
+
+  var sanyNonCar = sanyAll.filter(function(c){ return c.type !== '汽车吊'; });
+  log('  三一非汽车吊条目: ' + sanyNonCar.length, sanyNonCar.length > 0 ? 'bad' : 'good');
+
+  if(sanyNonCar.length > 0){
+    log('  ⚠ 发现 ' + sanyNonCar.length + ' 条三一非汽车吊，会覆盖同名内置汽车吊！', 'bad');
+    sanyNonCar.forEach(function(c){
+      log('    ID:' + c.id + ' | 型号:' + c.model + ' | 类型:' + c.type, 'bad');
+    });
+  } else {
+    log('  ✓ localStorage 中无三一非汽车吊数据', 'good');
+  }
+  hr();
+
+  // Step 2: 检查 data.cranes
+  log('[Step 2] 检查 data.cranes 内存状态', 'info');
+  if(typeof data === 'undefined' || !data.cranes){
+    log('  data 尚未加载（可能需要从服务器加载 data.js）', 'info');
+  } else {
+    var sanyCars = data.cranes.filter(function(c){
+      return c.brand === '三一' && c.type === '汽车吊';
+    });
+    var sanyCarsUserAdded = sanyCars.filter(function(c){ return c._user_added === true; });
+    log('  三一汽车吊总数: ' + sanyCars.length, sanyCars.length === 0 ? 'bad' : 'good');
+    log('  其中 _user_added=true: ' + sanyCarsUserAdded.length, sanyCarsUserAdded.length > 0 ? 'bad' : 'good');
+
+    if(sanyCarsUserAdded.length > 0){
+      log('  ⚠ 有 ' + sanyCarsUserAdded.length + ' 台三一汽车吊被标记为 _user_added！', 'bad');
+      log('  这些条目会被 liftOnBrandChange 过滤掉', 'bad');
+      sanyCarsUserAdded.slice(0,5).forEach(function(c){
+        log('    ID:' + c.id + ' | 型号:' + c.model + ' | type:' + c.type, 'bad');
+      });
+    } else if(sanyCars.length > 0) {
+      log('  ✓ 三一汽车吊正常（内置数据）', 'good');
+    } else {
+      log('  ⚠ 三一汽车吊数量为 0！', 'bad');
+    }
+  }
+  hr();
+
+  // Step 3: 结论
+  log('[结论]', 'info');
+  if(sanyNonCar.length > 0){
+    log('  问题确认：localStorage 中有三一非汽车吊数据覆盖了同名汽车吊', 'bad');
+    log('  解决方案：点击上方 [🧹 清理并修复] 按钮清除冲突条目', 'info');
+    log('  （这只会清除冲突条目，其他用户录入数据不受影响）', 'info');
+  } else {
+    log('  localStorage 中未发现冲突数据', 'good');
+    if(typeof data !== 'undefined' && data.cranes && data.cranes.filter(function(c){return c.brand==='三一'&&c.type==='汽车吊'&&c._user_added===true;}).length > 0){
+      log('  但 data.cranes 内存中有被标记的条目，请刷新页面重试', 'info');
+    } else {
+      log('  未发现问题，三一应该正常显示', 'good');
+    }
+  }
+}
+
+function cleanup(){
+  if(!confirm('这将清除 localStorage 中所有三一非汽车吊条目？\n（如有三一塔吊数据需重新导入）')) return;
+
+  var uc = JSON.parse(localStorage.getItem('crane_portable_user_cranes') || '[]');
+  var before = uc.length;
+  var removed = uc.filter(function(c){ return c.brand === '三一' && c.type !== '汽车吊'; });
+  uc = uc.filter(function(c){ return !(c.brand === '三一' && c.type !== '汽车吊'); });
+  var after = uc.length;
+  localStorage.setItem('crane_portable_user_cranes', JSON.stringify(uc));
+
+  log('已清除 ' + (before - after) + ' 条冲突条目', 'bad');
+  log('其中三一非汽车吊: ' + removed.length, 'info');
+  removed.forEach(function(c){
+    log('  已删除: ' + c.model + ' (' + c.type + ')', 'info');
+  });
+  log('请刷新页面（F5）使修复生效', 'info');
+}
+</script>
+</body>
+</html>
