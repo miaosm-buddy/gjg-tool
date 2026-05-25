@@ -1448,7 +1448,8 @@ function renderPerfTable(){
     var rows=[];
     for(var ai=0;ai<dispArms.length;ai++){
       var arm=dispArms[ai];
-      var aMults=Object.keys(tlc[String(arm)]||{}).map(Number).sort(function(a,b){return a-b;});
+      var allMults=Object.keys(tlc[String(arm)]||{}).map(Number).sort(function(a,b){return a-b;});
+      var aMults=_dCurTowerMult?(allMults.filter(function(m){return String(m)===String(_dCurTowerMult);})):allMults;
       for(var mi=0;mi<aMults.length;mi++){
         var mult=aMults[mi];
         var rowMax=0;
