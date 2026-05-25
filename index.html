@@ -1960,17 +1960,17 @@
         </button>
       </h3>
       <div class="lift-card-body">
-      <div class="dc-param-grid">
+      <div class="dc-param-grid sched-basic-grid">
         <div class="dc-param-item">
           <label class="dc-param-label">项目名称</label>
           <div class="dc-param-control">
-            <input type="text" id="sched-project-name" placeholder="如：XX厂房钢结构工程" style="width:200px" oninput="scheduleCalc();saveFormData()">
+            <input type="text" id="sched-project-name" placeholder="如：XX厂房钢结构工程" oninput="scheduleCalc();saveFormData()">
           </div>
         </div>
         <div class="dc-param-item">
           <label class="dc-param-label">结构类型</label>
           <div class="dc-param-control">
-            <select id="sched-struct-type" style="width:160px" onchange="scheduleCalc();saveFormData()">
+            <select id="sched-struct-type" onchange="scheduleCalc();saveFormData()">
               <option value="high">高层框架（含地下/裙房）</option>
               <option value="multi">多层框架</option>
               <option value="space">空间结构（桁架/网架）</option>
@@ -1982,7 +1982,7 @@
         <div class="dc-param-item">
           <label class="dc-param-label">总用钢量(吨)</label>
           <div class="dc-param-control">
-            <input type="number" id="sched-total-tons" value="1000" min="1" style="width:100px" oninput="scheduleCalc();saveFormData()">
+            <input type="number" id="sched-total-tons" value="1000" min="1" oninput="scheduleCalc();saveFormData()">
           </div>
         </div>
         <div class="dc-param-item">
@@ -2296,8 +2296,7 @@
 </div>
 
 </div><!-- /app-main -->
-<script src="data.js?v=v2-20260622b"></script>
-<script src="app.js?v=v2-20260725-nsegsfix"></script>
+<script src="app.bundled.js?v=v2-20260725-bundle"></script>
 <!-- 分段类型建议（datalist，供input list属性引用） -->
 <datalist id="diaoci-segtype-list">
   <option value="整根吊装">

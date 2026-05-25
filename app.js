@@ -1818,9 +1818,11 @@ function switchTab(tab){
     var towerRow=document.getElementById('tower-filter-row');
     var ntRow1=document.getElementById('nontower-filter-row-1');
     var ntRow2=document.getElementById('nontower-filter-row-2');
+    var towerCondRow=document.getElementById('tower-cond-row');
     if(towerRow)towerRow.style.display=isTower?'':'none';
     if(ntRow1)ntRow1.style.display=isTower?'none':'';
     if(ntRow2)ntRow2.style.display=isTower?'none':'';
+    if(towerCondRow)towerCondRow.style.display=isTower?'none':'';
     if(isTower){
       /* 重置塔吊状态 */
       _dCurTowerArm='';_dCurTowerMult='';
@@ -3217,92 +3219,32 @@ window._columnProfile = {
 };
 window._activeSegIdx = -1; // 当前选中要填入截面的段索引（-1=主截面）
 
-// 切换单一/变截面模式
+// 切换单一/变截面模式（变截面已移除，始终单一截面）
 window.setColumnMode = function(mode) {
-  _columnProfile.mode = mode;
+  _columnProfile.mode = 'single';
   var singleArea = document.getElementById('secPanel-input');
-  var stepArea   = document.getElementById('secPanel-stepped');
-  var btnSingle  = document.getElementById('btn-mode-single');
-  var btnStepped = document.getElementById('btn-mode-stepped');
-  if (mode === 'stepped') {
-    if (singleArea) singleArea.style.display = 'none';
-    if (stepArea)   stepArea.style.display   = '';
-    if (btnSingle)  btnSingle.classList.remove('active');
-    if (btnStepped) btnStepped.classList.add('active');
-    // 初始化：若还没有段，则自动加一段
-    if (!_columnProfile.segments.length) {
-      colAddSegment();
-    }
-  } else {
-    if (singleArea) singleArea.style.display = '';
-    if (stepArea)   stepArea.style.display   = 'none';
-    if (btnSingle)  btnSingle.classList.add('active');
-    if (btnStepped) btnStepped.classList.remove('active');
-  }
-  updateColumnHeight();
-  renderSteppedSegments();
-  liftCalc();
-};
-
-// 添加一段
-window.colAddSegment = function() {
-  var idx = _columnProfile.segments.length + 1;
-  _columnProfile.segments.push({
-    id: Date.now(),
-    name: '第' + idx + '段',
-    length: 0,
-    section: null
-  });
-  renderSteppedSegments();
-  saveFormData();
-};
-
-// 删除一段
-window.colRemoveSegment = function(idx) {
-  if (_columnProfile.segments.length <= 1) return; // 至少保留一段
-  _columnProfile.segments.splice(idx, 1);
-  if (_activeSegIdx >= _columnProfile.segments.length) {
-    _activeSegIdx = _columnProfile.segments.length - 1;
-  }
-  renderSteppedSegments();
-  updateColumnHeight();
-  liftCalc();
-  saveFormData();
-};
-
-// 激活某段（点击"选截面"时记录目标）
-window.colActivateSegment = function(idx) {
-  _activeSegIdx = idx;
-  // 高亮该段
-  document.querySelectorAll('.step-seg-card').forEach(function(c, i) {
-    c.classList.toggle('seg-active', i === idx);
-  });
-};
-
-// 某段截面变化 → 重新计算
-window.colSegSectionChange = function(idx) {
-  // 读取该段的长度输入
-  var lenEl = document.getElementById('seg-len-' + idx);
-  if (lenEl) {
-    _columnProfile.segments[idx].length = parseFloat(lenEl.value) || 0;
-  }
+  if (singleArea) singleArea.style.display = '';
   updateColumnHeight();
   liftCalc();
 };
 
-// 某段长度变化
-window.colSegLengthChange = function(idx) {
-  if (_columnProfile.segments[idx]) {
-    var v = parseFloat(document.getElementById('seg-len-' + idx).value) || 0;
-    _columnProfile.segments[idx].length = v;
-  }
-  updateColumnHeight();
-  liftCalc();
-};
+// 添加一段（变截面已移除，此函数不再使用）
+window.colAddSegment = function() { /* no-op */ };
 
-// 从截面库选择 → 填入当前激活段（或主截面）
+// 删除一段（变截面已移除，此函数不再使用）
+window.colRemoveSegment = function(idx) { /* no-op */ };
+
+// 激活某段（变截面已移除，此函数不再使用）
+window.colActivateSegment = function(idx) { /* no-op */ };
+
+// 某段截面变化 → 重新计算（变截面已移除，此函数不再使用）
+window.colSegSectionChange = function(idx) { /* no-op */ };
+
+// 某段长度变化（变截面已移除，此函数不再使用）
+window.colSegLengthChange = function(idx) { /* no-op */ };
+
+// 从截面库选择 → 填入当前激活段（或主截面）（变截面已移除，改为仅打开截面库）
 window.colPickSection = function(idx) {
-  colActivateSegment(idx >= 0 ? idx : _activeSegIdx);
   openSectionPicker();
 };
 
@@ -3316,12 +3258,7 @@ function updateColumnHeight() {
 
 // 从层高表计算柱总高
 function getColumnTotalH() {
-  if (_columnProfile.mode === 'stepped') {
-    return _columnProfile.segments.reduce(function(s, seg) {
-      return s + (seg.length || 0);
-    }, 0);
-  }
-  // single 模式：从 FL_DATA 累加
+  // 变截面已移除，始终从 FL_DATA 累加
   var h = 0;
   for (var i = 0; i < FL_DATA.length; i++) h += FL_DATA[i].height || 0;
   return h;
@@ -3329,49 +3266,17 @@ function getColumnTotalH() {
 
 // 获取所有段（含截面和长度，供 liftCalc 使用）
 function getColumnSegments() {
-  if (_columnProfile.mode === 'single') {
-    var sec = window._customSection || null;
-    var h   = 0;
-    for (var i = 0; i < FL_DATA.length; i++) h += FL_DATA[i].height || 0;
-    return sec ? [{ section: sec, length: h, name: '整根' }] : [];
-  }
-  // stepped 模式：每段
-  return _columnProfile.segments.filter(function(seg) {
-    return seg.section != null && seg.length > 0;
-  });
+  // 变截面已移除，始终返回单截面
+  var sec = window._customSection || null;
+  var h   = 0;
+  for (var i = 0; i < FL_DATA.length; i++) h += FL_DATA[i].height || 0;
+  return sec ? [{ section: sec, length: h, name: '整根' }] : [];
 }
 
-// 渲染变截面分段输入面板
+// 渲染变截面分段输入面板（变截面已移除，此函数不再使用）
 function renderSteppedSegments() {
-  var wrap = document.getElementById('stepped-segs-wrap');
-  if (!wrap) return;
-  var totalH = 0;
-  var html = _columnProfile.segments.map(function(seg, idx) {
-    totalH += seg.length || 0;
-    var sec = seg.section;
-    var secLabel = sec ? (sec.label || sec.code || '已选截面') : '<span style="color:#999">请选择截面</span>';
-    var len = seg.length || 0;
-    var isActive = _activeSegIdx === idx;
-    return '<div class="step-seg-card' + (isActive ? ' seg-active' : '') + '" data-idx="' + idx + '">' +
-      '<div class="seg-card-header">' +
-        '<div class="seg-name">' + escHtml(seg.name) + '</div>' +
-        '<div class="seg-len-wrap">' +
-          '<input type="number" id="seg-len-' + idx + '" class="seg-len-inp" ' +
-            'value="' + (len > 0 ? len : '') + '" placeholder="长度m" ' +
-            'step="0.1" min="0" oninput="colSegLengthChange(' + idx + ')" ' +
-            'style="width:72px;padding:4px 6px;border:1px solid var(--border-subtle);border-radius:6px;font-size:13px;text-align:center"> m' +
-          (_columnProfile.segments.length > 1 ?
-            ' <button class="btn btn-outline btn-xs" onclick="colRemoveSegment(' + idx + ')" style="color:#e53e3e;padding:2px 6px">✕</button>' : '') +
-        '</div>' +
-      '</div>' +
-      '<div class="seg-section-label" id="seg-label-' + idx + '">' + secLabel + '</div>' +
-      '<div class="seg-section-meta" id="seg-meta-' + idx + '">' +
-        (sec ? '<span style="color:var(--accent)">线重 ' + secWeight(sec).toFixed(3) + ' kg/m</span>' : '') +
-      '</div>' +
-      '<button class="btn btn-outline btn-sm" onclick="colPickSection(' + idx + ')" style="margin-top:4px;width:100%">📚 ' + (sec ? '重新选截面' : '选择截面') + '</button>' +
-    '</div>';
-  }).join('');
-  wrap.innerHTML = html;
+  // no-op — secPanel-stepped DOM 已移除
+  return;
 }
 
 // 防重入标志：secMainTypeChange 正在重建字段时跳过中间的空状态调用
@@ -3381,68 +3286,8 @@ window.updateMainSectionCalc = function() {
   // 如果处于字段重建阶段（setInput 批量填值期间），延迟执行
   if (_secCalcDeferred) return;
 
-  // ── 变截面模式：直接使用当前激活段的截面数据 ──
-  if (_columnProfile.mode === 'stepped' && _activeSegIdx >= 0 && _activeSegIdx < _columnProfile.segments.length) {
-    var segSec = _columnProfile.segments[_activeSegIdx].section;
-    if (segSec) {
-      _mainSectionData = segSec;
-      window._customSection = segSec;
-      _showSectionInfo();
-      document.getElementById('secEmptyState').style.display = 'none';
-      document.getElementById('secVizLayout').style.display = 'flex';
-      document.getElementById('liftSecModel').textContent = segSec.label || segSec.code || '—';
-      var A = secArea(segSec), w = secWeight(segSec);
-      var aEl = document.getElementById('secMetA');
-      var wEl = document.getElementById('secMetW');
-      if (aEl) aEl.textContent = Math.round(A).toLocaleString();
-      if (wEl) wEl.textContent = w.toFixed(3);
-      var svgEl = document.getElementById('secSvg');
-      if (svgEl) svgEl.innerHTML = drawSectionSVG(segSec);
-      var dlBtn = document.getElementById('secDownloadBtn');
-      if (dlBtn) dlBtn.style.display = svgEl && svgEl.firstChild ? 'inline-block' : 'none';
-      var typeIconMap = {HW:'H',HM:'H',HN:'H',HP:'H',BOX:'▭',CHS:'○',CRU:'✚',CUSTOM:'◇'};
-      var typeTextMap  = {HW:'H型钢',HM:'H型钢',HN:'H型钢',HP:'H型钢',BOX:'箱型截面',CHS:'圆管截面',CRU:'十字形截面',CUSTOM:'异形截面'};
-      var iconEl = document.getElementById('secTypeIcon');
-      var labelEl = document.getElementById('secTypeLabel');
-      if (iconEl) iconEl.textContent = typeIconMap[segSec.type] || '?';
-      if (labelEl) labelEl.textContent = typeTextMap[segSec.type] || segSec.type;
-      // 力学参数
-      var props = secProps(segSec);
-      var t = segSec.type;
-      function fmtN(v, dec) { if (v == null || isNaN(v)) return '—'; return v.toFixed(dec != null ? dec : 3); }
-      var H2 = segSec.H||1, B2 = segSec.B||1, tw2 = segSec.tw||0, tf2 = segSec.tf||0;
-      var hw2 = H2 - 2*tf2;
-      var A2 = secArea(segSec);
-      var formulas = getMechFormulas(segSec, t, H2, B2, tw2, tf2, hw2, A2);
-      var mechData = [
-        ['Ix',  fmtN(props.Ix, 1) + ' mm\u2074',  formulas.Ix],
-        ['Iy',  fmtN(props.Iy, 1) + ' mm\u2074',  formulas.Iy],
-        ['Wx',  fmtN(props.Wx, 1) + ' mm\u00B3',  formulas.Wx],
-        ['Wy',  fmtN(props.Wy, 1) + ' mm\u00B3',  formulas.Wy],
-        ['ix',  fmtN(props.ix, 3) + ' mm',         formulas.ix],
-        ['iy',  fmtN(props.iy, 3) + ' mm',         formulas.iy],
-      ];
-      var mechRows = mechData.map(function(r) {
-        return '<div class="sec-mech-item">' +
-          '<div class="sec-param-row">' +
-            '<span class="sec-param-l">'+r[0]+'</span>' +
-            '<span class="sec-param-v">'+r[1]+'</span>' +
-          '</div>' +
-          '<div class="sec-mech-formula">'+r[2]+'</div>' +
-        '</div>';
-      }).join('');
-      var geomRows = (segSec.specRows || []).map(function(r) {
-        return '<div class="sec-param-row"><span class="sec-param-l">'+r.l+'</span><span class="sec-param-v">'+r.v+'</span></div>';
-      }).join('');
-      var allRows = '';
-      if (geomRows) allRows += '<div class="sec-param-group-title">几何尺寸</div>' + geomRows;
-      if (mechRows) allRows += '<div class="sec-param-group-title">力学特性</div>' + mechRows;
-      document.getElementById('liftSpecRows').innerHTML = allRows;
-      debounce(liftCalc, 'ls', 300);
-      saveFormData();
-      return;
-    }
-  }
+  /* ── 变截面模式：已移除（_columnProfile.mode 固定为 'single'）── */
+  /* 旧代码已删除，保留穿透到下方单一截面逻辑 */
 
   var typeSel = document.getElementById('sec-main-type');
   var t = typeSel ? typeSel.value : 'HW';
@@ -5102,104 +4947,7 @@ function liftOnCraneChange() {
     if (newVal) boomSel.value = newVal;
     else boomSel.selectedIndex = 0;
   }
-  // 重建整个表格（总吊重 = 单重 + 新吊钩重量）
-  // Rule 5：当分段方式为"自动分段"且机械变化时，自动重新计算并填入表格
-  var segPfAuto = (document.getElementById('lift-seg-pf') || { value: '' }).value;
-  console.warn('[Rule5 liftOnCraneChange] segPf=' + segPfAuto + ' _columnProfile.mode=' + _columnProfile.mode + ' window._customSection=' + (window._customSection ? (window._customSection.code || window._customSection.label) : 'null'));
-  if (segPfAuto === 'auto') {
-    // ── 关键修复：必须在 autoSegment() 之前将 mode 设为 'stepped' ──
-    // autoSegment() 内部第 1 步就检查 mode===stepped，若在之后才设置会导致
-    // 它走 single 模式分支，而此时 window._customSection 可能尚未设置（null），
-    // 导致 autoSegment() 返回"请先输入截面参数"错误。
-    // 不管当前是 single 还是已经是 stepped，只要选的是 auto，就切到 stepped
-    var needSwitchMode = (_columnProfile.mode !== 'stepped');
-    if (needSwitchMode) {
-      _columnProfile.mode = 'stepped';
-      // 从 single 模式切换过来时：若已有识别截面，灌入第一个段
-      if (window._customSection) {
-        _columnProfile.segments = [{ id: Date.now(), name: '第1段', length: 0, section: window._customSection }];
-        _activeSegIdx = 0;
-      } else {
-        _columnProfile.segments = [{ id: Date.now(), name: '第1段', length: 0, section: null }];
-        _activeSegIdx = -1;
-      }
-      // 同步 UI
-      var singleArea = document.getElementById('secPanel-input');
-      var stepArea = document.getElementById('secPanel-stepped');
-      var btnSingle = document.getElementById('btn-mode-single');
-      var btnStepped = document.getElementById('btn-mode-stepped');
-      if (singleArea) singleArea.style.display = 'none';
-      if (stepArea) stepArea.style.display = '';
-      if (btnSingle) btnSingle.classList.remove('active');
-      if (btnStepped) btnStepped.classList.add('active');
-      renderSteppedSegments();
-    }
-    var plan = autoSegment();
-    console.warn('[Rule5 liftOnCraneChange] plan.feasible=' + plan.feasible + ' segs=' + (plan.segs ? plan.segs.length : 'null') + ' suggestion=' + (plan.suggestion || 'none') + ' rejectedForms=' + JSON.stringify(plan.rejectedForms) + ' errors=' + JSON.stringify(plan.errors));
-    if (plan.feasible && plan.segs && plan.segs.length) {
-      // 自动分段不返回 section；需要从当前截面补回，否则 liftCalc() 校验失败
-      // 优先级：window._customSection（单截面）> 现有 stepped 段中的截面 > null
-      var curSec = window._customSection || null;
-      if (!curSec && _columnProfile.segments.length > 0) {
-        var existingSec = _columnProfile.segments.find(function(s) { return s.section; });
-        if (existingSec) curSec = existingSec.section;
-      }
-      _columnProfile.segments = plan.segs.map(function(seg, i) {
-        return { id: Date.now() + i, name: seg.name, length: seg.length, section: curSec };
-      });
-      _activeSegIdx = -1;
-      // 切换UI到变截面模式
-      var singleArea = document.getElementById('secPanel-input');
-      var stepArea = document.getElementById('secPanel-stepped');
-      var btnSingle = document.getElementById('btn-mode-single');
-      var btnStepped = document.getElementById('btn-mode-stepped');
-      if (singleArea) singleArea.style.display = 'none';
-      if (stepArea) stepArea.style.display = '';
-      if (btnSingle) btnSingle.classList.remove('active');
-      if (btnStepped) btnStepped.classList.add('active');
-      renderSteppedSegments();
-      updateColumnHeight();
-      // 效率提示：1-1 效率很低时给出警告
-      if (plan.suggestion) {
-        console.warn('[Rule5] ⚠ ' + plan.suggestion);
-        var warnEl = document.getElementById('liftWarnMsg');
-        if (warnEl) { warnEl.textContent = '⚠ ' + plan.suggestion; warnEl.style.display = 'block'; }
-      }
-    } else if (plan.errors && plan.errors.length) {
-      console.warn('[Rule5 liftOnCraneChange] autoSegment errors: ' + plan.errors.join('; '));
-    }
-  } else {
-    // 非 auto 模式（手动 1-1 / 2-1 / 3-1）：切换机械后重新验算现有段是否仍可行
-    if (_columnProfile.mode === 'stepped' && _columnProfile.segments.length > 0) {
-      var craneId3 = parseInt((document.getElementById('lift-crane') || { value: '' }).value) || 0;
-      var radius3 = parseFloat((document.getElementById('lift-radius') || { value: '30' }).value) || 30;
-      var boomLen3 = parseFloat((document.getElementById('lift-boom-sel') || { value: '' }).value) || 0;
-      var crane3 = craneId3 && _craneMap[craneId3] ? _craneMap[craneId3] : null;
-      var cap3 = crane3 ? getCraneCapacity(crane3, radius3, boomLen3 || null) : null;
-      if (cap3 && cap3 > 0) {
-        var overloaded = [];
-        _columnProfile.segments.forEach(function(seg) {
-          if (!seg.section || !seg.length) return;
-          var sw = secWeight(seg.section);
-          var amp3 = parseFloat((document.getElementById('lift-amp') || { value: '1.05' }).value) || 1.05;
-          var wt3 = seg.length * sw * amp3 / 1000;
-          var eff3 = wt3 / cap3 * 100;
-          if (eff3 > 100) {
-            overloaded.push({ name: seg.name || '段', eff: eff3.toFixed(0) });
-          }
-        });
-        if (overloaded.length > 0) {
-          var msg = '机械切换后，' + overloaded.map(function(o) { return o.name + '(' + o.eff + '%)'; }).join(', ') + ' 效率超过100%，不可吊！请重新选择机械或调整分段。';
-          console.warn('[Rule5 liftOnCraneChange] ⚠ ' + msg);
-          var warnEl = document.getElementById('liftWarnMsg');
-          if (warnEl) { warnEl.textContent = '⚠ ' + msg; warnEl.style.display = 'block'; }
-        } else {
-          var warnEl = document.getElementById('liftWarnMsg');
-          if (warnEl) { warnEl.textContent = ''; warnEl.style.display = 'none'; }
-        }
-      }
-    }
-  }
+  /* Rule 5（变截面已移除）：自动分段逻辑已移至 applyAutoSeg，机械切换时仅重新计算表格 */
   liftCalc();
 }
 
@@ -5375,96 +5123,8 @@ function updateLiftTableCrane() {
   // 刷新载荷性能表
   if (crane) renderLiftLoadChart(crane, radius, boomLen);
 
-  // Rule 5：当分段方式为"自动分段"且机械性能变化时，自动重新计算并填入表格
-  var segPfAuto2 = (document.getElementById('lift-seg-pf') || { value: '' }).value;
-  console.warn('[Rule5 updateLiftTableCrane] segPf=' + segPfAuto2 + ' _columnProfile.mode=' + _columnProfile.mode + ' window._customSection=' + (window._customSection ? (window._customSection.code || window._customSection.label) : 'null'));
-  if (segPfAuto2 === 'auto') {
-    // ── 关键修复：必须在 autoSegment() 之前将 mode 设为 'stepped' ──
-    var needSwitchMode2 = (_columnProfile.mode !== 'stepped');
-    if (needSwitchMode2) {
-      _columnProfile.mode = 'stepped';
-      if (window._customSection) {
-        _columnProfile.segments = [{ id: Date.now(), name: '第1段', length: 0, section: window._customSection }];
-        _activeSegIdx = 0;
-      } else {
-        _columnProfile.segments = [{ id: Date.now(), name: '第1段', length: 0, section: null }];
-        _activeSegIdx = -1;
-      }
-      var singleArea2 = document.getElementById('secPanel-input');
-      var stepArea2 = document.getElementById('secPanel-stepped');
-      var btnSingle2 = document.getElementById('btn-mode-single');
-      var btnStepped2 = document.getElementById('btn-mode-stepped');
-      if (singleArea2) singleArea2.style.display = 'none';
-      if (stepArea2) stepArea2.style.display = '';
-      if (btnSingle2) btnSingle2.classList.remove('active');
-      if (btnStepped2) btnStepped2.classList.add('active');
-      renderSteppedSegments();
-    }
-    var plan2 = autoSegment();
-    console.warn('[Rule5 updateLiftTableCrane] plan.feasible=' + plan2.feasible + ' segs=' + (plan2.segs ? plan2.segs.length : 'null') + ' suggestion=' + (plan2.suggestion || 'none') + ' rejectedForms=' + JSON.stringify(plan2.rejectedForms) + ' errors=' + JSON.stringify(plan2.errors));
-    if (plan2.feasible && plan2.segs && plan2.segs.length) {
-      // 自动分段不返回 section；需要从当前截面补回，否则 liftCalc() 校验失败
-      // 优先级：window._customSection（单截面）> 现有 stepped 段中的截面 > null
-      var curSec2 = window._customSection || null;
-      if (!curSec2 && _columnProfile.segments.length > 0) {
-        var existingSec2 = _columnProfile.segments.find(function(s) { return s.section; });
-        if (existingSec2) curSec2 = existingSec2.section;
-      }
-      _columnProfile.segments = plan2.segs.map(function(seg, i) {
-        return { id: Date.now() + i, name: seg.name, length: seg.length, section: curSec2 };
-      });
-      _activeSegIdx = -1;
-      var singleArea2 = document.getElementById('secPanel-input');
-      var stepArea2 = document.getElementById('secPanel-stepped');
-      var btnSingle2 = document.getElementById('btn-mode-single');
-      var btnStepped2 = document.getElementById('btn-mode-stepped');
-      if (singleArea2) singleArea2.style.display = 'none';
-      if (stepArea2) stepArea2.style.display = '';
-      if (btnSingle2) btnSingle2.classList.remove('active');
-      if (btnStepped2) btnStepped2.classList.add('active');
-      renderSteppedSegments();
-      updateColumnHeight();
-      // 效率提示：1-1 效率很低时给出警告
-      if (plan2.suggestion) {
-        console.warn('[Rule5] ⚠ ' + plan2.suggestion);
-        var warnEl2 = document.getElementById('liftWarnMsg');
-        if (warnEl2) { warnEl2.textContent = '⚠ ' + plan2.suggestion; warnEl2.style.display = 'block'; }
-      }
-    } else if (plan2.errors && plan2.errors.length) {
-      console.warn('[Rule5 updateLiftTableCrane] autoSegment errors: ' + plan2.errors.join('; '));
-    }
-  } else {
-    // 非 auto 模式：切换机械后重新验算现有段是否仍可行
-    if (_columnProfile.mode === 'stepped' && _columnProfile.segments.length > 0) {
-      var craneId4 = parseInt((document.getElementById('lift-crane') || { value: '' }).value) || 0;
-      var radius4 = parseFloat((document.getElementById('lift-radius') || { value: '30' }).value) || 30;
-      var boomLen4 = parseFloat((document.getElementById('lift-boom-sel') || { value: '' }).value) || 0;
-      var crane4 = craneId4 && _craneMap[craneId4] ? _craneMap[craneId4] : null;
-      var cap4 = crane4 ? getCraneCapacity(crane4, radius4, boomLen4 || null) : null;
-      if (cap4 && cap4 > 0) {
-        var overloaded4 = [];
-        var amp4 = parseFloat((document.getElementById('lift-amp') || { value: '1.05' }).value) || 1.05;
-        _columnProfile.segments.forEach(function(seg) {
-          if (!seg.section || !seg.length) return;
-          var sw4 = secWeight(seg.section);
-          var wt4 = seg.length * sw4 * amp4 / 1000;
-          var eff4 = wt4 / cap4 * 100;
-          if (eff4 > 100) {
-            overloaded4.push({ name: seg.name || '段', eff: eff4.toFixed(0) });
-          }
-        });
-        if (overloaded4.length > 0) {
-          var msg4 = '机械切换后，' + overloaded4.map(function(o) { return o.name + '(' + o.eff + '%)'; }).join(', ') + ' 效率超过100%，不可吊！请重新选择机械或调整分段。';
-          console.warn('[Rule5 updateLiftTableCrane] ⚠ ' + msg4);
-          var warnEl4 = document.getElementById('liftWarnMsg');
-          if (warnEl4) { warnEl4.textContent = '⚠ ' + msg4; warnEl4.style.display = 'block'; }
-        } else {
-          var warnEl4 = document.getElementById('liftWarnMsg');
-          if (warnEl4) { warnEl4.textContent = ''; warnEl4.style.display = 'none'; }
-        }
-      }
-    }
-  }
+  /* Rule 5（变截面已移除）：自动分段逻辑已移至 applyAutoSeg，机械切换时通过 liftCalc 重新计算 */
+  /* 旧 stepped 代码块已删除 */
 
   // ── 同步过滤臂长下拉框（半径变化后原选中臂长可能已不可达）──
   var boomSel = document.getElementById('lift-boom-sel');
@@ -6176,18 +5836,11 @@ function autoSegment() {
     recommendedForm: null  // 推荐的分段形式（用于auto模式）
   };
 
-  // ── 获取柱总高 ──
-  var totalH;
-  if (_columnProfile.mode === 'stepped') {
-    var segs0 = _columnProfile.segments.filter(function(s) { return s.length > 0; });
-    totalH = segs0.reduce(function(s, seg) { return s + (seg.length || 0); }, 0);
-    if (totalH <= 0) { result.errors.push('变截面总高度需 > 0'); return result; }
-  } else {
-    flLoadFromUI();
-    totalH = 0;
-    for (var fi = 0; fi < FL_DATA.length; fi++) totalH += FL_DATA[fi].height || 0;
-    if (totalH <= 0) { result.errors.push('请先填写层高表'); return result; }
-  }
+  // ── 获取柱总高（变截面已移除，固定走楼面表逻辑）──
+  flLoadFromUI();
+  var totalH = 0;
+  for (var fi = 0; fi < FL_DATA.length; fi++) totalH += FL_DATA[fi].height || 0;
+  if (totalH <= 0) { result.errors.push('请先填写层高表'); return result; }
 
   if (!crane) { result.errors.push('请先选择机械'); return result; }
 
@@ -6200,45 +5853,8 @@ function autoSegment() {
 
   if (!cap || cap <= 0) { result.errors.push('该半径下无可用载荷数据'); return result; }
 
-  // ── 变截面模式：验证每段是否可吊 ──
-  if (_columnProfile.mode === 'stepped') {
-    var segs0 = _columnProfile.segments.filter(function(s) { return s.length > 0 && s.section; });
-    // 关键修复：segPf='auto' 且 stepped 分段尚未计算（segs0.length===0）时，
-    // 跳过 stepped 验证分支，让下面的 single 截面分支处理 DP 自动分段逻辑。
-    if (!segs0.length && segPf !== 'auto') {
-      result.errors.push('请先为每段选择截面'); return result;
-    }
-    if (!segs0.length && segPf === 'auto') {
-      // stepped 模式 + auto 分段：segs0 为空说明尚未计算分段长度，
-      // 此时 fall through 到 single 截面分支执行 DP 算法（不 return）
-    } else {
-      result.feasible = true;
-      for (var si = 0; si < segs0.length; si++) {
-        var seg = segs0[si];
-        var selfWt = seg.length * secWeight(seg.section) * amp / 1000;
-        var totalWt = selfWt + hookWt;
-        var eff = cap > 0 ? (selfWt / cap * 100).toFixed(0) : null;
-        var effNum = eff != null ? parseFloat(eff) : 0;
-        var effCls = effNum > 90 ? '🔴' : effNum > 75 ? '🟡' : '🟢';
-        result.segs.push({
-          name: seg.name || ('第' + (si + 1) + '段'),
-          length: seg.length,
-          section: seg.section,
-          selfWt: selfWt,
-          totalWt: totalWt,
-          cap: cap,
-          eff: eff,
-          effNum: effNum,
-          effCls: effCls,
-          status: selfWt + hookWt <= cap ? 'ok' : (effNum <= 90 ? 'warn' : 'fail')
-        });
-        result.summary.segCount++;
-        if (selfWt + hookWt > cap) result.feasible = false;
-      }
-      result.summary.totalWt = result.segs.reduce(function(s, seg) { return s + seg.selfWt; }, 0);
-      return result;
-    }
-  }
+  /* ── 变截面模式验证：已移除（_columnProfile.mode 固定为 'single'）── */
+  /* 旧代码已删除，保留穿透到下方单一截面模式逻辑 */
 
   // ── 单一截面模式 ──
   var sec = window._customSection || null;
@@ -6477,44 +6093,21 @@ window.closeAutoSegModal = function() {
   document.body.style.overflow = '';
 };
 
-// 应用自动分段方案 → 切换到变截面模式并填入各段
+// 应用自动分段方案（变截面已移除，改为仅提示分析结果）
 window.applyAutoSeg = function() {
   var plan = autoSegment();
   console.log('[DEBUG applyAutoSeg] plan.feasible=' + plan.feasible + ' plan.segs.length=' + plan.segs.length + ' plan.errors=' + JSON.stringify(plan.errors) + ' plan.recommendedForm=' + plan.recommendedForm + ' formLabel=' + plan.summary.formLabel);
-  if (plan.segs.length) {
-    console.log('[DEBUG applyAutoSeg] plan.segs[0] length=' + plan.segs[0].length + ' name=' + plan.segs[0].name + ' section=' + (plan.segs[0].section ? (plan.segs[0].section.code || plan.segs[0].section.label) : 'null'));
-    console.log('[DEBUG applyAutoSeg] 共 ' + plan.segs.length + ' 段，将写入 _columnProfile.segments');
-  }
-  if (!plan.feasible || !plan.segs.length) return;
-
-  // 切换到变截面模式
-  _columnProfile.mode = 'stepped';
-  _columnProfile.segments = plan.segs.map(function(seg, i) {
-    return {
-      id: Date.now() + i,
-      name: seg.name,
-      length: seg.length,
-      section: seg.section
-    };
-  });
-  _activeSegIdx = -1;
-
-  // 切换UI
-  var singleArea = document.getElementById('secPanel-input');
-  var stepArea   = document.getElementById('secPanel-stepped');
-  var btnSingle  = document.getElementById('btn-mode-single');
-  var btnStepped = document.getElementById('btn-mode-stepped');
-  if (singleArea) singleArea.style.display = 'none';
-  if (stepArea)   stepArea.style.display   = '';
-  if (btnSingle)  btnSingle.classList.remove('active');
-  if (btnStepped) btnStepped.classList.add('active');
-
-  renderSteppedSegments();
-  updateColumnHeight();
-  liftCalc();
-  saveFormData();
   closeAutoSegModal();
-  toast('自动分段方案已应用：' + plan.segs.length + ' 段');
+  if (!plan.feasible || !plan.segs.length) {
+    toast('自动分段不可行，请手动调整参数');
+    return;
+  }
+  // 变截面已移除，仅提示分析结果
+  var segCount = plan.segs.length;
+  var segNames = plan.segs.map(function(s) { return s.name; }).join(' / ');
+  toast('自动分段建议：' + segNames + '（共' + segCount + '段），变截面模式已移除，请在单截面模式下继续');
+  // 保持在 single 模式，重新计算（使用当前单一截面）
+  liftCalc();
 };
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -6534,92 +6127,8 @@ function liftCalc() {
 
   var crane = craneId && _craneMap[craneId] ? _craneMap[craneId] : null;
 
-  // ── 变截面模式 ──────────────────────────────────────────────
-  if (_columnProfile.mode === 'stepped') {
-    var segs = getColumnSegments(); // [{section, length, name}]
-    console.log('[DEBUG liftCalc stepped] _columnProfile.mode=' + _columnProfile.mode + ' getColumnSegments() returned ' + segs.length + ' segments');
-    if (segs.length > 0) {
-      console.log('[DEBUG liftCalc stepped] seg0: name=' + segs[0].name + ' length=' + segs[0].length + ' section=' + (segs[0].section ? (segs[0].section.code || segs[0].section.label || 'ok') : 'NULL!!'));
-    }
-
-    // 校验
-    if (!segs.length || segs.some(function(s) { return !s.section; })) {
-      summaryEl.className = 'lift-calc-summary error';
-      summaryEl.innerHTML = '⚠ 请为每段选择截面';
-      tableEl.style.display = 'none';
-      emptyEl.style.display = '';
-      return;
-    }
-    var totalH = segs.reduce(function(s, seg) { return s + (seg.length || 0); }, 0);
-    if (totalH <= 0) {
-      summaryEl.className = 'lift-calc-summary error';
-      summaryEl.innerHTML = '⚠ 总长度需 > 0';
-      tableEl.style.display = 'none';
-      emptyEl.style.display = '';
-      return;
-    }
-
-    // 最大段重 → 确定吊钩档位
-    var maxSegWt = 0;
-    for (var _si = 0; _si < segs.length; _si++) {
-      var _wt = segs[_si].length * secWeight(segs[_si].section) * amp / 1000;
-      if (_wt > maxSegWt) maxSegWt = _wt;
-    }
-    var hookWt = getCraneHookWeight(crane, maxSegWt);
-
-    // 汇总信息
-    summaryEl.className = 'lift-calc-summary';
-    var totalWtAll = segs.reduce(function(s, seg) {
-      return s + seg.length * secWeight(seg.section) * amp / 1000;
-    }, 0);
-    var hookInfo = hookWt > 0 ? '　吊钩 <strong>' + hookWt.toFixed(2) + '</strong>t' : '';
-    summaryEl.innerHTML =
-      '变截面 <strong>' + segs.length + '</strong>段　' +
-      '　总高 <strong>' + totalH.toFixed(2) + '</strong>m　' +
-      '　总重 <strong>' + totalWtAll.toFixed(2) + '</strong>t　' +
-      '　系数 <strong>' + amp.toFixed(2) + '</strong>' + hookInfo;
-
-    // 渲染表格
-    tableEl.style.display = '';
-    emptyEl.style.display = 'none';
-    var notesEl = document.getElementById('liftNotes');
-    if (notesEl) notesEl.style.display = '';
-    tbody.innerHTML = '';
-
-    var cap = crane ? getCraneCapacity(crane, radius, boomLen||null) : null;
-
-    for (var j = 0; j < segs.length; j++) {
-      var seg = segs[j];
-      var segLen = Math.round(seg.length * 100) / 100;
-      var linearWt = secWeight(seg.section);
-      var selfWt = segLen * linearWt * amp / 1000;
-      var totalWt = selfWt + hookWt;
-      var ratio = (cap && totalWt > 0) ? (selfWt / cap * 100).toFixed(0) : null;
-      var ratioCls = ratio > 90 ? 'eff-bad' : ratio > 75 ? 'eff-warn' : ratio != null ? 'eff-ok' : '';
-      var effHtml = ratio != null
-        ? '<span class="eff-val ' + ratioCls + '">' + ratio + '%</span>'
-        : '<span class="eff-val">—</span>';
-      var row = document.createElement('tr');
-      row.innerHTML =
-        '<td>' + escHtml(seg.name || ('第'+(j+1)+'段')) + '</td>' +
-        '<td>' + escHtml(seg.section.code || seg.section.label || '—') + '</td>' +
-        '<td class="num">' + segLen.toFixed(2) + '</td>' +
-        '<td class="num">' + selfWt.toFixed(2) + '</td>' +
-        '<td><input type="number" class="lift-w-input" data-idx="' + j + '" value="' + totalWt.toFixed(2) + '" step="0.01" min="0" oninput="liftRecalcEff(this)"></td>' +
-        '<td class="crane-cell" id="lc_c' + j + '">' + (crane ? escHtml((crane.brand||'') + ' ' + (crane.model||'')) : '—') + '</td>' +
-        '<td class="num">' + radius.toFixed(1) + '</td>' +
-        '<td class="num" id="lc_p' + j + '">' + (cap ? cap.toFixed(1) : '—') + '</td>' +
-        '<td class="num" id="lc_e' + j + '">' + effHtml + '</td>';
-      tbody.appendChild(row);
-    }
-
-    // 效率重新计算
-    for (var j2 = 0; j2 < segs.length; j2++) {
-      var inp2 = document.querySelector('.lift-w-input[data-idx="' + j2 + '"]');
-      if (inp2) window.liftRecalcEff(inp2);
-    }
-    return;
-  }
+  /* ── 变截面模式：已移除（_columnProfile.mode 固定为 'single'）── */
+  /* 旧代码已删除，保留穿透到下方单一截面模式（新分段形式逻辑）── */
 
   // ── 单一截面模式（新分段形式逻辑）───────────────────────
   var segPfRaw = (document.getElementById('lift-seg-pf')||{value:'1-1'}).value;
@@ -9440,18 +8949,8 @@ window.spConfirm = function() {
   var sec = spLibFind(_spSelectedCode);
   if (!sec) { toast('截面库为空，请先保存截面'); return; }
 
-  // ── 变截面模式：直接写入当前激活段 ──
-  if (_columnProfile.mode === 'stepped' && _activeSegIdx >= 0 && _activeSegIdx < _columnProfile.segments.length) {
-    _columnProfile.segments[_activeSegIdx].section = sec;
-    renderSteppedSegments();
-    updateColumnHeight();
-    // 同时更新主截面信息区（SVG示意图 + 参数面板）
-    updateMainSectionCalc();
-    liftCalc();
-    closeSectionPicker();
-    toast('第' + (_activeSegIdx + 1) + '段已选用：' + sec.label);
-    return;
-  }
+  // ── 变截面模式：已移除（_columnProfile.mode 固定为 'single'）──
+  /* 旧代码已删除，保留穿透到下方单一截面模式（原有行为）── */
 
   // ── 单一截面模式（原有行为）──
   var type = sec.type;
