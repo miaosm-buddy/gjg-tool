@@ -1558,20 +1558,7 @@
     <!-- 性能表 -->
     <div class="tab-panel" id="panel-chart">
       <div class="perf-detail-toolbar">
-        <div class="perf-filter-row">
-          <span class="perf-filter-label">工况类型</span>
-          <select id="typeSelect" class="cond-select" onchange="onTypeChange()">
-            <option value="">全部</option>
-          </select>
-          <span class="perf-filter-label">工况说明</span>
-          <select id="condSelect" class="cond-select" onchange="onCondChange()" style="display:none">
-            <option value="">全部</option>
-          </select>
-          <span class="perf-filter-label">配重/支腿</span>
-          <select id="cgSelect" class="cond-select" onchange="onCgChange()" style="display:none">
-            <option value="">全部</option>
-          </select>
-        </div>
+        <!-- unnamed first row removed: tower crane uses tower-filter-row only, non-tower crane uses nontower-filter-row-1 -->
         <div class="perf-filter-row" id="tower-filter-row" style="display:none">
           <span class="perf-filter-label">臂长</span>
           <select id="towerArmSelect" class="boom-len-select" onchange="onTowerArmChange()">
