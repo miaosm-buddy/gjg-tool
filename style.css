@@ -803,6 +803,37 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
   background: rgba(136,135,128,0.05) !important;
   cursor: default;
 }
+.tower-cell.t-na {
+  color: var(--text-muted) !important;
+  font-weight: 400 !important;
+  border: 1px solid rgba(136,135,128,0.2) !important;
+  background: rgba(136,135,128,0.04) !important;
+  cursor: default;
+}
+/* 每组臂长独立表格外层 */
+.tower-sub-table-wrap {
+  margin-bottom: 24px;
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.tower-sub-title {
+  padding: 10px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.tower-sub-meta {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 8px;
+}
+.tower-sub-table-wrap .perf-scroll {
+  overflow-x: auto;
+}
 
 /* ── 工况选择器 ─────────────────────────── */
 .cond-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
@@ -815,18 +846,18 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 .cond-btn.active { background: rgba(94,106,210,0.1); border-color: var(--accent-glow); color: var(--accent-glow); font-weight: 700; }
 
 /* ── 吊装分析 ───────────────────────────── */
-.lift-card { background: var(--bg-surface); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-xl); padding: 22px 26px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+.lift-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 18px 22px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
 .lift-card-title {
   font-size: 17px; font-weight: 700; color: var(--text-primary);
-  margin-bottom: 18px; display: flex; align-items: center; gap: 10px; letter-spacing: -0.2px;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px; letter-spacing: 0;
 }
 /* 吊次分析的 dc-card 复用 lift-card 样式 */
-.dc-card { background: var(--bg-surface); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-xl); padding: 22px 26px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+.dc-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 18px 22px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
 /* dc-card 内的 lift-card-title（吊次分析子标题） */
 .dc-card .lift-card-title {
   margin-bottom: 12px;
-  font-size: 16px;
-  gap: 6px; /* 缩小间距，按钮紧贴文字右侧 */
+  font-size: 17px;
+  gap: 8px; /* 缩小间距，按钮紧贴文字右侧 */
 }
 .dc-card .lift-card-title::before { content: ''; display: inline-block; width: 4px; height: 16px; background: linear-gradient(180deg, var(--accent) 0%, var(--accent-glow) 100%); border-radius: 2px; }
 /* dc-card 内的描述文字（放在标题下方） */
@@ -866,7 +897,7 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 .dc-card.collapsed .lift-card-title { margin-bottom: 0; }
 .dc-card.collapsed .dc-card-desc { display: none; }
 
-.lift-layout { display: flex; flex-direction: column; gap: 20px; }
+.lift-layout { display: flex; flex-direction: column; gap: 16px; }
 .lift-left { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .lift-right { display: flex; flex-direction: column; gap: 16px; }
 
@@ -1848,14 +1879,14 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 .eff-edit-cell input { width: 60px; padding: 3px 4px; border: 1px solid var(--border-standard); border-radius: 4px; font-size: 12px; text-align: right; }
 .eff-edit-highlight td { background: rgba(94,106,210,0.04); }
 
-.lift-hero { background: var(--bg-surface); border: 1px solid var(--border-standard); border-radius: var(--radius); padding: 28px 28px 24px; margin-bottom: 20px; position: relative; overflow: hidden; }
+.lift-hero { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 18px 22px; margin-bottom: 16px; position: relative; overflow: hidden; }
 .lift-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent) 0%, #7c83f2 50%, #a78bfa 100%); border-radius: var(--radius) var(--radius) 0 0; }
-.lift-hero h1 { font-size: 20px; font-weight: 700; color: var(--text-primary); margin: 0 0 8px; letter-spacing: -0.3px; }
-.lift-hero p { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.6; }
-.lift-hero .hero-stat-row { display: flex; gap: 24px; margin-top: 16px; }
-.lift-hero .hero-stat { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); }
+.lift-hero h1 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0 0 6px; letter-spacing: 0; }
+.lift-hero p { font-size: 14px; color: var(--text-muted); margin: 0; line-height: 1.5; }
+.lift-hero .hero-stat-row { display: flex; gap: 20px; margin-top: 12px; }
+.lift-hero .hero-stat { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
 .lift-hero .hero-stat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-.lift-card-full { background: var(--bg-surface); border: 1px solid var(--border-standard); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; }
+.lift-card-full { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 18px 22px; margin-bottom: 16px; }
 .lift-right { display: flex; flex-direction: column; gap: 16px; }
 .lift-btn { height: 38px; padding: 0 20px; border-radius: 8px; border: 1px solid transparent; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; background: var(--accent); color: #fff; }
 .lift-btn:hover { background: var(--accent-glow); }
@@ -1874,28 +1905,41 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 }
 .lift-empty .icon { font-size: 40px; opacity: 0.45; }
 .lift-empty p { line-height: 1.9; color: var(--text-muted); font-size: 14px; }
-.lift-crane-info { display: flex; gap: 16px; flex-wrap: wrap; padding: 14px 0; }
-.lift-spreader-info { padding: 14px 0 4px; }
-.lift-spreader-info .sp-header { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-.lift-sp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.lift-sp-table th { text-align: center; padding: 6px 10px; background: var(--bg-surface); color: var(--text-muted); font-weight: 700; font-size: 13px; border-bottom: 2px solid var(--border-standard); }
-.lift-sp-table td { text-align: center; padding: 5px 10px; color: var(--text-primary); border-bottom: 1px solid var(--border-subtle); }
+.lift-crane-info { display: flex; gap: 16px; flex-wrap: wrap; padding: 10px 0 4px; }
+.lift-spreader-info { padding: 10px 0 4px; overflow-x: auto; }
+/* 区块小标题（载荷性能表 / 吊具参数共用） */
+.lc-section-header {
+  font-size: 14px; font-weight: 700; color: var(--text-secondary);
+  padding: 10px 0 8px; margin-bottom: 6px;
+  border-bottom: 1px solid var(--border-subtle); letter-spacing: 0;
+}
+.lift-sp-table { width: 100%; border-collapse: collapse; font-size: 15px; overflow-x: auto; }
+.lift-sp-table th { text-align: center; padding: 6px 10px; background: var(--bg-surface); color: var(--text-muted); font-weight: 700; font-size: 15px; border-bottom: 2px solid var(--border-standard); }
+.lift-sp-table td { text-align: center; padding: 5px 10px; color: var(--text-primary); border-bottom: 1px solid var(--border-subtle); font-size: 15px; }
 .lift-sp-table tr:last-child td { border-bottom: none; }
 .lift-sp-table td:last-child { color: var(--orange); font-weight: 600; }
 /* 载荷性能表 */
-.lift-load-chart { padding: 14px 0 4px; }
-.lift-load-chart .sp-header { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-/* 行排布局（载荷性能表 + 吊具参数共用） */
-.lc-row { display: flex; align-items: center; gap: 4px; padding: 3px 0; }
-.lc-row-label { font-size: 12px; font-weight: 700; color: var(--text-muted); min-width: 72px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.04em; }
-.lc-data-item { display: inline-flex; flex-direction: column; align-items: center; min-width: 52px; padding: 5px 6px; border-radius: var(--radius); border: 1px solid var(--border-standard); background: var(--bg-surface); font-size: 12px; flex-shrink: 0; gap: 2px; }
-.lc-data-item.lc-data-active { border-color: var(--accent); background: rgba(25,118,210,0.08); }
-.lc-data-label { font-weight: 600; color: var(--text-primary); }
-.lc-data-item.lc-data-active .lc-data-label { color: var(--accent); }
-.lift-calc-summary { background: var(--bg-surface); border: 1px solid var(--border-standard); border-radius: var(--radius); padding: 16px; margin-top: 12px; font-size: 14px; }
+.lift-load-chart { padding: 10px 0 4px; overflow-x: auto; }
+/* 载荷性能表 & 吊具参数：表格布局（统一 15px） */
+.lc-table { width: auto; border-collapse: collapse; font-size: 15px; }
+.lc-table th, .lc-table td {
+  padding: 6px 12px; text-align: center; border: 1px solid var(--border-standard);
+  background: var(--bg-surface); vertical-align: middle; white-space: nowrap; min-width: 56px;
+}
+.lc-table th { background: var(--bg-surface); font-weight: 700; color: var(--text-secondary); font-size: 13px; }
+.lc-table td.lc-data-active { border-color: var(--accent); background: rgba(25,118,210,0.08); }
+.lc-table td.lc-row-label, .lc-table th.lc-row-label {
+  font-size: 15px; font-weight: 700; color: var(--text-secondary);
+  min-width: 88px; max-width: 96px;
+  text-align: left;
+  background: var(--bg-surface);
+}
+.lc-data-label { font-weight: 600; color: var(--text-primary); display: block; font-size: 15px; }
+.lc-table td.lc-data-active .lc-data-label { color: var(--accent); }
+.lift-calc-summary { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 14px 16px; margin-top: 12px; font-size: 14px; }
 .lift-table-wrap {
   overflow-x: auto;
-  border: 1px solid var(--border-standard);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius);
   background: var(--bg-surface);
   max-width: 100%;
@@ -1911,13 +1955,12 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 .lift-table th {
   background: linear-gradient(180deg, #5e6ad2 0%, #4755b8 100%);
   color: #ffffff;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  padding: 10px 10px;
+  letter-spacing: 0.3px;
+  padding: 8px 10px;
   text-align: center;
-  border-bottom: 2.5px solid #3a448c;
+  border-bottom: 2px solid #3a448c;
   white-space: nowrap;
   vertical-align: middle;
   box-shadow: 0 2px 8px rgba(94,106,210,0.25);
@@ -1932,7 +1975,7 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 }
 /* 数据行 */
 .lift-table td {
-  padding: 9px 10px;
+  padding: 7px 10px;
   border-bottom: 1px solid rgba(208,215,222,0.45);
   text-align: center;
   vertical-align: middle;
@@ -2221,8 +2264,8 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 .lift-card {
   font-size: 16px;
 }
-.lift-card-title { font-size: 18px; }
-.lift-card-title::before { height: 20px; }
+.lift-card-title { font-size: 17px; }
+.lift-card-title::before { height: 18px; }
 
 /* 截面特性数值（主数字更大） */
 .sec-metric-val { font-size: 28px; }
@@ -2230,28 +2273,28 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 .sec-metric-unit  { font-size: 14px; }
 
 /* 截面参数行 */
-.sec-param-row { font-size: 16px; }
-.sec-param-group-title { font-size: 14px; }
-.sec-mech-formula { display: none; font-size: 13px; }
-.sec-type-badge { font-size: 15px; }
-.sec-name { font-size: 18px; }
+.sec-param-row { font-size: 15px; }
+.sec-param-group-title { font-size: 13px; }
+.sec-mech-formula { display: none; font-size: 12px; }
+.sec-type-badge { font-size: 14px; }
+.sec-name { font-size: 18px; font-weight: 700; color: var(--text-primary); }
 
 /* 层高表 */
 .fl-table { font-size: 15px; }
 .fl-table th { font-size: 13px; }
 .fl-table td > input { font-size: 15px; }
-.fl-elev { font-size: 13px; }
+.fl-elev { font-size: 12px; }
 .fl-elev-cell { font-size: 15px; }
 .fl-h-cell { font-size: 15px; }
 .fl-stat { font-size: 15px; }
 .fl-th-unit { font-size: 9px; }
 
 /* 吊装输入 */
-.lift-inputs-grid { font-size: 16px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+.lift-inputs-grid { font-size: 15px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 .lift-inputs-grid .form-group label { font-size: 14px; text-align: center; white-space: normal; word-break: break-word; line-height: 1.3; }
 .lift-inputs-grid .form-group input,
-.lift-inputs-grid .form-group select { font-size: 16px; text-align: center; }
-.lift-calc-summary { font-size: 15px; }
+.lift-inputs-grid .form-group select { font-size: 15px; text-align: center; }
+.lift-calc-summary { font-size: 14px; }
 
 /* 分区标签 */
 .zone-bsy, .zone-bs1, .zone-grd, .zone-std { font-size: 12px; }

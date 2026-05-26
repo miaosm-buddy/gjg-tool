@@ -674,6 +674,7 @@ function renderLib(p,t){
     if(q&&!c.model.toLowerCase().includes(q)&&!(c.brand||'').toLowerCase().includes(q))return false;
     return true;
   }).sort(function(a,b){return (a.max_load_t||0)-(b.max_load_t||0);});
+  console.log('[renderLib] typ=', typ, 'list.length=', list.length, 'total data.cranes.length=', data.cranes.length);
   var typeFilter=document.getElementById('typeFilter');
   if(typeFilter&&typeFilter.children.length===0){
     var allTypes={};data.cranes.forEach(function(c){if(c.type)allTypes[c.type]=true;});
@@ -1485,11 +1486,12 @@ function renderPerfTable(){
   if(cur.tower_load_charts){
     var tlc=cur.tower_load_charts;
 
-    /* 收集臂长 / 倍率列表 */
+    /* 收集臂长列表 */
     var arms=Object.keys(tlc).map(Number).sort(function(a,b){return b-a;}); // 降序
-    var multMap={};
-    for(var ak in tlc)for(var mk in tlc[ak])if(!multMap[mk])multMap[mk]=true;
-    var mults=Object.keys(multMap).map(Number).sort(function(a,b){return a-b;}); // 升序
+    var allMults=[];
+    var seenM={};
+    for(var ak in tlc)for(var mk in tlc[ak])if(!seenM[mk]){seenM[mk]=true;allMults.push(Number(mk));}
+    allMults.sort(function(a,b){return a-b;});
 
     /* 更新臂长选择器 */
     var armSel=document.getElementById('towerArmSelect');
@@ -1498,36 +1500,22 @@ function renderPerfTable(){
       armSel.innerHTML='<option value="">全部臂长（'+arms.length+'种）</option>'+
         arms.map(function(a){return'<option value="'+a+'"'+(String(curArm)===String(a)?' selected':'')+'>'+a+'m</option>';}).join('');
     }
-    /* 更新倍率选择器 */
+    /* 更新倍率选择器（联动臂长） */
     updateTowerMultSelect();
 
-    /* 收集所有唯一半径值（全局） */
-    var radiusSet={};
-    for(var ak in tlc)for(var mk in tlc[ak]){
-      var pts=tlc[ak][mk]||[];
-      for(var pi=0;pi<pts.length;pi++){
-        if(pts[pi].radius!=null)radiusSet[Math.round(pts[pi].radius*2)/2]=true;
-      }
-    }
-    var radii=Object.keys(radiusSet).map(Number).sort(function(a,b){return a-b;});
-
-    /* 计算全局最大载荷 */
+    /* 计算全局最大载荷（用于全表热力图基准） */
     var globalMax=0;
     for(var ak in tlc)for(var mk in tlc[ak]){
       var pts=tlc[ak][mk]||[];
-      for(var pi=0;pi<pts.length;pi++){
-        var q=pts[pi].rated_load||0;
-        if(q>globalMax)globalMax=q;
-      }
+      for(var pi=0;pi<pts.length;pi++){var q=pts[pi].rated_load||0;if(q>globalMax)globalMax=q;}
     }
     var hiThresh=globalMax*0.70,loThresh=globalMax*0.35;
 
-    /* 插值函数：给定(arm,mult,radius)返回载荷，无数据返回null */
+    /* 插值函数 */
     function towerInterp(arm,mult,targetR){
       var pts=tlc[String(arm)]&&tlc[String(arm)][String(mult)];
       if(!pts||!pts.length)return null;
       pts=pts.slice().sort(function(a,b){return(a.radius||0)-(b.radius||0);});
-      // 边界判断：不外插
       var r0=pts[0].radius||0, rN=(pts[pts.length-1].radius||0);
       if(targetR<r0||targetR>rN)return null;
       for(var i=0;i<pts.length-1;i++){
@@ -1540,91 +1528,118 @@ function renderPerfTable(){
       return pts[pts.length-1].rated_load||0;
     }
 
-    /* 筛选臂长（按选择器） */
+    /* 筛选臂长 */
     var dispArms=_dCurTowerArm?(arms.filter(function(a){return String(a)===String(_dCurTowerArm)})):arms;
 
-    /* 构建行：臂长×倍率组合 */
-    var rows=[];
+    /* ── 为每个臂长构建独立表格 ──────────────────────────── */
+    var tablesHtml='';
+    var totalRows=0;
     for(var ai=0;ai<dispArms.length;ai++){
       var arm=dispArms[ai];
-      var allMults=Object.keys(tlc[String(arm)]||{}).map(Number).sort(function(a,b){return a-b;});
-      var aMults=_dCurTowerMult?(allMults.filter(function(m){return String(m)===String(_dCurTowerMult);})):allMults;
-      for(var mi=0;mi<aMults.length;mi++){
-        var mult=aMults[mi];
-        // 读取原始数据点确定有效半径范围（不依赖 towerInterp）
-        var rawPts=(tlc[String(arm)]||{})[String(mult)]||[];
-        var rMin=rawPts.length?(rawPts[0].radius||0):0;
-        var rMax=rawPts.length?(rawPts[rawPts.length-1].radius||0):0;
-        var rowMax=0;
-        var cells=[];
-        for(var ri=0;ri<radii.length;ri++){
-          var q=towerInterp(arm,mult,radii[ri]);
-          if(q!==null&&q>0){
-            if(q>rowMax)rowMax=q;
-            cells.push({radius:radii[ri],q:q,oob:false});
-          }else{
-            cells.push({radius:radii[ri],q:null,oob:(radii[ri]>=rMin&&radii[ri]<=rMax)?false:true});
+      var armData=tlc[String(arm)]||{};
+      var armMults=Object.keys(armData).map(Number).sort(function(a,b){return a-b;});
+      /* 按倍率选择器过滤 */
+      armMults=_dCurTowerMult?(armMults.filter(function(m){return String(m)===String(_dCurTowerMult);})):armMults;
+      if(!armMults.length)continue;
+
+      /* 该臂长的半径列：收集所有倍率数据点，仅保留 ≥25m 的整半值 */
+      var radiusSet={};
+      for(var mk in armData){
+        var pts=armData[mk]||[];
+        for(var pi=0;pi<pts.length;pi++){
+          if(pts[pi].radius!=null){
+            var r=Math.round(pts[pi].radius*2)/2;
+            if(r>=25)radiusSet[r]=true;
           }
         }
-        rows.push({arm:arm,mult:mult,cells:cells,maxLoad:rowMax,rMin:rMin,rMax:rMax});
       }
-    }
+      var radii=Object.keys(radiusSet).map(Number).sort(function(a,b){return a-b;});
+      if(!radii.length)continue;
 
-    var totalPts=0;for(var ri=0;ri<rows.length;ri++)for(var ci=0;ci<rows[ri].cells.length;ci++)if(rows[ri].cells[ci].q!==null)totalPts++;
-    updatePerfDataInfoTower(rows.length,dispArms.length,totalPts);
+      /* 该臂长内的全局最大载荷 */
+      var armMax=0;
+      for(var mk in armData){
+        var pts=armData[mk]||[];
+        for(var pi=0;pi<pts.length;pi++){var q=pts[pi].rated_load||0;if(q>armMax)armMax=q;}
+      }
+      var armHi=armMax*0.70,armLo=armMax*0.35;
 
-    if(!rows.length||!radii.length){
-      el.innerHTML='<div style="color:var(--muted);text-align:center;padding:40px">无载荷数据</div>';updateQBoomSelect();return;
-    }
-
-    /* 渲染表头 */
-    var thead='<tr>'
-      +'<th class="tower-th t-th-arm">最大臂长<br>(m)</th>'
-      +'<th class="tower-th t-th-mult">倍率</th>'
-      +radii.map(function(r){return'<th class="tower-th t-th-r">'+r+'</th>';}).join('')
-      +'<th class="tower-th t-th-max">最大<br>载荷(t)</th>'
-      +'</tr>';
-
-    /* 渲染行 */
-    var tbody='';
-    for(var ri=0;ri<rows.length;ri++){
-      var row=rows[ri];
-      var multLabel=row.mult+'×';
-      var rangeLabel='<span style="font-size:10px;color:var(--text-muted);font-weight:400">'+row.rMin+'\u2013'+row.rMax+'m</span>';
-      var maxQ=row.maxLoad;
-      var maxCls=maxQ>=hiThresh?'tower-cell hi':maxQ>=loThresh?'tower-cell mid':maxQ>0?'tower-cell lo':'tower-cell';
-      tbody+='<tr class="tower-row'+(ri>0&&rows[ri-1].arm!==row.arm?' tower-row-sep':'')+'">';
-      tbody+='<td class="tower-cell t-arm">'+row.arm+'</td>';
-      tbody+='<td class="tower-cell t-mult">'+multLabel+'<br>'+rangeLabel+'</td>';
-      for(var ci=0;ci<row.cells.length;ci++){
-        var cell=row.cells[ci];
-        if(cell.q===null){
-          var oobCls=cell.oob?'tower-cell oob':'tower-cell t-na';
-          tbody+='<td class="'+oobCls+'">—</td>';
-        }else{
-          var pct=maxQ>0?(cell.q/maxQ*100).toFixed(0):0;
-          var gPct=globalMax>0?(cell.q/globalMax*100).toFixed(0):0;
-          var cls=cell.q>=hiThresh?'tower-cell hi':cell.q>=loThresh?'tower-cell mid':'tower-cell lo';
-          tbody+='<td class="'+cls+'" title="臂长'+row.arm+'m / '+multLabel+' / 幅度'+cell.radius+'m / '+cell.q.toFixed(1)+'t / 占该组合最大值'+pct+'%" style="font-weight:600">'+cell.q.toFixed(1)+'</td>';
+      /* 该臂长的有效半径范围 */
+      var armRMin=Infinity,armRMax=0;
+      for(var mk in armData){
+        var pts=armData[mk]||[];
+        if(pts.length){
+          if(pts[0].radius<armRMin)armRMin=pts[0].radius;
+          if(pts[pts.length-1].radius>armRMax)armRMax=pts[pts.length-1].radius;
         }
       }
-      tbody+='<td class="tower-cell t-max '+(maxQ>0?maxCls:'')+'">'+(maxQ>0?maxQ.toFixed(1):'—')+'</td>';
-      tbody+='</tr>';
+      if(armRMin===Infinity)armRMin=0;
+
+      /* 表头 */
+      var thead='<tr>'
+        +'<th class="tower-th t-th-mult">倍率</th>'
+        +radii.map(function(r){return'<th class="tower-th t-th-r">'+r+'</th>';}).join('')
+        +'<th class="tower-th t-th-max">最大<br>载荷(t)</th>'
+        +'</tr>';
+
+      /* 行：每个倍率一行 */
+      var tbody='';
+      for(var mi=0;mi<armMults.length;mi++){
+        var mult=armMults[mi];
+        var rawPts=(armData[String(mult)]||[]).slice().sort(function(a,b){return(a.radius||0)-(b.radius||0);});
+        var mMin=rawPts.length?(rawPts[0].radius||0):0;
+        var mMax=rawPts.length?(rawPts[rawPts.length-1].radius||0):0;
+        var rowMax=0;
+        var cells='';
+        for(var ri=0;ri<radii.length;ri++){
+          var rVal=radii[ri];
+          var q=towerInterp(arm,mult,rVal);
+          if(q!==null&&q>0){
+            if(q>rowMax)rowMax=q;
+            var cls=q>=armHi?'tower-cell hi':q>=armLo?'tower-cell mid':'tower-cell lo';
+            var pct=armMax>0?(q/armMax*100).toFixed(0):0;
+            cells+='<td class="'+cls+'" title="臂长'+arm+'m / '+mult+'× / 幅度'+rVal+'m / '+q.toFixed(1)+'t / 占臂长最大值'+pct+'%" style="font-weight:600">'+q.toFixed(1)+'</td>';
+          }else{
+            /* oob: 该半径超出此倍率的有效范围；na: 超出臂长整体范围 */
+            var oob=rVal>=armRMin&&rVal<=armRMax;
+            var cls=oob?'tower-cell t-na':'tower-cell oob';
+            cells+='<td class="'+cls+'">—</td>';
+          }
+        }
+        var maxCls=rowMax>=armHi?'tower-cell hi':rowMax>=armLo?'tower-cell mid':rowMax>0?'tower-cell lo':'tower-cell';
+        tbody+='<tr class="tower-row">'
+          +'<td class="tower-cell t-mult">'+mult+'×</td>'
+          +cells
+          +'<td class="tower-cell t-max '+(rowMax>0?maxCls:'')+'">'+(rowMax>0?rowMax.toFixed(1):'—')+'</td>'
+          +'</tr>';
+        totalRows++;
+      }
+
+      /* 每个臂长表格外层加标题 */
+      tablesHtml+='<div class="tower-sub-table-wrap">'
+        +'<div class="tower-sub-title">臂长 '+arm+'m <span class="tower-sub-meta">('+armMults.length+'种倍率 / '+radii.length+'个半径 / 有效范围 '+armRMin+'\u2013'+armRMax+'m)</span></div>'
+        +'<div class="perf-scroll"><table class="tower-perf-table"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table></div>'
+        +'</div>';
+    }
+
+    if(!tablesHtml){
+      el.innerHTML='<div style="color:var(--muted);text-align:center;padding:40px">无载荷数据</div>';
+      updateQBoomSelect();return;
     }
 
     el.innerHTML=''
       +'<div class="tower-info-bar">'
-      +'<span class="tinfo">'+dispArms.length+'种臂长 × '+mults.length+'种倍率 = '+rows.length+'行</span>'
+      +'<span class="tinfo">'+dispArms.length+'种臂长 × '+allMults.length+'种倍率 = '+totalRows+'行</span>'
       +'</div>'
-      +'<div class="perf-scroll">'
-      +'<table class="tower-perf-table"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table>'
-      +'</div>'
+      +tablesHtml
       +'<div class="perf-legend">'
       +'<span class="pl-hi">■ 高载荷（≥70%）</span>'
       +'<span class="pl-mid">■ 中载荷（35-70%）</span>'
       +'<span class="pl-lo">■ 低载荷（&lt;35%）</span>'
+      +'<span class="tower-cell t-na" style="cursor:default;display:inline-block;padding:2px 6px;border-radius:3px;margin-left:8px">—</span>'
+      +'<span class="tinfo" style="margin-left:4px">实心=该倍率有效范围内</span>'
       +'<span class="tower-cell oob" style="cursor:default;display:inline-block;padding:2px 6px;border-radius:3px;margin-left:8px">—</span>'
-      +'<span class="tinfo" style="margin-left:4px">虚线=超出该组合有效半径范围</span>'
+      +'<span class="tinfo" style="margin-left:4px">斜线=超出臂长有效范围</span>'
       +'<span class="tinfo" style="margin-left:16px">数据基于额定载荷，仅供参考</span>'
       +'</div>';
     updateQBoomSelect();return;
@@ -4808,15 +4823,19 @@ window.liftOnTypeChange = function(noSave) {
   var brandSel = document.getElementById('lift-crane-brand');
   var modelSel = document.getElementById('lift-crane');
   var selectedType = typeSel ? typeSel.value : '';
+  console.log('[liftOnTypeChange] selectedType=', selectedType, 'data.cranes.length=', data ? data.cranes.length : 'null');
   var selectedBrand = brandSel ? brandSel.value : '';
   var selectedModelId = modelSel ? parseInt(modelSel.value) : 0;
+  var previousType = window._previousLiftType || '';
 
   // ── 优化：type 值未变时跳过无意义的 cascade ─────────────────────
   // 防止用户选了同一类型下另一型号时，却把品牌+型号下拉清掉重建
-  if (modelSel && selectedModelId > 0) {
+  // Bug修复：必须同时检查 type 未变化，否则 brand 可能残留旧类型品牌
+  if (previousType === selectedType && modelSel && selectedModelId > 0) {
     var existingOption = Array.from(modelSel.options).some(function(o) { return parseInt(o.value) === selectedModelId; });
-    if (existingOption) return; // 型号仍在列表中，无需任何 cascade
+    if (existingOption) return; // 类型和型号都在，无需任何 cascade
   }
+  window._previousLiftType = selectedType;
 
   // 收集该类型下所有品牌
   var brands = {};
@@ -4830,6 +4849,7 @@ window.liftOnTypeChange = function(noSave) {
     }
   }
   var brandList = Object.keys(brands).sort();
+  console.log('[liftOnTypeChange] brands=', brandList, 'brandList.length=', brandList.length);
   var opts = '<option value="">— 品牌 —</option>';
   for (var j = 0; j < brandList.length; j++) {
     var b = brandList[j];
@@ -4869,6 +4889,7 @@ window.liftOnBrandChange = function(noSave) {
       }
     }
   }
+  console.log('[liftOnBrandChange] selectedType=', selectedType, 'selectedBrand=', selectedBrand, 'models.length=', models.length);
   var opts = '<option value="">— 型号 —</option>';
   for (var j = 0; j < models.length; j++) {
     var c = models[j];
@@ -5060,8 +5081,9 @@ function liftOnCraneChange() {
       if (newCondType) {
         condSel.value = newCondType;
         _liftCondType = newCondType;
-        // 取第一个工况说明作为默认
-        var firstCondDesc = Object.keys(lc[newCondType] || {})[0] || '';
+        // 取第一个工况说明作为默认（工况说明在第二层）
+        var firstCondTypeKey = Object.keys(lc[newCondType] || {})[0] || '';
+        var firstCondDesc = Object.keys((lc[newCondType] && lc[newCondType][firstCondTypeKey]) || {})[0] || '';
         _liftCondDesc = firstCondDesc;
       }
     }
@@ -5112,10 +5134,11 @@ function liftOnCraneChange() {
       return c.hook_weight!=null ? c.hook_weight.toFixed(3) : '待填';
     });
     var makeRow = function(rowLabel, data) {
-      var items = data.map(function(d){ return '<span class="lc-data-item"><span class="lc-data-label">'+d+'</span></span>'; });
-      return '<div class="lc-row"><span class="lc-row-label">'+rowLabel+'</span>' + items.join('') + '</div>';
+      var cells = data.map(function(d){ return '<td><span class="lc-data-label">'+d+'</span></td>'; });
+      return '<tr><td class="lc-row-label">'+rowLabel+'</td>' + cells.join('') + '</tr>';
     };
-    spTable.innerHTML = makeRow('额载（t）', loadVals) + makeRow('吊钩重量（t）', hookVals);
+    spTable.innerHTML = '<table class="lc-table"><tbody>' +
+      makeRow('额载（t）', loadVals) + makeRow('吊钩重量（t）', hookVals) + '</tbody></table>';
   }
   // 填充臂长选项（只显示可达臂长，与载荷性能表同步）
   // 塔吊：臂长来自 tower_load_charts（已在上面处理）
@@ -5349,13 +5372,14 @@ function renderLiftLoadChart(crane, radius, boomLen) {
     });
 
     var makeRow = function(rowLabel, data, valOnly) {
-      var items = data.map(function(d, i) {
-        var cls = (i === activeIdx && !valOnly) ? ' lc-data-active' : '';
-        return '<span class="lc-data-item' + cls + '">' + (valOnly ? '' : '<span class="lc-data-label">'+d+'</span>') + (valOnly ? d : '') + '</span>';
+      var cells = data.map(function(d, i) {
+        var cls = (i === activeIdx && !valOnly) ? ' class="lc-data-active"' : '';
+        return '<td' + cls + '>' + (valOnly ? '' : '<span class="lc-data-label">'+d+'</span>') + (valOnly ? d : '') + '</td>';
       });
-      return '<div class="lc-row"><span class="lc-row-label">'+rowLabel+'</span>' + items.join('') + '</div>';
+      return '<tr><td class="lc-row-label">'+rowLabel+'</td>' + cells.join('') + '</tr>';
     };
-    lcBody.innerHTML = makeRow('臂长', labels, false) + makeRow('额定起重量', values, true);
+    lcBody.innerHTML = '<table class="lc-table"><thead><tr><th class="lc-row-label"></th>' + labels.map(function(d){ return '<th>'+d+'</th>'; }).join('') + '</tr></thead><tbody>' +
+      makeRow('臂长 (m)', labels, false) + makeRow('额定起重量 (t)', values, true) + '</tbody></table>';
     lcEl.style.display = '';
     return;
   }
@@ -5435,13 +5459,14 @@ function renderLiftLoadChart(crane, radius, boomLen) {
   });
 
   var makeRow = function(rowLabel, data, valOnly) {
-    var items = data.map(function(d, i) {
-      var cls = (i === activeIdx && !valOnly) ? ' lc-data-active' : '';
-      return '<span class="lc-data-item' + cls + '">' + (valOnly ? '' : '<span class="lc-data-label">'+d+'</span>') + (valOnly ? d : '') + '</span>';
+    var cells = data.map(function(d, i) {
+      var cls = (i === activeIdx && !valOnly) ? ' class="lc-data-active"' : '';
+      return '<td' + cls + '>' + (valOnly ? '' : '<span class="lc-data-label">'+d+'</span>') + (valOnly ? d : '') + '</td>';
     });
-    return '<div class="lc-row"><span class="lc-row-label">'+rowLabel+'</span>' + items.join('') + '</div>';
+    return '<tr><td class="lc-row-label">'+rowLabel+'</td>' + cells.join('') + '</tr>';
   };
-  lcBody.innerHTML = makeRow('臂长 (m)', labels, false) + makeRow('额定起重量 (t)', values, true);
+  lcBody.innerHTML = '<table class="lc-table"><thead><tr><th class="lc-row-label"></th>' + labels.map(function(d){ return '<th>'+d+'</th>'; }).join('') + '</tr></thead><tbody>' +
+    makeRow('臂长 (m)', labels, false) + makeRow('额定起重量 (t)', values, true) + '</tbody></table>';
   lcEl.style.display = '';
 }
 
@@ -5569,13 +5594,18 @@ function liftOnCondChange() {
   if (jibWrap) jibWrap.style.display = isJib ? '' : 'none';
 
   if (isJib && condDescs.length) {
-    // 副臂长度 = 工况说明中提取 jib_length 字段
-    // 格式示例："主臂+副臂21.2m 超起350t" → 提取 21.2
+    // 副臂长度 = 从第四层数据行的 jib_length 字段提取（工况说明不含副臂长度数字）
     var jibLengths = [];
     for (var ki = 0; ki < condDescs.length; ki++) {
-      var desc = condDescs[ki];
-      var m = desc.match(/副臂(\d+\.?\d*)m/);
-      if (m) jibLengths.push(parseFloat(m[1]));
+      var condDesc = condDescs[ki];
+      var configGroups = lc[condType][condDesc] || {};
+      var cgKeys = Object.keys(configGroups);
+      for (var gi = 0; gi < cgKeys.length; gi++) {
+        var rows = configGroups[cgKeys[gi]] || [];
+        for (var ri = 0; ri < rows.length; ri++) {
+          if (rows[ri].jib_length != null) jibLengths.push(rows[ri].jib_length);
+        }
+      }
     }
     if (jibLengths.length === 0) jibLengths = condDescs.map(function(d){ return d; }); // fallback 用工况说明本身
     jibLengths = jibLengths.filter(function(v, i, a){ return a.indexOf(v) === i; }).sort(function(a,b){return a-b;});
@@ -5617,11 +5647,18 @@ function liftOnJibChange() {
     // 用副臂长度 + 工况类型 查找对应工况说明
     var jibVal = _liftJibLen;
     var lc = crane && crane.load_charts || {};
-    var descs = condType && lc[condType] ? Object.keys(lc[condType]) : [];
-    for (var i = 0; i < descs.length; i++) {
-      if (descs[i].indexOf('副臂'+jibVal+'m') >= 0 || descs[i].indexOf('副臂 '+(parseFloat(jibVal))+'m') >= 0) {
-        _liftCondDesc = descs[i];
-        break;
+    var condDescs = condType && lc[condType] ? Object.keys(lc[condType]) : [];
+    _liftCondDesc = '';
+    for (var i = 0; i < condDescs.length; i++) {
+      var configGroups = lc[condType][condDescs[i]] || {};
+      var cgKeys = Object.keys(configGroups);
+      for (var gi = 0; gi < cgKeys.length && !_liftCondDesc; gi++) {
+        var rows = configGroups[cgKeys[gi]] || [];
+        for (var ri = 0; ri < rows.length && !_liftCondDesc; ri++) {
+          if (rows[ri].jib_length != null && rows[ri].jib_length == jibVal) {
+            _liftCondDesc = condDescs[i];
+          }
+        }
       }
     }
   }
