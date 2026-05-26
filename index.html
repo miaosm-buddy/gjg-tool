@@ -1444,12 +1444,33 @@
             </select>
           </div>
         </div>
+        <!-- 工况选择（汽车吊/履带吊用） -->
+        <div class="form-group" id="lift-cond-wrap" style="display:none">
+          <label>工况类型</label>
+          <select id="lift-cond-sel" onchange="liftOnCondChange();saveFormData()">
+            <option value="">— 工况 —</option>
+          </select>
+        </div>
+        <!-- 副臂长度（主副臂工况时显示） -->
+        <div class="form-group" id="lift-jib-wrap" style="display:none">
+          <label>副臂长度</label>
+          <select id="lift-jib-sel" onchange="liftOnJibChange();saveFormData()">
+            <option value="">— 副臂 —</option>
+          </select>
+        </div>
+        <!-- 倍率选择（塔吊用） -->
+        <div class="form-group" id="lift-mult-wrap" style="display:none">
+          <label>倍率</label>
+          <select id="lift-mult-sel" onchange="liftOnMultChange();saveFormData()">
+            <option value="">— 自动 —</option>
+          </select>
+        </div>
         <div class="lift-crane-info" id="liftCraneInfo" style="display:none">
           <div class="lp-item"><span class="lp-l">机械型号</span><span class="lp-v" id="liftCraneModel">—</span></div>
           <div class="lp-item"><span class="lp-l">额定起重量</span><span class="lp-v" id="liftCraneRated">—</span></div>
         </div>
         <div class="lift-load-chart" id="liftLoadChart" style="display:none">
-          <div class="sp-header">📊 载荷性能表（半径 <span id="lcRadiusVal">—</span> m）</div>
+          <div class="sp-header">📊 载荷性能表</div>
           <div id="liftLoadChartBody"></div>
         </div>
         <div class="lift-spreader-info" id="liftSpreaderInfo" style="display:none">

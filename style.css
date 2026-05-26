@@ -489,6 +489,20 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
   padding: 0 8px;
 }
 
+/* ── 吊装参数 — 工况/副臂/倍率选择器 ─────────────────────────── */
+#lift-cond-wrap,
+#lift-jib-wrap,
+#lift-mult-wrap {
+  margin-top: 8px;
+}
+#lift-cond-wrap select,
+#lift-jib-wrap select,
+#lift-mult-wrap select {
+  font-size: 13px;
+  height: 36px;
+  padding: 0 8px;
+}
+
 /* ── 按钮 ───────────────────────────────── */
 .btn {
   padding: 0 24px;
@@ -781,6 +795,14 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 .tower-cell.hi  { background: rgba(207,34,46,0.15); color: var(--red); }
 .tower-cell.mid { background: rgba(154,103,0,0.12); color: var(--yellow); }
 .tower-cell.lo  { background: rgba(94,106,210,0.08); color: var(--accent-glow); }
+/* 超有效范围的格子（塔吊性能表） */
+.tower-cell.oob {
+  color: var(--text-muted) !important;
+  font-weight: 400 !important;
+  border: 1px dashed rgba(136,135,128,0.4) !important;
+  background: rgba(136,135,128,0.05) !important;
+  cursor: default;
+}
 
 /* ── 工况选择器 ─────────────────────────── */
 .cond-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
@@ -1863,12 +1885,13 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 /* 载荷性能表 */
 .lift-load-chart { padding: 14px 0 4px; }
 .lift-load-chart .sp-header { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-.lift-lc-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.lift-lc-table th { text-align: center; padding: 6px 10px; background: var(--bg-surface); color: var(--text-muted); font-weight: 700; font-size: 13px; border-bottom: 2px solid var(--border-standard); }
-.lift-lc-table td { text-align: center; padding: 5px 10px; color: var(--text-primary); border-bottom: 1px solid var(--border-subtle); }
-.lift-lc-table tr:last-child td { border-bottom: none; }
-.lift-lc-table tr.lc-row-active td { background: rgba(25, 118, 210, 0.08); color: var(--accent); font-weight: 600; }
-.lift-lc-table td:first-child { font-weight: 600; }
+/* 行排布局（载荷性能表 + 吊具参数共用） */
+.lc-row { display: flex; align-items: center; gap: 4px; padding: 3px 0; }
+.lc-row-label { font-size: 12px; font-weight: 700; color: var(--text-muted); min-width: 72px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.04em; }
+.lc-data-item { display: inline-flex; flex-direction: column; align-items: center; min-width: 52px; padding: 5px 6px; border-radius: var(--radius); border: 1px solid var(--border-standard); background: var(--bg-surface); font-size: 12px; flex-shrink: 0; gap: 2px; }
+.lc-data-item.lc-data-active { border-color: var(--accent); background: rgba(25,118,210,0.08); }
+.lc-data-label { font-weight: 600; color: var(--text-primary); }
+.lc-data-item.lc-data-active .lc-data-label { color: var(--accent); }
 .lift-calc-summary { background: var(--bg-surface); border: 1px solid var(--border-standard); border-radius: var(--radius); padding: 16px; margin-top: 12px; font-size: 14px; }
 .lift-table-wrap {
   overflow-x: auto;
