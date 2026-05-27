@@ -652,8 +652,15 @@ function toggleParamHelp(){
   btn.classList.toggle('active',isOpen);
   btn.setAttribute('aria-expanded',isOpen);
   // 同步清理/恢复 inline 样式，避免与 CSS 冲突
-  if(isOpen){ wrap.style.maxHeight='700px'; wrap.style.opacity='1'; }
-  else{ wrap.style.maxHeight=''; wrap.style.opacity=''; }
+  if(isOpen){
+    wrap.style.display='block';
+    wrap.style.maxHeight='700px';
+    wrap.style.opacity='1';
+  }else{
+    wrap.style.display='none';
+    wrap.style.maxHeight='';
+    wrap.style.opacity='';
+  }
 }
 
 /* ── 侧边栏折叠/展开（CSS 接管布局，JS 只负责 class 切换）─── */
@@ -790,9 +797,7 @@ function toggleScenario(s){
   document.getElementById('svgSceneA').style.display = s==='A' ? '' : 'none';
   document.getElementById('svgSceneB').style.display = (s==='B') ? '' : 'none';
   document.getElementById('svgSceneC').style.display = (s==='C') ? '' : 'none';
-  // 确保参数示意图容器直接可见（不依赖 CSS transition，不依赖 .open 类）
-  var pw=document.getElementById('paramDiagramWrap');
-  if(pw){ pw.style.maxHeight='700px'; pw.style.opacity='1'; }
+  // 切换场景时只切换 SVG，不操作示意图显隐（由用户手动点击"参数示意图"按钮控制）
 }
 
 function doSelect(){
@@ -858,11 +863,12 @@ function doSelect(){
               rated: result.rated,
               eff: w/result.rated*100,
               boomLen: result.mainBoom,
-              boomNote: '臂' + armLen + 'm × ' + mult + '倍率' + (result.note||''),
+              boomNote: '臂' + armLen + 'm × ' + mult + '倍率 · ' + (result.note||''),
               hMax: result.hMax,
               hReach: result.hReach,
               jibInfo: result.jibInfo || '',
-              collision: result.collision || null
+              collision: result.collision || null,
+              nextBoomMaxRated: result.nextBoomMaxRated || null
             });
             found = true;
           }
@@ -882,8 +888,8 @@ function doSelect(){
 
     // ===== 汽车吊 / 履带吊分支 =====
     // 场景决定尝试哪些工况类型：
-    //   场景A（无建筑物）：main_boom → super_lift → 全部（降级）
-    //   场景B（有建筑物，主臂）：main_boom + super_lift（不降级到jib，因为jib不适于有建筑物场景）
+    //   场景A（无建筑物）：main_boom → super_lift（不做降级，无数据则不推荐）
+    //   场景B（有建筑物，主臂）：main_boom + super_lift
     //   场景C（有建筑物，副臂）：jib_boom / jib_superlift / tower_jib_superlift（排除main_boom）
     var workModes;
     if(_curScenario === 'C'){
@@ -905,24 +911,21 @@ function doSelect(){
       }
     }
 
-    // 场景A：main_boom/super_lift均无数据，降级尝试所有工况
-    if(!result && _curScenario === 'A'){
-      pts = getCranePoints(c, null, null, null);
-      if(pts.length){
-        result = findBestConfig(pts, c, R, hRequired, req, d, hBuilding, Hc, hInstall);
-      }
-    }
-
+    // 场景A：严格限制为main_boom/super_lift，不做降级（无数据则不推荐该机械）
+    // 场景B：同样仅限main_boom/super_lift
+    // 场景C：专用于副臂工况（jib_boom/jib_superlift/tower_jib_superlift）
     if(result){
       list.push({c:c,rated:result.rated,eff:w/result.rated*100,
         boomLen:result.mainBoom,boomNote:result.note,
         hMax:result.hMax,hReach:result.hReach,jibInfo:result.jibInfo,
-        collision:result.collision||null});
+        collision:result.collision||null,
+        nextBoomMaxRated:result.nextBoomMaxRated||null});
     }else if((!pts || !pts.length) && c.max_load_t){
       // 无载荷表，用 max_load_t 估算
-      var estRated=c.max_load_t*0.6;
-      if(estRated>=req)list.push({c:c,rated:estRated,eff:w/estRated*100,
-        boomLen:null,boomNote:'（载荷表无数据，仅估算）',hMax:null,hReach:null,jibInfo:''});
+      // 但如果载荷表完全为空（!pts），说明该工况在载荷表中没有记录，不可靠，不推荐
+      // 只有在 pts 有数据但目标半径刚好没有匹配数据点时，才用估算（此时其他工况也大概率不行）
+      // 因此：载荷表无匹配数据时，直接跳过，不用估算（避免给出不可靠推荐）
+      continue;
     }
   }
 
@@ -961,6 +964,11 @@ function doSelect(){
       var hTag=item.hMax>=hRequired?'✓':'⚡';
       heightNote='<span class="h-note" title="最大吊高:'+item.hMax.toFixed(1)+'m 需求:'+hRequired.toFixed(1)+'m">'+hTag+'</span>';
     }
+    // 上一级臂长最大起重量标注
+    var nextBoomNote='';
+    if(item.nextBoomMaxRated){
+      nextBoomNote='<span class="next-boom-note" title="臂长'+item.nextBoomMaxRated.boom+'m在R='+R+'m时最大起重量">↑'+item.nextBoomMaxRated.boom+'m最大'+item.nextBoomMaxRated.rated.toFixed(1)+'t</span>';
+    }
     // 碰撞标识
     var collisionNote='';
     var rowClass='';
@@ -980,7 +988,7 @@ function doSelect(){
       +'<div class="res-model">'+esc(item.c.model||'')+'</div>'
       +'<div class="res-brand">'+esc(item.c.brand||'')+'</div>'
       +'<div class="res-type"><span class="badge '+typeClass(item.c.type||'')+'">'+esc(item.c.type||'')+'</span></div>'
-      +'<div class="res-boom">'+esc(item.boomNote||'')+heightNote+' '+collisionNote+'</div>'
+      +'<div class="res-boom">'+esc(item.boomNote||'')+heightNote+' '+collisionNote+'<br>'+nextBoomNote+'</div>'
       +'<div class="res-rated">'+item.rated.toFixed(1)+' t</div>'
       +'<div>'+effBadge(eff)+'</div>'
       +'<div class="res-max">'+(item.c.max_load_t||'—')+' t</div>'
@@ -1104,7 +1112,10 @@ function findBestConfig(pts,c,R,hReq,req,d,H_b,Hc,hInstall){
 
     // 满足所有条件，选最短主臂
     var note=[];
-    if(hReq>0)note.push('h='+hMax.toFixed(1)+'m');
+    // note始终显示臂长信息，高度作为附加说明
+    var boomLabel=Ljib>0?'副臂'+Ljib+'m∠'+angJib+'°':'主臂'+L1+'m';
+    if(hReq>0)note.push(boomLabel+' h='+hMax.toFixed(1)+'m');
+    else note.push(boomLabel);
 
     // 碰撞校核：计算该配置的吊臂实际仰角
     var collision=null;
@@ -1118,9 +1129,25 @@ function findBestConfig(pts,c,R,hReq,req,d,H_b,Hc,hInstall){
                  d:collisionInput.d,H_b:collisionInput.H_b};
     }
 
+    // 查找"上一级臂长"（比当前臂长长的下一个配置）的最大起重量
+    var nextBoomMaxRated=null;
+    if(ki+1<keys.length){
+      var nextCfg=configs[keys[ki+1]];
+      var nextRows=nextCfg.rows;
+      var nextMax=0;
+      for(var nri=0;nri<nextRows.length;nri++){
+        var np=nextRows[nri];
+        if(Math.abs((np.radius||0)-R)<0.5){
+          nextMax=Math.max(nextMax,np.rated_load||0);
+        }
+      }
+      if(nextMax>0)nextBoomMaxRated={boom:nextCfg.L1,rated:nextMax};
+    }
+
     best={mainBoom:L1,rated:ratedAtR,
-          note:note.join(' · ')||(Ljib>0?'副臂'+Ljib+'m∠'+angJib+'°':'主臂'+L1+'m'),
-          hMax:hMax,hReach:R,jibInfo:jibInfo,collision:collision};
+          note:note.join(' · '),
+          hMax:hMax,hReach:R,jibInfo:jibInfo,collision:collision,
+          nextBoomMaxRated:nextBoomMaxRated};
     break;  // 已按主臂长升序，第一个就是最短的
   }
   return best;
@@ -2108,6 +2135,8 @@ document.addEventListener('DOMContentLoaded',function(){
       }
     });
     sp('home');
+    // 初始化场景 SVG 显隐（首次加载时清除 svgSceneA 的 display:none）
+    toggleScenario(_curScenario);
     // 恢复侧边栏折叠状态（CSS sibling selector 接管布局）
     if(localStorage.getItem('sidebar_collapsed')==='true'){
       _sidebarCollapsed=true;
