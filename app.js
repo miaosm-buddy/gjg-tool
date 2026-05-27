@@ -558,8 +558,12 @@ function onData(){
     buildMap(); mergeUserCranes();
     var chartCount=0;
     for(var i=0;i<data.cranes.length;i++){
-      var lc=data.cranes[i].load_charts||{};
-      for(var t in lc)for(var c in lc[t])for(var g in lc[t][c]) chartCount+=(lc[t][c][g]||[]).length;
+      var c=data.cranes[i];
+      var lc=c.load_charts||{};
+      for(var t in lc)for(var c2 in lc[t])for(var g in lc[t][c2]) chartCount+=(lc[t][c2][g]||[]).length;
+      // 塔吊载荷表
+      var tlc=c.tower_load_charts||{};
+      for(var arm in tlc)for(var mult in tlc[arm]) chartCount+=(tlc[arm][mult]||[]).length;
     }
     setText('badge',data.cranes.length+' 台机型 · '+chartCount+' 条载荷表');
     renderStats(); renderLib(1);
@@ -587,7 +591,10 @@ function renderStats(){
   var byType={},total=data.cranes.length;
   data.cranes.forEach(function(c){var t=c.type||'其他';if(!byType[t])byType[t]=0;byType[t]++;});
   var withChart=0;
-  for(var i=0;i<data.cranes.length;i++){var lc=data.cranes[i].load_charts||{};if(Object.keys(lc).length>0)withChart++;}
+  for(var i=0;i<data.cranes.length;i++){
+    var c=data.cranes[i];
+    if((c.load_charts&&Object.keys(c.load_charts).length>0)||(c.tower_load_charts&&Object.keys(c.tower_load_charts).length>0)) withChart++;
+  }
   var html='',ci=0,colors=['','green','purple','yellow','','green'];
   for(var t in byType){
     var color=colors[ci%colors.length]||'';
@@ -644,6 +651,9 @@ function toggleParamHelp(){
   var isOpen=wrap.classList.toggle('open');
   btn.classList.toggle('active',isOpen);
   btn.setAttribute('aria-expanded',isOpen);
+  // 同步清理/恢复 inline 样式，避免与 CSS 冲突
+  if(isOpen){ wrap.style.maxHeight='700px'; wrap.style.opacity='1'; }
+  else{ wrap.style.maxHeight=''; wrap.style.opacity=''; }
 }
 
 /* ── 侧边栏折叠/展开（CSS 接管布局，JS 只负责 class 切换）─── */
@@ -780,6 +790,9 @@ function toggleScenario(s){
   document.getElementById('svgSceneA').style.display = s==='A' ? '' : 'none';
   document.getElementById('svgSceneB').style.display = (s==='B') ? '' : 'none';
   document.getElementById('svgSceneC').style.display = (s==='C') ? '' : 'none';
+  // 确保参数示意图容器直接可见（不依赖 CSS transition，不依赖 .open 类）
+  var pw=document.getElementById('paramDiagramWrap');
+  if(pw){ pw.style.maxHeight='700px'; pw.style.opacity='1'; }
 }
 
 function doSelect(){
@@ -1542,14 +1555,13 @@ function renderPerfTable(){
       armMults=_dCurTowerMult?(armMults.filter(function(m){return String(m)===String(_dCurTowerMult);})):armMults;
       if(!armMults.length)continue;
 
-      /* 该臂长的半径列：收集所有倍率数据点，仅保留 ≥25m 的整半值 */
+      /* 该臂长的半径列：收集所有倍率数据中的原始半径值（不去整，不过滤） */
       var radiusSet={};
       for(var mk in armData){
         var pts=armData[mk]||[];
         for(var pi=0;pi<pts.length;pi++){
           if(pts[pi].radius!=null){
-            var r=Math.round(pts[pi].radius*2)/2;
-            if(r>=25)radiusSet[r]=true;
+            radiusSet[pts[pi].radius]=true;
           }
         }
       }
@@ -1641,7 +1653,8 @@ function renderPerfTable(){
       +'<span class="tower-cell oob" style="cursor:default;display:inline-block;padding:2px 6px;border-radius:3px;margin-left:8px">—</span>'
       +'<span class="tinfo" style="margin-left:4px">斜线=超出臂长有效范围</span>'
       +'<span class="tinfo" style="margin-left:16px">数据基于额定载荷，仅供参考</span>'
-      +'</div>';
+      +'</div>'
+      +(cur.remark?('<div class="tower-remark-bar">&#x1F4A1; 备注：'+cur.remark.replace(/\n/g,'<br>')+'</div>'):'');
     updateQBoomSelect();return;
   }
   /* ── 汽车吊/履带吊/随车吊 分支（原有逻辑）─────────── */

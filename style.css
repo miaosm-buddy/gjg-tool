@@ -778,6 +778,7 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 /* ── 塔吊性能表（新格式：行=臂长×倍率，列=吊装半径）── */
 .tower-info-bar { display: flex; gap: 12px; align-items: center; padding: 8px 4px 4px; font-size: 12px; color: var(--text-muted); }
 .tinfo { color: var(--text-muted); font-size: 12px; }
+.tower-remark-bar { margin-top: 12px; padding: 10px 14px; background: #fffbeb; border: 1px solid #f59e0b; border-radius: 6px; font-size: 12px; color: #92400e; line-height: 1.6; }
 .tower-perf-table { border-collapse: collapse; font-size: 13px; min-width: 100%; white-space: nowrap; }
 .tower-perf-table thead tr { position: sticky; top: 0; z-index: 2; }
 .tower-th { background: var(--bg-primary); padding: 8px 10px; border: 1px solid var(--border-standard); text-align: center; font-weight: 700; color: var(--text-primary); font-size: 12px; white-space: nowrap; position: relative; }
