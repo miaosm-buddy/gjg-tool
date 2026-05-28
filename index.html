@@ -1699,6 +1699,26 @@
       </div><!-- /.lift-card-body -->
     </div>
 
+    <!-- 存档工具栏 -->
+    <div class="dc-archive-toolbar" id="dc-archive-toolbar">
+      <button class="btn btn-outline btn-sm" onclick="diaociShowSaveModal()" style="font-size:13px">&#x1F4BE; 存档</button>
+      <span class="dc-arch-empty">暂无存档</span>
+    </div>
+    <!-- 存档保存弹窗 -->
+    <div class="dc-modal" id="dc-archive-save-modal" style="display:none">
+      <div class="dc-modal-box">
+        <div class="dc-modal-title">保存方案</div>
+        <div class="dc-modal-body">
+          <label class="dc-modal-label">方案名称</label>
+          <input type="text" id="dc-archive-name-input" class="dc-modal-input" placeholder="例如：1#办公楼钢结构" maxlength="50" onkeydown="if(event.key==='Enter')diaociSaveArchive(document.getElementById('dc-archive-name-input').value)">
+        </div>
+        <div class="dc-modal-footer">
+          <button class="btn btn-primary btn-sm" onclick="diaociSaveArchive(document.getElementById('dc-archive-name-input').value)">保存</button>
+          <button class="btn btn-outline btn-sm" onclick="diaociHideSaveModal()">取消</button>
+        </div>
+      </div>
+    </div>
+
     <!-- 吊次数据表 -->
     <div class="dc-card lift-card">
       <h3 class="lift-card-title">📦 构件吊次

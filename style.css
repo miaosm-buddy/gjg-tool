@@ -913,6 +913,28 @@ h4 { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform
 .dc-card.collapsed .lift-card-title { margin-bottom: 0; }
 .dc-card.collapsed .dc-card-desc { display: none; }
 
+/* ── 吊次分析 — 存档工具栏 ───────────────────────── */
+.dc-archive-toolbar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: rgba(94,106,210,0.06); border: 1px dashed rgba(94,106,210,0.3); border-radius: 10px; flex-wrap: wrap; min-height: 40px; }
+.dc-arch-empty { font-size: 12px; color: var(--text-muted); }
+.dc-arch-list { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.dc-arch-list-title { font-size: 11px; color: var(--text-muted); margin-right: 2px; }
+.dc-arch-item { display: inline-flex; align-items: center; gap: 4px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 3px 6px; font-size: 12px; }
+.dc-arch-name { color: var(--accent); cursor: pointer; font-weight: 500; }
+.dc-arch-name:hover { text-decoration: underline; }
+.dc-arch-date { color: var(--text-muted); font-size: 11px; }
+.dc-arch-del { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 11px; padding: 0 2px; border-radius: 3px; }
+.dc-arch-del:hover { color: #ef4444; background: rgba(239,68,68,0.1); }
+
+/* ── 吊次分析 — 存档弹窗 ───────────────────────── */
+.dc-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+.dc-modal-box { background: var(--bg-surface); border-radius: 14px; padding: 24px; width: 380px; max-width: 90vw; box-shadow: 0 20px 60px rgba(0,0,0,0.25); display: flex; flex-direction: column; gap: 16px; }
+.dc-modal-title { font-size: 17px; font-weight: 600; color: var(--text-primary); }
+.dc-modal-body { display: flex; flex-direction: column; gap: 8px; }
+.dc-modal-label { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+.dc-modal-input { width: 100%; padding: 9px 12px; border: 1px solid var(--border-strong, #d1d5db); border-radius: 8px; font-size: 14px; background: var(--bg-surface); color: var(--text-primary); outline: none; box-sizing: border-box; }
+.dc-modal-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(94,106,210,0.15); }
+.dc-modal-footer { display: flex; gap: 10px; justify-content: flex-end; }
+
 .lift-layout { display: flex; flex-direction: column; gap: 16px; }
 .lift-left { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .lift-right { display: flex; flex-direction: column; gap: 16px; }

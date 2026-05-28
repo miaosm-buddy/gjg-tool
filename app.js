@@ -7472,6 +7472,7 @@ function initDiaoci() {
   diaociRenderRows();
   diaociCalc();
   diaociRenderEffTable();
+  diaociRenderArchiveToolbar(); // 渲染存档工具栏
 }
 
 // ── Tab切换 ────────────────────────────────────────────────
@@ -8358,6 +8359,102 @@ function diaociDelEffRow(idx) {
   toast('已删除');
 }
 
+
+/* ════════════════════════════════════════════════════
+   吊次分析 — 方案存档
+═══════════════════════════════════════════════════ */
+var _dcArchiveRegKey = 'diaoci_archive_reg';
+
+function diaociGetArchiveList() {
+  try { return JSON.parse(localStorage.getItem(_dcArchiveRegKey) || '[]'); }
+  catch(e) { return []; }
+}
+
+function diaociSaveArchive(name) {
+  name = (name || '').trim();
+  if(!name) { toast('请输入方案名称'); return; }
+  var state = {
+    machines: JSON.parse(JSON.stringify(_diaoci.machines)),
+    rows: JSON.parse(JSON.stringify(_diaoci.rows)),
+    k_weather: parseFloat((document.getElementById('diaoci-k-weather')||{value:1.2}).value) || 1.2,
+    k_util:    parseFloat((document.getElementById('diaoci-k-util')||{value:0.8}).value)    || 0.8,
+    hours:     parseFloat((document.getElementById('diaoci-hours')||{value:10}).value)     || 10,
+    k_other:   parseFloat((document.getElementById('diaoci-k-other')||{value:0.1}).value)   || 0.1,
+    ts: Date.now()
+  };
+  localStorage.setItem('diaoci_archive_' + name, JSON.stringify(state));
+  // 更新注册表
+  var list = diaociGetArchiveList().filter(function(a){ return a.name !== name; });
+  list.unshift({ name: name, ts: state.ts });
+  localStorage.setItem(_dcArchiveRegKey, JSON.stringify(list));
+  diaociHideSaveModal();
+  diaociRenderArchiveToolbar();
+  toast('方案「' + name + '」已保存');
+}
+
+function diaociLoadArchive(name) {
+  try {
+    var raw = localStorage.getItem('diaoci_archive_' + name);
+    if(!raw) { toast('方案不存在'); return; }
+    var state = JSON.parse(raw);
+    _diaoci.machines = JSON.parse(JSON.stringify(state.machines));
+    _diaoci.rows     = JSON.parse(JSON.stringify(state.rows));
+    document.getElementById('diaoci-k-weather').value = state.k_weather || 1.2;
+    document.getElementById('diaoci-k-util').value    = state.k_util    || 0.8;
+    document.getElementById('diaoci-hours').value     = state.hours     || 10;
+    document.getElementById('diaoci-k-other').value  = state.k_other   || 0.1;
+    diaociRenderMachines();
+    diaociRenderRows();
+    diaociCalc();
+    diaociRenderArchiveToolbar();
+    toast('已加载方案「' + name + '」');
+  } catch(e) { toast('加载失败：' + e.message); }
+}
+
+function diaociDeleteArchive(name) {
+  if(!confirm('确认删除方案「' + name + '」？')) return;
+  localStorage.removeItem('diaoci_archive_' + name);
+  var list = diaociGetArchiveList().filter(function(a){ return a.name !== name; });
+  localStorage.setItem(_dcArchiveRegKey, JSON.stringify(list));
+  diaociRenderArchiveToolbar();
+  toast('已删除方案「' + name + '」');
+}
+
+function diaociShowSaveModal() {
+  var modal = document.getElementById('dc-archive-save-modal');
+  var input = document.getElementById('dc-archive-name-input');
+  if(modal) { modal.style.display='flex'; }
+  if(input) { input.value=''; input.focus(); }
+}
+
+function diaociHideSaveModal() {
+  var modal = document.getElementById('dc-archive-save-modal');
+  if(modal) modal.style.display='none';
+}
+
+function diaociRenderArchiveToolbar() {
+  var wrap = document.getElementById('dc-archive-toolbar');
+  if(!wrap) return;
+  var list = diaociGetArchiveList();
+  if(!list.length) {
+    wrap.innerHTML = '<button class="btn btn-outline btn-sm" onclick="diaociShowSaveModal()" style="font-size:13px">&#x1F4BE; 存档</button><span class="dc-arch-empty">暂无存档</span>';
+    return;
+  }
+  var html = '<button class="btn btn-outline btn-sm" onclick="diaociShowSaveModal()" style="font-size:13px">&#x1F4BE; 存档</button>';
+  html += '<div class="dc-arch-list">';
+  html += '<div class="dc-arch-list-title">已存方案</div>';
+  list.forEach(function(a) {
+    var d = new Date(a.ts);
+    var dateStr = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    html += '<div class="dc-arch-item">';
+    html += '<span class="dc-arch-name" onclick="diaociLoadArchive(\'' + a.name.replace(/'/g,"\\'") + '\')" title="点击加载">' + a.name + '</span>';
+    html += '<span class="dc-arch-date">' + dateStr + '</span>';
+    html += '<button class="dc-arch-del" onclick="diaociDeleteArchive(\'' + a.name.replace(/'/g,"\\'") + '\')" title="删除">&#x2715;</button>';
+    html += '</div>';
+  });
+  html += '</div>';
+  wrap.innerHTML = html;
+}
 
 /* ════════════════════════════════════════════════════
    吊次分析 — 导出计算表（打印模板）
