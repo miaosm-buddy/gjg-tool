@@ -4993,6 +4993,7 @@ function flSegPfSelect(val, text) {
     var existingCrane = document.getElementById('lift-crane');
     if (existingCrane && existingCrane.value) {
       liftOnCraneChange();
+      showAutoSegModal();
     }
   }
 }
