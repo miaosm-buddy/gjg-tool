@@ -5169,18 +5169,22 @@ function liftOnCraneChange() {
   } else {
     if (spInfo) spInfo.style.display = '';
     var sorted = sp.slice().sort(function(a,b){ return (a.rated_load||0)-(b.rated_load||0); });
-    var loadVals = sorted.map(function(c){
-      return c.rated_load_str || (c.rated_load!=null ? c.rated_load : '—');
+    // 行排：首行为规格名（额载值），后续各行 label+数据
+    var spNames = sorted.map(function(c, idx){
+      return '<td class="lc-data-label" style="font-size:13px;font-weight:700;color:var(--text-secondary);min-width:64px;">' + (c.rated_load!=null ? c.rated_load+'t' : '—') + '</td>';
     });
     var hookVals = sorted.map(function(c){
       return c.hook_weight!=null ? c.hook_weight.toFixed(3) : '待填';
     });
-    var makeRow = function(rowLabel, data) {
+    var makeRow2 = function(rowLabel, data) {
       var cells = data.map(function(d){ return '<td><span class="lc-data-label">'+d+'</span></td>'; });
       return '<tr><td class="lc-row-label">'+rowLabel+'</td>' + cells.join('') + '</tr>';
     };
     spTable.innerHTML = '<table class="lc-table"><tbody>' +
-      makeRow('额载（t）', loadVals) + makeRow('吊钩重量（t）', hookVals) + '</tbody></table>';
+      '<tr><td class="lc-row-label" style="background:var(--bg-surface);"></td>' + spNames.join('') + '</tr>' +
+      makeRow2('额载（t）', sorted.map(function(c){ return c.rated_load_str || (c.rated_load!=null ? c.rated_load : '—'); })) +
+      makeRow2('吊钩重量（t）', hookVals) +
+      '</tbody></table>';
   }
   // 填充臂长选项（只显示可达臂长，与载荷性能表同步）
   // 塔吊：臂长来自 tower_load_charts（已在上面处理）
@@ -5299,7 +5303,11 @@ function _refreshLiftCranePanel() {
       var items = data.map(function(d){ return '<span class="lc-data-item"><span class="lc-data-label">'+d+'</span></span>'; });
       return '<div class="lc-row"><span class="lc-row-label">'+rowLabel+'</span>' + items.join('') + '</div>';
     };
-    spTable.innerHTML = makeRow('额载（t）', loadVals) + makeRow('吊钩重量（t）', hookVals);
+    var spHeader = '<div class="lc-row" style="margin-bottom:4px;">' +
+      '<span class="lc-row-label" style="background:var(--bg-surface);color:var(--text-secondary);"></span>' +
+      sorted.map(function(c){ return '<span class="lc-data-item"><span class="lc-data-label" style="font-size:13px;font-weight:700;color:var(--text-secondary);">'+(c.rated_load!=null?c.rated_load+'t':'—')+'</span></span>'; }).join('') +
+      '</div>';
+    spTable.innerHTML = spHeader + makeRow('额载（t）', loadVals) + makeRow('吊钩重量（t）', hookVals);
   }
 
   // ── 臂长下拉（只显示可达臂长，与载荷性能表同步）────────────────
@@ -5972,6 +5980,54 @@ function _buildSegsOptimalDP(FL_DATA, FLOOR_OFFSET, sec, amp, cap) {
     console.log('[DEBUG evalForm] ✅ ' + formKey + ' @ floor' + startFloor + ': PASSES all checks (segLens=' + segLens.map(function(x){return x.toFixed(2);}).join(',') + ')');
     return { segLens: segLens, nextFloor: startFloor + floorsPerSeg };
   }
+
+  // ── 优先：找第一个（最粗的）能贯穿全楼的单形式 ──
+  // 按 3-1→2-1→1-1→1-2→1-3 顺序，
+  // 找到第一个在所有组位置都满足「段长≤17.5m 且 效率≤90%」的 form
+  outerSingle:
+  for (var sfi = 0; sfi < SEG_FORM_ORDER.length; sfi++) {
+    var sfFormKey = SEG_FORM_ORDER[sfi];
+    var sfP = parseSegForm(sfFormKey);
+    if (sfP.floorsPerSeg >= 4) continue; // 跳过 >=4层/段
+    var sfCurFloor = 0;
+    var sfAllSegLens = [];
+    var sfWorks = true;
+    while (sfCurFloor < nFloors) {
+      var sfRes = evalForm(sfFormKey, sfCurFloor);
+      if (!sfRes) { sfWorks = false; break; }
+      sfAllSegLens.push(sfRes.segLens);
+      sfCurFloor += sfP.floorsPerSeg;
+    }
+    if (!sfWorks) continue;
+    // 找到首个全楼可行的 form → 直接用此形式构建
+    console.warn('[DEBUG _buildSegsOptimalDP] ★ 单形式全楼可行: ' + sfFormKey + ' (共' + Math.ceil(nFloors / sfP.floorsPerSeg) + '组)');
+    var sfSegs = [];
+    var sfFloor = 0;
+    for (var sgi = 0; sgi < sfAllSegLens.length; sgi++) {
+      for (var ssli = 0; ssli < sfAllSegLens[sgi].length; ssli++) {
+        var ssl = sfAllSegLens[sgi][ssli];
+        sfSegs.push({
+          name: '',
+          length: Math.round(ssl * 100) / 100,
+          floorStart: sfFloor + ssli / sfP.segsPerFloor,
+          floorEnd: Math.min(sfFloor + (ssli + 1) / sfP.segsPerFloor, nFloors),
+          isFirstSegOfCol: sfSegs.length === 0
+        });
+      }
+      sfFloor += sfP.floorsPerSeg;
+    }
+    _assignSegNames(sfSegs);
+    var sfGroups = Math.ceil(nFloors / sfP.floorsPerSeg);
+    var sfLabels = { '3-1': '三层一段', '2-1': '两层一段', '1-1': '一层一段', '1-2': '一层两段', '1-3': '一层三段' };
+    console.log('[DEBUG _buildSegsOptimalDP] ✅ 单形式全楼分段: ' + (sfLabels[sfFormKey] || sfFormKey) + '×' + sfGroups + '组 = ' + sfSegs.length + '段');
+    return {
+      segs: sfSegs,
+      formKey: 'adaptive',
+      formSummary: (sfLabels[sfFormKey] || sfFormKey) + '×' + sfGroups + '组',
+      totalGroups: sfGroups
+    };
+  }
+  // 所有单形式均无法贯穿全楼 → fallback 到 DP 混合策略
 
   // ── DP：从下往上计算最优分段 ──
   // dp[i] = { groupCount, negAvgLen, formKey, segLens, nextFloor, floorsPerSeg }
@@ -6801,7 +6857,7 @@ function liftCalc() {
       '<td class="num">' + segLen.toFixed(2) + '</td>' +
       '<td class="num">' + selfWt.toFixed(2) + '</td>' +
       '<td><input type="number" class="lift-w-input" data-idx="' + j + '" value="' + totalWt.toFixed(2) + '" step="0.01" min="0" oninput="liftRecalcEff(this)"></td>' +
-      '<td class="crane-cell" id="lc_c' + j + '">' + (crane ? escHtml((crane.brand||'') + ' ' + (crane.model||'')) : '—') + '</td>' +
+      '<td class="crane-cell" id="lc_c' + j + '">' + (crane ? (crane.type === '塔吊' ? escHtml((crane.brand||'') + ' ' + (crane.model||'')) : Math.round(crane.max_load_t) + 't' + escHtml(crane.type||'')) : '—') + '</td>' +
       '<td class="num">' + radius.toFixed(1) + '</td>' +
       '<td class="num" id="lc_p' + j + '">' + (crane ? (getCraneCapacity(crane, radius, boomLen||null)||'—').toFixed(1) : '—') + '</td>' +
       '<td class="num" id="lc_e' + j + '"><span class="eff-val">—</span></td>';
