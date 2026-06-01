@@ -1968,7 +1968,7 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 .lc-table td.lc-data-active { border-color: var(--accent); background: rgba(25,118,210,0.08); }
 .lc-table td.lc-row-label, .lc-table th.lc-row-label {
   font-size: 15px; font-weight: 700; color: var(--text-secondary);
-  min-width: 88px; max-width: 96px;
+  min-width: 150px; max-width: 150px;
   text-align: left;
   background: var(--bg-surface);
 }
@@ -2032,23 +2032,23 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 /* ── 分列宽自适应布局 ── */
 /* 1分段  2截面  3段长  4单重  5总吊重  6吊装机械  7半径  8性能  9效率 */
 .lift-table th:nth-child(1),
-.lift-table td:nth-child(1) { min-width: 60px;  max-width: 80px;  text-align: center; }  /* 分段 */
+.lift-table td:nth-child(1) { min-width: 60px;  max-width: 80px;   text-align: center; }  /* 分段 */
 .lift-table th:nth-child(2),
-.lift-table td:nth-child(2) { min-width: 80px;  max-width: 160px; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }   /* 截面：名称，超长截断 */
+.lift-table td:nth-child(2) { min-width: 100px; max-width: 200px; text-align: left;   overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }   /* 截面：名称，更宽 */
 .lift-table th:nth-child(3),
-.lift-table td:nth-child(3) { min-width: 58px;  max-width: 80px;  text-align: center; }   /* 段长 */
+.lift-table td:nth-child(3) { min-width: 72px;  max-width: 100px; text-align: center; }   /* 段长 */
 .lift-table th:nth-child(4),
-.lift-table td:nth-child(4) { min-width: 58px;  max-width: 80px;  text-align: center; }   /* 单重 */
+.lift-table td:nth-child(4) { min-width: 72px;  max-width: 100px; text-align: center; }   /* 单重 */
 .lift-table th:nth-child(5),
-.lift-table td:nth-child(5) { min-width: 76px;  max-width: 100px; text-align: center; }   /* 总吊重：含输入框 */
+.lift-table td:nth-child(5) { min-width: 100px; max-width: 130px; text-align: center; }   /* 总吊重：含输入框 */
 .lift-table th:nth-child(6),
-.lift-table td:nth-child(6) { text-align: left; min-width: 80px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }   /* 吊装机械 */
+.lift-table td:nth-child(6) { text-align: left;   min-width: 110px; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }   /* 吊装机械：更宽 */
 .lift-table th:nth-child(7),
-.lift-table td:nth-child(7) { min-width: 58px;  max-width: 80px;  text-align: center; }   /* 半径 */
+.lift-table td:nth-child(7) { min-width: 72px;  max-width: 100px; text-align: center; }   /* 半径 */
 .lift-table th:nth-child(8),
-.lift-table td:nth-child(8) { min-width: 58px;  max-width: 80px;  text-align: center; }   /* 性能 */
+.lift-table td:nth-child(8) { min-width: 72px;  max-width: 100px; text-align: center; }   /* 性能 */
 .lift-table th:nth-child(9),
-.lift-table td:nth-child(9) { min-width: 58px;  max-width: 80px;  text-align: center; }   /* 效率 */
+.lift-table td:nth-child(9) { min-width: 72px;  max-width: 100px; text-align: center; }   /* 效率 */
 
 /* 分段序号列：突出显示 */
 .lift-table td:nth-child(1) {
@@ -2065,7 +2065,7 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 }
 /* 总吊重输入框 */
 .lift-w-input {
-  width: 72px;
+  width: 88px;
   padding: 4px 6px;
   border: 1px solid rgba(0,0,0,0.12);
   border-radius: 6px;
