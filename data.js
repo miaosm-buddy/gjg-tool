@@ -1,8 +1,33444 @@
 var CRANE_DATA = {
-  "version": "v2-20260430",
+  "version": "v3-20260603-tower-expand",
   "generated": "import_xlsx_v2.py",
-  "total": 53,
+  "total": 99,
   "cranes": [
+    {
+      "id": 48,
+      "model": "XGT7020-12",
+      "brand": "徐工",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 12,
+      "max_arm_length": 70,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 240,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_XGT7020-12.png"
+      ],
+      "remark": "注意上述载荷性能表是根据XGT7020-12塔机独立高度(60m)计算而得出的，当起升高度大于60m时，起升性能中的起重量必须降低。计算方法为:计算高度的起重量=性能表中的起重量一每米钢丝绳的重量x(计算高度一60)x倍率。(单位:高度:m:重量:kg)起升钢丝绳型号为GB 8918-2006 1635Wx71870UZS右旋，钢丝绳重量为118kg/100m，或起升钢丝绳型号为GB 8918-2006 16NAT4Vx39S+5FC1870ZS 右旋，钢丝绳重量为105kg/100m。",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 28.6,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 5.766
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 4.825
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 4.119
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 3.569
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.13
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 2.77
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.471
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.217
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 15.1,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 8.836
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 5.562
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 4.626
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.924
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 3.379
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.942
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 2.585
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.287
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.035
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 1.8
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 31.6,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 5.334
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 4.567
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 3.97
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.492
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.101
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.776
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 16.5,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 9.76
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 6.177
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 5.154
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 4.386
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 3.769
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.311
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 2.92
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.595
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.3
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 34.4,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 5.801
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.053
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.402
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.881
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.455
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 10.733
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 6.826
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 5.71
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 4.873
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.221
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.701
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.274
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.9
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.665
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.946
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.371
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 19.9,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 11.956
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.642
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.409
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.484
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.765
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.19
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.7
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 40.4,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.312
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 21.2,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.19
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.879
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.896
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.131
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.5
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 42.3,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 22.2,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.623
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.25
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.22
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.6
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 40.0,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.729
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.34
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.3
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 35.0,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 22.2,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.564
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.2
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 30.0,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 22.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.5
+            }
+          ]
+        }
+      },
+      "entry_fee": null,
+      "foundation_fee": null
+    },
+    {
+      "id": 49,
+      "model": "L630-50",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower_luffing",
+      "sub_type": "动臂",
+      "max_load_t": 50,
+      "max_arm_length": 60,
+      "min_radius": 3.63,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 57.96,
+      "max_attached_h": 360,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_L630-50.png"
+      ],
+      "remark": "注:上述起重性能特性数据是根据塔机独立高度(57.96m)计算而得出的，当塔机独立高度大于57.96m时，起重性能特性表中的起重量必须降低。计算方法为:计算高度的起重量=性能表中的起重量一每米钢丝绳的重量x(计算高度一57.96)x倍率。(单位:高度:m;重量:t)",
+      "tower_load_charts": {
+        "60": {
+          "1": [
+            {
+              "radius": 6.34,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 22.95,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 23.88
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 19.98
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 17.19
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 14.83
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 12.96
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 11.46
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 10.28
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 9.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.34,
+              "rated_load": 38.0
+            },
+            {
+              "radius": 10.58,
+              "rated_load": 38.0
+            },
+            {
+              "radius": 15.0,
+              "rated_load": 33.79
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 31.12
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 28.11
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 25.66
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 23.43
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 21.32
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 19.55
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 18.03
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 16.76
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 15.55
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 14.42
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13.49
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 12.57
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.78
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 11.09
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 10.5
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 9.94
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 9.26
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 5.9,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 25.58,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 21.4
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 17.97
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 15.46
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 13.59
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 12.22
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 11.46
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.9,
+              "rated_load": 46.0
+            },
+            {
+              "radius": 10.73,
+              "rated_load": 46.0
+            },
+            {
+              "radius": 15.0,
+              "rated_load": 38.54
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 30.86
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 25.46
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 21.02
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 15.11
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 13.26
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 11.92
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 11.2
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.44,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 27.2,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 23.23
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 17.09
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 14.86
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 13.35
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.44,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 13.29,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 15.0,
+              "rated_load": 48.44
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 35.97
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 27.97
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 22.88
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 19.57
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 16.75
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 14.56
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 13.17
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 4.99,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 28.49,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 23.83
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 19.86
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 16.98
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 15.0
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.99,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 14.34,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 15.0,
+              "rated_load": 49.61
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 36.64
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 28.74
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 23.48
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 19.53
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 16.69
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 14.85
+            }
+          ]
+        },
+        "40": {
+          "1": [
+            {
+              "radius": 4.53,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 28.6,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 23.82
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 20.11
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 17.66
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.53,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 14.82,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 15.0,
+              "rated_load": 49.75
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 37.05
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 28.87
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 23.51
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 19.82
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 17.54
+            }
+          ]
+        },
+        "35": {
+          "1": [
+            {
+              "radius": 4.08,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 28.79,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 23.88
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 20.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.08,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 14.76,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 15.0,
+              "rated_load": 49.62
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 36.78
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 28.78
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 23.6
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 20.42
+            }
+          ]
+        },
+        "30": {
+          "1": [
+            {
+              "radius": 3.63,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 29.0,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 24.2
+            }
+          ],
+          "2": [
+            {
+              "radius": 3.63,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 16.0,
+              "rated_load": 50.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 38.34
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 29.08
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 24.19
+            }
+          ]
+        }
+      },
+      "entry_fee": null,
+      "foundation_fee": null
+    },
+    {
+      "id": 50,
+      "model": "R1300-64Q",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 64,
+      "max_arm_length": 80,
+      "min_radius": 5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 86,
+      "max_attached_h": 296.9,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_R1300-64Q.png"
+      ],
+      "remark": "1)上述起重性能特性数据是根据相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。\n2) 计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一相应臂长最大独立塔身高度)x倍率(起升钢丝绳单重请参见表3-2工作机构技术参数表表3-2中的钢丝绳参考重量)。",
+      "tower_load_charts": {
+        "80": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 43.5,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 30.81
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 27.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 24.44
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 22.07
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 20.07
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 18.37
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 16.89
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 15.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 22.7,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 57.2
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 46.24
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 38.52
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 32.8
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 28.38
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 24.87
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 22.01
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 19.64
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 17.64
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 15.93
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 14.46
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 13.17
+            }
+          ]
+        },
+        "75": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 44.2,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 31.34
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 27.77
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 24.87
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 22.46
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 20.43
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 18.7
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 17.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 58.17
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 47.03
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 39.2
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 33.39
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 28.9
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 25.34
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 22.44
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 20.03
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 18.0
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 16.27
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 14.77
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 44.6,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 31.65
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 28.05
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 25.13
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 20.65
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 18.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.2,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 58.75
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 47.51
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 39.61
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 33.74
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 29.22
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 25.62
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 22.69
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 20.27
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 18.22
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 16.47
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 28.38
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 25.42
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 22.97
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 20.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.4,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 59.42
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 48.07
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 40.08
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 34.15
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 29.58
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 25.95
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 22.99
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 20.54
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 18.47
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 45.4,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 28.66
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 25.68
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 23.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.6,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 59.99
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 48.54
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 40.48
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 34.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 29.89
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 26.23
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 23.24
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 20.77
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 45.7,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 28.91
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 25.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.8,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 60.5
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 48.96
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 40.84
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 34.82
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 30.17
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 26.47
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 23.47
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 45.7,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 28.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.8,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 60.48
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 48.95
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 40.83
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 34.81
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 30.16
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 26.47
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 32.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.8,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 60.37
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 48.85
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 40.75
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 34.74
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 30.1
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 32.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.8,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 60.47
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 48.94
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 40.82
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 34.8
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 32.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.8,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 60.44
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 48.91
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 40.8
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 5.0,
+              "rated_load": 32.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 32.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.0,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 23.8,
+              "rated_load": 64.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 60.55
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 49.0
+            }
+          ]
+        }
+      },
+      "entry_fee": null,
+      "foundation_fee": null
+    },
+    {
+      "id": 51,
+      "model": "T7530-16H",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 16,
+      "max_arm_length": 75,
+      "min_radius": 4,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 61,
+      "max_attached_h": 300,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_T7530-16H.png"
+      ],
+      "remark": "上述起重性能特性数据是根据章节1.1 相应臂长最大独立塔身高度计算而得出的，当1)塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。2)计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一章节1.1相应臂长最大独立塔身高度)x倍率。(起升钢丝绳单重:1.84kg/m)",
+      "tower_load_charts": {
+        "75": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.37
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.82
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.33
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.51
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.17
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.86
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.57
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.32
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.08
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.86
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.66
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.48
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.31
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.15
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 3.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 18.3,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 14.39
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 12.46
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.93
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9.69
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.66
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.07
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.43
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.88
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.39
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.96
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.58
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.23
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.92
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.64
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.38
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.14
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.93
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.73
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.54
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.37
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.21
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.06
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 36.4,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.73
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.16
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.65
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.44
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.11
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.82
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.55
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.31
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.08
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.87
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.68
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 19.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 15.09
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 13.07
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.48
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.19
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.12
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.22
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.46
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.22
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.71
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.26
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.86
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.18
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.88
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.61
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.37
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.14
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.93
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.74
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.56
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 38.7,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.16
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.68
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.25
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.87
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.52
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.21
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.92
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.66
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.42
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.2,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.05
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.36
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.99
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.85
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.89
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.08
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.37
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.76
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.22
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.74
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.32
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.93
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.59
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.27
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.99
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.73
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.49
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.26
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.9,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.64
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.13
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.68
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.28
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.91
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.58
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.28
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.3,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.98
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.19
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.74
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.54
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.53
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.66
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.92
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.27
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.74
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.34
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.97
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.64
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.34
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.06
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.7,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.53
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.05
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.63
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.25
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.3,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.79
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.92
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.39
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.13
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.08
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.17
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.39
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.72
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.12
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.59
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.12
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.69
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.31
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.96
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 43.6,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.72
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.23
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.7,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.26
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.71
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.42
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.34
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.42
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.62
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.93
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.32
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.78
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.86
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 44.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.9,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.42
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.85
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.55
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.46
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.53
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.73
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.02
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.41
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.86
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.48
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.91
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.51
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.57
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.77
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.06
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.2,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.61
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.02
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.71
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.61
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.66
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.3,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.68
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.08
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.76
+            }
+          ]
+        }
+      },
+      "entry_fee": null,
+      "foundation_fee": null
+    },
+    {
+      "id": 52,
+      "model": "T7530-20H",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 20,
+      "max_arm_length": 75,
+      "min_radius": 4,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 61,
+      "max_attached_h": 301,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_T7530-20H.png"
+      ],
+      "remark": "1)上述起重性能特性数据是根据章节1.1 相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一章节1.1相应臂长最大独立塔身高度)x倍率。(起升钢丝绳单重:1.59kg/m)",
+      "tower_load_charts": {
+        "75": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 29.2,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.68
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.06
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.42
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.86
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.37
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.93
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.54
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.19
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.88
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.59
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.33
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.09
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.87
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.67
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.48
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.31
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.15
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 3.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 15.3,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 17.03
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 14.48
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 12.53
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.98
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9.73
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.69
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.82
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.08
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.43
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.87
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.38
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.95
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.56
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.21
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.89
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.61
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.35
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.11
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.89
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.69
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.5
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.33
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.17
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.02
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 30.3,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.22
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.44
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.77
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.19
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.68
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.23
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.82
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.46
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.13
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.83
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.56
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.31
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.09
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.87
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.68
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 15.9,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 17.82
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 15.17
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 13.13
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.52
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.22
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.14
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.23
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.46
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.79
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.21
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.24
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.84
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.47
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.15
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.85
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.58
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.33
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.89
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.7
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.52
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.2,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.88
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.06
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.35
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.73
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.18
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.27
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.88
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.53
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.22
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.93
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.67
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.42
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 16.8,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 19.08
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 16.26
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.39
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.01
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.86
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.89
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.07
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.36
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.74
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.72
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.29
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.55
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.23
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.95
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.68
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.44
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.22
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 33.9,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.63
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.89
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.23
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.66
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.15
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.69
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.29
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.92
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.58
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.28
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.7,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.02
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.21
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.75
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.54
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.52
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.65
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.25
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.67
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.16
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.71
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.93
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.29
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.02
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.4,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.35
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.67
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.07
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.54
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.06
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.63
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.25
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 18.5,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 18.2
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.82
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.93
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.13
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.06
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.15
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.37
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.69
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.09
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.55
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.08
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.65
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.27
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.92
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 36.1,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.58
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.88
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.26
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.72
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.24
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 18.8,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 18.63
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.19
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.26
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.41
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.32
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.39
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.59
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.89
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.28
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.74
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.25
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.82
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 36.4,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.67
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.97
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.35
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 18.81
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.36
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.41
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.83
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.53
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.43
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.49
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.69
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.98
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.36
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.82
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 36.6,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.71
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 18.88
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.41
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.46
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.88
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.57
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.47
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.53
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.72
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.02
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.2,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 19.03
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.55
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.58
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.99
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.67
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.56
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.62
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.2,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 19.1
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.61
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.64
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.04
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.72
+            }
+          ]
+        }
+      },
+      "entry_fee": null,
+      "foundation_fee": null
+    },
+    {
+      "id": 53,
+      "model": "TC7525-16D",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 16,
+      "max_arm_length": 75,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 51.3,
+      "max_attached_h": 240.3,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_TC7525-16D.png"
+      ],
+      "tower_load_charts": {
+        "75": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 29.6,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.58
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.61
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 5.14
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.87
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 4.49
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.27
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 3.97
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.78
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 3.53
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.38
+            },
+            {
+              "radius": 63.0,
+              "rated_load": 3.17
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.04
+            },
+            {
+              "radius": 68.0,
+              "rated_load": 2.86
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.75
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 15.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 13.37
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 9.93
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 8.96
+            },
+            {
+              "radius": 28.0,
+              "rated_load": 7.77
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 5.81
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 4.84
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 4.37
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.09
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 3.72
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.49
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 3.19
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.01
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 2.76
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.6
+            },
+            {
+              "radius": 63.0,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.27
+            },
+            {
+              "radius": 68.0,
+              "rated_load": 2.09
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 1.97
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 1.72
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 31.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.09
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.06
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 5.55
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.26
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 4.86
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.62
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.1
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 3.84
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.67
+            },
+            {
+              "radius": 63.0,
+              "rated_load": 3.45
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.31
+            },
+            {
+              "radius": 68.0,
+              "rated_load": 3.12
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 16.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 14.38
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 10.71
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 9.67
+            },
+            {
+              "radius": 28.0,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.22
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.28
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 4.78
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.48
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 4.08
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.84
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 3.52
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.33
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 3.06
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 63.0,
+              "rated_load": 2.67
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.53
+            },
+            {
+              "radius": 68.0,
+              "rated_load": 2.34
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.22
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 32.6,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.35
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.28
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 5.77
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.46
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 5.05
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 4.47
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.27
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 3.99
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.83
+            },
+            {
+              "radius": 63.0,
+              "rated_load": 3.59
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.45
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 13.15
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 11.12
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 28.0,
+              "rated_load": 8.74
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.58
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.51
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 4.99
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.68
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 4.27
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.03
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 3.69
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.49
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 3.22
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.05
+            },
+            {
+              "radius": 63.0,
+              "rated_load": 2.82
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.67
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 33.04,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.48
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 5.87
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.56
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 5.14
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.89
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 4.56
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.35
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 4.07
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 17.2,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 15.17
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 11.32
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.23
+            },
+            {
+              "radius": 28.0,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.71
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.62
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.79
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 4.37
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.12
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 3.78
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.57
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 3.29
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.12
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 34.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.67
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 6.13
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.81
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 5.37
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.11
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 4.76
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.55
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 17.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 15.81
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 11.81
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.68
+            },
+            {
+              "radius": 28.0,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.02
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 5.35
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.03
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.34
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 3.99
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.77
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.53,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.97
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.07
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 5.62
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.35
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 18.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 12.34
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.16
+            },
+            {
+              "radius": 28.0,
+              "rated_load": 9.73
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.36
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 5.63
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.29
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 4.84
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.57
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 36.66,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.23
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 6.65
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 19.04,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.59
+            },
+            {
+              "radius": 28.0,
+              "rated_load": 10.11
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.66
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.46
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 5.87
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.52
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 3.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.4,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 19.41,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 13.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.86
+            },
+            {
+              "radius": 28.0,
+              "rated_load": 10.35
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.86
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.62
+            }
+          ]
+        }
+      },
+      "entry_fee": null,
+      "foundation_fee": null,
+      "remark": ""
+    },
+    {
+      "id": 54,
+      "model": "TC8039-25",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 25,
+      "max_arm_length": 80,
+      "min_radius": 3.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 81,
+      "max_attached_h": 275,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "entry_fee": null,
+      "foundation_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_TC8039-25.png"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "80": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 31.04,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 9.91
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.33
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 8.57
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.11
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 7.51
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.14
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 6.65
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.35
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 5.94
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.69
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 5.14
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 4.67
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 4.26
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 3.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.0,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 16.18,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 22.1
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.78
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 8.78
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 7.43
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.98
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 6.37
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.01
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 5.52
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.22
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 4.81
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.56
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.01
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.54
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 3.13
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 2.77
+            }
+          ]
+        },
+        "75": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 32.33,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.79
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 8.99
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.52
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 7.89
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.51
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 6.99
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.68
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 6.26
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 5.42
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 4.93
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 4.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 16.83,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 23.2
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 20.5
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.7
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 9.26
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.66
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 7.86
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.39
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 6.75
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.38
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 5.86
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.55
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 5.13
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.87
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.29
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 3.37
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 33.68,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 9.44
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.95
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 8.29
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.89
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 7.36
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 7.03
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 6.59
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 6.32
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 5.72
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 5.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 17.51,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 24.3
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 21.4
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 9.77
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.14
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 8.31
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.82
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 7.16
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.76
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 6.22
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 5.46
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.19
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.58
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 4.07
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 34.53,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 9.72
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 9.22
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 8.54
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 8.13
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 7.58
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 7.25
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 6.52
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 5.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 17.94,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 18.0,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 22.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.45
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 8.59
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.08
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 7.41
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 6.45
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.12
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 5.66
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.39
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.77
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 35.72,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 11.0
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 9.59
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 8.89
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 8.47
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 7.56
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 7.09
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 6.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 18.54,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 10.5
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.87
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 8.99
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.46
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 7.76
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.34
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 6.77
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.43
+            },
+            {
+              "radius": 58.0,
+              "rated_load": 5.96
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.67
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 36.4,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 9.78
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 9.06
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 8.63
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 8.05
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 7.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 18.88,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 23.4
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 18.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 9.14
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.61
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 7.89
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.47
+            },
+            {
+              "radius": 53.0,
+              "rated_load": 6.89
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.53
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 36.64,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 9.85
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 9.13
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 8.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 19.0,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 14.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 9.22
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.69
+            },
+            {
+              "radius": 48.0,
+              "rated_load": 7.97
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.53
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 37.11,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 11.5
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 10.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 10.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 19.24,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 23.9
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 18.4
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 11.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 43.0,
+              "rated_load": 9.38
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.83
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 37.34,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 11.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 19.36,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 24.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 18.5
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 10.4
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 12.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 19.41,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 24.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 18.5
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 12.3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 55,
+      "model": "W350-16HA",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 16,
+      "max_arm_length": 80,
+      "min_radius": 4,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 350.7,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "entry_fee": null,
+      "foundation_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_W350-16HA.png"
+      ],
+      "remark": "上述起重性能特性数据是根据章节1.1 相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。(2)计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一章节1.1相应臂长最大独立塔身高度)x倍率。(起升钢丝绳单重:1.49kg/m)",
+      "tower_load_charts": {
+        "80": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 29.3,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.8
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.7
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.5
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 77.5,
+              "rated_load": 2.3
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 2.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 15.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 29.3,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 2.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.5
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.0
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 1.9
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 1.8
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 1.7
+            },
+            {
+              "radius": 77.5,
+              "rated_load": 1.5
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 1.4
+            }
+          ]
+        },
+        "77.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 30.9,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.7
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.6
+            },
+            {
+              "radius": 77.5,
+              "rated_load": 2.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 16.3,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 30.9,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.8
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.6
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.3
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.1
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.0
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 1.9
+            },
+            {
+              "radius": 77.5,
+              "rated_load": 1.7
+            }
+          ]
+        },
+        "75": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.9,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 3.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 19.9,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 37.9,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.3
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.8
+            }
+          ]
+        },
+        "72.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 38.3,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.1
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 38.3,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.0
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 38.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.1
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.2,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 38.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.2
+            }
+          ]
+        },
+        "67.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 38.6,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.2,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.1
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 38.6,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.4
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.1,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.0
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 40.1,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.8
+            }
+          ]
+        },
+        "62.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 41.3,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.6,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.4
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 41.3,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.2
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.9,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.4,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.9,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.7
+            }
+          ]
+        },
+        "57.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 43.1,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 43.1,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.0
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 44.2,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.5
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 44.2,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.5
+            }
+          ]
+        },
+        "52.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 44.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.2,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 44.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.9
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.6,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.8,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.1
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 45.6,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.5
+            }
+          ]
+        },
+        "47.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 46.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.9,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 46.0,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.0
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 23.9,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.5
+            }
+          ]
+        },
+        "42.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 24.1,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.1
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 24.2,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.8
+            }
+          ]
+        },
+        "37.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 24.4,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.6
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 24.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 14.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.5
+            }
+          ]
+        },
+        "32.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 24.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.7
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 14.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.5
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 24.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 14.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 56,
+      "model": "W350-20HA",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 20,
+      "max_arm_length": 80,
+      "min_radius": 4,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 348.75,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "entry_fee": null,
+      "foundation_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_W350-20HA.png"
+      ],
+      "remark": "1)上述起重性能特性数据是根据章节1.1 相应臂长最大独立高度计算而得出的，当塔机高度大于最大独立高度时，起重性能表中的起重量必须降低。(2)计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一章节1.1相应臂长最大独立高度)x倍率。(起升钢丝绳单重:1.59kg/m)",
+      "tower_load_charts": {
+        "80": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 24.2,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.8
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.7
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.5
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 77.5,
+              "rated_load": 2.3
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 2.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 12.9,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 15.0,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 24.2,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 2.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.5
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.0
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 1.9
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 1.8
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 1.7
+            },
+            {
+              "radius": 77.5,
+              "rated_load": 1.5
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 1.4
+            }
+          ]
+        },
+        "77.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.7
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.6
+            },
+            {
+              "radius": 77.5,
+              "rated_load": 2.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 13.5,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 15.0,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.8
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.6
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.3
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.1
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.0
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 1.9
+            },
+            {
+              "radius": 77.5,
+              "rated_load": 1.7
+            }
+          ]
+        },
+        "75": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 31.2,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.6
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 3.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 16.4,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 18.6
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 15.9
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 31.2,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.3
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.8
+            }
+          ]
+        },
+        "72.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 31.5,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.1
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 16.6,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 18.8
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 31.5,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.0
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 31.7,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.1
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 16.7,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 16.2
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 31.7,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.2
+            }
+          ]
+        },
+        "67.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 31.8,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 16.7,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 19.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 16.2
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 31.8,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.1
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.4
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 33.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.3,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.0
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 33.0,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.8
+            }
+          ]
+        },
+        "62.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 34.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.8,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.4
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 34.0,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.2
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.3,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 18.5,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.9
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 35.3,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.7
+            }
+          ]
+        },
+        "57.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.4,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 18.6,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 35.4,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.0
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 36.4,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.5
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 36.4,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.5
+            }
+          ]
+        },
+        "52.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 36.6,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.1,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 19.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 36.6,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.9
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.8,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.6,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.1
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.5
+            }
+          ]
+        },
+        "47.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.8,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.8,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 37.8,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.0
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.8,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.8,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 37.8,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.5
+            }
+          ]
+        },
+        "42.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.8,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 38.0,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.1
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 38.2,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.4
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 38.2,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.8
+            }
+          ]
+        },
+        "37.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 10.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.1,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.6
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.2,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 14.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.5
+            }
+          ]
+        },
+        "32.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.2,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.7
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 14.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.5
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 20.2,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 14.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 57,
+      "model": "T7535-20HA",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 20,
+      "max_arm_length": 75,
+      "min_radius": 4,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 350.7,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "entry_fee": null,
+      "foundation_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_T7535-20HA.png"
+      ],
+      "remark": "上述起重性能特性数据是根据章节1.1相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。(2)计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一章节1.1相应臂长最大独立塔身高度)x倍率。(起升钢丝绳单重:1.59kg/m)",
+      "tower_load_charts": {
+        "75": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 31.7,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.91
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.22
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.62
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.63
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.22
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.84
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.51
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.92
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.67
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.43
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.22
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.02
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.83
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 3.66
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 3.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 16.5,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 18.71
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 15.99
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.25
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.91
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.87
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.08
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.39
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.79
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.27
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.39
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.01
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.68
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.37
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.09
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.84
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.39
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.19
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.83
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.67
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.1,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.85
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.04
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.35
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.74
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.21
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.74
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.32
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.94
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.29
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.75
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.51
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.29
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.09
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 16.8,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 19.05
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 16.29
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.17
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.14
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.02
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.07
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.27
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.57
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.97
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.43
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.96
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.54
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.16
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.82
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.51
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.23
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.97
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.73
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.51
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.31
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.12
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 33.3,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.44
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.72
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.09
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.53
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.04
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.61
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.21
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.86
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.54
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.24
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.97
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.73
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.4,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 19.86
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 17.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.06
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.65
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.48
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.66
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.94
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.31
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.76
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.27
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.83
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.44
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.08
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.76
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.47
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.95
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.72
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.5,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.41
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.73
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.14
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.61
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.15
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.73
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.35
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.69
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 18.5,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 18.32
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.97
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.11
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.35
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.63
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.95
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.36
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.84
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.37
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.95
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.57
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.22
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.91
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.62
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 36.5,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.01
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.86
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.38
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.94
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.55
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 18.89
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 16.47
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 14.55
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.72
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.64
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.72
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.92
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.23
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.62
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.08
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.17
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.78
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.42
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.6,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.33
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.14
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.65
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.6,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 19.55
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.05
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.08
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.47
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.15
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.04
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.08
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.27
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.55
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.92
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.37
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.87
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.42
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.9,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.39
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 8.76
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.7,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 19.68
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.17
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.18
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.57
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.24
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.11
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.16
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.33
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.61
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.98
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.42
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 37.9,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.7,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 19.69
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.18
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.19
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.58
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.25
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.12
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.17
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 9.34
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.62
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 19.9,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 19.88
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.35
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.34
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.71
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.37
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 11.24
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.27
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 20.1,
+              "rated_load": 20.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 17.55
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 15.53
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 13.88
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.52
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 58,
+      "model": "W6513-6B",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 6,
+      "max_arm_length": 65,
+      "min_radius": 2.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 51,
+      "max_attached_h": 190,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "entry_fee": null,
+      "foundation_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_W6513-6B.png"
+      ],
+      "remark": "1)上述起重性能特性数据是根据章节1.1相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。2)计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一章节1.1相应臂长最大独立塔身高度)x倍率。(起升钢丝绳单重:0.80kg/m)",
+      "tower_load_charts": {
+        "65": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 35.1,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 2.76
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 2.55
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.35
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.18
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.03
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 1.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 1.77
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 1.66
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 1.56
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 1.47
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 1.38
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 1.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 19.4,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 5.05
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 4.45
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 3.96
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 3.56
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 3.22
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 2.93
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 2.68
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 2.47
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.27
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 1.95
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 1.82
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 1.69
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 1.58
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 1.48
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 1.38
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 1.3
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 1.22
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 38.9,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.69
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.33
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.18
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 2.04
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 1.92
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 1.8
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 1.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 21.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 5.69
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.02
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 4.49
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.04
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 3.66
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.34
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.06
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 2.82
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.61
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.42
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.25
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 1.96
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 1.84
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 1.72
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 1.62
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 41.7,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.93
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.72
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.54
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.38
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 2.23
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 2.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 23.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.43
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 4.86
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.38
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 3.97
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.63
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.33
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.07
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.85
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.64
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.46
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 2.15
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 2.02
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 43.3,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.86
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.67
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 23.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.68
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.08
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.58
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 4.16
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.49
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.22
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.99
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.78
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.59
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.42
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 43.8,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 24.1,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.76
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.15
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.65
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 4.22
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.86
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.55
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.27
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 3.03
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.82
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 24.4,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.83
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.22
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.71
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 4.28
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.91
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.32
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 24.9,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.98
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.36
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.83
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 4.39
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 4.02
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 3.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 25.1,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.39
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.87
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 59,
+      "model": "W6513-8B",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 8,
+      "max_arm_length": 65,
+      "min_radius": 2.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 51,
+      "max_attached_h": 215,
+      "rental_fee_month": 45000,
+      "rental_fee_shift": null,
+      "fuel_fee": 10000,
+      "entry_fee": 95000,
+      "foundation_fee": 18000,
+      "image": null,
+      "images": [
+        "crane_images/tower_W6513-8B.png"
+      ],
+      "remark": "1）上述起重性能特性数据是根据章节1.1相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。2)计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一章节1.1相应臂长最大独立塔身高度)x倍率。(起升钢丝绳单重:0.80kg/m)",
+      "tower_load_charts": {
+        "65": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 27.8,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 3.64
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 3.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.01
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 2.76
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 2.55
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.35
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.18
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.03
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 1.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 1.77
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 1.66
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 1.56
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 1.47
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 1.38
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 1.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 15.2,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 6.78
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 5.05
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 4.45
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 3.96
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 3.56
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 3.22
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 2.93
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 2.68
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 2.47
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.27
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 1.95
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 1.82
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 1.69
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 1.58
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 1.48
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 1.38
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 1.3
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 1.22
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 30.8,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 3.74
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.42
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.14
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.69
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.33
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.18
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 2.04
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 1.92
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 1.8
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 1.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 16.8,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 7.61
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 6.52
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 5.69
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.02
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 4.49
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.04
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 3.66
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.34
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.06
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 2.82
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.61
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.42
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.25
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 1.96
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 1.84
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 1.72
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 1.62
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 32.9,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.71
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.41
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.15
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.93
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.72
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.54
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.38
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 2.23
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 2.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 17.9,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 7.04
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 6.14
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.43
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 4.86
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.38
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 3.97
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.63
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.33
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.07
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.85
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.64
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.46
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 2.15
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 2.02
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 34.1,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.88
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.57
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 3.07
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.86
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.67
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 18.6,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 7.35
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 6.42
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.68
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.08
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.58
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 4.16
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.49
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.22
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 2.99
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.78
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 2.59
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 2.42
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 34.6,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.94
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.63
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.35
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 3.11
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 18.8,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 7.45
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 6.51
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.76
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.15
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.65
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 4.22
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.86
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.55
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.27
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 3.03
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 2.82
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.68
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 19.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 7.54
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 6.59
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.83
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.22
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.71
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 4.28
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 3.91
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 3.32
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 4.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 19.4,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 7.73
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 6.76
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 5.98
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.36
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.83
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 4.39
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 4.02
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 19.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 7.79
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 6.81
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 6.03
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 5.39
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 4.87
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 60,
+      "model": "W7527-16D",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 16,
+      "max_arm_length": 75,
+      "min_radius": 4,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 315,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "entry_fee": null,
+      "foundation_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_W7527-16D.png"
+      ],
+      "remark": "上述起重性能特性数据是根据章节1.1相应臂长最大独立塔身高度计算而得出的，当1)塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。(2)计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一章节1.1相应臂长最大独立塔身高度)x倍率。(起升钢丝绳单重:1.49kg/m)",
+      "tower_load_charts": {
+        "75": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 31.3,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.1
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.3
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.8
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 16.5,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 11.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 31.3,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.7
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.6
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.3
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.1
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 2.0
+            }
+          ]
+        },
+        "72.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 31.9,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 16.8,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 13.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 31.9,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.2
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.8
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.7
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.5
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.3
+            },
+            {
+              "radius": 72.5,
+              "rated_load": 2.2
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 33.9,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 17.8,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 14.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 12.1
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 33.9,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.1
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.8
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.6
+            }
+          ]
+        },
+        "67.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 34.9,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 18.4,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 34.9,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.3
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.9
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.8,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.1
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 18.8,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 35.8,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.1
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.2
+            }
+          ]
+        },
+        "62.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 36.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 19.1,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.6
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 36.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.5
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.0
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 19.4,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 13.4
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 37.0,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.0
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.8
+            }
+          ]
+        },
+        "57.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.4,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 19.6,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 37.4,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.4
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.1
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 38.2,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 38.2,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.5
+            }
+          ]
+        },
+        "52.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 39.3,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 20.6,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 39.3,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 5.0
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.7,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.3,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 40.7,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.6
+            }
+          ]
+        },
+        "47.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.6,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 6.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.2,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.1
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.6,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.8
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.9
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.6,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.2,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.6
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 40.6,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.4
+            }
+          ]
+        },
+        "42.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.7,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 7.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.3,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.6
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.9
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.6,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 7.6
+            }
+          ]
+        },
+        "37.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.7,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 8.3
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.8,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 9.1
+            }
+          ]
+        },
+        "32.5": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.9,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 10.0
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 4.0,
+              "rated_load": 8.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.0,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 21.9,
+              "rated_load": 16.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 11.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 61,
+      "model": "W7025-12E",
+      "brand": "中联",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 12,
+      "max_arm_length": 70,
+      "min_radius": 2.8,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 300,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "entry_fee": null,
+      "foundation_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_W7025-12E.png"
+      ],
+      "remark": "(1)上述起重性能特性数据是根据章节1.1 相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。计算方法:计算高度的起重量=性能表中的起重量一每米起升钢丝绳的重量x(计算高度一章节1.1相应臂长最大独立塔身高度)x倍率。(起升钢丝绳单重:1.18kg/m)",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 35.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.67
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.24
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 4.86
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.52
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.22
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.95
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.71
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.49
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.29
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.1
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.93
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.78
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.63
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 19.7,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 11.78
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 10.27
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 9.07
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 6.62
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.05
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.55
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.12
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 4.74
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.41
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.11
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 3.84
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.59
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.37
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.17
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 2.99
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 2.82
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.66
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.56
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 2.39
+            }
+          ]
+        },
+        "67.5": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 37.4,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.97
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.52
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.12
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.77
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.46
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.18
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.92
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.69
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.48
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.29
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.11
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.95
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 20.5,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 10.78
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 9.53
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 8.52
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 7.68
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 6.98
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.38
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 5.86
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.41
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.01
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.66
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.34
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.06
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.81
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.58
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.37
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.18
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.0
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.84
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 2.69
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 38.7,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.77
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.35
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.99
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.66
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.37
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.11
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.87
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.65
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.45
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.27
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 3.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 21.3,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 11.23
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 9.93
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 8.88
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.01
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.28
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.66
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.12
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.65
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.24
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 4.88
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.55
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.26
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 3.99
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.76
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.54
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.34
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.15
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 2.99
+            }
+          ]
+        },
+        "62.5": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 39.9,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.97
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.55
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.17
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.84
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.54
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.27
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.02
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.79
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.59
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 21.9,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 11.61
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.27
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9.19
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.29
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.54
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.34
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 5.86
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.43
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.06
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.72
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.42
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.15
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.68
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.47
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.29
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 40.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.71
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.32
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.98
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.67
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.39
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.14
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.91
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 22.4,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 11.91
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.54
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9.44
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.52
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.75
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.09
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.52
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.03
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.59
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.21
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.87
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.56
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.28
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.03
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 3.59
+            }
+          ]
+        },
+        "57.5": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 41.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.83
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.44
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.09
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.77
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.49
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.23
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 22.7,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 10.76
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9.63
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 8.69
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 7.91
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.24
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.66
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.16
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.72
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.32
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 4.97
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.66
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.38
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.12
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 3.89
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 42.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.64
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.28
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.96
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.66
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 23.4,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.13
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9.97
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.19
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.91
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.39
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 5.93
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.53
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.17
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.84
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.55
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 4.29
+            }
+          ]
+        },
+        "52.5": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 43.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.43
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 24.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.42
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.23
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.24
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.41
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.71
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.57
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.69
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.32
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 4.99
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 4.69
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 44.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.91
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.54
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 24.3,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.63
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.42
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.41
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.57
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.85
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.23
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.69
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.22
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.42
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 5.09
+            }
+          ]
+        },
+        "47.5": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 45.5,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 24.9,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.95
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.68
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.81
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.08
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.44
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.89
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.97
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 5.59
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.73
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.83
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.46
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.91
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.42
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 5.99
+            }
+          ]
+        },
+        "42.5": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 24.9,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.92
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.68
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.65
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.79
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 8.06
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.42
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.87
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 6.39
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 24.6,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.78
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.55
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.54
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.69
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.96
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.33
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 6.79
+            }
+          ]
+        },
+        "37.5": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 24.5,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.71
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.49
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.48
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.63
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.91
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 7.29
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 24.2,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.53
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.33
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.34
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 7.79
+            }
+          ]
+        },
+        "32.5": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 23.9,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.39
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.21
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 8.39
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 2.8,
+              "rated_load": 6.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 6.0
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.8,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 23.6,
+              "rated_load": 12.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 11.23
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 10.06
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 9.09
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 62,
+      "model": "XGT600-25S",
+      "brand": "徐工",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 25,
+      "max_arm_length": 80,
+      "min_radius": 4.3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 78.8,
+      "max_attached_h": 346.7,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "entry_fee": null,
+      "foundation_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_XGT600-25S.png"
+      ],
+      "remark": "1)以上各臂长起重性能根据塔机独立固定高度(78.8m)计算而得出。当起升高度大于78.8m时，性能曲线中的起重量必须降低。2)计算方法为:计算高度的起重量=性能表中的起重量-每米钢丝绳的重量x(计算高度-78.8)x倍率。(单位，高度:m;重量:kg，其中钢丝绳每米的重量为1.92kg)",
+      "tower_load_charts": {
+        "80": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 33.6,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 11.944
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 10.258
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.67
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.648
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.812
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 6.054
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 5.483
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 4.994
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 4.583
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 4.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 17.2,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 21.207
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 13.196
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 10.907
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.19
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 7.39
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 6.369
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 5.533
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 4.836
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.191
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 3.702
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 3.278
+            },
+            {
+              "radius": 80.0,
+              "rated_load": 2.907
+            }
+          ]
+        },
+        "75": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 36.0,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 11.103
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 9.698
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 8.573
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 7.653
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 6.886
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 6.238
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 5.681
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 5.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 19.0,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 20.0,
+              "rated_load": 23.625
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 18.335
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 14.041
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 11.631
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 9.824
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 8.418
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 7.294
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 6.374
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 5.607
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 4.958
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 4.402
+            },
+            {
+              "radius": 75.0,
+              "rated_load": 3.92
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 39.1,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 12.185
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 10.659
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 9.438
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 8.44
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 7.607
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 6.903
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 6.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 20.6,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 20.144
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 15.483
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 12.868
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 10.906
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 9.38
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 8.159
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 7.16
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 6.328
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 5.624
+            },
+            {
+              "radius": 70.0,
+              "rated_load": 5.02
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 41.8,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 11.521
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 10.214
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 9.144
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 8.253
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 7.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 22.1,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 21.765
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 17.666
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 13.975
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 11.875
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 10.241
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 8.934
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 7.865
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 6.974
+            },
+            {
+              "radius": 65.0,
+              "rated_load": 6.22
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 46.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 11.469
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 10.286
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 9.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 24.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 25.0,
+              "rated_load": 24.39
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 19.854
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 15.768
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 13.444
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 11.636
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 10.19
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 9.006
+            },
+            {
+              "radius": 60.0,
+              "rated_load": 8.02
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 48.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 10.034
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 10.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 25.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 20.839
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 16.576
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 14.15
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 12.264
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 10.755
+            },
+            {
+              "radius": 55.0,
+              "rated_load": 9.52
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 12.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 26.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 21.649
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 18.153
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 14.732
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 12.781
+            },
+            {
+              "radius": 50.0,
+              "rated_load": 11.22
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 12.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 28.1,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 23.246
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 19.522
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 15.878
+            },
+            {
+              "radius": 45.0,
+              "rated_load": 13.8
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 12.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 28.5,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 23.633
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 19.875
+            },
+            {
+              "radius": 40.0,
+              "rated_load": 16.2
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 12.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 27.7,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 22.961
+            },
+            {
+              "radius": 35.0,
+              "rated_load": 19.3
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 12.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 27.2,
+              "rated_load": 25.0
+            },
+            {
+              "radius": 30.0,
+              "rated_load": 22.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 63,
+      "model": "XGT6018-8S",
+      "brand": "徐工",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 8,
+      "max_arm_length": 60,
+      "min_radius": 2.6,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 51,
+      "max_attached_h": 221.8,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_XGT6018-8S.png"
+      ],
+      "remark": "1)以上各臂长起重性能根据塔机独立固定高度(51m)计算而得出。当起升高度大于51m时，性能曲线中的起重量必须降低。\n2)计算方法为:计算高度的起重量=性能表中的起重量-每米钢丝绳的重量x(计算高度-51)x倍率。(单位，高度:m;重量:kg，其中钢丝绳每米的重量为0.804kg)",
+      "tower_load_charts": {
+        "60": {
+          "2": [
+            {
+              "radius": 2.6,
+              "rated_load": 4
+            },
+            {
+              "radius": 32.15,
+              "rated_load": 4
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.611
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.064
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.641
+            },
+            {
+              "radius": 50,
+              "rated_load": 2.304
+            },
+            {
+              "radius": 55,
+              "rated_load": 2.029
+            },
+            {
+              "radius": 60,
+              "rated_load": 1.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.6,
+              "rated_load": 8
+            },
+            {
+              "radius": 17.53,
+              "rated_load": 8
+            },
+            {
+              "radius": 20,
+              "rated_load": 6.875
+            },
+            {
+              "radius": 25,
+              "rated_load": 5.301
+            },
+            {
+              "radius": 30,
+              "rated_load": 4.265
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.531
+            },
+            {
+              "radius": 40,
+              "rated_load": 2.984
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.561
+            },
+            {
+              "radius": 50,
+              "rated_load": 2.224
+            },
+            {
+              "radius": 55,
+              "rated_load": 1.949
+            },
+            {
+              "radius": 60,
+              "rated_load": 1.72
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 2.6,
+              "rated_load": 4
+            },
+            {
+              "radius": 33.56,
+              "rated_load": 4
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.803
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.232
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.79
+            },
+            {
+              "radius": 50,
+              "rated_load": 2.437
+            },
+            {
+              "radius": 55,
+              "rated_load": 2.15
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.6,
+              "rated_load": 8
+            },
+            {
+              "radius": 18.28,
+              "rated_load": 8
+            },
+            {
+              "radius": 20,
+              "rated_load": 7.217
+            },
+            {
+              "radius": 25,
+              "rated_load": 5.572
+            },
+            {
+              "radius": 30,
+              "rated_load": 4.49
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.723
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.152
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.71
+            },
+            {
+              "radius": 50,
+              "rated_load": 2.357
+            },
+            {
+              "radius": 55,
+              "rated_load": 2.07
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 2.6,
+              "rated_load": 4
+            },
+            {
+              "radius": 34.74,
+              "rated_load": 4
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.965
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.373
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.915
+            },
+            {
+              "radius": 50,
+              "rated_load": 2.55
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.6,
+              "rated_load": 8
+            },
+            {
+              "radius": 18.91,
+              "rated_load": 8
+            },
+            {
+              "radius": 20,
+              "rated_load": 7.505
+            },
+            {
+              "radius": 25,
+              "rated_load": 5.801
+            },
+            {
+              "radius": 30,
+              "rated_load": 4.679
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.885
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.293
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.835
+            },
+            {
+              "radius": 50,
+              "rated_load": 2.47
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 2.6,
+              "rated_load": 4
+            },
+            {
+              "radius": 34.6,
+              "rated_load": 4
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.946
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.356
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.9
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.6,
+              "rated_load": 8
+            },
+            {
+              "radius": 18.84,
+              "rated_load": 8
+            },
+            {
+              "radius": 20,
+              "rated_load": 7.471
+            },
+            {
+              "radius": 25,
+              "rated_load": 5.773
+            },
+            {
+              "radius": 30,
+              "rated_load": 4.656
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.866
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.276
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.82
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 2.6,
+              "rated_load": 4
+            },
+            {
+              "radius": 35.39,
+              "rated_load": 4
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.45
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.6,
+              "rated_load": 8
+            },
+            {
+              "radius": 19.26,
+              "rated_load": 8
+            },
+            {
+              "radius": 20,
+              "rated_load": 7.662
+            },
+            {
+              "radius": 25,
+              "rated_load": 5.925
+            },
+            {
+              "radius": 30,
+              "rated_load": 4.782
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.973
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.37
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 2.6,
+              "rated_load": 4
+            },
+            {
+              "radius": 35,
+              "rated_load": 4
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.6,
+              "rated_load": 8
+            },
+            {
+              "radius": 19.05,
+              "rated_load": 8
+            },
+            {
+              "radius": 20,
+              "rated_load": 7.568
+            },
+            {
+              "radius": 25,
+              "rated_load": 5.85
+            },
+            {
+              "radius": 30,
+              "rated_load": 4.72
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.92
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 2.6,
+              "rated_load": 4
+            },
+            {
+              "radius": 30,
+              "rated_load": 4
+            }
+          ],
+          "4": [
+            {
+              "radius": 2.6,
+              "rated_load": 8
+            },
+            {
+              "radius": 19.52,
+              "rated_load": 8
+            },
+            {
+              "radius": 20,
+              "rated_load": 7.78
+            },
+            {
+              "radius": 25,
+              "rated_load": 6.025
+            },
+            {
+              "radius": 30,
+              "rated_load": 4.87
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 64,
+      "model": "ZTT8041/QTP580",
+      "brand": "中天",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 26,
+      "max_arm_length": 80,
+      "min_radius": 4.8,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 84.2,
+      "max_attached_h": 350,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZTT8041_QTP580.png"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "80": {
+          "2": [
+            {
+              "radius": 4.8,
+              "rated_load": 13
+            },
+            {
+              "radius": 29.62,
+              "rated_load": 13
+            },
+            {
+              "radius": 30,
+              "rated_load": 12.82
+            },
+            {
+              "radius": 40,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 8.01
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.07
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 5.66
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.12
+            },
+            {
+              "radius": 70,
+              "rated_load": 4.66
+            },
+            {
+              "radius": 75,
+              "rated_load": 4.26
+            },
+            {
+              "radius": 80,
+              "rated_load": 4.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.8,
+              "rated_load": 26
+            },
+            {
+              "radius": 15.49,
+              "rated_load": 26
+            },
+            {
+              "radius": 30,
+              "rated_load": 11.82
+            },
+            {
+              "radius": 40,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 7.01
+            },
+            {
+              "radius": 50,
+              "rated_load": 6.07
+            },
+            {
+              "radius": 55,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.66
+            },
+            {
+              "radius": 65,
+              "rated_load": 4.12
+            },
+            {
+              "radius": 70,
+              "rated_load": 3.66
+            },
+            {
+              "radius": 75,
+              "rated_load": 3.26
+            },
+            {
+              "radius": 80,
+              "rated_load": 3.1
+            }
+          ]
+        },
+        "75": {
+          "2": [
+            {
+              "radius": 4.8,
+              "rated_load": 13
+            },
+            {
+              "radius": 31.4,
+              "rated_load": 13
+            },
+            {
+              "radius": 40,
+              "rated_load": 9.85
+            },
+            {
+              "radius": 45,
+              "rated_load": 8.59
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.58
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.76
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.09
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.51
+            },
+            {
+              "radius": 70,
+              "rated_load": 5.02
+            },
+            {
+              "radius": 75,
+              "rated_load": 4.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.8,
+              "rated_load": 26
+            },
+            {
+              "radius": 16.39,
+              "rated_load": 26
+            },
+            {
+              "radius": 30,
+              "rated_load": 12.69
+            },
+            {
+              "radius": 40,
+              "rated_load": 8.85
+            },
+            {
+              "radius": 45,
+              "rated_load": 7.59
+            },
+            {
+              "radius": 50,
+              "rated_load": 6.58
+            },
+            {
+              "radius": 55,
+              "rated_load": 5.76
+            },
+            {
+              "radius": 60,
+              "rated_load": 5.09
+            },
+            {
+              "radius": 65,
+              "rated_load": 4.51
+            },
+            {
+              "radius": 70,
+              "rated_load": 4.02
+            },
+            {
+              "radius": 75,
+              "rated_load": 3.6
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 4.8,
+              "rated_load": 13
+            },
+            {
+              "radius": 35.88,
+              "rated_load": 13
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.49
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.04
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.89
+            },
+            {
+              "radius": 55,
+              "rated_load": 7.95
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.17
+            },
+            {
+              "radius": 65,
+              "rated_load": 6.51
+            },
+            {
+              "radius": 70,
+              "rated_load": 5.95
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.8,
+              "rated_load": 26
+            },
+            {
+              "radius": 18.65,
+              "rated_load": 26
+            },
+            {
+              "radius": 30,
+              "rated_load": 12.37
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.49
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.04
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.89
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.95
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.17
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.51
+            },
+            {
+              "radius": 70,
+              "rated_load": 4.95
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 4.8,
+              "rated_load": 13
+            },
+            {
+              "radius": 37.35,
+              "rated_load": 13
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.03
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.52
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.32
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.34
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.53
+            },
+            {
+              "radius": 65,
+              "rated_load": 6.84
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.8,
+              "rated_load": 26
+            },
+            {
+              "radius": 19.39,
+              "rated_load": 26
+            },
+            {
+              "radius": 30,
+              "rated_load": 15.63
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.03
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.52
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.32
+            },
+            {
+              "radius": 55,
+              "rated_load": 7.34
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.53
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.84
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 4.8,
+              "rated_load": 13
+            },
+            {
+              "radius": 43.37,
+              "rated_load": 13
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.47
+            },
+            {
+              "radius": 50,
+              "rated_load": 11.07
+            },
+            {
+              "radius": 55,
+              "rated_load": 9.93
+            },
+            {
+              "radius": 60,
+              "rated_load": 8.98
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.8,
+              "rated_load": 26
+            },
+            {
+              "radius": 22.42,
+              "rated_load": 26
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.59
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.23
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.47
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.07
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.93
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.98
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 4.8,
+              "rated_load": 13
+            },
+            {
+              "radius": 44.4,
+              "rated_load": 13
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.81
+            },
+            {
+              "radius": 50,
+              "rated_load": 11.37
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.8,
+              "rated_load": 26
+            },
+            {
+              "radius": 22.94,
+              "rated_load": 26
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.61
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.81
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.37
+            },
+            {
+              "radius": 55,
+              "rated_load": 9.2
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 4.8,
+              "rated_load": 13
+            },
+            {
+              "radius": 45.19,
+              "rated_load": 13
+            },
+            {
+              "radius": 50,
+              "rated_load": 11.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.8,
+              "rated_load": 26
+            },
+            {
+              "radius": 23.34,
+              "rated_load": 26
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.49
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.06
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.6
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.8,
+              "rated_load": 13
+            },
+            {
+              "radius": 45,
+              "rated_load": 13
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.8,
+              "rated_load": 26
+            },
+            {
+              "radius": 23.34,
+              "rated_load": 26
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.49
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.06
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 4.8,
+              "rated_load": 13
+            },
+            {
+              "radius": 40,
+              "rated_load": 13
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.8,
+              "rated_load": 26
+            },
+            {
+              "radius": 23.34,
+              "rated_load": 26
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.49
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.9
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 65,
+      "model": "M440D-16",
+      "brand": "法福克",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 32,
+      "max_arm_length": 65,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_M440D-16.png"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "65": {
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 16
+            },
+            {
+              "radius": 28,
+              "rated_load": 16
+            },
+            {
+              "radius": 30,
+              "rated_load": 15
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 65,
+              "rated_load": 2.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 6,
+              "rated_load": 32
+            },
+            {
+              "radius": 10,
+              "rated_load": 25
+            },
+            {
+              "radius": 15,
+              "rated_load": 22.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 15
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 65,
+              "rated_load": 2.7
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 5.3,
+              "rated_load": 16
+            },
+            {
+              "radius": 30,
+              "rated_load": 16
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 10,
+              "rated_load": 30.6
+            },
+            {
+              "radius": 15,
+              "rated_load": 26.3
+            },
+            {
+              "radius": 20,
+              "rated_load": 23
+            },
+            {
+              "radius": 25,
+              "rated_load": 20
+            },
+            {
+              "radius": 30,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.8
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 16
+            },
+            {
+              "radius": 30,
+              "rated_load": 16
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 5,
+              "rated_load": 32
+            },
+            {
+              "radius": 10,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 29.8
+            },
+            {
+              "radius": 20,
+              "rated_load": 25.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.6
+            }
+          ]
+        },
+        "52": {
+          "2": [
+            {
+              "radius": 4.4,
+              "rated_load": 16
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 12
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11
+            },
+            {
+              "radius": 45,
+              "rated_load": 10
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.4,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 29.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 22.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 12
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11
+            },
+            {
+              "radius": 45,
+              "rated_load": 10
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8
+            }
+          ]
+        },
+        "47": {
+          "2": [
+            {
+              "radius": 4.2,
+              "rated_load": 16
+            },
+            {
+              "radius": 33,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.2,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 23
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.5
+            }
+          ]
+        },
+        "42": {
+          "2": [
+            {
+              "radius": 3.9,
+              "rated_load": 16
+            },
+            {
+              "radius": 33.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.9,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.6
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.7
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 3.7,
+              "rated_load": 16
+            },
+            {
+              "radius": 33.8,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 19
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.1
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 3.3,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 16
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 24
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.1
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 16
+            },
+            {
+              "radius": 30,
+              "rated_load": 16
+            }
+          ],
+          "4": [
+            {
+              "radius": 3,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 31.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 24.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 66,
+      "model": "M440D-25",
+      "brand": "法福克",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 50,
+      "max_arm_length": 65,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_M440D-25.png"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "65": {
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 25
+            },
+            {
+              "radius": 13.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 15,
+              "rated_load": 22.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 15
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 65,
+              "rated_load": 2.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 6,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 25
+            },
+            {
+              "radius": 15,
+              "rated_load": 22.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 15
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 3.6
+            },
+            {
+              "radius": 65,
+              "rated_load": 2.7
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 5.3,
+              "rated_load": 25
+            },
+            {
+              "radius": 18.4,
+              "rated_load": 25
+            },
+            {
+              "radius": 20,
+              "rated_load": 23
+            },
+            {
+              "radius": 25,
+              "rated_load": 20
+            },
+            {
+              "radius": 30,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 30.6
+            },
+            {
+              "radius": 15,
+              "rated_load": 26.3
+            },
+            {
+              "radius": 20,
+              "rated_load": 23
+            },
+            {
+              "radius": 25,
+              "rated_load": 20
+            },
+            {
+              "radius": 30,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.8
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 25
+            },
+            {
+              "radius": 21.7,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 5,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 29.8
+            },
+            {
+              "radius": 20,
+              "rated_load": 25.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.6
+            }
+          ]
+        },
+        "52": {
+          "2": [
+            {
+              "radius": 4.4,
+              "rated_load": 25
+            },
+            {
+              "radius": 22.8,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 22.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 12
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11
+            },
+            {
+              "radius": 45,
+              "rated_load": 10
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.4,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 44
+            },
+            {
+              "radius": 15,
+              "rated_load": 41
+            },
+            {
+              "radius": 20,
+              "rated_load": 29.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 22.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 12
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11
+            },
+            {
+              "radius": 45,
+              "rated_load": 10
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8
+            }
+          ]
+        },
+        "47": {
+          "2": [
+            {
+              "radius": 4,
+              "rated_load": 25
+            },
+            {
+              "radius": 23,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 23
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 50
+            },
+            {
+              "radius": 15,
+              "rated_load": 42
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 23
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.5
+            }
+          ]
+        },
+        "42": {
+          "2": [
+            {
+              "radius": 3.9,
+              "rated_load": 25
+            },
+            {
+              "radius": 23.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.9,
+              "rated_load": 50
+            },
+            {
+              "radius": 13,
+              "rated_load": 50
+            },
+            {
+              "radius": 15,
+              "rated_load": 42.3
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.6
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.7
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 3.7,
+              "rated_load": 25
+            },
+            {
+              "radius": 23.6,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 19
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.7,
+              "rated_load": 50
+            },
+            {
+              "radius": 13.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 15,
+              "rated_load": 42.8
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 19
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.1
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 3.3,
+              "rated_load": 25
+            },
+            {
+              "radius": 23.8,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 24
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 13.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 15,
+              "rated_load": 43.3
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 24
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.1
+            }
+          ]
+        },
+        "30": {
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 25
+            },
+            {
+              "radius": 24,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 24.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3,
+              "rated_load": 50
+            },
+            {
+              "radius": 13.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 15,
+              "rated_load": 43.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 31.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 24.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 67,
+      "model": "M600D-25",
+      "brand": "法福克",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 50,
+      "max_arm_length": 70,
+      "min_radius": 3.3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_M600D-25.png"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 6.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 10,
+              "rated_load": 25
+            },
+            {
+              "radius": 15,
+              "rated_load": 21.3
+            },
+            {
+              "radius": 20,
+              "rated_load": 17.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 11.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 65,
+              "rated_load": 4
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 70,
+              "rated_load": 3
+            }
+          ],
+          "4": [
+            {
+              "radius": 6.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 25
+            },
+            {
+              "radius": 15,
+              "rated_load": 21.3
+            },
+            {
+              "radius": 20,
+              "rated_load": 17.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 11.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 65,
+              "rated_load": 4
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 3.5
+            },
+            {
+              "radius": 70,
+              "rated_load": 3
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 25
+            },
+            {
+              "radius": 15,
+              "rated_load": 25
+            },
+            {
+              "radius": 20,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 19.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 65,
+              "rated_load": 4.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 6,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 29.7
+            },
+            {
+              "radius": 15,
+              "rated_load": 25.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 19.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.1
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 65,
+              "rated_load": 4.8
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 5.3,
+              "rated_load": 25
+            },
+            {
+              "radius": 22.4,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 22.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 36
+            },
+            {
+              "radius": 15,
+              "rated_load": 30.2
+            },
+            {
+              "radius": 20,
+              "rated_load": 26
+            },
+            {
+              "radius": 25,
+              "rated_load": 22.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.1
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 25
+            },
+            {
+              "radius": 24.1,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 24.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13
+            },
+            {
+              "radius": 45,
+              "rated_load": 12
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 5,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 42
+            },
+            {
+              "radius": 15,
+              "rated_load": 35.3
+            },
+            {
+              "radius": 20,
+              "rated_load": 29.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 24.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13
+            },
+            {
+              "radius": 45,
+              "rated_load": 12
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.8
+            }
+          ]
+        },
+        "52": {
+          "2": [
+            {
+              "radius": 4.4,
+              "rated_load": 25
+            },
+            {
+              "radius": 25.9,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 19.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 15.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 11
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.4,
+              "rated_load": 50
+            },
+            {
+              "radius": 8.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 46.2
+            },
+            {
+              "radius": 15,
+              "rated_load": 39.2
+            },
+            {
+              "radius": 20,
+              "rated_load": 32.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 26.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 19.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 15.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 11
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.7
+            }
+          ]
+        },
+        "47": {
+          "2": [
+            {
+              "radius": 4.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 26.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 12.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 13.8,
+              "rated_load": 50
+            },
+            {
+              "radius": 15,
+              "rated_load": 46.9
+            },
+            {
+              "radius": 20,
+              "rated_load": 34.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 27.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 12.3
+            }
+          ]
+        },
+        "42": {
+          "2": [
+            {
+              "radius": 3.9,
+              "rated_load": 25
+            },
+            {
+              "radius": 27.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 16.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 14.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.9,
+              "rated_load": 50
+            },
+            {
+              "radius": 15,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 37
+            },
+            {
+              "radius": 25,
+              "rated_load": 28.9
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 16.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 14.5
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 3.7,
+              "rated_load": 25
+            },
+            {
+              "radius": 27.7,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 20.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.7,
+              "rated_load": 50
+            },
+            {
+              "radius": 15.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 38
+            },
+            {
+              "radius": 25,
+              "rated_load": 29.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 20.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.8
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 3.3,
+              "rated_load": 25
+            },
+            {
+              "radius": 28.1,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 16,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 38.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 30.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.4
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 68,
+      "model": "M600F-25",
+      "brand": "法福克",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 50,
+      "max_arm_length": 65,
+      "min_radius": 3.3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_M600F-25.png"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "65": {
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 20,
+              "rated_load": 24
+            },
+            {
+              "radius": 25,
+              "rated_load": 21.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 18.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 33
+            },
+            {
+              "radius": 15,
+              "rated_load": 28
+            },
+            {
+              "radius": 20,
+              "rated_load": 24
+            },
+            {
+              "radius": 25,
+              "rated_load": 21.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 18.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.6
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.3
+            }
+          ]
+        },
+        "62": {
+          "2": [
+            {
+              "radius": 5.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 6.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 41
+            },
+            {
+              "radius": 15,
+              "rated_load": 38.1
+            },
+            {
+              "radius": 20,
+              "rated_load": 35.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 29
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 6.7
+            }
+          ]
+        },
+        "57": {
+          "2": [
+            {
+              "radius": 4.9,
+              "rated_load": 25
+            },
+            {
+              "radius": 28,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 19
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 13
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 8.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.9,
+              "rated_load": 50
+            },
+            {
+              "radius": 10,
+              "rated_load": 45.5
+            },
+            {
+              "radius": 15,
+              "rated_load": 44
+            },
+            {
+              "radius": 20,
+              "rated_load": 38
+            },
+            {
+              "radius": 25,
+              "rated_load": 29.9
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 19
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 13
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 8.2
+            }
+          ]
+        },
+        "52": {
+          "2": [
+            {
+              "radius": 4.6,
+              "rated_load": 25
+            },
+            {
+              "radius": 28.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 24.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 21.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 17.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 11.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 10.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.6,
+              "rated_load": 50
+            },
+            {
+              "radius": 15.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 40.6
+            },
+            {
+              "radius": 25,
+              "rated_load": 30.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 24.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 21.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 17.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 11.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 10.8
+            }
+          ]
+        },
+        "47": {
+          "2": [
+            {
+              "radius": 4.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 29,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 24.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 15
+            },
+            {
+              "radius": 45,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 12.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 16,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 41.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 31.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 24.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 15
+            },
+            {
+              "radius": 45,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 12.7
+            }
+          ]
+        },
+        "42": {
+          "2": [
+            {
+              "radius": 3.9,
+              "rated_load": 25
+            },
+            {
+              "radius": 29.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 20.1
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 18.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 15.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.9,
+              "rated_load": 50
+            },
+            {
+              "radius": 17,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 41.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 31.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 20.1
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 18.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 15.1
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 3.6,
+              "rated_load": 25
+            },
+            {
+              "radius": 30.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 18
+            },
+            {
+              "radius": 40,
+              "rated_load": 16
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.6,
+              "rated_load": 50
+            },
+            {
+              "radius": 17,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 41.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 31.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 25
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 18
+            },
+            {
+              "radius": 40,
+              "rated_load": 16
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 3.3,
+              "rated_load": 25
+            },
+            {
+              "radius": 30.8,
+              "rated_load": 25
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 20.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 17,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 41.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 31.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 25.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 20.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 69,
+      "model": "M760D-32",
+      "brand": "法福克",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 64,
+      "max_arm_length": 70,
+      "min_radius": 3.3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_M760D-32.png"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 10,
+              "rated_load": 29.5
+            },
+            {
+              "radius": 15,
+              "rated_load": 25.8
+            },
+            {
+              "radius": 20,
+              "rated_load": 23
+            },
+            {
+              "radius": 25,
+              "rated_load": 20.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 70,
+              "rated_load": 4.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 6.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 10,
+              "rated_load": 29.5
+            },
+            {
+              "radius": 15,
+              "rated_load": 25.8
+            },
+            {
+              "radius": 20,
+              "rated_load": 23
+            },
+            {
+              "radius": 25,
+              "rated_load": 20.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 70,
+              "rated_load": 4.4
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 6.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 13.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 28.4
+            },
+            {
+              "radius": 20,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 22
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 6.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 10,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 28.4
+            },
+            {
+              "radius": 20,
+              "rated_load": 25
+            },
+            {
+              "radius": 25,
+              "rated_load": 22
+            },
+            {
+              "radius": 30,
+              "rated_load": 19.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 17.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 9.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.9
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.8
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 5.8,
+              "rated_load": 32
+            },
+            {
+              "radius": 19,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 25.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 15
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.8,
+              "rated_load": 32
+            },
+            {
+              "radius": 19,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 25.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 15
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 9.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.8
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 23.6,
+              "rated_load": 32
+            },
+            {
+              "radius": 25,
+              "rated_load": 30.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 18
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 13
+            },
+            {
+              "radius": 50,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 23.6,
+              "rated_load": 32
+            },
+            {
+              "radius": 25,
+              "rated_load": 30.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 18
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 13
+            },
+            {
+              "radius": 50,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.1
+            }
+          ]
+        },
+        "52": {
+          "2": [
+            {
+              "radius": 4.4,
+              "rated_load": 32
+            },
+            {
+              "radius": 25.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 27
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 24.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 22
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 20.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 18.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 17.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 15.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 12.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.4,
+              "rated_load": 64
+            },
+            {
+              "radius": 7,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 58
+            },
+            {
+              "radius": 15,
+              "rated_load": 52
+            },
+            {
+              "radius": 20,
+              "rated_load": 43.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 33.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 27
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 24.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 22
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 20.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 18.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 17.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 15.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 12.6
+            }
+          ]
+        },
+        "47": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 25.6,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 27.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 20.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 19
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 15
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 64
+            },
+            {
+              "radius": 11,
+              "rated_load": 64
+            },
+            {
+              "radius": 15,
+              "rated_load": 59.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 43.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 34
+            },
+            {
+              "radius": 30,
+              "rated_load": 27.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 20.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 19
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 15
+            }
+          ]
+        },
+        "42": {
+          "2": [
+            {
+              "radius": 4,
+              "rated_load": 32
+            },
+            {
+              "radius": 26,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 27.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 23
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 18
+            }
+          ],
+          "4": [
+            {
+              "radius": 4,
+              "rated_load": 64
+            },
+            {
+              "radius": 14.1,
+              "rated_load": 64
+            },
+            {
+              "radius": 15,
+              "rated_load": 60
+            },
+            {
+              "radius": 20,
+              "rated_load": 43.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 34.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 27.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 23
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 18
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 3.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 26.4,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 28.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.7,
+              "rated_load": 64
+            },
+            {
+              "radius": 14.2,
+              "rated_load": 64
+            },
+            {
+              "radius": 15,
+              "rated_load": 60.2
+            },
+            {
+              "radius": 20,
+              "rated_load": 44
+            },
+            {
+              "radius": 25,
+              "rated_load": 35
+            },
+            {
+              "radius": 30,
+              "rated_load": 28.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.7
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 3.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 26.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 28.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 23.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.3,
+              "rated_load": 64
+            },
+            {
+              "radius": 14.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 15,
+              "rated_load": 60.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 44.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 35.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 28.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 23.7
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 70,
+      "model": "M760DX-32",
+      "brand": "法福克",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 64,
+      "max_arm_length": 70,
+      "min_radius": 3.8,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_M760DX-32.jpeg"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 6.6,
+              "rated_load": 32
+            },
+            {
+              "radius": 7.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 10,
+              "rated_load": 31.6
+            },
+            {
+              "radius": 15,
+              "rated_load": 28.6
+            },
+            {
+              "radius": 20,
+              "rated_load": 25.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 20.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 19.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 18.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 15.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 11.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 10
+            },
+            {
+              "radius": 65,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 70,
+              "rated_load": 7.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 6.4,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 36.2
+            },
+            {
+              "radius": 15,
+              "rated_load": 35.7
+            },
+            {
+              "radius": 20,
+              "rated_load": 32.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 29.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 27.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 26
+            },
+            {
+              "radius": 35,
+              "rated_load": 24.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 22.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 17.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 8.8
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 8
+            },
+            {
+              "radius": 65,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 70,
+              "rated_load": 5.9
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 6.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 32
+            },
+            {
+              "radius": 25,
+              "rated_load": 30.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 28.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 27
+            },
+            {
+              "radius": 35,
+              "rated_load": 25
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 20.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 19
+            },
+            {
+              "radius": 45,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 16.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.9
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 10
+            },
+            {
+              "radius": 65,
+              "rated_load": 9
+            }
+          ],
+          "4": [
+            {
+              "radius": 6,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 41.9
+            },
+            {
+              "radius": 15,
+              "rated_load": 35.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 31.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 30.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 28.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 27
+            },
+            {
+              "radius": 35,
+              "rated_load": 25.2
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 23.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 21.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 10
+            },
+            {
+              "radius": 65,
+              "rated_load": 9
+            }
+          ]
+        },
+        "62": {
+          "2": [
+            {
+              "radius": 5.9,
+              "rated_load": 32
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 30.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 28.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 25.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 23.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 21.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 19.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 16.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.4
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 10.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.7,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 47.5
+            },
+            {
+              "radius": 15,
+              "rated_load": 40.7
+            },
+            {
+              "radius": 20,
+              "rated_load": 37.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 34.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 31.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 29.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 26.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 24.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.3
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 20.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 18.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 17.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 16
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 12.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.4
+            }
+          ]
+        },
+        "57": {
+          "2": [
+            {
+              "radius": 5.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 30.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 28.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 26
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 23.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 20
+            },
+            {
+              "radius": 45,
+              "rated_load": 18.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 17
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 11.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.4,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 52.4
+            },
+            {
+              "radius": 15,
+              "rated_load": 46.1
+            },
+            {
+              "radius": 20,
+              "rated_load": 42.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 37.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 32.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 29.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 27.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 20.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 17.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 15
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.3
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 11.3
+            }
+          ]
+        },
+        "52": {
+          "2": [
+            {
+              "radius": 5.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 31.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 29.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 26.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 24.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 20.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 16
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 13.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.1,
+              "rated_load": 64
+            },
+            {
+              "radius": 6.3,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 57.3
+            },
+            {
+              "radius": 15,
+              "rated_load": 51.4
+            },
+            {
+              "radius": 20,
+              "rated_load": 47.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 40.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 32.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 29.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 26.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 21.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 18.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 14
+            }
+          ]
+        },
+        "47": {
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 32
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 31.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 29.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 26.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 24.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 20.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 17.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.7,
+              "rated_load": 64
+            },
+            {
+              "radius": 9,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 62.6
+            },
+            {
+              "radius": 15,
+              "rated_load": 56.7
+            },
+            {
+              "radius": 20,
+              "rated_load": 52.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 42.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 34
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 30.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 28
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 25.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 23.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 21.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 20.2
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 18
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 32
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 29.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 27.1
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.7,
+              "rated_load": 64
+            },
+            {
+              "radius": 11.8,
+              "rated_load": 64
+            },
+            {
+              "radius": 15,
+              "rated_load": 62.8
+            },
+            {
+              "radius": 20,
+              "rated_load": 55.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 42.9
+            },
+            {
+              "radius": 30,
+              "rated_load": 34.5
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 31.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 28.6
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 26.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 24
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 21.2
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 32
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 29.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 27.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 25.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.1,
+              "rated_load": 64
+            },
+            {
+              "radius": 16.6,
+              "rated_load": 64
+            },
+            {
+              "radius": 20,
+              "rated_load": 55.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 43.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 34.8
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 31.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 28.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 23.1
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 32
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 30.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 27.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.8,
+              "rated_load": 64
+            },
+            {
+              "radius": 16.8,
+              "rated_load": 64
+            },
+            {
+              "radius": 20,
+              "rated_load": 56.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 43.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 35.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 31.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 26.8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 71,
+      "model": "M900D-32",
+      "brand": "法福克",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 64,
+      "max_arm_length": 70,
+      "min_radius": 3.3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_M900D-32.png"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 32
+            },
+            {
+              "radius": 14,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 30
+            },
+            {
+              "radius": 20,
+              "rated_load": 28.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 20.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 18.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 14
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 65,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 70,
+              "rated_load": 6.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 6.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 10,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 30
+            },
+            {
+              "radius": 20,
+              "rated_load": 28.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 23.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 20.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.6
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 18.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 14
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 65,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 70,
+              "rated_load": 6.3
+            }
+          ]
+        },
+        "65": {
+          "2": [
+            {
+              "radius": 6.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 23.2,
+              "rated_load": 32
+            },
+            {
+              "radius": 25,
+              "rated_load": 30
+            },
+            {
+              "radius": 30,
+              "rated_load": 27.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 24.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 21.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 20.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 17.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 65,
+              "rated_load": 8.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 6.3,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 37.5
+            },
+            {
+              "radius": 15,
+              "rated_load": 35
+            },
+            {
+              "radius": 20,
+              "rated_load": 32.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 30
+            },
+            {
+              "radius": 30,
+              "rated_load": 27.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 24.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 21.4
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 20.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 17.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.1
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 12.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 65,
+              "rated_load": 8.5
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 5.8,
+              "rated_load": 32
+            },
+            {
+              "radius": 28,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 30
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 28.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 26.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 40,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 60,
+              "rated_load": 11
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.8,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 43.5
+            },
+            {
+              "radius": 15,
+              "rated_load": 40
+            },
+            {
+              "radius": 20,
+              "rated_load": 36.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 33.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 30
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 28.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 26.8
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 40,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 15.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 60,
+              "rated_load": 11
+            }
+          ]
+        },
+        "55": {
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 32.2,
+              "rated_load": 32
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 31.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 29.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 26.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 24.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 22.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 20.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 19.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 55,
+              "rated_load": 14
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 50.2
+            },
+            {
+              "radius": 15,
+              "rated_load": 46.4
+            },
+            {
+              "radius": 20,
+              "rated_load": 42.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 37.9
+            },
+            {
+              "radius": 30,
+              "rated_load": 33.6
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 31.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 29.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 26.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 24.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 22.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 20.9
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 19.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 55,
+              "rated_load": 14
+            }
+          ]
+        },
+        "52": {
+          "2": [
+            {
+              "radius": 4.4,
+              "rated_load": 32
+            },
+            {
+              "radius": 33.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 30.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 28
+            },
+            {
+              "radius": 40,
+              "rated_load": 25.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 23.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 21.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 15.1
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.4,
+              "rated_load": 64
+            },
+            {
+              "radius": 5.6,
+              "rated_load": 64
+            },
+            {
+              "radius": 10,
+              "rated_load": 58.5
+            },
+            {
+              "radius": 15,
+              "rated_load": 53
+            },
+            {
+              "radius": 20,
+              "rated_load": 47
+            },
+            {
+              "radius": 25,
+              "rated_load": 41.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 36.1
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 33.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 30.5
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 28
+            },
+            {
+              "radius": 40,
+              "rated_load": 25.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 23.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 21.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 15.1
+            }
+          ]
+        },
+        "47": {
+          "2": [
+            {
+              "radius": 4.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 33.8,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 31
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 28.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 23.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 18.4
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.3,
+              "rated_load": 64
+            },
+            {
+              "radius": 11,
+              "rated_load": 64
+            },
+            {
+              "radius": 15,
+              "rated_load": 58.3
+            },
+            {
+              "radius": 20,
+              "rated_load": 51.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 44.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 37.3
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 33.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 31
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 28.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 23.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 18.4
+            }
+          ]
+        },
+        "42": {
+          "2": [
+            {
+              "radius": 4,
+              "rated_load": 32
+            },
+            {
+              "radius": 34.1,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 31.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 28.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 25.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 22.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 4,
+              "rated_load": 64
+            },
+            {
+              "radius": 19.1,
+              "rated_load": 64
+            },
+            {
+              "radius": 20,
+              "rated_load": 59.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 46.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 37.7
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 34.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 31.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 28.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 25.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 22.3
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 3.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 33.1,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 30.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 26.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.8
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.7,
+              "rated_load": 64
+            },
+            {
+              "radius": 19.2,
+              "rated_load": 64
+            },
+            {
+              "radius": 20,
+              "rated_load": 60.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 47
+            },
+            {
+              "radius": 30,
+              "rated_load": 38.2
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 33.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 30.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 26.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.8
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 3.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 3.3,
+              "rated_load": 64
+            },
+            {
+              "radius": 19.2,
+              "rated_load": 64
+            },
+            {
+              "radius": 20,
+              "rated_load": 60.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 47.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 37.9
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 33.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 28.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 28.3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 72,
+      "model": "M1060D-36",
+      "brand": "法福克",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 72,
+      "max_arm_length": 70,
+      "min_radius": 3.9,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_M1060D-36.jpeg"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 6.6,
+              "rated_load": 36
+            },
+            {
+              "radius": 30,
+              "rated_load": 36
+            },
+            {
+              "radius": 35,
+              "rated_load": 32.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 28.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 26.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 24.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 23.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 55,
+              "rated_load": 17.9
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 16.1
+            },
+            {
+              "radius": 60,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 13.1
+            },
+            {
+              "radius": 65,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 10.5
+            },
+            {
+              "radius": 70,
+              "rated_load": 9.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 6.6,
+              "rated_load": 72
+            },
+            {
+              "radius": 7.5,
+              "rated_load": 69.6
+            },
+            {
+              "radius": 10,
+              "rated_load": 66.1
+            },
+            {
+              "radius": 15,
+              "rated_load": 60.1
+            },
+            {
+              "radius": 20,
+              "rated_load": 52.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 45.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 39.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 34.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 29.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 27.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 24.5
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 22
+            },
+            {
+              "radius": 50,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 17.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 60,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 11.1
+            },
+            {
+              "radius": 65,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 67.5,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 70,
+              "rated_load": 7.5
+            }
+          ]
+        },
+        "62": {
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 36
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 36
+            },
+            {
+              "radius": 40,
+              "rated_load": 34.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 31.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 28.7
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 23.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 60,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 62.5,
+              "rated_load": 15
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.9,
+              "rated_load": 72
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 72
+            },
+            {
+              "radius": 20,
+              "rated_load": 70.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 61.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 50.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 40.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 32.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 29.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 26.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 24
+            },
+            {
+              "radius": 50,
+              "rated_load": 21.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 17.8
+            },
+            {
+              "radius": 57.5,
+              "rated_load": 16.1
+            },
+            {
+              "radius": 60,
+              "rated_load": 14.6
+            }
+          ]
+        },
+        "52": {
+          "2": [
+            {
+              "radius": 5.4,
+              "rated_load": 36
+            },
+            {
+              "radius": 40,
+              "rated_load": 36
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 33.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 30.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 28
+            },
+            {
+              "radius": 50,
+              "rated_load": 25.7
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 23.6
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.2,
+              "rated_load": 72
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 72
+            },
+            {
+              "radius": 25,
+              "rated_load": 67.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 52.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 42.4
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 34.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 31.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 28.6
+            },
+            {
+              "radius": 47.5,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 23.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 21.8
+            }
+          ]
+        },
+        "45": {
+          "2": [
+            {
+              "radius": 4.7,
+              "rated_load": 36
+            },
+            {
+              "radius": 40,
+              "rated_load": 36
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 35.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 32.3
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.6,
+              "rated_load": 72
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 72
+            },
+            {
+              "radius": 25,
+              "rated_load": 69.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 54.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 44.3
+            },
+            {
+              "radius": 37.5,
+              "rated_load": 36.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 33.4
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4.1,
+              "rated_load": 36
+            },
+            {
+              "radius": 35,
+              "rated_load": 36
+            }
+          ],
+          "4": [
+            {
+              "radius": 3.9,
+              "rated_load": 72
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 72
+            },
+            {
+              "radius": 25,
+              "rated_load": 71.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 58.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 46.2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 73,
+      "model": "M1280D-50",
+      "brand": "法福克",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 100,
+      "max_arm_length": 80,
+      "min_radius": 4.6,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_M1280D-50.jpeg"
+      ],
+      "remark": "",
+      "tower_load_charts": {
+        "80": {
+          "2": [
+            {
+              "radius": 8.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 25,
+              "rated_load": 50
+            },
+            {
+              "radius": 30,
+              "rated_load": 48.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 45
+            },
+            {
+              "radius": 40,
+              "rated_load": 41.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 39
+            },
+            {
+              "radius": 45,
+              "rated_load": 37.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 34.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 55,
+              "rated_load": 30.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 27
+            },
+            {
+              "radius": 65,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 70,
+              "rated_load": 20
+            },
+            {
+              "radius": 71,
+              "rated_load": 19
+            },
+            {
+              "radius": 75,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 80,
+              "rated_load": 13
+            }
+          ],
+          "4": [
+            {
+              "radius": 8.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 25,
+              "rated_load": 50
+            },
+            {
+              "radius": 30,
+              "rated_load": 48.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 45
+            },
+            {
+              "radius": 40,
+              "rated_load": 41.2
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 39
+            },
+            {
+              "radius": 45,
+              "rated_load": 37.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 34.2
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 55,
+              "rated_load": 30.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 27
+            },
+            {
+              "radius": 65,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 70,
+              "rated_load": 20
+            },
+            {
+              "radius": 71,
+              "rated_load": 19
+            },
+            {
+              "radius": 75,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 80,
+              "rated_load": 13
+            }
+          ]
+        },
+        "71": {
+          "2": [
+            {
+              "radius": 7.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 45,
+              "rated_load": 47
+            },
+            {
+              "radius": 50,
+              "rated_load": 40.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 37.5
+            },
+            {
+              "radius": 55,
+              "rated_load": 35.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 30
+            },
+            {
+              "radius": 65,
+              "rated_load": 25
+            },
+            {
+              "radius": 70,
+              "rated_load": 21
+            },
+            {
+              "radius": 71,
+              "rated_load": 20
+            }
+          ],
+          "4": [
+            {
+              "radius": 7.5,
+              "rated_load": 100
+            },
+            {
+              "radius": 10,
+              "rated_load": 80
+            },
+            {
+              "radius": 25,
+              "rated_load": 80
+            },
+            {
+              "radius": 30,
+              "rated_load": 72
+            },
+            {
+              "radius": 35,
+              "rated_load": 64.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 54.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 51
+            },
+            {
+              "radius": 45,
+              "rated_load": 47
+            },
+            {
+              "radius": 50,
+              "rated_load": 40.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 37.5
+            },
+            {
+              "radius": 55,
+              "rated_load": 35.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 30
+            },
+            {
+              "radius": 65,
+              "rated_load": 25
+            },
+            {
+              "radius": 70,
+              "rated_load": 21
+            },
+            {
+              "radius": 71,
+              "rated_load": 20
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 6.7,
+              "rated_load": 50
+            },
+            {
+              "radius": 42.7,
+              "rated_load": 50
+            },
+            {
+              "radius": 45,
+              "rated_load": 48
+            },
+            {
+              "radius": 50,
+              "rated_load": 41.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 37.8
+            },
+            {
+              "radius": 55,
+              "rated_load": 36.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 31
+            }
+          ],
+          "4": [
+            {
+              "radius": 6.7,
+              "rated_load": 100
+            },
+            {
+              "radius": 24.5,
+              "rated_load": 100
+            },
+            {
+              "radius": 25,
+              "rated_load": 98
+            },
+            {
+              "radius": 30,
+              "rated_load": 79
+            },
+            {
+              "radius": 35,
+              "rated_load": 65.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 55.5
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 52
+            },
+            {
+              "radius": 45,
+              "rated_load": 48
+            },
+            {
+              "radius": 50,
+              "rated_load": 41.8
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 37.8
+            },
+            {
+              "radius": 55,
+              "rated_load": 36.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 31
+            }
+          ]
+        },
+        "52": {
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 50
+            },
+            {
+              "radius": 43,
+              "rated_load": 50
+            },
+            {
+              "radius": 45,
+              "rated_load": 49
+            },
+            {
+              "radius": 50,
+              "rated_load": 42.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 38
+            }
+          ],
+          "4": [
+            {
+              "radius": 6,
+              "rated_load": 100
+            },
+            {
+              "radius": 24.7,
+              "rated_load": 100
+            },
+            {
+              "radius": 25,
+              "rated_load": 99.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 80.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 66.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 56.8
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 49
+            },
+            {
+              "radius": 45,
+              "rated_load": 49
+            },
+            {
+              "radius": 50,
+              "rated_load": 42.5
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 38
+            }
+          ]
+        },
+        "42": {
+          "2": [
+            {
+              "radius": 5.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 50
+            }
+          ],
+          "4": [
+            {
+              "radius": 5.33,
+              "rated_load": 100
+            },
+            {
+              "radius": 24.9,
+              "rated_load": 100
+            },
+            {
+              "radius": 25,
+              "rated_load": 99
+            },
+            {
+              "radius": 30,
+              "rated_load": 81.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 67.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 57
+            },
+            {
+              "radius": 42.5,
+              "rated_load": 52
+            }
+          ]
+        },
+        "35": {
+          "2": [
+            {
+              "radius": 4.6,
+              "rated_load": 50
+            },
+            {
+              "radius": 35,
+              "rated_load": 50
+            }
+          ],
+          "4": [
+            {
+              "radius": 4.6,
+              "rated_load": 100
+            },
+            {
+              "radius": 25,
+              "rated_load": 100
+            },
+            {
+              "radius": 30,
+              "rated_load": 81.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 65
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 74,
+      "model": "ZSL120-12t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 12,
+      "max_arm_length": 29,
+      "min_radius": 5.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 0,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL120-12t.png"
+      ],
+      "remark": "注:吊重性能包含吊钩和钢丝绳的重量。",
+      "tower_load_charts": {
+        "29": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 8
+            },
+            {
+              "radius": 15.7,
+              "rated_load": 8
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 7
+            },
+            {
+              "radius": 20,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 5
+            },
+            {
+              "radius": 25,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 29,
+              "rated_load": 3.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 12
+            },
+            {
+              "radius": 11,
+              "rated_load": 12
+            },
+            {
+              "radius": 12.5,
+              "rated_load": 10.5
+            },
+            {
+              "radius": 15,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 7
+            },
+            {
+              "radius": 20,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 5
+            },
+            {
+              "radius": 25,
+              "rated_load": 4.3
+            },
+            {
+              "radius": 29,
+              "rated_load": 3.5
+            }
+          ]
+        },
+        "25": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 8
+            },
+            {
+              "radius": 16,
+              "rated_load": 8
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 20,
+              "rated_load": 6
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 4.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 12
+            },
+            {
+              "radius": 11.2,
+              "rated_load": 12
+            },
+            {
+              "radius": 12.5,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 15,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 20,
+              "rated_load": 6
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 5.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 4.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 75,
+      "model": "ZSL200-20t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 20,
+      "max_arm_length": 50,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 44,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL200-20t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "50": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 10
+            },
+            {
+              "radius": 19.9,
+              "rated_load": 10
+            },
+            {
+              "radius": 20,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 7
+            },
+            {
+              "radius": 30,
+              "rated_load": 5
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 2.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 1.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 1.2
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 20
+            },
+            {
+              "radius": 11.8,
+              "rated_load": 20
+            },
+            {
+              "radius": 15,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 20,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 7
+            },
+            {
+              "radius": 30,
+              "rated_load": 5
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 2.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 1.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 1.2
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 4.5,
+              "rated_load": 10
+            },
+            {
+              "radius": 20.3,
+              "rated_load": 10
+            },
+            {
+              "radius": 25,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.1
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.5,
+              "rated_load": 20
+            },
+            {
+              "radius": 11.9,
+              "rated_load": 20
+            },
+            {
+              "radius": 15,
+              "rated_load": 15
+            },
+            {
+              "radius": 20,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 5.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 3.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 2.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.1
+            }
+          ]
+        },
+        "40": {
+          "1": [
+            {
+              "radius": 4,
+              "rated_load": 10
+            },
+            {
+              "radius": 20.5,
+              "rated_load": 10
+            },
+            {
+              "radius": 25,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.2
+            }
+          ],
+          "2": [
+            {
+              "radius": 4,
+              "rated_load": 20
+            },
+            {
+              "radius": 12,
+              "rated_load": 20
+            },
+            {
+              "radius": 15,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 20,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.2
+            }
+          ]
+        },
+        "35": {
+          "1": [
+            {
+              "radius": 3.5,
+              "rated_load": 10
+            },
+            {
+              "radius": 21,
+              "rated_load": 10
+            },
+            {
+              "radius": 25,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 4.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 20
+            },
+            {
+              "radius": 12.2,
+              "rated_load": 20
+            },
+            {
+              "radius": 15,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 40.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 4.5
+            }
+          ]
+        },
+        "30": {
+          "1": [
+            {
+              "radius": 3,
+              "rated_load": 10
+            },
+            {
+              "radius": 21.5,
+              "rated_load": 10
+            },
+            {
+              "radius": 25,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 6.1
+            }
+          ],
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 20
+            },
+            {
+              "radius": 12.4,
+              "rated_load": 20
+            },
+            {
+              "radius": 15,
+              "rated_load": 15.7
+            },
+            {
+              "radius": 20,
+              "rated_load": 11
+            },
+            {
+              "radius": 25,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 6.1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 76,
+      "model": "ZSL260-18t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 18,
+      "max_arm_length": 50,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 44,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL260-18t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "50": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 9
+            },
+            {
+              "radius": 24.3,
+              "rated_load": 9
+            },
+            {
+              "radius": 25,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 1.6
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 18
+            },
+            {
+              "radius": 15,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 12.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 1.6
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 4.5,
+              "rated_load": 9
+            },
+            {
+              "radius": 25,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 5
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.5,
+              "rated_load": 18
+            },
+            {
+              "radius": 15,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 5
+            },
+            {
+              "radius": 40,
+              "rated_load": 3.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 2.8
+            }
+          ]
+        },
+        "40": {
+          "1": [
+            {
+              "radius": 4,
+              "rated_load": 9
+            },
+            {
+              "radius": 26,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 4.4
+            }
+          ],
+          "2": [
+            {
+              "radius": 4,
+              "rated_load": 18
+            },
+            {
+              "radius": 15.2,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 13.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 9.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 4.4
+            }
+          ]
+        },
+        "35": {
+          "1": [
+            {
+              "radius": 3.5,
+              "rated_load": 9
+            },
+            {
+              "radius": 26.5,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 5.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 18
+            },
+            {
+              "radius": 15.4,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 13.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 5.8
+            }
+          ]
+        },
+        "30": {
+          "1": [
+            {
+              "radius": 3,
+              "rated_load": 9
+            },
+            {
+              "radius": 27,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.7
+            }
+          ],
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 18
+            },
+            {
+              "radius": 15.6,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 10
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.7
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 77,
+      "model": "ZSL260X-18t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 18,
+      "max_arm_length": 50,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 44,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL260X-18t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "50": {
+          "1": [
+            {
+              "radius": 4.6,
+              "rated_load": 9
+            },
+            {
+              "radius": 25.7,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 3
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.6,
+              "rated_load": 18
+            },
+            {
+              "radius": 15,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 9.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 5.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 4.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 3.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 3
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 4.2,
+              "rated_load": 9
+            },
+            {
+              "radius": 26.3,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 3.9
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.2,
+              "rated_load": 18
+            },
+            {
+              "radius": 15.1,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 5.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 4.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 3.9
+            }
+          ]
+        },
+        "40": {
+          "1": [
+            {
+              "radius": 4,
+              "rated_load": 9
+            },
+            {
+              "radius": 26.9,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 5.1
+            }
+          ],
+          "2": [
+            {
+              "radius": 4,
+              "rated_load": 18
+            },
+            {
+              "radius": 15.2,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 13.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 9.9
+            },
+            {
+              "radius": 30,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 6.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 5.1
+            }
+          ]
+        },
+        "35": {
+          "1": [
+            {
+              "radius": 3.5,
+              "rated_load": 9
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 8
+            },
+            {
+              "radius": 35,
+              "rated_load": 6.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 18
+            },
+            {
+              "radius": 15.4,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 13.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 8
+            },
+            {
+              "radius": 35,
+              "rated_load": 6.5
+            }
+          ]
+        },
+        "30": {
+          "1": [
+            {
+              "radius": 3,
+              "rated_load": 9
+            },
+            {
+              "radius": 28,
+              "rated_load": 9
+            },
+            {
+              "radius": 30,
+              "rated_load": 8.2
+            }
+          ],
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 18
+            },
+            {
+              "radius": 15.6,
+              "rated_load": 18
+            },
+            {
+              "radius": 20,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 10.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 8.2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 78,
+      "model": "ZSL380-32t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 32,
+      "max_arm_length": 50,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 44,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL380-32t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "50": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 16
+            },
+            {
+              "radius": 22,
+              "rated_load": 16
+            },
+            {
+              "radius": 25,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 3.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 32
+            },
+            {
+              "radius": 12.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 26.2
+            },
+            {
+              "radius": 20,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 7.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 6.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 4.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 3.8
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 4.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 22.4,
+              "rated_load": 16
+            },
+            {
+              "radius": 25,
+              "rated_load": 14
+            },
+            {
+              "radius": 30,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 5.4
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 12.8,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 27
+            },
+            {
+              "radius": 20,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 14
+            },
+            {
+              "radius": 30,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 5.4
+            }
+          ]
+        },
+        "40": {
+          "1": [
+            {
+              "radius": 4,
+              "rated_load": 16
+            },
+            {
+              "radius": 22.8,
+              "rated_load": 16
+            },
+            {
+              "radius": 25,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 11
+            },
+            {
+              "radius": 35,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 7
+            }
+          ],
+          "2": [
+            {
+              "radius": 4,
+              "rated_load": 32
+            },
+            {
+              "radius": 13,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 27.1
+            },
+            {
+              "radius": 20,
+              "rated_load": 19
+            },
+            {
+              "radius": 25,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 11
+            },
+            {
+              "radius": 35,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 7
+            }
+          ]
+        },
+        "35": {
+          "1": [
+            {
+              "radius": 3.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 23,
+              "rated_load": 16
+            },
+            {
+              "radius": 25,
+              "rated_load": 14.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 9
+            }
+          ],
+          "2": [
+            {
+              "radius": 3.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 13.2,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 27.2
+            },
+            {
+              "radius": 20,
+              "rated_load": 19.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 14.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 9
+            }
+          ]
+        },
+        "30": {
+          "1": [
+            {
+              "radius": 3,
+              "rated_load": 16
+            },
+            {
+              "radius": 23.9,
+              "rated_load": 16
+            },
+            {
+              "radius": 25,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 11.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 32
+            },
+            {
+              "radius": 13.6,
+              "rated_load": 32
+            },
+            {
+              "radius": 15,
+              "rated_load": 28.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 20.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 11.8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 79,
+      "model": "ZSL500-32t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 32,
+      "max_arm_length": 60,
+      "min_radius": 4.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 52,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL500-32t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 25.6,
+              "rated_load": 16
+            },
+            {
+              "radius": 30,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 3
+            },
+            {
+              "radius": 60,
+              "rated_load": 2.1
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 15.4,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 7.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 4.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 3
+            },
+            {
+              "radius": 60,
+              "rated_load": 2.1
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 16
+            },
+            {
+              "radius": 26.1,
+              "rated_load": 16
+            },
+            {
+              "radius": 30,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 10
+            },
+            {
+              "radius": 40,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 6
+            },
+            {
+              "radius": 50,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 3.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 32
+            },
+            {
+              "radius": 15.6,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 23.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 17
+            },
+            {
+              "radius": 30,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 10
+            },
+            {
+              "radius": 40,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 6
+            },
+            {
+              "radius": 50,
+              "rated_load": 4.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 3.5
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 26.8,
+              "rated_load": 16
+            },
+            {
+              "radius": 30,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 5.4
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 15.8,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 23.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 5.4
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 16
+            },
+            {
+              "radius": 27.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 30,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 7.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 32
+            },
+            {
+              "radius": 16,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 24.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 18.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 7.5
+            }
+          ]
+        },
+        "40": {
+          "1": [
+            {
+              "radius": 4.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 28.3,
+              "rated_load": 16
+            },
+            {
+              "radius": 30,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 9.6
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 16.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 25.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 30,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 11.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 9.6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 80,
+      "model": "ZSL650-32t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 32,
+      "max_arm_length": 60,
+      "min_radius": 4.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 56,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL650-32t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 32.8,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.9
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 19,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 29.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 17.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 13.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 7.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.9
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 16
+            },
+            {
+              "radius": 32.9,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.7
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 32
+            },
+            {
+              "radius": 19.2,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 29.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 22
+            },
+            {
+              "radius": 30,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 11.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.7
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 33,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.6
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 19.4,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.6
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 16
+            },
+            {
+              "radius": 33.4,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 32
+            },
+            {
+              "radius": 19.6,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 18.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.5
+            }
+          ]
+        },
+        "40": {
+          "1": [
+            {
+              "radius": 4.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 34,
+              "rated_load": 16
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 13
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 19.8,
+              "rated_load": 32
+            },
+            {
+              "radius": 20,
+              "rated_load": 30.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 23.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 19
+            },
+            {
+              "radius": 35,
+              "rated_load": 15.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 13
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 81,
+      "model": "ZSL650X-50t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 50,
+      "max_arm_length": 60,
+      "min_radius": 4.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 56,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL650X-50t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 26.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 16
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.9
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 14,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 35
+            },
+            {
+              "radius": 25,
+              "rated_load": 26.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 16
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.9
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 25
+            },
+            {
+              "radius": 26.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.9
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 50
+            },
+            {
+              "radius": 14.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 35.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 26.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.9
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 27.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 21
+            },
+            {
+              "radius": 35,
+              "rated_load": 17
+            },
+            {
+              "radius": 40,
+              "rated_load": 14
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.4
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 14.4,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 35.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 26.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 21
+            },
+            {
+              "radius": 35,
+              "rated_load": 17
+            },
+            {
+              "radius": 40,
+              "rated_load": 14
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.4
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 25
+            },
+            {
+              "radius": 27.7,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.1
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 50
+            },
+            {
+              "radius": 14.6,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 36
+            },
+            {
+              "radius": 25,
+              "rated_load": 27.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.1
+            }
+          ]
+        },
+        "40": {
+          "1": [
+            {
+              "radius": 4.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 28.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.2
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 14.8,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 36.6
+            },
+            {
+              "radius": 25,
+              "rated_load": 28.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 82,
+      "model": "ZSL750-50t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 50,
+      "max_arm_length": 60,
+      "min_radius": 4.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 56,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL750-50t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 26.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 60,
+              "rated_load": 5
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 15,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 35.2
+            },
+            {
+              "radius": 25,
+              "rated_load": 26.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 60,
+              "rated_load": 5
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 25
+            },
+            {
+              "radius": 26.9,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 7
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 50
+            },
+            {
+              "radius": 15.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 35.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 26.9
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 16.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 13.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 7
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 27.2,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 213
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.9
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 15.4,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 35.6
+            },
+            {
+              "radius": 25,
+              "rated_load": 27
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 11.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 9.9
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 25
+            },
+            {
+              "radius": 27.4,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.4
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 50
+            },
+            {
+              "radius": 15.6,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 36.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 27.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 21.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 14.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.4
+            }
+          ]
+        },
+        "40": {
+          "1": [
+            {
+              "radius": 4.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 27.6,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.4
+            }
+          ],
+          "2": [
+            {
+              "radius": 4.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 15.8,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 36.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 28.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 22.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 18.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 15.4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 83,
+      "model": "ZSL750X-50t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 50,
+      "max_arm_length": 60,
+      "min_radius": 5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 56,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL750X-50t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 29.9,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 16
+            },
+            {
+              "radius": 45,
+              "rated_load": 13
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.1
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 17.6,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 42.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 16
+            },
+            {
+              "radius": 45,
+              "rated_load": 13
+            },
+            {
+              "radius": 50,
+              "rated_load": 10.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 7.1
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 25
+            },
+            {
+              "radius": 30.3,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 9.2
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 50
+            },
+            {
+              "radius": 17.7,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 43.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 32.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 25.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 16.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 11.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 9.2
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 31.1,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 21.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 12
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 18,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 44.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 33.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 26.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 21.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 14.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 12
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 25
+            },
+            {
+              "radius": 31.6,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 21.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 18
+            },
+            {
+              "radius": 45,
+              "rated_load": 15
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 50
+            },
+            {
+              "radius": 18.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 44.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 34
+            },
+            {
+              "radius": 30,
+              "rated_load": 26.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 21.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 18
+            },
+            {
+              "radius": 45,
+              "rated_load": 15
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 84,
+      "model": "ZSL850-50t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 50,
+      "max_arm_length": 65,
+      "min_radius": 5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 56,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL850-50t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "65": {
+          "1": [
+            {
+              "radius": 7,
+              "rated_load": 25
+            },
+            {
+              "radius": 31.8,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 60,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 65,
+              "rated_load": 7
+            }
+          ],
+          "2": [
+            {
+              "radius": 7,
+              "rated_load": 50
+            },
+            {
+              "radius": 18.6,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 45.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 34.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 27.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 21.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 12.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.1
+            },
+            {
+              "radius": 60,
+              "rated_load": 8.4
+            },
+            {
+              "radius": 65,
+              "rated_load": 7
+            }
+          ]
+        },
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 32.3,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 9
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 18.7,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 46.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 35.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 27.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.3
+            },
+            {
+              "radius": 40,
+              "rated_load": 18.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 12.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 9
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 25
+            },
+            {
+              "radius": 32.8,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 11.2
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 50
+            },
+            {
+              "radius": 18.9,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 46.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 35.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 28.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 18.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 11.2
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 33.3,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 23.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 19.1,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 47.3
+            },
+            {
+              "radius": 25,
+              "rated_load": 36.2
+            },
+            {
+              "radius": 30,
+              "rated_load": 28.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 23.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.8
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 25
+            },
+            {
+              "radius": 33.9,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 24
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 50
+            },
+            {
+              "radius": 19.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 47.9
+            },
+            {
+              "radius": 25,
+              "rated_load": 36.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 29.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 24
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 85,
+      "model": "ZSL1000-64t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 64,
+      "max_arm_length": 60,
+      "min_radius": 5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 56,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL1000-64t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 28,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 29.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 23.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 5.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 9.1
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 16,
+              "rated_load": 64
+            },
+            {
+              "radius": 20,
+              "rated_load": 49.1
+            },
+            {
+              "radius": 25,
+              "rated_load": 37.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 29.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 23.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 15.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 10.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 9.1
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 32
+            },
+            {
+              "radius": 28.4,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 29.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 24
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 11.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 64
+            },
+            {
+              "radius": 16.2,
+              "rated_load": 64
+            },
+            {
+              "radius": 20,
+              "rated_load": 49.7
+            },
+            {
+              "radius": 25,
+              "rated_load": 37.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 29.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 24
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 13.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 11.5
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 28.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 30
+            },
+            {
+              "radius": 35,
+              "rated_load": 24.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 17
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.4
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 16.4,
+              "rated_load": 64
+            },
+            {
+              "radius": 20,
+              "rated_load": 49.8
+            },
+            {
+              "radius": 25,
+              "rated_load": 37.9
+            },
+            {
+              "radius": 30,
+              "rated_load": 30
+            },
+            {
+              "radius": 35,
+              "rated_load": 24.6
+            },
+            {
+              "radius": 40,
+              "rated_load": 20.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 17
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.4
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 32
+            },
+            {
+              "radius": 28.8,
+              "rated_load": 32
+            },
+            {
+              "radius": 30,
+              "rated_load": 30.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 25.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 21.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 18
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 64
+            },
+            {
+              "radius": 16.6,
+              "rated_load": 64
+            },
+            {
+              "radius": 20,
+              "rated_load": 50.4
+            },
+            {
+              "radius": 25,
+              "rated_load": 38.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 30.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 25.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 21.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 18
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 86,
+      "model": "ZSL1150-64t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 64,
+      "max_arm_length": 60,
+      "min_radius": 5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL1150-64t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 30.7,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 27.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 18.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 13
+            },
+            {
+              "radius": 60,
+              "rated_load": 10.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 18,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 42.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 33.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 27.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 22.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 18.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 13
+            },
+            {
+              "radius": 60,
+              "rated_load": 10.8
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 32
+            },
+            {
+              "radius": 31,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 28.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 23.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.7
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 64
+            },
+            {
+              "radius": 18.2,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 42.7
+            },
+            {
+              "radius": 30,
+              "rated_load": 33.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 28.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 23.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.7
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 31.2,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 28.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 23.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.7
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 18.4,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 42.9
+            },
+            {
+              "radius": 30,
+              "rated_load": 33.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 28.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 23.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.7
+            }
+          ]
+        },
+        "45": {
+          "1": [
+            {
+              "radius": 5,
+              "rated_load": 32
+            },
+            {
+              "radius": 31.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 29.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 24.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 20.4
+            }
+          ],
+          "2": [
+            {
+              "radius": 5,
+              "rated_load": 64
+            },
+            {
+              "radius": 18.6,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 43.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 34.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 29.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 24.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 20.4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 87,
+      "model": "ZSL1250-64t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 64,
+      "max_arm_length": 65,
+      "min_radius": 5.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL1250-64t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "65": {
+          "1": [
+            {
+              "radius": 7,
+              "rated_load": 32
+            },
+            {
+              "radius": 33,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 29.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 24
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 65,
+              "rated_load": 9.3
+            }
+          ],
+          "2": [
+            {
+              "radius": 7,
+              "rated_load": 64
+            },
+            {
+              "radius": 19.4,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 46.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 36.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 29.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 24
+            },
+            {
+              "radius": 45,
+              "rated_load": 19.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.3
+            },
+            {
+              "radius": 65,
+              "rated_load": 9.3
+            }
+          ]
+        },
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 33.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 29.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 24.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 20.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.6
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 19.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 47.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 37
+            },
+            {
+              "radius": 35,
+              "rated_load": 29.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 24.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 20.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 16.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.6
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 32
+            },
+            {
+              "radius": 34,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 30.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 25.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 21
+            },
+            {
+              "radius": 50,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 14.9
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 64
+            },
+            {
+              "radius": 19.7,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 48
+            },
+            {
+              "radius": 30,
+              "rated_load": 38
+            },
+            {
+              "radius": 35,
+              "rated_load": 30.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 25.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 21
+            },
+            {
+              "radius": 50,
+              "rated_load": 17.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 14.9
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 34.3,
+              "rated_load": 32
+            },
+            {
+              "radius": 35,
+              "rated_load": 31.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 25.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 21.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 18.1
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 19.8,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 48.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 38.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 31.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 25.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 21.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 18.1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 88,
+      "model": "ZSL1500-64t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 64,
+      "max_arm_length": 65,
+      "min_radius": 5.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL1500-64t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "65": {
+          "1": [
+            {
+              "radius": 7,
+              "rated_load": 32
+            },
+            {
+              "radius": 38,
+              "rated_load": 32
+            },
+            {
+              "radius": 40,
+              "rated_load": 29.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 24.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 20.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 65,
+              "rated_load": 12.3
+            }
+          ],
+          "2": [
+            {
+              "radius": 7,
+              "rated_load": 64
+            },
+            {
+              "radius": 22.6,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 56.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 44.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 36
+            },
+            {
+              "radius": 40,
+              "rated_load": 29.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 24.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 20.6
+            },
+            {
+              "radius": 55,
+              "rated_load": 17.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 14.6
+            },
+            {
+              "radius": 65,
+              "rated_load": 12.3
+            }
+          ]
+        },
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 38.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 40,
+              "rated_load": 30.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 25.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 21.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 18
+            },
+            {
+              "radius": 60,
+              "rated_load": 15.3
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 22.8,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 57.3
+            },
+            {
+              "radius": 30,
+              "rated_load": 45.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 36.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 30.33
+            },
+            {
+              "radius": 45,
+              "rated_load": 25.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 21.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 18
+            },
+            {
+              "radius": 60,
+              "rated_load": 15.3
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 32
+            },
+            {
+              "radius": 39.2,
+              "rated_load": 32
+            },
+            {
+              "radius": 40,
+              "rated_load": 31.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 22.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 18.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 64
+            },
+            {
+              "radius": 23.1,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 58.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 46.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 37.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 31.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 26.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 22.1
+            },
+            {
+              "radius": 55,
+              "rated_load": 18.8
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 32
+            },
+            {
+              "radius": 39.8,
+              "rated_load": 32
+            },
+            {
+              "radius": 40,
+              "rated_load": 31.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 26.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 22.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 64
+            },
+            {
+              "radius": 23.3,
+              "rated_load": 64
+            },
+            {
+              "radius": 25,
+              "rated_load": 58.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 46.8
+            },
+            {
+              "radius": 35,
+              "rated_load": 38.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 31.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 26.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 22.8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 89,
+      "model": "ZSL1700-80t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 80,
+      "max_arm_length": 65,
+      "min_radius": 5.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL1700-80t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "65": {
+          "1": [
+            {
+              "radius": 7,
+              "rated_load": 40
+            },
+            {
+              "radius": 35.4,
+              "rated_load": 40
+            },
+            {
+              "radius": 40,
+              "rated_load": 33.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 27.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 55,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 16.7
+            },
+            {
+              "radius": 65,
+              "rated_load": 14
+            }
+          ],
+          "2": [
+            {
+              "radius": 7,
+              "rated_load": 80
+            },
+            {
+              "radius": 20.8,
+              "rated_load": 80
+            },
+            {
+              "radius": 25,
+              "rated_load": 63.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 50.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 40
+            },
+            {
+              "radius": 40,
+              "rated_load": 33.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 27.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 23.5
+            },
+            {
+              "radius": 55,
+              "rated_load": 19.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 16.7
+            },
+            {
+              "radius": 65,
+              "rated_load": 14
+            }
+          ]
+        },
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 40
+            },
+            {
+              "radius": 36,
+              "rated_load": 40
+            },
+            {
+              "radius": 40,
+              "rated_load": 34.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 28.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 24.5
+            },
+            {
+              "radius": 55,
+              "rated_load": 20.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 17.7
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 80
+            },
+            {
+              "radius": 21.2,
+              "rated_load": 80
+            },
+            {
+              "radius": 25,
+              "rated_load": 64.8
+            },
+            {
+              "radius": 30,
+              "rated_load": 51.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 41.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 34.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 28.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 24.5
+            },
+            {
+              "radius": 55,
+              "rated_load": 20.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 17.7
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 40
+            },
+            {
+              "radius": 36.6,
+              "rated_load": 40
+            },
+            {
+              "radius": 40,
+              "rated_load": 35.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 30.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 25.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 22
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 80
+            },
+            {
+              "radius": 21.3,
+              "rated_load": 80
+            },
+            {
+              "radius": 25,
+              "rated_load": 66
+            },
+            {
+              "radius": 30,
+              "rated_load": 52.6
+            },
+            {
+              "radius": 35,
+              "rated_load": 43
+            },
+            {
+              "radius": 40,
+              "rated_load": 35.8
+            },
+            {
+              "radius": 45,
+              "rated_load": 30.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 25.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 22
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 40
+            },
+            {
+              "radius": 37.2,
+              "rated_load": 40
+            },
+            {
+              "radius": 40,
+              "rated_load": 36.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 30.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 26.2
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 80
+            },
+            {
+              "radius": 21.4,
+              "rated_load": 80
+            },
+            {
+              "radius": 25,
+              "rated_load": 66.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 53.1
+            },
+            {
+              "radius": 35,
+              "rated_load": 43.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 36.3
+            },
+            {
+              "radius": 45,
+              "rated_load": 30.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 26.2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 90,
+      "model": "ZSL2000-100t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 100,
+      "max_arm_length": 65,
+      "min_radius": 5.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL2000-100t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "65": {
+          "1": [
+            {
+              "radius": 7,
+              "rated_load": 50
+            },
+            {
+              "radius": 34,
+              "rated_load": 50
+            },
+            {
+              "radius": 35,
+              "rated_load": 48.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 39.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 33.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 27.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 23.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 20.1
+            },
+            {
+              "radius": 65,
+              "rated_load": 17
+            }
+          ],
+          "2": [
+            {
+              "radius": 7,
+              "rated_load": 100
+            },
+            {
+              "radius": 19.7,
+              "rated_load": 100
+            },
+            {
+              "radius": 25,
+              "rated_load": 75.1
+            },
+            {
+              "radius": 30,
+              "rated_load": 59.4
+            },
+            {
+              "radius": 35,
+              "rated_load": 48.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 39.7
+            },
+            {
+              "radius": 45,
+              "rated_load": 33.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 27.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 23.6
+            },
+            {
+              "radius": 60,
+              "rated_load": 20.1
+            },
+            {
+              "radius": 65,
+              "rated_load": 17
+            }
+          ]
+        },
+        "60": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 34.6,
+              "rated_load": 50
+            },
+            {
+              "radius": 35,
+              "rated_load": 49.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 41
+            },
+            {
+              "radius": 45,
+              "rated_load": 34.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 29.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 21.3
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 100
+            },
+            {
+              "radius": 20,
+              "rated_load": 100
+            },
+            {
+              "radius": 25,
+              "rated_load": 76.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 60.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 49.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 41
+            },
+            {
+              "radius": 45,
+              "rated_load": 34.4
+            },
+            {
+              "radius": 50,
+              "rated_load": 29.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 24.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 21.3
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 6,
+              "rated_load": 50
+            },
+            {
+              "radius": 35.2,
+              "rated_load": 50
+            },
+            {
+              "radius": 40,
+              "rated_load": 42.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 35.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 30.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 26
+            }
+          ],
+          "2": [
+            {
+              "radius": 6,
+              "rated_load": 100
+            },
+            {
+              "radius": 20.2,
+              "rated_load": 100
+            },
+            {
+              "radius": 25,
+              "rated_load": 77.5
+            },
+            {
+              "radius": 30,
+              "rated_load": 61.7
+            },
+            {
+              "radius": 35,
+              "rated_load": 50.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 42.1
+            },
+            {
+              "radius": 45,
+              "rated_load": 35.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 30.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 26
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 5.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 35.9,
+              "rated_load": 50
+            },
+            {
+              "radius": 40,
+              "rated_load": 43.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 36.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 31.4
+            }
+          ],
+          "2": [
+            {
+              "radius": 5.5,
+              "rated_load": 100
+            },
+            {
+              "radius": 20.4,
+              "rated_load": 100
+            },
+            {
+              "radius": 25,
+              "rated_load": 78.6
+            },
+            {
+              "radius": 30,
+              "rated_load": 62.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 51.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 43.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 36.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 31.4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 91,
+      "model": "ZSL2700-100t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 100,
+      "max_arm_length": 65,
+      "min_radius": 6.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL2700-100t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "65": {
+          "1": [
+            {
+              "radius": 8,
+              "rated_load": 50
+            },
+            {
+              "radius": 44.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 45,
+              "rated_load": 48.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 41.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 36.2
+            },
+            {
+              "radius": 60,
+              "rated_load": 31.4
+            },
+            {
+              "radius": 65,
+              "rated_load": 27.5
+            }
+          ],
+          "2": [
+            {
+              "radius": 8,
+              "rated_load": 100
+            },
+            {
+              "radius": 26,
+              "rated_load": 100
+            },
+            {
+              "radius": 30,
+              "rated_load": 83.9
+            },
+            {
+              "radius": 35,
+              "rated_load": 68.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 57.6
+            },
+            {
+              "radius": 45,
+              "rated_load": 48.9
+            },
+            {
+              "radius": 50,
+              "rated_load": 41.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 36.2
+            },
+            {
+              "radius": 60,
+              "rated_load": 31.4
+            },
+            {
+              "radius": 65,
+              "rated_load": 27.5
+            }
+          ]
+        },
+        "60": {
+          "1": [
+            {
+              "radius": 7.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 44.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 45,
+              "rated_load": 49.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 42.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 36.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 31.9
+            }
+          ],
+          "2": [
+            {
+              "radius": 7.5,
+              "rated_load": 100
+            },
+            {
+              "radius": 26.2,
+              "rated_load": 100
+            },
+            {
+              "radius": 30,
+              "rated_load": 84.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 69.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 58.2
+            },
+            {
+              "radius": 45,
+              "rated_load": 49.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 42.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 36.7
+            },
+            {
+              "radius": 60,
+              "rated_load": 31.9
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 7,
+              "rated_load": 50
+            },
+            {
+              "radius": 45,
+              "rated_load": 50
+            },
+            {
+              "radius": 50,
+              "rated_load": 43.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 37.6
+            }
+          ],
+          "2": [
+            {
+              "radius": 7,
+              "rated_load": 100
+            },
+            {
+              "radius": 26.5,
+              "rated_load": 100
+            },
+            {
+              "radius": 30,
+              "rated_load": 85.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 70.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 59
+            },
+            {
+              "radius": 45,
+              "rated_load": 50
+            },
+            {
+              "radius": 50,
+              "rated_load": 43.4
+            },
+            {
+              "radius": 55,
+              "rated_load": 37.6
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 46,
+              "rated_load": 50
+            },
+            {
+              "radius": 50,
+              "rated_load": 45
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 100
+            },
+            {
+              "radius": 26.8,
+              "rated_load": 100
+            },
+            {
+              "radius": 30,
+              "rated_load": 87.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 72
+            },
+            {
+              "radius": 40,
+              "rated_load": 60.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 52.1
+            },
+            {
+              "radius": 50,
+              "rated_load": 45
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 92,
+      "model": "ZSL3200-100t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "动臂",
+      "max_load_t": 100,
+      "max_arm_length": 65,
+      "min_radius": 6.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 60,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSL3200-100t.png"
+      ],
+      "remark": "注:吊重性能是已减去吊钩和100m钢丝绳后的净吊重，钢丝绳超出部分的重量应从吊重性能中扣除。",
+      "tower_load_charts": {
+        "65": {
+          "1": [
+            {
+              "radius": 8,
+              "rated_load": 50
+            },
+            {
+              "radius": 52.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 55,
+              "rated_load": 46.2
+            },
+            {
+              "radius": 60,
+              "rated_load": 40.3
+            },
+            {
+              "radius": 65,
+              "rated_load": 35.3
+            }
+          ],
+          "2": [
+            {
+              "radius": 8,
+              "rated_load": 100
+            },
+            {
+              "radius": 31.3,
+              "rated_load": 100
+            },
+            {
+              "radius": 35,
+              "rated_load": 86.8
+            },
+            {
+              "radius": 40,
+              "rated_load": 72.9
+            },
+            {
+              "radius": 45,
+              "rated_load": 62
+            },
+            {
+              "radius": 50,
+              "rated_load": 53.3
+            },
+            {
+              "radius": 55,
+              "rated_load": 46.2
+            },
+            {
+              "radius": 60,
+              "rated_load": 40.3
+            },
+            {
+              "radius": 65,
+              "rated_load": 35.3
+            }
+          ]
+        },
+        "60": {
+          "1": [
+            {
+              "radius": 7.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 53.3,
+              "rated_load": 50
+            },
+            {
+              "radius": 55,
+              "rated_load": 47.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 41.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 7.5,
+              "rated_load": 100
+            },
+            {
+              "radius": 31.7,
+              "rated_load": 100
+            },
+            {
+              "radius": 35,
+              "rated_load": 88.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 74.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 63.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 54.8
+            },
+            {
+              "radius": 55,
+              "rated_load": 47.8
+            },
+            {
+              "radius": 60,
+              "rated_load": 41.8
+            }
+          ]
+        },
+        "55": {
+          "1": [
+            {
+              "radius": 7,
+              "rated_load": 50
+            },
+            {
+              "radius": 54,
+              "rated_load": 50
+            },
+            {
+              "radius": 55,
+              "rated_load": 48.8
+            }
+          ],
+          "2": [
+            {
+              "radius": 7,
+              "rated_load": 100
+            },
+            {
+              "radius": 31.9,
+              "rated_load": 100
+            },
+            {
+              "radius": 35,
+              "rated_load": 89.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 75.4
+            },
+            {
+              "radius": 45,
+              "rated_load": 64.6
+            },
+            {
+              "radius": 50,
+              "rated_load": 55.9
+            },
+            {
+              "radius": 55,
+              "rated_load": 48.8
+            }
+          ]
+        },
+        "50": {
+          "1": [
+            {
+              "radius": 6.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 50,
+              "rated_load": 50
+            }
+          ],
+          "2": [
+            {
+              "radius": 6.5,
+              "rated_load": 100
+            },
+            {
+              "radius": 32,
+              "rated_load": 100
+            },
+            {
+              "radius": 35,
+              "rated_load": 89.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 75.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 64.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 56
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 93,
+      "model": "ZSC250-12t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 12,
+      "max_arm_length": 60,
+      "min_radius": 2.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 43,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSC250-12t.png"
+      ],
+      "remark": "注:吊重性能是塔机独立高度时的净吊重，超过独立高度时，需扣除超出部分钢丝绳的重量。",
+      "tower_load_charts": {
+        "60": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 12
+            },
+            {
+              "radius": 21,
+              "rated_load": 12
+            },
+            {
+              "radius": 25,
+              "rated_load": 10
+            },
+            {
+              "radius": 30,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 6
+            },
+            {
+              "radius": 45,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 5
+            },
+            {
+              "radius": 55,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 60,
+              "rated_load": 3.6
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 12
+            },
+            {
+              "radius": 21,
+              "rated_load": 12
+            },
+            {
+              "radius": 25,
+              "rated_load": 10
+            },
+            {
+              "radius": 30,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 6
+            },
+            {
+              "radius": 45,
+              "rated_load": 5.5
+            },
+            {
+              "radius": 50,
+              "rated_load": 5
+            }
+          ]
+        },
+        "40": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 12
+            },
+            {
+              "radius": 21,
+              "rated_load": 12
+            },
+            {
+              "radius": 25,
+              "rated_load": 10
+            },
+            {
+              "radius": 30,
+              "rated_load": 8.2
+            },
+            {
+              "radius": 35,
+              "rated_load": 7.1
+            },
+            {
+              "radius": 40,
+              "rated_load": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 94,
+      "model": "ZSC300-16t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 16,
+      "max_arm_length": 70,
+      "min_radius": 2.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 43,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSC300-16t.png"
+      ],
+      "remark": "注:吊重性能是塔机独立高度时的净吊重，超过独立高度时，需扣除超出部分钢丝绳的重量。",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 19,
+              "rated_load": 16
+            },
+            {
+              "radius": 25,
+              "rated_load": 12
+            },
+            {
+              "radius": 30,
+              "rated_load": 10
+            },
+            {
+              "radius": 35,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 6
+            },
+            {
+              "radius": 55,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.5
+            },
+            {
+              "radius": 65,
+              "rated_load": 4
+            },
+            {
+              "radius": 70,
+              "rated_load": 3
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 19,
+              "rated_load": 16
+            },
+            {
+              "radius": 25,
+              "rated_load": 12
+            },
+            {
+              "radius": 30,
+              "rated_load": 10
+            },
+            {
+              "radius": 35,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 6
+            },
+            {
+              "radius": 55,
+              "rated_load": 5.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 4.5
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 16
+            },
+            {
+              "radius": 19,
+              "rated_load": 16
+            },
+            {
+              "radius": 25,
+              "rated_load": 12
+            },
+            {
+              "radius": 30,
+              "rated_load": 10
+            },
+            {
+              "radius": 35,
+              "rated_load": 8.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 7.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 6.7
+            },
+            {
+              "radius": 50,
+              "rated_load": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 95,
+      "model": "ZSC400A-20t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 20,
+      "max_arm_length": 70,
+      "min_radius": 2.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 54,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSC400A-20t.png"
+      ],
+      "remark": "注:吊重性能是塔机独立高度时的净吊重，超过独立高度时，需扣除超出部分钢丝绳的重量。",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 20
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 20
+            },
+            {
+              "radius": 30,
+              "rated_load": 14.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 12
+            },
+            {
+              "radius": 40,
+              "rated_load": 10
+            },
+            {
+              "radius": 45,
+              "rated_load": 9
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 55,
+              "rated_load": 7
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 70,
+              "rated_load": 5
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 20
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 20
+            },
+            {
+              "radius": 30,
+              "rated_load": 14.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 12
+            },
+            {
+              "radius": 40,
+              "rated_load": 10
+            },
+            {
+              "radius": 45,
+              "rated_load": 9
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 55,
+              "rated_load": 7
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.5
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 20
+            },
+            {
+              "radius": 22.5,
+              "rated_load": 20
+            },
+            {
+              "radius": 30,
+              "rated_load": 14.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 12
+            },
+            {
+              "radius": 40,
+              "rated_load": 10
+            },
+            {
+              "radius": 45,
+              "rated_load": 9
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 96,
+      "model": "ZSC400B-40t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 40,
+      "max_arm_length": 70,
+      "min_radius": 2.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 54,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSC400B-40t.png"
+      ],
+      "remark": "注:吊重性能是塔机独立高度时的净吊重，超过独立高度时，需扣除超出部分钢丝绳的重量。",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 40
+            },
+            {
+              "radius": 12,
+              "rated_load": 40
+            },
+            {
+              "radius": 15,
+              "rated_load": 33.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 24.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 19
+            },
+            {
+              "radius": 30,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 55,
+              "rated_load": 7
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.5
+            },
+            {
+              "radius": 65,
+              "rated_load": 5.6
+            },
+            {
+              "radius": 70,
+              "rated_load": 5
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 40
+            },
+            {
+              "radius": 12,
+              "rated_load": 40
+            },
+            {
+              "radius": 15,
+              "rated_load": 33.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 24.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 19
+            },
+            {
+              "radius": 30,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            },
+            {
+              "radius": 55,
+              "rated_load": 7
+            },
+            {
+              "radius": 60,
+              "rated_load": 6.5
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 40
+            },
+            {
+              "radius": 12,
+              "rated_load": 40
+            },
+            {
+              "radius": 15,
+              "rated_load": 33.5
+            },
+            {
+              "radius": 20,
+              "rated_load": 24.5
+            },
+            {
+              "radius": 25,
+              "rated_load": 19
+            },
+            {
+              "radius": 30,
+              "rated_load": 15.3
+            },
+            {
+              "radius": 35,
+              "rated_load": 12.5
+            },
+            {
+              "radius": 40,
+              "rated_load": 10.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 50,
+              "rated_load": 8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 97,
+      "model": "ZSC600-30t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 30,
+      "max_arm_length": 70,
+      "min_radius": 2.5,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 54,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSC600-30t.png"
+      ],
+      "remark": "注:吊重性能是塔机独立高度时的净吊重，超过独立高度时，需扣除超出部分钢丝绳的重量。",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 30
+            },
+            {
+              "radius": 21,
+              "rated_load": 30
+            },
+            {
+              "radius": 25,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 15
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 12
+            },
+            {
+              "radius": 55,
+              "rated_load": 10
+            },
+            {
+              "radius": 60,
+              "rated_load": 9
+            },
+            {
+              "radius": 65,
+              "rated_load": 8
+            },
+            {
+              "radius": 70,
+              "rated_load": 7
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 30
+            },
+            {
+              "radius": 21,
+              "rated_load": 30
+            },
+            {
+              "radius": 25,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 15
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 12
+            },
+            {
+              "radius": 55,
+              "rated_load": 10
+            },
+            {
+              "radius": 60,
+              "rated_load": 9
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 2.5,
+              "rated_load": 30
+            },
+            {
+              "radius": 21,
+              "rated_load": 30
+            },
+            {
+              "radius": 25,
+              "rated_load": 25
+            },
+            {
+              "radius": 30,
+              "rated_load": 20.5
+            },
+            {
+              "radius": 35,
+              "rated_load": 17.2
+            },
+            {
+              "radius": 40,
+              "rated_load": 15
+            },
+            {
+              "radius": 45,
+              "rated_load": 12.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 12
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 98,
+      "model": "ZSC800A-40t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 40,
+      "max_arm_length": 70,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 54,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSC800A-40t.png"
+      ],
+      "remark": "注:吊重性能是塔机独立高度时的净吊重，超过独立高度时，需扣除超出部分钢丝绳的重量。",
+      "tower_load_charts": {
+        "70": {
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 40
+            },
+            {
+              "radius": 20,
+              "rated_load": 40
+            },
+            {
+              "radius": 25,
+              "rated_load": 33
+            },
+            {
+              "radius": 30,
+              "rated_load": 28
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 17
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 12
+            },
+            {
+              "radius": 65,
+              "rated_load": 10.8
+            },
+            {
+              "radius": 70,
+              "rated_load": 9.5
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 40
+            },
+            {
+              "radius": 20,
+              "rated_load": 40
+            },
+            {
+              "radius": 25,
+              "rated_load": 33
+            },
+            {
+              "radius": 30,
+              "rated_load": 28
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 17
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 13.3
+            },
+            {
+              "radius": 60,
+              "rated_load": 12
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 40
+            },
+            {
+              "radius": 20,
+              "rated_load": 40
+            },
+            {
+              "radius": 25,
+              "rated_load": 33
+            },
+            {
+              "radius": 30,
+              "rated_load": 28
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.7
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 17
+            },
+            {
+              "radius": 50,
+              "rated_load": 15.2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 99,
+      "model": "ZSC800B-50t",
+      "brand": "中晟",
+      "type": "塔吊",
+      "crane_type": "tower",
+      "sub_type": "平臂",
+      "max_load_t": 50,
+      "max_arm_length": 80,
+      "min_radius": 3,
+      "overall_length": null,
+      "overall_width": null,
+      "overall_height": null,
+      "total_weight_kg": null,
+      "max_freestand_h": 54,
+      "max_attached_h": 0,
+      "rental_fee_month": null,
+      "rental_fee_shift": null,
+      "fuel_fee": null,
+      "image": null,
+      "images": [
+        "crane_images/tower_ZSC800B-50t.png"
+      ],
+      "remark": "注:吊重性能是塔机独立高度时的净吊重，超过独立高度时，需扣除超出部分钢丝绳的重量。",
+      "tower_load_charts": {
+        "80": {
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 25
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.5
+            },
+            {
+              "radius": 65,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 70,
+              "rated_load": 9.2
+            },
+            {
+              "radius": 75,
+              "rated_load": 8.3
+            },
+            {
+              "radius": 80,
+              "rated_load": 7.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3,
+              "rated_load": 50
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 43
+            },
+            {
+              "radius": 25,
+              "rated_load": 33.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 27
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 19
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 11
+            },
+            {
+              "radius": 65,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 70,
+              "rated_load": 8.7
+            },
+            {
+              "radius": 75,
+              "rated_load": 7.8
+            },
+            {
+              "radius": 80,
+              "rated_load": 7
+            }
+          ]
+        },
+        "70": {
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 25
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.5
+            },
+            {
+              "radius": 65,
+              "rated_load": 10.2
+            },
+            {
+              "radius": 70,
+              "rated_load": 9.2
+            }
+          ],
+          "4": [
+            {
+              "radius": 3,
+              "rated_load": 50
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 43
+            },
+            {
+              "radius": 25,
+              "rated_load": 33.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 27
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 19
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 11
+            },
+            {
+              "radius": 65,
+              "rated_load": 9.7
+            },
+            {
+              "radius": 70,
+              "rated_load": 8.7
+            }
+          ]
+        },
+        "60": {
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 25
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.7
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.9
+            },
+            {
+              "radius": 60,
+              "rated_load": 11.5
+            }
+          ],
+          "4": [
+            {
+              "radius": 3,
+              "rated_load": 50
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 43
+            },
+            {
+              "radius": 25,
+              "rated_load": 33.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 27
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 19
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.2
+            },
+            {
+              "radius": 55,
+              "rated_load": 12.4
+            },
+            {
+              "radius": 60,
+              "rated_load": 11
+            }
+          ]
+        },
+        "50": {
+          "2": [
+            {
+              "radius": 3,
+              "rated_load": 25
+            },
+            {
+              "radius": 32.5,
+              "rated_load": 25
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.9
+            },
+            {
+              "radius": 40,
+              "rated_load": 19.5
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.8
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.7
+            }
+          ],
+          "4": [
+            {
+              "radius": 3,
+              "rated_load": 50
+            },
+            {
+              "radius": 17.5,
+              "rated_load": 50
+            },
+            {
+              "radius": 20,
+              "rated_load": 43
+            },
+            {
+              "radius": 25,
+              "rated_load": 33.4
+            },
+            {
+              "radius": 30,
+              "rated_load": 27
+            },
+            {
+              "radius": 35,
+              "rated_load": 22.4
+            },
+            {
+              "radius": 40,
+              "rated_load": 19
+            },
+            {
+              "radius": 45,
+              "rated_load": 16.3
+            },
+            {
+              "radius": 50,
+              "rated_load": 14.2
+            }
+          ]
+        }
+      }
+    },
     {
       "id": 1,
       "model": "SAC1300C7/T2",
@@ -209049,560 +242485,6 @@ var CRANE_DATA = {
           }
         }
       }
-    },
-    {
-      "id": 48,
-      "model": "XGT7020-12",
-      "brand": "徐工",
-      "type": "塔吊",
-      "crane_type": "tower",
-      "sub_type": "平臂",
-      "max_load_t": 12.0,
-      "max_arm_length": 70.0,
-      "min_radius": 3.0,
-      "overall_length": null,
-      "overall_width": null,
-      "overall_height": null,
-      "total_weight_kg": null,
-      "max_freestand_h": 60.0,
-      "max_attached_h": 240.0,
-      "rental_fee_month": null,
-      "rental_fee_shift": null,
-      "fuel_fee": null,
-      "image": null,
-      "images": [
-        "crane_images/tower_XGT7020-12.png"
-      ],
-      "remark": "注意上述载荷性能表是根据XGT7020-12塔机独立高度(60m)计算而得出的，当起升高度大于60m时，起升性能中的起重量必须降低。计算方法为：计算高度的起重量=性能表中的起重量-每米钢丝绳的重量×(计算高度-60)×倍率。（单位：高度:m；重量:kg）起升钢丝绳型号为GB 8918-2006 1635W×7×1870UZS右旋，钢丝绳重量为118kg/100m，或起升钢丝绳型号为GB 8918-2006 16NAT4V×39S+5FC1870ZS右旋，钢丝绳重量为105kg/100m。",
-      "tower_load_charts": {
-        "70": {
-          "2": [
-            {"radius": 3.0, "rated_load": 6.0},
-            {"radius": 15.1, "rated_load": 6.0},
-            {"radius": 20.0, "rated_load": 6.0},
-            {"radius": 28.6, "rated_load": 6.0},
-            {"radius": 30.0, "rated_load": 5.766},
-            {"radius": 35.0, "rated_load": 4.825},
-            {"radius": 40.0, "rated_load": 4.119},
-            {"radius": 45.0, "rated_load": 3.569},
-            {"radius": 50.0, "rated_load": 3.13},
-            {"radius": 55.0, "rated_load": 2.77},
-            {"radius": 60.0, "rated_load": 2.471},
-            {"radius": 65.0, "rated_load": 2.217},
-            {"radius": 70.0, "rated_load": 2.0}
-          ],
-          "4": [
-            {"radius": 3.0, "rated_load": 12.0},
-            {"radius": 15.1, "rated_load": 12.0},
-            {"radius": 20.0, "rated_load": 8.836},
-            {"radius": 28.6, "rated_load": 7.199},
-            {"radius": 30.0, "rated_load": 5.562},
-            {"radius": 35.0, "rated_load": 4.626},
-            {"radius": 40.0, "rated_load": 3.924},
-            {"radius": 45.0, "rated_load": 3.379},
-            {"radius": 50.0, "rated_load": 2.942},
-            {"radius": 55.0, "rated_load": 2.585},
-            {"radius": 60.0, "rated_load": 2.287},
-            {"radius": 65.0, "rated_load": 2.035},
-            {"radius": 70.0, "rated_load": 1.8}
-          ]
-        },
-        "65": {
-          "2": [
-            {"radius": 3.0, "rated_load": 6.0},
-            {"radius": 16.5, "rated_load": 6.0},
-            {"radius": 20.0, "rated_load": 6.0},
-            {"radius": 30.0, "rated_load": 6.0},
-            {"radius": 31.6, "rated_load": 6.0},
-            {"radius": 35.0, "rated_load": 5.334},
-            {"radius": 40.0, "rated_load": 4.567},
-            {"radius": 45.0, "rated_load": 3.97},
-            {"radius": 50.0, "rated_load": 3.492},
-            {"radius": 55.0, "rated_load": 3.101},
-            {"radius": 60.0, "rated_load": 2.776},
-            {"radius": 65.0, "rated_load": 2.5}
-          ],
-          "4": [
-            {"radius": 3.0, "rated_load": 12.0},
-            {"radius": 16.5, "rated_load": 12.0},
-            {"radius": 20.0, "rated_load": 9.76},
-            {"radius": 30.0, "rated_load": 6.177},
-            {"radius": 31.6, "rated_load": 5.665},
-            {"radius": 35.0, "rated_load": 5.154},
-            {"radius": 40.0, "rated_load": 4.386},
-            {"radius": 45.0, "rated_load": 3.769},
-            {"radius": 50.0, "rated_load": 3.311},
-            {"radius": 55.0, "rated_load": 2.92},
-            {"radius": 60.0, "rated_load": 2.595},
-            {"radius": 65.0, "rated_load": 2.3}
-          ]
-        },
-        "60": {
-          "2": [
-            {"radius": 3.0, "rated_load": 6.0},
-            {"radius": 18.0, "rated_load": 6.0},
-            {"radius": 20.0, "rated_load": 6.0},
-            {"radius": 30.0, "rated_load": 6.0},
-            {"radius": 34.4, "rated_load": 6.0},
-            {"radius": 35.0, "rated_load": 5.801},
-            {"radius": 40.0, "rated_load": 5.053},
-            {"radius": 45.0, "rated_load": 4.402},
-            {"radius": 50.0, "rated_load": 3.881},
-            {"radius": 55.0, "rated_load": 3.455},
-            {"radius": 60.0, "rated_load": 3.1}
-          ],
-          "4": [
-            {"radius": 3.0, "rated_load": 12.0},
-            {"radius": 18.0, "rated_load": 12.0},
-            {"radius": 20.0, "rated_load": 10.733},
-            {"radius": 30.0, "rated_load": 6.826},
-            {"radius": 34.4, "rated_load": 6.268},
-            {"radius": 35.0, "rated_load": 5.71},
-            {"radius": 40.0, "rated_load": 4.873},
-            {"radius": 45.0, "rated_load": 4.221},
-            {"radius": 50.0, "rated_load": 3.701},
-            {"radius": 55.0, "rated_load": 3.274},
-            {"radius": 60.0, "rated_load": 2.9}
-          ]
-        },
-        "55": {
-          "2": [
-            {"radius": 3.0, "rated_load": 6.0},
-            {"radius": 19.9, "rated_load": 6.0},
-            {"radius": 20.0, "rated_load": 6.0},
-            {"radius": 30.0, "rated_load": 6.0},
-            {"radius": 35.0, "rated_load": 6.0},
-            {"radius": 38.0, "rated_load": 6.0},
-            {"radius": 40.0, "rated_load": 5.665},
-            {"radius": 45.0, "rated_load": 4.946},
-            {"radius": 50.0, "rated_load": 4.371},
-            {"radius": 55.0, "rated_load": 3.9}
-          ],
-          "4": [
-            {"radius": 3.0, "rated_load": 12.0},
-            {"radius": 19.9, "rated_load": 12.0},
-            {"radius": 20.0, "rated_load": 11.956},
-            {"radius": 30.0, "rated_load": 7.642},
-            {"radius": 35.0, "rated_load": 6.409},
-            {"radius": 38.0, "rated_load": 5.947},
-            {"radius": 40.0, "rated_load": 5.484},
-            {"radius": 45.0, "rated_load": 4.765},
-            {"radius": 50.0, "rated_load": 4.19},
-            {"radius": 55.0, "rated_load": 3.7}
-          ]
-        },
-        "50": {
-          "2": [
-            {"radius": 3.0, "rated_load": 6.0},
-            {"radius": 20.0, "rated_load": 6.0},
-            {"radius": 21.2, "rated_load": 6.0},
-            {"radius": 30.0, "rated_load": 6.0},
-            {"radius": 35.0, "rated_load": 6.0},
-            {"radius": 40.0, "rated_load": 6.0},
-            {"radius": 40.4, "rated_load": 6.0},
-            {"radius": 45.0, "rated_load": 5.312},
-            {"radius": 50.0, "rated_load": 4.7}
-          ],
-          "4": [
-            {"radius": 3.0, "rated_load": 12.0},
-            {"radius": 20.0, "rated_load": 12.0},
-            {"radius": 21.2, "rated_load": 12.0},
-            {"radius": 30.0, "rated_load": 8.19},
-            {"radius": 35.0, "rated_load": 6.879},
-            {"radius": 40.0, "rated_load": 5.896},
-            {"radius": 40.4, "rated_load": 5.514},
-            {"radius": 45.0, "rated_load": 5.131},
-            {"radius": 50.0, "rated_load": 4.5}
-          ]
-        },
-        "45": {
-          "2": [
-            {"radius": 3.0, "rated_load": 6.0},
-            {"radius": 20.0, "rated_load": 6.0},
-            {"radius": 22.2, "rated_load": 6.0},
-            {"radius": 30.0, "rated_load": 6.0},
-            {"radius": 35.0, "rated_load": 6.0},
-            {"radius": 40.0, "rated_load": 6.0},
-            {"radius": 42.3, "rated_load": 6.0},
-            {"radius": 45.0, "rated_load": 5.4}
-          ],
-          "4": [
-            {"radius": 3.0, "rated_load": 12.0},
-            {"radius": 20.0, "rated_load": 12.0},
-            {"radius": 22.2, "rated_load": 12.0},
-            {"radius": 30.0, "rated_load": 8.623},
-            {"radius": 35.0, "rated_load": 7.25},
-            {"radius": 40.0, "rated_load": 6.22},
-            {"radius": 42.3, "rated_load": 5.91},
-            {"radius": 45.0, "rated_load": 5.6}
-          ]
-        },
-        "40": {
-          "2": [
-            {"radius": 3.0, "rated_load": 6.0},
-            {"radius": 20.0, "rated_load": 6.0},
-            {"radius": 22.5, "rated_load": 6.0},
-            {"radius": 30.0, "rated_load": 6.0},
-            {"radius": 35.0, "rated_load": 6.0},
-            {"radius": 40.0, "rated_load": 6.0}
-          ],
-          "4": [
-            {"radius": 3.0, "rated_load": 12.0},
-            {"radius": 20.0, "rated_load": 12.0},
-            {"radius": 22.5, "rated_load": 12.0},
-            {"radius": 30.0, "rated_load": 8.729},
-            {"radius": 35.0, "rated_load": 7.34},
-            {"radius": 40.0, "rated_load": 6.3}
-          ]
-        },
-        "35": {
-          "2": [
-            {"radius": 3.0, "rated_load": 6.0},
-            {"radius": 20.0, "rated_load": 6.0},
-            {"radius": 22.2, "rated_load": 6.0},
-            {"radius": 30.0, "rated_load": 6.0},
-            {"radius": 35.0, "rated_load": 6.0}
-          ],
-          "4": [
-            {"radius": 3.0, "rated_load": 12.0},
-            {"radius": 20.0, "rated_load": 12.0},
-            {"radius": 22.2, "rated_load": 12.0},
-            {"radius": 30.0, "rated_load": 8.564},
-            {"radius": 35.0, "rated_load": 7.2}
-          ]
-        },
-        "30": {
-          "2": [
-            {"radius": 3.0, "rated_load": 6.0},
-            {"radius": 20.0, "rated_load": 6.0},
-            {"radius": 22.0, "rated_load": 6.0},
-            {"radius": 30.0, "rated_load": 6.0}
-          ],
-          "4": [
-            {"radius": 3.0, "rated_load": 12.0},
-            {"radius": 20.0, "rated_load": 12.0},
-            {"radius": 22.0, "rated_load": 12.0},
-            {"radius": 30.0, "rated_load": 8.5}
-          ]
-        }
-    }},
-    {
-      "id": 49,
-      "model": "L630-50",
-      "brand": "中联",
-      "type": "塔吊",
-      "crane_type": "tower_luffing",
-      "sub_type": "动臂",
-      "max_load_t": 50,
-      "max_arm_length": 60.0,
-      "min_radius": 3.63,
-      "overall_length": null,
-      "overall_width": null,
-      "overall_height": null,
-      "total_weight_kg": null,
-      "max_freestand_h": 57.96,
-      "max_attached_h": 360,
-      "rental_fee_month": null,
-      "rental_fee_shift": null,
-      "fuel_fee": null,
-      "image": null,
-      "images": [
-        "crane_images/tower_L630-50.png"
-      ],
-      "remark": "注：上述起重性能特性数据是根据塔机独立高度(57.96m)计算而得出的，当塔机独立高度大于57.96m时，起重性能特性表中的起重量必须降低。计算方法为：计算高度的起重量=性能表中的起重量-每米钢丝绳的重量×(计算高度-57.96)×倍率。（单位：高度:m；重量:t）",
-      "tower_load_charts": {
-        "60": {
-          "1": [{"radius": 6.34, "rated_load": 25.0}, {"radius": 22.95, "rated_load": 25.0}, {"radius": 25.0, "rated_load": 23.88}, {"radius": 30.0, "rated_load": 19.98}, {"radius": 35.0, "rated_load": 17.19}, {"radius": 40.0, "rated_load": 14.83}, {"radius": 45.0, "rated_load": 12.96}, {"radius": 50.0, "rated_load": 11.46}, {"radius": 55.0, "rated_load": 10.28}, {"radius": 60.0, "rated_load": 9.5}],
-          "2": [{"radius": 6.34, "rated_load": 38.0}, {"radius": 10.58, "rated_load": 38.0}, {"radius": 15.0, "rated_load": 33.79}, {"radius": 17.5, "rated_load": 31.12}, {"radius": 20.0, "rated_load": 28.11}, {"radius": 22.5, "rated_load": 25.66}, {"radius": 25.0, "rated_load": 23.43}, {"radius": 27.5, "rated_load": 21.32}, {"radius": 30.0, "rated_load": 19.55}, {"radius": 32.5, "rated_load": 18.03}, {"radius": 35.0, "rated_load": 16.76}, {"radius": 37.5, "rated_load": 15.55}, {"radius": 40.0, "rated_load": 14.42}, {"radius": 42.5, "rated_load": 13.49}, {"radius": 45.0, "rated_load": 12.57}, {"radius": 47.5, "rated_load": 11.78}, {"radius": 50.0, "rated_load": 11.09}, {"radius": 52.5, "rated_load": 10.5}, {"radius": 55.0, "rated_load": 9.94}, {"radius": 57.5, "rated_load": 9.5}, {"radius": 60.0, "rated_load": 9.26}]
-          },
-        "55": {
-          "1": [{"radius": 5.9, "rated_load": 25.0}, {"radius": 25.58, "rated_load": 25.0}, {"radius": 30.0, "rated_load": 21.4}, {"radius": 35.0, "rated_load": 17.97}, {"radius": 40.0, "rated_load": 15.46}, {"radius": 45.0, "rated_load": 13.59}, {"radius": 50.0, "rated_load": 12.22}, {"radius": 55.0, "rated_load": 11.46}],
-          "2": [{"radius": 5.9, "rated_load": 46.0}, {"radius": 10.73, "rated_load": 46.0}, {"radius": 15.0, "rated_load": 38.54}, {"radius": 20.0, "rated_load": 30.86}, {"radius": 25.0, "rated_load": 25.46}, {"radius": 30.0, "rated_load": 21.02}, {"radius": 35.0, "rated_load": 17.6}, {"radius": 40.0, "rated_load": 15.11}, {"radius": 45.0, "rated_load": 13.26}, {"radius": 50.0, "rated_load": 11.92}, {"radius": 55.0, "rated_load": 11.2}]
-          },
-        "50": {
-          "1": [{"radius": 5.44, "rated_load": 25.0}, {"radius": 27.2, "rated_load": 25.0}, {"radius": 30.0, "rated_load": 23.23}, {"radius": 35.0, "rated_load": 19.9}, {"radius": 40.0, "rated_load": 17.09}, {"radius": 45.0, "rated_load": 14.86}, {"radius": 50.0, "rated_load": 13.35}],
-          "2": [{"radius": 5.44, "rated_load": 50.0}, {"radius": 13.29, "rated_load": 50.0}, {"radius": 15.0, "rated_load": 48.44}, {"radius": 20.0, "rated_load": 35.97}, {"radius": 25.0, "rated_load": 27.97}, {"radius": 30.0, "rated_load": 22.88}, {"radius": 35.0, "rated_load": 19.57}, {"radius": 40.0, "rated_load": 16.75}, {"radius": 45.0, "rated_load": 14.56}, {"radius": 50.0, "rated_load": 13.17}]
-          },
-        "45": {
-          "1": [{"radius": 4.99, "rated_load": 25.0}, {"radius": 28.49, "rated_load": 25.0}, {"radius": 30.0, "rated_load": 23.83}, {"radius": 35.0, "rated_load": 19.86}, {"radius": 40.0, "rated_load": 16.98}, {"radius": 45.0, "rated_load": 15.0}],
-          "2": [{"radius": 4.99, "rated_load": 50.0}, {"radius": 14.34, "rated_load": 50.0}, {"radius": 15.0, "rated_load": 49.61}, {"radius": 20.0, "rated_load": 36.64}, {"radius": 25.0, "rated_load": 28.74}, {"radius": 30.0, "rated_load": 23.48}, {"radius": 35.0, "rated_load": 19.53}, {"radius": 40.0, "rated_load": 16.69}, {"radius": 45.0, "rated_load": 14.85}]
-          },
-        "40": {
-          "1": [{"radius": 4.53, "rated_load": 25.0}, {"radius": 28.6, "rated_load": 25.0}, {"radius": 30.0, "rated_load": 23.82}, {"radius": 35.0, "rated_load": 20.11}, {"radius": 40.0, "rated_load": 17.66}],
-          "2": [{"radius": 4.53, "rated_load": 50.0}, {"radius": 14.82, "rated_load": 50.0}, {"radius": 15.0, "rated_load": 49.75}, {"radius": 20.0, "rated_load": 37.05}, {"radius": 25.0, "rated_load": 28.87}, {"radius": 30.0, "rated_load": 23.51}, {"radius": 35.0, "rated_load": 19.82}, {"radius": 40.0, "rated_load": 17.54}]
-          },
-        "35": {
-          "1": [{"radius": 4.08, "rated_load": 25.0}, {"radius": 28.79, "rated_load": 25.0}, {"radius": 30.0, "rated_load": 23.88}, {"radius": 35.0, "rated_load": 20.5}],
-          "2": [{"radius": 4.08, "rated_load": 50.0}, {"radius": 14.76, "rated_load": 50.0}, {"radius": 15.0, "rated_load": 49.62}, {"radius": 20.0, "rated_load": 36.78}, {"radius": 25.0, "rated_load": 28.78}, {"radius": 30.0, "rated_load": 23.6}, {"radius": 35.0, "rated_load": 20.42}]
-          },
-        "30": {
-          "1": [{"radius": 3.63, "rated_load": 25.0}, {"radius": 29.0, "rated_load": 25.0}, {"radius": 30.0, "rated_load": 24.2}],
-          "2": [{"radius": 3.63, "rated_load": 50.0}, {"radius": 16.0, "rated_load": 50.0}, {"radius": 20.0, "rated_load": 38.34}, {"radius": 25.0, "rated_load": 29.08}, {"radius": 30.0, "rated_load": 24.19}]
-          }
-      }
-    },
-    {
-      "id": 50,
-      "model": "R1300-64Q",
-      "brand": "中联",
-      "type": "塔吊",
-      "crane_type": "tower",
-      "sub_type": "平臂",
-      "max_load_t": 64,
-      "max_arm_length": 80.0,
-      "min_radius": 5,
-      "overall_length": null,
-      "overall_width": null,
-      "overall_height": null,
-      "total_weight_kg": null,
-      "max_freestand_h": 86,
-      "max_attached_h": 296.9,
-      "rental_fee_month": null,
-      "rental_fee_shift": null,
-      "fuel_fee": null,
-      "image": null,
-      "images": [
-        "crane_images/tower_R1300-64Q.png"
-      ],
-      "remark": "1)上述起重性能特性数据是根据相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。\n2)计算方法：计算高度的起重量=性能表中的起重量-每米起升钢丝绳的重量×(计算高度-相应臂长最大独立塔身高度)×倍率（起升钢丝绳单重请参见工作机构技术参数表中的钢丝绳参考重量）。",
-      "tower_load_charts": {
-        "80": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 43.5, "rated_load": 32.0}, {"radius": 45.0, "rated_load": 30.81}, {"radius": 50.0, "rated_load": 27.3}, {"radius": 55.0, "rated_load": 24.44}, {"radius": 60.0, "rated_load": 22.07}, {"radius": 65.0, "rated_load": 20.07}, {"radius": 70.0, "rated_load": 18.37}, {"radius": 75.0, "rated_load": 16.89}, {"radius": 80.0, "rated_load": 15.6}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 22.7, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 57.2}, {"radius": 30.0, "rated_load": 46.24}, {"radius": 35.0, "rated_load": 38.52}, {"radius": 40.0, "rated_load": 32.8}, {"radius": 45.0, "rated_load": 28.38}, {"radius": 50.0, "rated_load": 24.87}, {"radius": 55.0, "rated_load": 22.01}, {"radius": 60.0, "rated_load": 19.64}, {"radius": 65.0, "rated_load": 17.64}, {"radius": 70.0, "rated_load": 15.93}, {"radius": 75.0, "rated_load": 14.46}, {"radius": 80.0, "rated_load": 13.17}]
-          },
-        "75": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 44.2, "rated_load": 32.0}, {"radius": 45.0, "rated_load": 31.34}, {"radius": 50.0, "rated_load": 27.77}, {"radius": 55.0, "rated_load": 24.87}, {"radius": 60.0, "rated_load": 22.46}, {"radius": 65.0, "rated_load": 20.43}, {"radius": 70.0, "rated_load": 18.7}, {"radius": 75.0, "rated_load": 17.2}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.0, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 58.17}, {"radius": 30.0, "rated_load": 47.03}, {"radius": 35.0, "rated_load": 39.2}, {"radius": 40.0, "rated_load": 33.39}, {"radius": 45.0, "rated_load": 28.9}, {"radius": 50.0, "rated_load": 25.34}, {"radius": 55.0, "rated_load": 22.44}, {"radius": 60.0, "rated_load": 20.03}, {"radius": 65.0, "rated_load": 18.0}, {"radius": 70.0, "rated_load": 16.27}, {"radius": 75.0, "rated_load": 14.77}]
-          },
-        "70": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 44.6, "rated_load": 32.0}, {"radius": 45.0, "rated_load": 31.65}, {"radius": 50.0, "rated_load": 28.05}, {"radius": 55.0, "rated_load": 25.13}, {"radius": 60.0, "rated_load": 22.7}, {"radius": 65.0, "rated_load": 20.65}, {"radius": 70.0, "rated_load": 18.9}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.2, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 58.75}, {"radius": 30.0, "rated_load": 47.51}, {"radius": 35.0, "rated_load": 39.61}, {"radius": 40.0, "rated_load": 33.74}, {"radius": 45.0, "rated_load": 29.22}, {"radius": 50.0, "rated_load": 25.62}, {"radius": 55.0, "rated_load": 22.69}, {"radius": 60.0, "rated_load": 20.27}, {"radius": 65.0, "rated_load": 18.22}, {"radius": 70.0, "rated_load": 16.47}]
-          },
-        "65": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 45.0, "rated_load": 32.0}, {"radius": 50.0, "rated_load": 28.38}, {"radius": 55.0, "rated_load": 25.42}, {"radius": 60.0, "rated_load": 22.97}, {"radius": 65.0, "rated_load": 20.9}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.4, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 59.42}, {"radius": 30.0, "rated_load": 48.07}, {"radius": 35.0, "rated_load": 40.08}, {"radius": 40.0, "rated_load": 34.15}, {"radius": 45.0, "rated_load": 29.58}, {"radius": 50.0, "rated_load": 25.95}, {"radius": 55.0, "rated_load": 22.99}, {"radius": 60.0, "rated_load": 20.54}, {"radius": 65.0, "rated_load": 18.47}]
-          },
-        "60": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 45.4, "rated_load": 32.0}, {"radius": 50.0, "rated_load": 28.66}, {"radius": 55.0, "rated_load": 25.68}, {"radius": 60.0, "rated_load": 23.2}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.6, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 59.99}, {"radius": 30.0, "rated_load": 48.54}, {"radius": 35.0, "rated_load": 40.48}, {"radius": 40.0, "rated_load": 34.5}, {"radius": 45.0, "rated_load": 29.89}, {"radius": 50.0, "rated_load": 26.23}, {"radius": 55.0, "rated_load": 23.24}, {"radius": 60.0, "rated_load": 20.77}]
-          },
-        "55": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 45.7, "rated_load": 32.0}, {"radius": 50.0, "rated_load": 28.91}, {"radius": 55.0, "rated_load": 25.9}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.8, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 60.5}, {"radius": 30.0, "rated_load": 48.96}, {"radius": 35.0, "rated_load": 40.84}, {"radius": 40.0, "rated_load": 34.82}, {"radius": 45.0, "rated_load": 30.17}, {"radius": 50.0, "rated_load": 26.47}, {"radius": 55.0, "rated_load": 23.47}]
-          },
-        "50": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 45.7, "rated_load": 32.0}, {"radius": 50.0, "rated_load": 28.9}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.8, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 60.48}, {"radius": 30.0, "rated_load": 48.95}, {"radius": 35.0, "rated_load": 40.83}, {"radius": 40.0, "rated_load": 34.81}, {"radius": 45.0, "rated_load": 30.16}, {"radius": 50.0, "rated_load": 26.47}]
-          },
-        "45": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 45.0, "rated_load": 32.0}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.8, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 60.37}, {"radius": 30.0, "rated_load": 48.85}, {"radius": 35.0, "rated_load": 40.75}, {"radius": 40.0, "rated_load": 34.74}, {"radius": 45.0, "rated_load": 30.1}]
-          },
-        "40": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 40.0, "rated_load": 32.0}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.8, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 60.47}, {"radius": 30.0, "rated_load": 48.94}, {"radius": 35.0, "rated_load": 40.82}, {"radius": 40.0, "rated_load": 34.8}]
-          },
-        "35": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 35.0, "rated_load": 32.0}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.8, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 60.44}, {"radius": 30.0, "rated_load": 48.91}, {"radius": 35.0, "rated_load": 40.8}]
-          },
-        "30": {
-          "2": [{"radius": 5.0, "rated_load": 32.0}, {"radius": 30.0, "rated_load": 32.0}],
-          "4": [{"radius": 5.0, "rated_load": 64.0}, {"radius": 23.8, "rated_load": 64.0}, {"radius": 25.0, "rated_load": 60.55}, {"radius": 30.0, "rated_load": 49.0}]
-          }
-      }
-    },
-    {
-      "id": 51,
-      "model": "T7530-16H",
-      "brand": "中联",
-      "type": "塔吊",
-      "crane_type": "tower",
-      "sub_type": "平臂",
-      "max_load_t": 16,
-      "max_arm_length": 75.0,
-      "min_radius": 4,
-      "overall_length": null,
-      "overall_width": null,
-      "overall_height": null,
-      "total_weight_kg": null,
-      "max_freestand_h": 61,
-      "max_attached_h": 300,
-      "rental_fee_month": null,
-      "rental_fee_shift": null,
-      "fuel_fee": null,
-      "image": null,
-      "images": [
-        "crane_images/tower_T7530-16H.png"
-      ],
-      "remark": "上述起重性能特性数据是根据相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。计算方法：计算高度的起重量=性能表中的起重量-每米起升钢丝绳的重量×(计算高度-相应臂长最大独立塔身高度)×倍率。（起升钢丝绳单重：1.84kg/m）",
-      "tower_load_charts": {
-        "75": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 35.0, "rated_load": 8.0}, {"radius": 37.5, "rated_load": 7.37}, {"radius": 40.0, "rated_load": 6.82}, {"radius": 42.5, "rated_load": 6.33}, {"radius": 45.0, "rated_load": 5.9}, {"radius": 47.5, "rated_load": 5.51}, {"radius": 50.0, "rated_load": 5.17}, {"radius": 52.5, "rated_load": 4.86}, {"radius": 55.0, "rated_load": 4.57}, {"radius": 57.5, "rated_load": 4.32}, {"radius": 60.0, "rated_load": 4.08}, {"radius": 62.5, "rated_load": 3.86}, {"radius": 65.0, "rated_load": 3.66}, {"radius": 67.5, "rated_load": 3.48}, {"radius": 70.0, "rated_load": 3.31}, {"radius": 72.5, "rated_load": 3.15}, {"radius": 75.0, "rated_load": 3.0}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 18.3, "rated_load": 16.0}, {"radius": 20.0, "rated_load": 14.39}, {"radius": 22.5, "rated_load": 12.46}, {"radius": 25.0, "rated_load": 10.93}, {"radius": 27.5, "rated_load": 9.69}, {"radius": 30.0, "rated_load": 8.66}, {"radius": 32.5, "rated_load": 7.8}, {"radius": 35.0, "rated_load": 7.07}, {"radius": 37.5, "rated_load": 6.43}, {"radius": 40.0, "rated_load": 5.88}, {"radius": 42.5, "rated_load": 5.39}, {"radius": 45.0, "rated_load": 4.96}, {"radius": 47.5, "rated_load": 4.58}, {"radius": 50.0, "rated_load": 4.23}, {"radius": 52.5, "rated_load": 3.92}, {"radius": 55.0, "rated_load": 3.64}, {"radius": 57.5, "rated_load": 3.38}, {"radius": 60.0, "rated_load": 3.14}, {"radius": 62.5, "rated_load": 2.93}, {"radius": 65.0, "rated_load": 2.73}, {"radius": 67.5, "rated_load": 2.54}, {"radius": 70.0, "rated_load": 2.37}, {"radius": 72.5, "rated_load": 2.21}, {"radius": 75.0, "rated_load": 2.06}]
-          },
-        "70": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 36.4, "rated_load": 8.0}, {"radius": 37.5, "rated_load": 7.73}, {"radius": 40.0, "rated_load": 7.16}, {"radius": 42.5, "rated_load": 6.65}, {"radius": 45.0, "rated_load": 6.2}, {"radius": 47.5, "rated_load": 5.8}, {"radius": 50.0, "rated_load": 5.44}, {"radius": 52.5, "rated_load": 5.11}, {"radius": 55.0, "rated_load": 4.82}, {"radius": 57.5, "rated_load": 4.55}, {"radius": 60.0, "rated_load": 4.31}, {"radius": 62.5, "rated_load": 4.08}, {"radius": 65.0, "rated_load": 3.87}, {"radius": 67.5, "rated_load": 3.68}, {"radius": 70.0, "rated_load": 3.5}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 19.0, "rated_load": 16.0}, {"radius": 20.0, "rated_load": 15.09}, {"radius": 22.5, "rated_load": 13.07}, {"radius": 25.0, "rated_load": 11.48}, {"radius": 27.5, "rated_load": 10.19}, {"radius": 30.0, "rated_load": 9.12}, {"radius": 32.5, "rated_load": 8.22}, {"radius": 35.0, "rated_load": 7.46}, {"radius": 37.5, "rated_load": 6.8}, {"radius": 40.0, "rated_load": 6.22}, {"radius": 42.5, "rated_load": 5.71}, {"radius": 45.0, "rated_load": 5.26}, {"radius": 47.5, "rated_load": 4.86}, {"radius": 50.0, "rated_load": 4.5}, {"radius": 52.5, "rated_load": 4.18}, {"radius": 55.0, "rated_load": 3.88}, {"radius": 57.5, "rated_load": 3.61}, {"radius": 60.0, "rated_load": 3.37}, {"radius": 62.5, "rated_load": 3.14}, {"radius": 65.0, "rated_load": 2.93}, {"radius": 67.5, "rated_load": 2.74}, {"radius": 70.0, "rated_load": 2.56}]
-          },
-        "65": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 38.7, "rated_load": 8.0}, {"radius": 40.0, "rated_load": 7.7}, {"radius": 42.5, "rated_load": 7.16}, {"radius": 45.0, "rated_load": 6.68}, {"radius": 47.5, "rated_load": 6.25}, {"radius": 50.0, "rated_load": 5.87}, {"radius": 52.5, "rated_load": 5.52}, {"radius": 55.0, "rated_load": 5.21}, {"radius": 57.5, "rated_load": 4.92}, {"radius": 60.0, "rated_load": 4.66}, {"radius": 62.5, "rated_load": 4.42}, {"radius": 65.0, "rated_load": 4.2}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 20.2, "rated_load": 16.0}, {"radius": 22.5, "rated_load": 14.05}, {"radius": 25.0, "rated_load": 12.36}, {"radius": 27.5, "rated_load": 10.99}, {"radius": 30.0, "rated_load": 9.85}, {"radius": 32.5, "rated_load": 8.89}, {"radius": 35.0, "rated_load": 8.08}, {"radius": 37.5, "rated_load": 7.37}, {"radius": 40.0, "rated_load": 6.76}, {"radius": 42.5, "rated_load": 6.22}, {"radius": 45.0, "rated_load": 5.74}, {"radius": 47.5, "rated_load": 5.32}, {"radius": 50.0, "rated_load": 4.93}, {"radius": 52.5, "rated_load": 4.59}, {"radius": 55.0, "rated_load": 4.27}, {"radius": 57.5, "rated_load": 3.99}, {"radius": 60.0, "rated_load": 3.73}, {"radius": 62.5, "rated_load": 3.49}, {"radius": 65.0, "rated_load": 3.26}]
-          },
-        "60": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 40.9, "rated_load": 8.0}, {"radius": 42.5, "rated_load": 7.64}, {"radius": 45.0, "rated_load": 7.13}, {"radius": 47.5, "rated_load": 6.68}, {"radius": 50.0, "rated_load": 6.28}, {"radius": 52.5, "rated_load": 5.91}, {"radius": 55.0, "rated_load": 5.58}, {"radius": 57.5, "rated_load": 5.28}, {"radius": 60.0, "rated_load": 5.0}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 21.3, "rated_load": 16.0}, {"radius": 22.5, "rated_load": 14.98}, {"radius": 25.0, "rated_load": 13.19}, {"radius": 27.5, "rated_load": 11.74}, {"radius": 30.0, "rated_load": 10.54}, {"radius": 32.5, "rated_load": 9.53}, {"radius": 35.0, "rated_load": 8.66}, {"radius": 37.5, "rated_load": 7.92}, {"radius": 40.0, "rated_load": 7.27}, {"radius": 42.5, "rated_load": 6.7}, {"radius": 45.0, "rated_load": 6.2}, {"radius": 47.5, "rated_load": 5.74}, {"radius": 50.0, "rated_load": 5.34}, {"radius": 52.5, "rated_load": 4.97}, {"radius": 55.0, "rated_load": 4.64}, {"radius": 57.5, "rated_load": 4.34}, {"radius": 60.0, "rated_load": 4.06}]
-          },
-        "55": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 42.7, "rated_load": 8.0}, {"radius": 45.0, "rated_load": 7.53}, {"radius": 47.5, "rated_load": 7.05}, {"radius": 50.0, "rated_load": 6.63}, {"radius": 52.5, "rated_load": 6.25}, {"radius": 55.0, "rated_load": 5.9}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 22.3, "rated_load": 16.0}, {"radius": 22.5, "rated_load": 15.79}, {"radius": 25.0, "rated_load": 13.92}, {"radius": 27.5, "rated_load": 12.39}, {"radius": 30.0, "rated_load": 11.13}, {"radius": 32.5, "rated_load": 10.08}, {"radius": 35.0, "rated_load": 9.17}, {"radius": 37.5, "rated_load": 8.39}, {"radius": 40.0, "rated_load": 7.72}, {"radius": 42.5, "rated_load": 7.12}, {"radius": 45.0, "rated_load": 6.59}, {"radius": 47.5, "rated_load": 6.12}, {"radius": 50.0, "rated_load": 5.69}, {"radius": 52.5, "rated_load": 5.31}, {"radius": 55.0, "rated_load": 4.96}]
-          },
-        "50": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 43.6, "rated_load": 8.0}, {"radius": 45.0, "rated_load": 7.72}, {"radius": 47.5, "rated_load": 7.23}, {"radius": 50.0, "rated_load": 6.8}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 22.7, "rated_load": 16.0}, {"radius": 25.0, "rated_load": 14.26}, {"radius": 27.5, "rated_load": 12.71}, {"radius": 30.0, "rated_load": 11.42}, {"radius": 32.5, "rated_load": 10.34}, {"radius": 35.0, "rated_load": 9.42}, {"radius": 37.5, "rated_load": 8.62}, {"radius": 40.0, "rated_load": 7.93}, {"radius": 42.5, "rated_load": 7.32}, {"radius": 45.0, "rated_load": 6.78}, {"radius": 47.5, "rated_load": 6.3}, {"radius": 50.0, "rated_load": 5.86}]
-          },
-        "45": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 44.0, "rated_load": 8.0}, {"radius": 45.0, "rated_load": 7.8}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 22.9, "rated_load": 16.0}, {"radius": 25.0, "rated_load": 14.42}, {"radius": 27.5, "rated_load": 12.85}, {"radius": 30.0, "rated_load": 11.55}, {"radius": 32.5, "rated_load": 10.46}, {"radius": 35.0, "rated_load": 9.53}, {"radius": 37.5, "rated_load": 8.73}, {"radius": 40.0, "rated_load": 8.02}, {"radius": 42.5, "rated_load": 7.41}, {"radius": 45.0, "rated_load": 6.86}]
-          },
-        "40": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 40.0, "rated_load": 8.0}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 23.0, "rated_load": 16.0}, {"radius": 25.0, "rated_load": 14.48}, {"radius": 27.5, "rated_load": 12.91}, {"radius": 30.0, "rated_load": 11.6}, {"radius": 32.5, "rated_load": 10.51}, {"radius": 35.0, "rated_load": 9.57}, {"radius": 37.5, "rated_load": 8.77}, {"radius": 40.0, "rated_load": 8.06}]
-          },
-        "35": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 35.0, "rated_load": 8.0}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 23.2, "rated_load": 16.0}, {"radius": 25.0, "rated_load": 14.61}, {"radius": 27.5, "rated_load": 13.02}, {"radius": 30.0, "rated_load": 11.71}, {"radius": 32.5, "rated_load": 10.61}, {"radius": 35.0, "rated_load": 9.66}]
-          },
-        "30": {
-          "2": [{"radius": 4.0, "rated_load": 8.0}, {"radius": 30.0, "rated_load": 8.0}],
-          "4": [{"radius": 4.0, "rated_load": 16.0}, {"radius": 23.3, "rated_load": 16.0}, {"radius": 25.0, "rated_load": 14.68}, {"radius": 27.5, "rated_load": 13.08}, {"radius": 30.0, "rated_load": 11.76}]
-          }
-      }
-    },
-    {
-      "id": 52,
-      "model": "T7530-20H",
-      "brand": "中联",
-      "type": "塔吊",
-      "crane_type": "tower",
-      "sub_type": "平臂",
-      "max_load_t": 20,
-      "max_arm_length": 75.0,
-      "min_radius": 4,
-      "overall_length": null,
-      "overall_width": null,
-      "overall_height": null,
-      "total_weight_kg": null,
-      "max_freestand_h": 61,
-      "max_attached_h": 301,
-      "rental_fee_month": null,
-      "rental_fee_shift": null,
-      "fuel_fee": null,
-      "image": null,
-      "images": [
-        "crane_images/tower_T7530-20H.png"
-      ],
-      "remark": "1)上述起重性能特性数据是根据相应臂长最大独立塔身高度计算而得出的，当塔机塔身高度大于最大独立塔身高度时，起重性能表中的起重量必须降低。计算方法：计算高度的起重量=性能表中的起重量-每米起升钢丝绳的重量×(计算高度-相应臂长最大独立塔身高度)×倍率。（起升钢丝绳单重：1.59kg/m）",
-      "tower_load_charts": {
-        "75": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 29.2, "rated_load": 10.0}, {"radius": 30.0, "rated_load": 9.68}, {"radius": 32.5, "rated_load": 8.8}, {"radius": 35.0, "rated_load": 8.06}, {"radius": 37.5, "rated_load": 7.42}, {"radius": 40.0, "rated_load": 6.86}, {"radius": 42.5, "rated_load": 6.37}, {"radius": 45.0, "rated_load": 5.93}, {"radius": 47.5, "rated_load": 5.54}, {"radius": 50.0, "rated_load": 5.19}, {"radius": 52.5, "rated_load": 4.88}, {"radius": 55.0, "rated_load": 4.59}, {"radius": 57.5, "rated_load": 4.33}, {"radius": 60.0, "rated_load": 4.09}, {"radius": 62.5, "rated_load": 3.87}, {"radius": 65.0, "rated_load": 3.67}, {"radius": 67.5, "rated_load": 3.48}, {"radius": 70.0, "rated_load": 3.31}, {"radius": 72.5, "rated_load": 3.15}, {"radius": 75.0, "rated_load": 3.0}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 15.3, "rated_load": 20.0}, {"radius": 17.5, "rated_load": 17.03}, {"radius": 20.0, "rated_load": 14.48}, {"radius": 22.5, "rated_load": 12.53}, {"radius": 25.0, "rated_load": 10.98}, {"radius": 27.5, "rated_load": 9.73}, {"radius": 30.0, "rated_load": 8.69}, {"radius": 32.5, "rated_load": 7.82}, {"radius": 35.0, "rated_load": 7.08}, {"radius": 37.5, "rated_load": 6.43}, {"radius": 40.0, "rated_load": 5.87}, {"radius": 42.5, "rated_load": 5.38}, {"radius": 45.0, "rated_load": 4.95}, {"radius": 47.5, "rated_load": 4.56}, {"radius": 50.0, "rated_load": 4.21}, {"radius": 52.5, "rated_load": 3.89}, {"radius": 55.0, "rated_load": 3.61}, {"radius": 57.5, "rated_load": 3.35}, {"radius": 60.0, "rated_load": 3.11}, {"radius": 62.5, "rated_load": 2.89}, {"radius": 65.0, "rated_load": 2.69}, {"radius": 67.5, "rated_load": 2.5}, {"radius": 70.0, "rated_load": 2.33}, {"radius": 72.5, "rated_load": 2.17}, {"radius": 75.0, "rated_load": 2.02}]
-          },
-        "70": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 30.3, "rated_load": 10.0}, {"radius": 32.5, "rated_load": 9.22}, {"radius": 35.0, "rated_load": 8.44}, {"radius": 37.5, "rated_load": 7.77}, {"radius": 40.0, "rated_load": 7.19}, {"radius": 42.5, "rated_load": 6.68}, {"radius": 45.0, "rated_load": 6.23}, {"radius": 47.5, "rated_load": 5.82}, {"radius": 50.0, "rated_load": 5.46}, {"radius": 52.5, "rated_load": 5.13}, {"radius": 55.0, "rated_load": 4.83}, {"radius": 57.5, "rated_load": 4.56}, {"radius": 60.0, "rated_load": 4.31}, {"radius": 62.5, "rated_load": 4.09}, {"radius": 65.0, "rated_load": 3.87}, {"radius": 67.5, "rated_load": 3.68}, {"radius": 70.0, "rated_load": 3.5}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 15.9, "rated_load": 20.0}, {"radius": 17.5, "rated_load": 17.82}, {"radius": 20.0, "rated_load": 15.17}, {"radius": 22.5, "rated_load": 13.13}, {"radius": 25.0, "rated_load": 11.52}, {"radius": 27.5, "rated_load": 10.22}, {"radius": 30.0, "rated_load": 9.14}, {"radius": 32.5, "rated_load": 8.23}, {"radius": 35.0, "rated_load": 7.46}, {"radius": 37.5, "rated_load": 6.79}, {"radius": 40.0, "rated_load": 6.21}, {"radius": 42.5, "rated_load": 5.7}, {"radius": 45.0, "rated_load": 5.24}, {"radius": 47.5, "rated_load": 4.84}, {"radius": 50.0, "rated_load": 4.47}, {"radius": 52.5, "rated_load": 4.15}, {"radius": 55.0, "rated_load": 3.85}, {"radius": 57.5, "rated_load": 3.58}, {"radius": 60.0, "rated_load": 3.33}, {"radius": 62.5, "rated_load": 3.1}, {"radius": 65.0, "rated_load": 2.89}, {"radius": 67.5, "rated_load": 2.7}, {"radius": 70.0, "rated_load": 2.52}]
-          },
-        "65": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 32.2, "rated_load": 10.0}, {"radius": 32.5, "rated_load": 9.88}, {"radius": 35.0, "rated_load": 9.06}, {"radius": 37.5, "rated_load": 8.35}, {"radius": 40.0, "rated_load": 7.73}, {"radius": 42.5, "rated_load": 7.18}, {"radius": 45.0, "rated_load": 6.7}, {"radius": 47.5, "rated_load": 6.27}, {"radius": 50.0, "rated_load": 5.88}, {"radius": 52.5, "rated_load": 5.53}, {"radius": 55.0, "rated_load": 5.22}, {"radius": 57.5, "rated_load": 4.93}, {"radius": 60.0, "rated_load": 4.67}, {"radius": 62.5, "rated_load": 4.42}, {"radius": 65.0, "rated_load": 4.2}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 16.8, "rated_load": 20.0}, {"radius": 17.5, "rated_load": 19.08}, {"radius": 20.0, "rated_load": 16.26}, {"radius": 22.5, "rated_load": 14.1}, {"radius": 25.0, "rated_load": 12.39}, {"radius": 27.5, "rated_load": 11.01}, {"radius": 30.0, "rated_load": 9.86}, {"radius": 32.5, "rated_load": 8.89}, {"radius": 35.0, "rated_load": 8.07}, {"radius": 37.5, "rated_load": 7.36}, {"radius": 40.0, "rated_load": 6.74}, {"radius": 42.5, "rated_load": 6.2}, {"radius": 45.0, "rated_load": 5.72}, {"radius": 47.5, "rated_load": 5.29}, {"radius": 50.0, "rated_load": 4.9}, {"radius": 52.5, "rated_load": 4.55}, {"radius": 55.0, "rated_load": 4.23}, {"radius": 57.5, "rated_load": 3.95}, {"radius": 60.0, "rated_load": 3.68}, {"radius": 62.5, "rated_load": 3.44}, {"radius": 65.0, "rated_load": 3.22}]
-          },
-        "60": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 33.9, "rated_load": 10.0}, {"radius": 35.0, "rated_load": 9.63}, {"radius": 37.5, "rated_load": 8.89}, {"radius": 40.0, "rated_load": 8.23}, {"radius": 42.5, "rated_load": 7.66}, {"radius": 45.0, "rated_load": 7.15}, {"radius": 47.5, "rated_load": 6.69}, {"radius": 50.0, "rated_load": 6.29}, {"radius": 52.5, "rated_load": 5.92}, {"radius": 55.0, "rated_load": 5.58}, {"radius": 57.5, "rated_load": 5.28}, {"radius": 60.0, "rated_load": 5.0}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 17.7, "rated_load": 20.0}, {"radius": 20.0, "rated_load": 17.3}, {"radius": 22.5, "rated_load": 15.02}, {"radius": 25.0, "rated_load": 13.21}, {"radius": 27.5, "rated_load": 11.75}, {"radius": 30.0, "rated_load": 10.54}, {"radius": 32.5, "rated_load": 9.52}, {"radius": 35.0, "rated_load": 8.65}, {"radius": 37.5, "rated_load": 7.9}, {"radius": 40.0, "rated_load": 7.25}, {"radius": 42.5, "rated_load": 6.67}, {"radius": 45.0, "rated_load": 6.16}, {"radius": 47.5, "rated_load": 5.71}, {"radius": 50.0, "rated_load": 5.3}, {"radius": 52.5, "rated_load": 4.93}, {"radius": 55.0, "rated_load": 4.6}, {"radius": 57.5, "rated_load": 4.29}, {"radius": 60.0, "rated_load": 4.02}]
-          },
-        "55": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 35.4, "rated_load": 10.0}, {"radius": 37.5, "rated_load": 9.35}, {"radius": 40.0, "rated_load": 8.67}, {"radius": 42.5, "rated_load": 8.07}, {"radius": 45.0, "rated_load": 7.54}, {"radius": 47.5, "rated_load": 7.06}, {"radius": 50.0, "rated_load": 6.63}, {"radius": 52.5, "rated_load": 6.25}, {"radius": 55.0, "rated_load": 5.9}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 18.5, "rated_load": 20.0}, {"radius": 20.0, "rated_load": 18.2}, {"radius": 22.5, "rated_load": 15.82}, {"radius": 25.0, "rated_load": 13.93}, {"radius": 27.5, "rated_load": 12.4}, {"radius": 30.0, "rated_load": 11.13}, {"radius": 32.5, "rated_load": 10.06}, {"radius": 35.0, "rated_load": 9.15}, {"radius": 37.5, "rated_load": 8.37}, {"radius": 40.0, "rated_load": 7.69}, {"radius": 42.5, "rated_load": 7.09}, {"radius": 45.0, "rated_load": 6.55}, {"radius": 47.5, "rated_load": 6.08}, {"radius": 50.0, "rated_load": 5.65}, {"radius": 52.5, "rated_load": 5.27}, {"radius": 55.0, "rated_load": 4.92}]
-          },
-        "50": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 36.1, "rated_load": 10.0}, {"radius": 37.5, "rated_load": 9.58}, {"radius": 40.0, "rated_load": 8.88}, {"radius": 42.5, "rated_load": 8.26}, {"radius": 45.0, "rated_load": 7.72}, {"radius": 47.5, "rated_load": 7.24}, {"radius": 50.0, "rated_load": 6.8}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 18.8, "rated_load": 20.0}, {"radius": 20.0, "rated_load": 18.63}, {"radius": 22.5, "rated_load": 16.19}, {"radius": 25.0, "rated_load": 14.26}, {"radius": 27.5, "rated_load": 12.7}, {"radius": 30.0, "rated_load": 11.41}, {"radius": 32.5, "rated_load": 10.32}, {"radius": 35.0, "rated_load": 9.39}, {"radius": 37.5, "rated_load": 8.59}, {"radius": 40.0, "rated_load": 7.89}, {"radius": 42.5, "rated_load": 7.28}, {"radius": 45.0, "rated_load": 6.74}, {"radius": 47.5, "rated_load": 6.25}, {"radius": 50.0, "rated_load": 5.82}]
-          },
-        "45": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 36.4, "rated_load": 10.0}, {"radius": 37.5, "rated_load": 9.67}, {"radius": 40.0, "rated_load": 8.97}, {"radius": 42.5, "rated_load": 8.35}, {"radius": 45.0, "rated_load": 7.8}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 19.0, "rated_load": 20.0}, {"radius": 20.0, "rated_load": 18.81}, {"radius": 22.5, "rated_load": 16.36}, {"radius": 25.0, "rated_load": 14.41}, {"radius": 27.5, "rated_load": 12.83}, {"radius": 30.0, "rated_load": 11.53}, {"radius": 32.5, "rated_load": 10.43}, {"radius": 35.0, "rated_load": 9.49}, {"radius": 37.5, "rated_load": 8.69}, {"radius": 40.0, "rated_load": 7.98}, {"radius": 42.5, "rated_load": 7.36}, {"radius": 45.0, "rated_load": 6.82}]
-          },
-        "40": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 36.6, "rated_load": 10.0}, {"radius": 37.5, "rated_load": 9.71}, {"radius": 40.0, "rated_load": 9.0}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 19.0, "rated_load": 20.0}, {"radius": 20.0, "rated_load": 18.88}, {"radius": 22.5, "rated_load": 16.41}, {"radius": 25.0, "rated_load": 14.46}, {"radius": 27.5, "rated_load": 12.88}, {"radius": 30.0, "rated_load": 11.57}, {"radius": 32.5, "rated_load": 10.47}, {"radius": 35.0, "rated_load": 9.53}, {"radius": 37.5, "rated_load": 8.72}, {"radius": 40.0, "rated_load": 8.02}]
-          },
-        "35": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 35.0, "rated_load": 10.0}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 19.2, "rated_load": 20.0}, {"radius": 20.0, "rated_load": 19.03}, {"radius": 22.5, "rated_load": 16.55}, {"radius": 25.0, "rated_load": 14.58}, {"radius": 27.5, "rated_load": 12.99}, {"radius": 30.0, "rated_load": 11.67}, {"radius": 32.5, "rated_load": 10.56}, {"radius": 35.0, "rated_load": 9.62}]
-          },
-        "30": {
-          "2": [{"radius": 4.0, "rated_load": 10.0}, {"radius": 30.0, "rated_load": 10.0}],
-          "4": [{"radius": 4.0, "rated_load": 20.0}, {"radius": 19.2, "rated_load": 20.0}, {"radius": 20.0, "rated_load": 19.1}, {"radius": 22.5, "rated_load": 16.61}, {"radius": 25.0, "rated_load": 14.64}, {"radius": 27.5, "rated_load": 13.04}, {"radius": 30.0, "rated_load": 11.72}]
-          }
-      }
-    },
-    {
-      "id": 53,
-      "model": "TC7525-16D",
-      "brand": "中联",
-      "type": "塔吊",
-      "crane_type": "tower",
-      "sub_type": "平臂",
-      "max_load_t": 16,
-      "max_arm_length": 75.0,
-      "min_radius": 3,
-      "overall_length": null,
-      "overall_width": null,
-      "overall_height": null,
-      "total_weight_kg": null,
-      "max_freestand_h": 51.3,
-      "max_attached_h": 240.3,
-      "rental_fee_month": null,
-      "rental_fee_shift": null,
-      "fuel_fee": null,
-      "image": null,
-      "images": [
-        "crane_images/tower_TC7525-16D.png"
-      ],
-      "tower_load_charts": {
-        "75": {
-          "2": [{"radius": 3.0, "rated_load": 8.0}, {"radius": 29.6, "rated_load": 8.0}, {"radius": 35.0, "rated_load": 6.58}, {"radius": 40.0, "rated_load": 5.61}, {"radius": 43.0, "rated_load": 5.14}, {"radius": 45.0, "rated_load": 4.87}, {"radius": 48.0, "rated_load": 4.49}, {"radius": 50.0, "rated_load": 4.27}, {"radius": 53.0, "rated_load": 3.97}, {"radius": 55.0, "rated_load": 3.78}, {"radius": 58.0, "rated_load": 3.53}, {"radius": 60.0, "rated_load": 3.38}, {"radius": 63.0, "rated_load": 3.17}, {"radius": 65.0, "rated_load": 3.04}, {"radius": 68.0, "rated_load": 2.86}, {"radius": 70.0, "rated_load": 2.75}, {"radius": 75.0, "rated_load": 2.5}],
-          "4": [{"radius": 3.0, "rated_load": 16.0}, {"radius": 15.5, "rated_load": 16.0}, {"radius": 18.0, "rated_load": 13.37}, {"radius": 23.0, "rated_load": 9.93}, {"radius": 25.0, "rated_load": 8.96}, {"radius": 28.0, "rated_load": 7.77}, {"radius": 35.0, "rated_load": 5.81}, {"radius": 40.0, "rated_load": 4.84}, {"radius": 43.0, "rated_load": 4.37}, {"radius": 45.0, "rated_load": 4.09}, {"radius": 48.0, "rated_load": 3.72}, {"radius": 50.0, "rated_load": 3.49}, {"radius": 53.0, "rated_load": 3.19}, {"radius": 55.0, "rated_load": 3.01}, {"radius": 58.0, "rated_load": 2.76}, {"radius": 60.0, "rated_load": 2.6}, {"radius": 63.0, "rated_load": 2.4}, {"radius": 65.0, "rated_load": 2.27}, {"radius": 68.0, "rated_load": 2.09}, {"radius": 70.0, "rated_load": 1.97}, {"radius": 75.0, "rated_load": 1.72}]
-          },
-        "70": {
-          "2": [{"radius": 3.0, "rated_load": 8.0}, {"radius": 31.5, "rated_load": 8.0}, {"radius": 35.0, "rated_load": 7.09}, {"radius": 40.0, "rated_load": 6.06}, {"radius": 43.0, "rated_load": 5.55}, {"radius": 45.0, "rated_load": 5.26}, {"radius": 48.0, "rated_load": 4.86}, {"radius": 50.0, "rated_load": 4.62}, {"radius": 53.0, "rated_load": 4.3}, {"radius": 55.0, "rated_load": 4.1}, {"radius": 58.0, "rated_load": 3.84}, {"radius": 60.0, "rated_load": 3.67}, {"radius": 63.0, "rated_load": 3.45}, {"radius": 65.0, "rated_load": 3.31}, {"radius": 68.0, "rated_load": 3.12}, {"radius": 70.0, "rated_load": 3.0}],
-          "4": [{"radius": 3.0, "rated_load": 16.0}, {"radius": 16.5, "rated_load": 16.0}, {"radius": 18.0, "rated_load": 14.38}, {"radius": 23.0, "rated_load": 10.71}, {"radius": 25.0, "rated_load": 9.67}, {"radius": 28.0, "rated_load": 8.4}, {"radius": 35.0, "rated_load": 7.22}, {"radius": 40.0, "rated_load": 5.28}, {"radius": 43.0, "rated_load": 4.78}, {"radius": 45.0, "rated_load": 4.48}, {"radius": 48.0, "rated_load": 4.08}, {"radius": 50.0, "rated_load": 3.84}, {"radius": 53.0, "rated_load": 3.52}, {"radius": 55.0, "rated_load": 3.33}, {"radius": 58.0, "rated_load": 3.06}, {"radius": 60.0, "rated_load": 2.9}, {"radius": 63.0, "rated_load": 2.67}, {"radius": 65.0, "rated_load": 2.53}, {"radius": 68.0, "rated_load": 2.34}, {"radius": 70.0, "rated_load": 2.22}]
-          },
-        "65": {
-          "2": [{"radius": 3.0, "rated_load": 8.0}, {"radius": 32.6, "rated_load": 8.0}, {"radius": 35.0, "rated_load": 7.35}, {"radius": 40.0, "rated_load": 6.28}, {"radius": 43.0, "rated_load": 5.77}, {"radius": 45.0, "rated_load": 5.46}, {"radius": 48.0, "rated_load": 5.05}, {"radius": 50.0, "rated_load": 4.8}, {"radius": 53.0, "rated_load": 4.47}, {"radius": 55.0, "rated_load": 4.27}, {"radius": 58.0, "rated_load": 3.99}, {"radius": 60.0, "rated_load": 3.83}, {"radius": 63.0, "rated_load": 3.59}, {"radius": 65.0, "rated_load": 3.45}],
-          "4": [{"radius": 3.0, "rated_load": 16.0}, {"radius": 17.5, "rated_load": 16.0}, {"radius": 18.0, "rated_load": 13.15}, {"radius": 23.0, "rated_load": 11.12}, {"radius": 25.0, "rated_load": 10.0}, {"radius": 28.0, "rated_load": 8.74}, {"radius": 35.0, "rated_load": 6.58}, {"radius": 40.0, "rated_load": 5.51}, {"radius": 43.0, "rated_load": 4.99}, {"radius": 45.0, "rated_load": 4.68}, {"radius": 48.0, "rated_load": 4.27}, {"radius": 50.0, "rated_load": 4.03}, {"radius": 53.0, "rated_load": 3.69}, {"radius": 55.0, "rated_load": 3.49}, {"radius": 58.0, "rated_load": 3.22}, {"radius": 60.0, "rated_load": 3.05}, {"radius": 63.0, "rated_load": 2.82}, {"radius": 65.0, "rated_load": 2.67}]
-          },
-        "60": {
-          "2": [{"radius": 3.0, "rated_load": 8.0}, {"radius": 33.04, "rated_load": 8.0}, {"radius": 35.0, "rated_load": 7.48}, {"radius": 40.0, "rated_load": 6.4}, {"radius": 43.0, "rated_load": 5.87}, {"radius": 45.0, "rated_load": 5.56}, {"radius": 48.0, "rated_load": 5.14}, {"radius": 50.0, "rated_load": 4.89}, {"radius": 53.0, "rated_load": 4.56}, {"radius": 55.0, "rated_load": 4.35}, {"radius": 58.0, "rated_load": 4.07}, {"radius": 60.0, "rated_load": 3.9}],
-          "4": [{"radius": 3.0, "rated_load": 16.0}, {"radius": 17.2, "rated_load": 16.0}, {"radius": 18.0, "rated_load": 15.17}, {"radius": 23.0, "rated_load": 11.32}, {"radius": 25.0, "rated_load": 10.23}, {"radius": 28.0, "rated_load": 8.9}, {"radius": 35.0, "rated_load": 6.71}, {"radius": 40.0, "rated_load": 5.62}, {"radius": 43.0, "rated_load": 5.1}, {"radius": 45.0, "rated_load": 4.79}, {"radius": 48.0, "rated_load": 4.37}, {"radius": 50.0, "rated_load": 4.12}, {"radius": 53.0, "rated_load": 3.78}, {"radius": 55.0, "rated_load": 3.57}, {"radius": 58.0, "rated_load": 3.29}, {"radius": 60.0, "rated_load": 3.12}]
-          },
-        "55": {
-          "2": [{"radius": 3.0, "rated_load": 8.0}, {"radius": 34.0, "rated_load": 8.0}, {"radius": 35.0, "rated_load": 7.8}, {"radius": 40.0, "rated_load": 6.67}, {"radius": 43.0, "rated_load": 6.13}, {"radius": 45.0, "rated_load": 5.81}, {"radius": 48.0, "rated_load": 5.37}, {"radius": 50.0, "rated_load": 5.11}, {"radius": 53.0, "rated_load": 4.76}, {"radius": 55.0, "rated_load": 4.55}],
-          "4": [{"radius": 3.0, "rated_load": 16.0}, {"radius": 17.0, "rated_load": 16.0}, {"radius": 18.0, "rated_load": 15.81}, {"radius": 23.0, "rated_load": 11.81}, {"radius": 25.0, "rated_load": 10.68}, {"radius": 28.0, "rated_load": 9.3}, {"radius": 35.0, "rated_load": 7.02}, {"radius": 40.0, "rated_load": 5.9}, {"radius": 43.0, "rated_load": 5.35}, {"radius": 45.0, "rated_load": 5.03}, {"radius": 48.0, "rated_load": 4.6}, {"radius": 50.0, "rated_load": 4.34}, {"radius": 53.0, "rated_load": 3.99}, {"radius": 55.0, "rated_load": 3.77}]
-          },
-        "50": {
-          "2": [{"radius": 3.0, "rated_load": 8.0}, {"radius": 35.53, "rated_load": 8.0}, {"radius": 40.0, "rated_load": 6.97}, {"radius": 43.0, "rated_load": 6.4}, {"radius": 45.0, "rated_load": 6.07}, {"radius": 48.0, "rated_load": 5.62}, {"radius": 50.0, "rated_load": 5.35}],
-          "4": [{"radius": 3.0, "rated_load": 16.0}, {"radius": 18.5, "rated_load": 16.0}, {"radius": 23.0, "rated_load": 12.34}, {"radius": 25.0, "rated_load": 11.16}, {"radius": 28.0, "rated_load": 9.73}, {"radius": 35.0, "rated_load": 7.36}, {"radius": 40.0, "rated_load": 6.2}, {"radius": 43.0, "rated_load": 5.63}, {"radius": 45.0, "rated_load": 5.29}, {"radius": 48.0, "rated_load": 4.84}, {"radius": 50.0, "rated_load": 4.57}]
-          },
-        "45": {
-          "2": [{"radius": 3.0, "rated_load": 8.0}, {"radius": 36.66, "rated_load": 8.0}, {"radius": 40.0, "rated_load": 7.23}, {"radius": 43.0, "rated_load": 6.65}, {"radius": 45.0, "rated_load": 6.3}],
-          "4": [{"radius": 3.0, "rated_load": 16.0}, {"radius": 19.04, "rated_load": 16.0}, {"radius": 23.0, "rated_load": 12.8}, {"radius": 25.0, "rated_load": 11.59}, {"radius": 28.0, "rated_load": 10.11}, {"radius": 35.0, "rated_load": 7.66}, {"radius": 40.0, "rated_load": 6.46}, {"radius": 43.0, "rated_load": 5.87}, {"radius": 45.0, "rated_load": 5.52}]
-          },
-        "40": {
-          "2": [{"radius": 3.0, "rated_load": 8.0}, {"radius": 37.4, "rated_load": 8.0}, {"radius": 40.0, "rated_load": 7.4}],
-          "4": [{"radius": 3.0, "rated_load": 16.0}, {"radius": 19.41, "rated_load": 16.0}, {"radius": 23.0, "rated_load": 13.1}, {"radius": 25.0, "rated_load": 11.86}, {"radius": 28.0, "rated_load": 10.35}, {"radius": 35.0, "rated_load": 7.86}, {"radius": 40.0, "rated_load": 6.62}]
-          }
-        }
     }
   ]
 };

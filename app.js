@@ -624,7 +624,9 @@ function filterType(t,btn){
 }
 
 /* ── 页面导航 ──────────────────────────────────────────── */
-function sp(n){
+function spLibAll(){_selType='';sp('lib');}
+
+function sp(n,t){
   // 记录当前页（非详情页）为上一页
   var curActive = document.querySelector('.page.active');
   if(curActive && curActive.id !== 'page-detail'){
@@ -632,9 +634,17 @@ function sp(n){
   }
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.app-nav-btn').forEach(function(b){b.classList.remove('active');});
+  // 清除机械库子菜单高亮
+  document.querySelectorAll('.nav-sub-item').forEach(function(b){b.classList.remove('active');});
   var pg=document.getElementById('page-'+n);if(pg)pg.classList.add('active');
   var navBtn=document.getElementById('nav-'+n);if(navBtn)navBtn.classList.add('active');
-  if(n==='lib')renderLib(_libPage);
+  if(n==='lib'){
+    if(typeof t==='string')_selType=t;
+    renderLib(_libPage);
+    // 高亮对应的子菜单项
+    var subId={汽车吊:'nav-lib-qcd',履带吊:'nav-lib-ldd',塔吊:'nav-lib-td'}[_selType];
+    if(subId){var el=document.getElementById(subId);if(el)el.classList.add('active');}
+  }
   if(n==='add')initAddPage();
   if(n==='lift')initLiftPage();
   if(n==='diaoci')initDiaoci();
@@ -681,6 +691,7 @@ function toggleSidebar(){
 
 /* ── 机型库（分页）───────────────────────────────────── */
 function renderLib(p,t){
+  if(!data||!data.cranes){toast('数据加载中，请稍候…');return;}
   var pg=typeof p==='number'?p:1;
   if(typeof t==='string')_selType=t;
   _libPage=pg;
@@ -2113,13 +2124,27 @@ function calcSpreadTotal(){
 }
 /* old closeDetail removed – now handled by full-page nav */
 
+/* ── 数据初始化（由内联脚本在 window.CRANE_DATA 就绪后调用）── */
+window.__initApp=function(){
+  var el=document.getElementById('badge');
+  var src=window.CRANE_DATA||null;
+  if(src&&Array.isArray(src.cranes)&&src.cranes.length>0){
+    data=src;_mapBuilt=false;_craneMap={};
+    onData();
+  } else {
+    toast('未找到数据，请刷新页面重试');
+    if(el)el.textContent='数据加载失败';
+  }
+};
+
 /* ── DOM Ready ──────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded',function(){
   var el=document.getElementById('badge');if(el)el.textContent='DOM就绪，正在加载数据…';
   try{
-    var src=window.CRANE_DATA||null;
-    if(src&&Array.isArray(src.cranes)&&src.cranes.length>0){data=src;onData();}
-    else {toast('未找到数据，请刷新页面重试');if(el)el.textContent='数据加载失败';}
+    /* 尝试立即初始化（仅在 data.js 同步加载时生效） */
+    if(window.CRANE_DATA&&Array.isArray(window.CRANE_DATA.cranes)&&window.CRANE_DATA.cranes.length>0){
+      window.__initApp();
+    }
     document.addEventListener('dragover',function(e){e.preventDefault();});
     document.addEventListener('drop',function(e){
       e.preventDefault();var f=e.dataTransfer.files[0];
@@ -2129,6 +2154,7 @@ document.addEventListener('DOMContentLoaded',function(){
           try{
             var txt=ev.target.result;txt=txt.replace(/^var\s+CRANE_DATA\s*=\s*/,'').replace(/;$/,'');
             data=JSON.parse(txt);_mapBuilt=false;_craneMap={};
+            window.CRANE_DATA=data;
             onData();toast('数据加载成功：'+data.cranes.length+' 台');
           }catch(er){toast('加载失败，请检查文件格式');}
         };reader.readAsText(f);

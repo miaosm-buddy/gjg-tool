@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<link rel="stylesheet" href="style.css?v=v2-20260709b"></head>
+<link rel="stylesheet" href="style.css?v=v2-20260725-submenu"></head>
 <body>
 
 <!-- ========== 左侧可折叠导航栏 ========== -->
@@ -28,10 +28,17 @@
       <span class="app-nav-icon">⚙</span>
       <span class="app-nav-label">智能选型</span>
     </button>
-    <button class="app-nav-btn" id="nav-lib" onclick="sp('lib')">
-      <span class="app-nav-icon">📋</span>
-      <span class="app-nav-label">机械库</span>
-    </button>
+    <div class="nav-group" id="nav-lib-group">
+      <button class="app-nav-btn" id="nav-lib" onclick="spLibAll()">
+        <span class="app-nav-icon">📋</span>
+        <span class="app-nav-label">机械库</span>
+      </button>
+      <div class="nav-sub-list">
+        <button class="nav-sub-item" id="nav-lib-qcd" onclick="sp('lib','汽车吊')">🚛 汽车吊</button>
+        <button class="nav-sub-item" id="nav-lib-ldd" onclick="sp('lib','履带吊')">🛞 履带吊</button>
+        <button class="nav-sub-item" id="nav-lib-td" onclick="sp('lib','塔吊')">🏗 塔吊</button>
+      </div>
+    </div>
     <button class="app-nav-btn" id="nav-lift" onclick="sp('lift')">
       <span class="app-nav-icon">🏗</span>
       <span class="app-nav-label">钢柱吊装</span>
@@ -47,6 +54,10 @@
     <button class="app-nav-btn" id="nav-labor" onclick="sp('labor')">
       <span class="app-nav-icon">👷</span>
       <span class="app-nav-label">劳动力</span>
+    </button>
+    <button class="app-nav-btn" id="nav-midas" onclick="sp('midas')">
+      <span class="app-nav-icon">🧊</span>
+      <span class="app-nav-label">Midas模型</span>
     </button>
   </nav>
   <div class="sidebar-footer">
@@ -117,6 +128,11 @@
       <div class="func-card-icon">👷</div>
       <div class="func-card-title">劳动力分析</div>
       <div class="func-card-desc">基于工期与工程量测算各工种劳动力需求与进退场节奏</div>
+    </div>
+    <div class="func-card func-card-midas" onclick="sp('midas')">
+      <div class="func-card-icon">🧊</div>
+      <div class="func-card-title">Midas模型查看器</div>
+      <div class="func-card-desc">导入 .mgt 文件，三维预览、截面统计与构件重量计算</div>
     </div>
   </div>
 </div>
@@ -2217,6 +2233,96 @@
   </div><!-- /labor-panel-io -->
 </div><!-- /page-labor -->
 
+<!-- ========== Midas MGT 3D 查看器页面 ========== -->
+<div class="page" id="page-midas">
+  <div class="midas-topbar">
+    <div class="midas-logo">
+      <span class="icon">🏗️</span>
+      <span>Midas Gen</span><span class="accent"> MGT 3D 查看器</span>
+    </div>
+    <div class="midas-actions">
+      <span class="midas-file-info" id="midas-fileName">尚未加载模型</span>
+      <span class="midas-dot" id="midas-statusDot" style="display:none;"></span>
+      <button class="midas-btn" onclick="document.getElementById('midas-fileInput').click()">📂 导入模型文件</button>
+      <button class="midas-btn" id="midas-exportBtn" onclick="midas_exportToExcel()" disabled>📊 导出 Excel</button>
+      <input type="file" id="midas-fileInput" accept=".mgt,.MGT,.mgb,.MGB" style="display:none" onchange="midas_handleFileSelect(event)">
+    </div>
+    <div id="midas-mgbLoadBar" style="display:none;height:3px;background:linear-gradient(90deg,#3b82f6 0%,#60a5fa 40%,#3b82f6 100%);background-size:200% 100%;animation:midas-shimmer 1.2s linear infinite;margin-top:0;border-radius:0 0 0 0;"></div>
+    <div id="midas-mgbError" style="display:none;background:#1a1a2e;color:#fca5a5;border:1px solid #c53030;border-radius:6px;padding:12px 16px;font-size:12px;line-height:1.8;margin:6px 14px 0;white-space:pre-wrap;max-height:280px;overflow-y:auto;position:relative;">
+      <button onclick="document.getElementById('midas-mgbError').style.display='none'" style="position:absolute;top:6px;right:10px;background:none;border:none;color:#fca5a5;cursor:pointer;font-size:16px;line-height:1;">✕</button>
+    </div>
+  </div>
+  <div class="midas-stats-row" id="midas-statsRow">
+    <div class="midas-stat-item"><div class="midas-stat-val">-</div><div class="midas-stat-lbl">总节点</div></div>
+    <div class="midas-stat-item"><div class="midas-stat-val">-</div><div class="midas-stat-lbl">总杆件</div></div>
+    <div class="midas-stat-item"><div class="midas-stat-val">-</div><div class="midas-stat-lbl">截面种类</div></div>
+    <div class="midas-stat-item"><div class="midas-stat-val">-</div><div class="midas-stat-lbl">总长度 (M)</div></div>
+    <div class="midas-stat-item"><div class="midas-stat-val">-</div><div class="midas-stat-lbl">预估总重 (KG)</div></div>
+    <div class="midas-stat-gap"></div>
+  </div>
+  <div class="midas-main-row">
+    <div class="midas-left-panel">
+      <div class="midas-left-inner">
+        <div class="midas-panel-section">
+          <div class="midas-panel-header">📐 截面分布统计</div>
+          <div style="max-height:280px;overflow-y:auto;">
+            <table class="midas-sec-table" id="midas-sectionStatsTable">
+              <thead><tr><th>ID</th><th>数量</th><th>占比</th><th>名称</th><th>线重(kg/m)</th><th>匹配</th></tr></thead>
+              <tbody>
+                <tr><td colspan="6" style="text-align:center;color:#a0aec0;padding:14px;">等待导入模型...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="midas-panel-section">
+          <div class="midas-panel-header">📂 结构组信息<span class="midas-top5-hint" id="midas-groupHint" style="display:none;">点击组可高亮3D模型</span></div>
+          <div class="midas-group-panel-body" id="midas-groupPanelBody" style="max-height:260px;overflow-y:auto;">
+            <div style="text-align:center;color:#a0aec0;padding:14px;font-size:12px;">等待导入模型...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="midas-v-resize-bar" id="midas-vResizeBar" title="左右拖拽调整3D视图宽度"></div>
+    <div class="midas-right-panel" id="midas-rightPanel">
+      <div class="midas-viewport-wrap" id="midas-viewportWrap">
+        <div class="midas-viewport-hint">🖱 左键旋转 <span class="midas-sep">|</span> 右键平移 <span class="midas-sep">|</span> 滚轮缩放</div>
+        <div id="midas-plot3d"></div>
+        <div class="midas-empty-state" id="midas-emptyState">
+          <div class="midas-big-icon">🧊</div>
+          <div class="midas-msg">导入 .mgt 文件以查看三维模型</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="midas-resize-bar" id="midas-resizeBar" title="上下拖拽调整清单高度"></div>
+  <div class="midas-bottom-panel" id="midas-bottomPanel">
+    <div class="midas-bottom-header">
+      <div class="midas-left-group">
+        <span class="midas-title">📋 构件明细清单</span>
+        <span class="midas-row-count" id="midas-rowCount">共 0 根杆件</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:11px;color:#a0aec0;">双击表头可复制内容</span>
+        <button class="midas-btn" id="midas-bottomExportBtn" onclick="midas_exportToExcel()" disabled>📊 导出 Excel</button>
+      </div>
+    </div>
+    <div class="midas-table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>编号</th><th>类型</th><th>截面ID</th><th>截面名称</th>
+            <th>节点I</th><th>节点J</th><th>长度(M)</th>
+            <th>线重(KG/M)</th><th id="midas-wtColHead">总重量(KG)</th><th>匹配状态</th>
+          </tr>
+        </thead>
+        <tbody id="midas-detailTbody">
+          <tr><td colspan="10" style="text-align:center;color:#a0aec0;padding:20px;">等待导入模型...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><!-- /page-midas -->
+
 <!-- 截面选择器模态窗口 -->
 <div class="sec-picker-overlay" id="secPickerOverlay" style="display:none" onclick="if(event.target===this)closeSectionPicker()">
   <div class="sec-picker-modal">
@@ -2262,7 +2368,93 @@
 </div>
 
 </div><!-- /app-main -->
-<script src="app.bundled.js?v=v2-20260728-fix"></script>
+<!-- data.js: IndexedDB 缓存（无大小限制），首次下载后复用 -->
+<script>
+(function(){
+  var DB_NAME = 'CRANE_CACHE_V1', STORE = 'files', KEY = 'CRANE_DATA', DATA_VER = 'v2-20260430';
+  function openDB() {
+    return new Promise(function(res, rej) {
+      var r = indexedDB.open(DB_NAME, 1);
+      r.onupgradeneeded = function(e) { e.target.result.createObjectStore(STORE, {keyPath:'k'}); };
+      r.onsuccess = function(e) { res(e.target.result); };
+      r.onerror = function(e) { rej(e.target.error); };
+    });
+  }
+  function idbGet(db, k) {
+    return new Promise(function(res, rej) {
+      var tx = db.transaction(STORE, 'readonly'), s = tx.objectStore(STORE).get(k);
+      s.onsuccess = function() { res(s.result); };
+      s.onerror = function() { rej(s.error); };
+    });
+  }
+  function idbPut(db, rec) {
+    return new Promise(function(res, rej) {
+      var tx = db.transaction(STORE, 'readwrite'), s = tx.objectStore(STORE).put(rec);
+      s.onsuccess = function() { res(); };
+      s.onerror = function() { rej(s.error); };
+    });
+  }
+
+  /* 统一回调：数据就绪后调用 __initApp */
+  function onReady(isCached) {
+    var el = document.getElementById('badge');
+    if (el) el.textContent = '数据就绪(' + window.CRANE_DATA.cranes.length + '台' + (isCached ? '，缓存' : '') + ')';
+    if (window.__initApp) window.__initApp();
+  }
+
+  openDB().then(function(db) {
+    return idbGet(db, KEY).then(function(rec) {
+      if(rec && rec.ver === DATA_VER) {
+        window.CRANE_DATA = JSON.parse(rec.data);
+        onReady(true);
+        db.close(); return null;
+      }
+      return db;
+    });
+  }).then(function(db) {
+    if(!db) return;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data.js?v=' + DATA_VER, true);
+    xhr.onload = function() {
+      if(xhr.status === 200) {
+        try {
+          var txt = xhr.responseText;
+          var json = txt.replace(/^var\s+CRANE_DATA\s*=\s*/,'').replace(/;$/,'');
+          window.CRANE_DATA = JSON.parse(json);
+          idbPut(db, {k: KEY, ver: DATA_VER, data: json}).then(function() { onReady(false); });
+        } catch(e) { console.error('数据解析失败', e); }
+      }
+    };
+    xhr.onerror = function() {
+      var el = document.getElementById('badge');
+      if(el) el.textContent = '数据加载失败';
+    };
+    xhr.send();
+  }).catch(function(e) {
+    console.error('IndexedDB 错误', e);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data.js?v=' + DATA_VER, true);
+    xhr.onload = function() {
+      if(xhr.status === 200) {
+        try {
+          var txt = xhr.responseText;
+          var json = txt.replace(/^var\s+CRANE_DATA\s*=\s*/,'').replace(/;$/,'');
+          window.CRANE_DATA = JSON.parse(json);
+          onReady(false);
+        } catch(e2) { console.error('数据解析失败', e2); }
+      }
+    };
+    xhr.onerror = function() {
+      var el = document.getElementById('badge');
+      if(el) el.textContent = '数据加载失败';
+    };
+    xhr.send();
+  });
+})();
+</script>
+<!-- app.js & midas-viewer 同步加载 -->
+<script src="app.bundled.js?v=20260725b"></script>
+<script src="midas-viewer.js?v=v1"></script>
 <!-- 分段类型建议（datalist，供input list属性引用） -->
 <datalist id="diaoci-segtype-list">
   <option value="整根吊装">

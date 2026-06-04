@@ -159,6 +159,26 @@ body {
 .app-nav-btn .app-nav-icon { font-size: 18px; flex-shrink: 0; width: 22px; text-align: center; }
 .app-nav-btn .app-nav-label { transition: opacity 0.2s, width 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .app-sidebar.collapsed .app-nav-label { opacity: 0; width: 0; overflow: hidden; padding: 0; margin: 0; }
+/* 侧边栏收起时图标左对齐 */
+.app-sidebar.collapsed .app-nav-btn .app-nav-icon { text-align: left; }
+
+/* 机械库二级菜单 */
+.nav-group { display: flex; flex-direction: column; width: 100%; }
+.nav-sub-list { display: flex; flex-direction: column; padding-left: 36px; gap: 2px; }
+.nav-sub-item {
+  padding: 6px 12px 6px 8px;
+  border: none; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text-muted);
+  font-size: 13px; cursor: pointer; text-align: left;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: background 0.15s, color 0.15s;
+  width: 100%;
+}
+.nav-sub-item:hover { background: #eef0f8; color: var(--accent); }
+.nav-sub-item.active { color: var(--accent-glow); font-weight: 600; }
+/* 收起侧边栏时隐藏子菜单 */
+.app-sidebar.collapsed .nav-sub-list,
+.app-sidebar.collapsed .nav-sub-item { display: none !important; visibility: hidden; width: 0; height: 0; overflow: hidden; padding: 0; margin: 0; border: none; opacity: 0; }
 
 /* 折叠手柄 */
 .sidebar-toggle {
@@ -1831,6 +1851,7 @@ tr:hover td { background: rgba(94,106,210,0.07); }
   .app-sidebar { width: 60px !important; }
   .app-main { padding-left: 60px !important; }
   .sidebar-brand-text, .app-nav-label { opacity: 0; width: 0; overflow: hidden; }
+  .nav-sub-list, .nav-sub-item { display: none !important; }
   .sidebar-toggle { left: 60px !important; }
   .page-detail { width: calc(100vw - 60px - 17px) !important; }
   .page { padding: 16px; }
@@ -1858,6 +1879,7 @@ tr:hover td { background: rgba(94,106,210,0.07); }
   .app-sidebar { width: 60px !important; }
   .app-main { padding-left: 60px !important; }
   .sidebar-brand-text, .app-nav-label { opacity: 0; width: 0; overflow: hidden; }
+  .nav-sub-list, .nav-sub-item { display: none !important; }
   .sidebar-toggle { left: 60px !important; }
   .page-detail { width: calc(100vw - 60px - 17px) !important; }
   .page { padding: 12px; }
@@ -3059,3 +3081,416 @@ tr:hover td { background: rgba(94,106,210,0.07); }
 .mini-table tbody tr:last-child td {
   border-bottom: none;
 }
+
+/* ============================================================
+   Midas MGT 3D 查看器 样式（来源：施工集成\机械选型2）
+   ============================================================ */
+
+/* 顶部工具栏 */
+.midas-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde4ee;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.midas-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #1a202c;
+}
+.midas-logo .icon { font-size: 20px; }
+.midas-logo .accent { color: #4a90d9; }
+.midas-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.midas-file-info {
+  font-size: 11px;
+  color: #a0aec0;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.midas-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  background: #38a169;
+}
+
+/* 按钮 */
+.midas-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 4px;
+  border: 1px solid #dde4ee;
+  background: #ffffff;
+  color: #1a202c;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.midas-btn:hover {
+  background: #e8edf4;
+  border-color: #4a90d9;
+  color: #4a90d9;
+}
+.midas-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 统计芯片行 */
+.midas-stats-row {
+  display: flex;
+  gap: 0;
+  flex-shrink: 0;
+  padding: 8px 20px;
+  background: #f7f9fc;
+  border-bottom: 1px solid #dde4ee;
+  align-items: center;
+}
+.midas-stats-row .midas-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 18px;
+  border-right: 1px solid #dde4ee;
+  min-width: 80px;
+}
+.midas-stats-row .midas-stat-item:first-child { padding-left: 4px; }
+.midas-stats-row .midas-stat-item:last-child  { border-right: none; }
+.midas-stat-val {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4a90d9;
+  font-family: 'Cascadia Code','JetBrains Mono',Consolas,monospace;
+}
+.midas-stat-lbl {
+  font-size: 10px;
+  color: #a0aec0;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1px;
+}
+.midas-stat-gap { flex: 1; }
+
+/* 主体布局：左侧面板 + 竖向分隔 + 右侧3D */
+.midas-main-row {
+  display: flex;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.midas-left-panel {
+  flex: 1 1 auto;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #f7f9fc;
+  border-right: 1px solid #dde4ee;
+}
+.midas-left-inner {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.midas-panel-section {
+  border-bottom: 1px solid #dde4ee;
+}
+.midas-panel-header {
+  padding: 10px 16px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #a0aec0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.midas-sec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.midas-sec-table thead { position: sticky; top: 0; z-index: 2; }
+.midas-sec-table th {
+  background: #f7f9fc;
+  color: #a0aec0;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  padding: 7px 12px;
+  text-align: left;
+  border-bottom: 1px solid #dde4ee;
+}
+.midas-sec-table td {
+  padding: 5px 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+  font-family: Consolas,monospace;
+  font-size: 11px;
+  color: #4a5568;
+}
+.midas-sec-table tr:hover td { background: #e8f0fe; }
+.midas-bar-wrap { display: flex; align-items: center; gap: 6px; }
+.midas-bar-bg { width: 55px; height: 5px; background: #edf2f7; border-radius: 2px; overflow: hidden; }
+.midas-bar-fill { height: 100%; background: #4a90d9; border-radius: 2px; transition: width 0.3s; }
+.midas-sec-name-cell {
+  font-size: 10px;
+  color: #a0aec0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* 组信息面板 */
+.midas-top5-hint {
+  font-size: 10px;
+  color: #a0aec0;
+  font-weight: 400;
+  background: transparent;
+  padding: 0;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+.midas-group-panel-body { padding: 4px 10px 10px; }
+.midas-group-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  border: 1px solid #dde4ee;
+  background: #ffffff;
+  transition: all 0.15s;
+  cursor: pointer;
+  user-select: none;
+}
+.midas-group-card:hover { border-color: #4a90d9; box-shadow: 0 2px 8px rgba(74,144,217,0.12); }
+.midas-group-card.midas-group-active {
+  border-color: #ff6b35;
+  background: #fff8f5;
+  box-shadow: 0 0 0 2px rgba(255,107,53,0.2);
+}
+.midas-group-rank {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: #fff;
+  background: linear-gradient(135deg,#4a90d9,#357abd);
+}
+.midas-group-body { flex: 1; min-width: 0; }
+.midas-group-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a202c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.midas-group-meta {
+  font-size: 10px;
+  color: #a0aec0;
+  margin-top: 2px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.midas-group-count { color: #4a5568; font-weight: 600; }
+.midas-group-weight { color: #e53e3e; font-weight: 600; }
+
+/* 竖向分隔条 */
+.midas-v-resize-bar {
+  flex: 0 0 6px;
+  background: #dde4ee;
+  cursor: col-resize;
+  position: relative;
+  z-index: 20;
+  transition: background 0.15s;
+}
+.midas-v-resize-bar:hover { background: #4a90d9; }
+
+/* 右侧 3D 视口 */
+.midas-right-panel {
+  flex: 0 0 50%;
+  min-width: 220px;
+  max-width: 70vw;
+  display: flex;
+  flex-direction: column;
+  background: #fafcfd;
+  overflow: hidden;
+  position: relative;
+}
+.midas-viewport-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 180px;
+  background: #fafcfd;
+  overflow: hidden;
+}
+.midas-viewport-hint {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 10px;
+  color: #a0aec0;
+  background: rgba(255,255,255,0.82);
+  padding: 3px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 3;
+  backdrop-filter: blur(4px);
+  border: 1px solid #dde4ee;
+}
+.midas-viewport-hint .midas-sep { margin: 0 4px; color: #cbd5e0; }
+#midas-plot3d { flex: 1; width: 100%; min-height: 0; }
+.midas-empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #a0aec0;
+  pointer-events: none;
+}
+.midas-empty-state .midas-big-icon { font-size: 44px; margin-bottom: 8px; opacity: 0.2; }
+.midas-empty-state .midas-msg { font-size: 12px; }
+
+/* 横向拖拽分隔条（调整底部清单高度） */
+.midas-resize-bar {
+  height: 14px;
+  background: #f7f9fc;
+  border-top: 1px solid #dde4ee;
+  border-bottom: 1px solid #dde4ee;
+  cursor: row-resize;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 20;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.midas-resize-bar:hover { background: #e8f0fe; }
+.midas-resize-bar::after {
+  content: '';
+  width: 60px;
+  height: 4px;
+  background: #dde4ee;
+  border-radius: 3px;
+}
+.midas-resize-bar:hover::after { background: #4a90d9; }
+
+/* 底部清单面板 */
+.midas-bottom-panel {
+  flex: 0 0 42vh;
+  min-height: 140px;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-top: 1px solid #dde4ee;
+  overflow: hidden;
+}
+.midas-bottom-header {
+  padding: 9px 20px;
+  border-bottom: 1px solid #dde4ee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.midas-bottom-header .midas-left-group { display: flex; align-items: center; gap: 14px; }
+.midas-bottom-header .midas-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #a0aec0;
+}
+.midas-bottom-header .midas-row-count { font-size: 11px; color: #a0aec0; font-weight: 500; }
+.midas-table-scroll { flex: 1; overflow: auto; }
+.midas-table-scroll table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.midas-table-scroll thead { position: sticky; top: 0; z-index: 2; }
+.midas-table-scroll th {
+  background: #f7f9fc;
+  color: #a0aec0;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  padding: 8px 12px;
+  text-align: center;
+  border-bottom: 1px solid #dde4ee;
+  white-space: nowrap;
+}
+.midas-table-scroll td {
+  padding: 5px 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+  text-align: center;
+  font-family: Consolas,monospace;
+  font-size: 11px;
+  color: #4a5568;
+  white-space: nowrap;
+}
+.midas-table-scroll tr:hover td { background: #e8f0fe; }
+.midas-num { text-align: center; font-variant-numeric: tabular-nums; }
+.midas-warn-row td { background: #fffdf0; }
+.midas-warn-row:hover td { background: #fff8d6; }
+.midas-col-secname { font-family: inherit !important; max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+
+/* 标签 */
+.midas-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  font-family: inherit;
+}
+.midas-tag-yellow { background: #fefcbf; color: #975a16; }
+.midas-tag-green  { background: #c6f6d5; color: #276749; }
+.midas-tag-blue   { background: #bee3f8; color: #2a6b9e; }
+
+/* MGB 上传进度条动画 */
+@keyframes midas-shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* 功能卡片 Midas 类型样式 */
+.func-card-midas { border-left: 3px solid #4a90d9; }
+.func-card-midas:hover { background: #f0f6ff; }
