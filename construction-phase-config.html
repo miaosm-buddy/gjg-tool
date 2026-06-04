@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>施工阶段配置 — 工期计划系统</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f0f2f5;
+  --surface: #ffffff;
+  --surface-2: #f8f9fb;
+  --border: #e2e6ec;
+  --border-strong: #c8cfd8;
+  --text-primary: #1a2035;
+  --text-secondary: #5c6478;
+  --text-muted: #939aa8;
+  --accent: #2563eb;
+  --accent-light: #dbeafe;
+  --accent-hover: #1d4ed8;
+  --amber: #d97706;
+  --amber-light: #fef3c7;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --indigo: #4f46e5;
+  --indigo-light: #eef2ff;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --radius: 10px;
+  --radius-lg: 14px;
+  --font: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── HEADER ─────────────────────────────── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.header-logo svg { color: var(--accent); }
+.header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+.header-actions { display: flex; gap: 8px; }
+
+/* ─── LAYOUT ─────────────────────────────── */
+.layout { display: flex; flex: 1; overflow: hidden; height: calc(100dvh - 60px); }
+
+/* ─── LEFT PANEL — Phase Tree ─────────────── */
+.left-panel {
+  width: 380px;
+  min-width: 300px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.panel-header {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.panel-body { flex: 1; overflow-y: auto; padding: 12px 0; }
+
+/* ─── PHASE TREE ─────────────────────────── */
+.phase-group-label {
+  padding: 6px 20px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.phase-group-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.phase-item {
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.15s;
+  position: relative;
+}
+.phase-item:hover { background: var(--surface-2); }
+.phase-item.active {
+  background: var(--accent-light);
+}
+.phase-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px; bottom: 4px;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 0 3px 3px 0;
+}
+
+.phase-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 8px 20px;
+  min-height: 44px;
+}
+.phase-expand {
+  width: 22px; height: 22px;
+  border: none; background: transparent;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 4px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.phase-expand:hover { background: var(--border); color: var(--text-primary); }
+.phase-expand.expanded { transform: rotate(90deg); }
+.phase-expand.hidden { visibility: hidden; }
+
+.phase-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+}
+.phase-icon.design { background: #dbeafe; color: #2563eb; }
+.phase-icon.purchase { background: #fef3c7; color: #d97706; }
+.phase-icon.mfg { background: #fce7f3; color: #db2777; }
+.phase-icon.transport { background: #d1fae5; color: #16a34a; }
+.phase-icon.mgmt { background: #ede9fe; color: #7c3aed; }
+.phase-icon.construction { background: #fee2e2; color: #dc2626; }
+.phase-icon.coating { background: #e0f2fe; color: #0284c7; }
+.phase-icon.accept { background: #f3f4f6; color: #374151; }
+.phase-icon.project { background: #f1f5f9; color: #475569; }
+
+.phase-info { flex: 1; min-width: 0; }
+.phase-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+.phase-name.custom { color: var(--indigo); }
+.phase-sublabel {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 1px;
+  display: flex; align-items: center; gap: 4px;
+}
+.sub-count-badge {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 10px;
+  line-height: 1.5;
+}
+.phase-duration {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.phase-duration .unit { font-size: 10px; color: var(--text-muted); font-weight: 400; }
+
+/* ─── SUB-ITEMS ─────────────────────────── */
+.sub-items-container {
+  display: none;
+  padding-left: 44px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+.sub-items-container.expanded { display: block; }
+
+.sub-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  min-height: 38px;
+  position: relative;
+}
+.sub-item:last-child { border-bottom: none; }
+.sub-item-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  flex-shrink: 0;
+}
+.sub-item-info { flex: 1; min-width: 0; }
+.sub-item-name {
+  font-size: 12px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sub-item-dates {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+.sub-item-duration {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.sub-item-actions {
+  display: flex; gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.sub-item:hover .sub-item-actions { opacity: 1; }
+
+/* ─── RIGHT PANEL — Detail Editor ────────── */
+.right-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.right-panel-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+}
+.right-panel-empty svg { opacity: 0.3; }
+.right-panel-empty p { font-size: 14px; }
+
+/* ─── CARDS ─────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface-2);
+}
+.card-header-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-header-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.card-header-sub { font-size: 11px; color: var(--text-muted); }
+.card-body { padding: 20px; }
+
+/* ─── FORM ELEMENTS ─────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-grid.full { grid-template-columns: 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  display: flex; align-items: center; gap: 4px;
+}
+.form-label .required { color: var(--red); }
+.form-input {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: var(--surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+}
+.form-input:disabled {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+.form-input.has-value { color: var(--accent); font-weight: 600; }
+.form-hint { font-size: 11px; color: var(--text-muted); }
+
+.date-display {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: var(--font);
+  display: flex; align-items: center;
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  gap: 4px;
+}
+.date-display.calculated { color: var(--accent); font-weight: 600; }
+.date-display .calc-icon {
+  color: var(--accent);
+  margin-left: auto;
+}
+
+/* ─── STATS BAR ─────────────────────────── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.stat-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.stat-label { font-size: 11px; color: var(--text-muted); }
+.stat-item.highlight .stat-value { color: var(--accent); }
+.stat-item.highlight { border-color: var(--accent-light); background: var(--accent-light); }
+
+/* ─── SUB-ITEMS EDITOR ──────────────────── */
+.sub-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.sub-editor-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.sub-list { padding: 8px 0; }
+.sub-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+.sub-row:hover { background: var(--surface-2); }
+.sub-row:last-child { border-bottom: none; }
+.sub-row-num {
+  width: 20px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-align: center;
+  flex-shrink: 0;
+}
+.sub-row-fields { flex: 1; display: flex; gap: 8px; align-items: center; }
+.sub-row-days {
+  width: 72px;
+  flex-shrink: 0;
+}
+.sub-row-dates {
+  flex: 1;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sub-row-date {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.sub-row-date.end { background: var(--amber-light); color: var(--amber); }
+.sub-row-arrow {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+.sub-row-actions { display: flex; gap: 2px; flex-shrink: 0; }
+.sub-empty {
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ─── BUTTONS ───────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+  outline: none;
+}
+.btn:active { transform: scale(0.97); }
+.btn:focus-visible { box-shadow: 0 0 0 3px rgba(37,99,235,0.25); }
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+.btn-secondary:hover { background: var(--surface-2); border-color: var(--border-strong); }
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: transparent;
+  padding: 0 8px;
+}
+.btn-ghost:hover { background: var(--surface-2); color: var(--text-primary); }
+.btn-danger { background: var(--red-light); color: var(--red); border-color: transparent; }
+.btn-danger:hover { background: #fecaca; }
+.btn-icon {
+  width: 28px; height: 28px;
+  padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.btn-icon.sm { width: 24px; height: 24px; font-size: 12px; }
+
+/* ─── TOOLTIP ───────────────────────────── */
+[data-tip] { position: relative; }
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%; transform: translateX(-50%);
+  background: #1a2035;
+  color: #fff;
+  font-size: 11px;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 50;
+}
+[data-tip]:hover::after { opacity: 1; }
+
+/* ─── SCROLLBAR ─────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ─── DIVIDER ───────────────────────────── */
+.divider { height: 1px; background: var(--border); margin: 4px 0; }
+
+/* ─── TAGS ─────────────────────────────── */
+.tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 500;
+  padding: 2px 8px; border-radius: 5px;
+}
+.tag-fixed { background: #f1f5f9; color: #64748b; }
+.tag-sub { background: var(--accent-light); color: var(--accent); }
+.tag-construction { background: #fee2e2; color: #dc2626; }
+
+/* ─── PHASE HEADER DETAIL ─────────────── */
+.phase-detail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 5px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.phase-detail-badge.fixed { background: #f1f5f9; color: #64748b; }
+.phase-detail-badge.subdivisible { background: var(--accent-light); color: var(--accent); }
+.phase-detail-badge.construction { background: #fee2e2; color: #dc2626; }
+
+/* ─── DATE CALC HINT ───────────────────── */
+.calc-hint {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--text-muted);
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+.calc-hint svg { color: var(--accent); flex-shrink: 0; }
+
+/* ─── ADD SUB ROW ─────────────────────── */
+.add-sub-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.add-sub-form .form-input { flex: 1; }
+
+/* ─── ANIMATIONS ───────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card { animation: fadeIn 0.25s ease; }
+.sub-row { animation: fadeIn 0.15s ease; }
+
+/* ─── RESPONSIVE ───────────────────────── */
+@media (max-width: 768px) {
+  .layout { flex-direction: column; }
+  .left-panel { width: 100%; height: 40%; border-right: none; border-bottom: 1px solid var(--border); }
+  .form-grid { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─────────────────────────────── -->
+<header class="header">
+  <div class="header-logo">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+      <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+    </svg>
+    工期计划系统
+  </div>
+  <div class="header-title">施工阶段配置</div>
+  <div class="header-actions">
+    <button class="btn btn-secondary" onclick="resetToDefaults()" data-tip="恢复系统默认值">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      重置
+    </button>
+    <button class="btn btn-primary" onclick="exportConfig()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      导出配置
+    </button>
+  </div>
+</header>
+
+<!-- ─── MAIN LAYOUT ─────────────────────── -->
+<div class="layout">
+  <!-- LEFT: Phase Tree -->
+  <aside class="left-panel">
+    <div class="panel-header">
+      <span class="panel-title">阶段清单</span>
+      <button class="btn btn-ghost btn-icon" onclick="expandAll()" data-tip="全部展开">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+    </div>
+    <div class="panel-body" id="phaseTree">
+      <!-- Rendered by JS -->
+    </div>
+  </aside>
+
+  <!-- RIGHT: Detail Editor -->
+  <main class="right-panel" id="rightPanel">
+    <div class="right-panel-empty" id="emptyState">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+      </svg>
+      <p>请从左侧选择一个施工阶段进行配置</p>
+    </div>
+    <!-- Detail views rendered by JS -->
+  </main>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// DATA MODEL
+// ══════════════════════════════════════════════
+
+const PHASE_DEFAULTS = [
+  {
+    id: 'phase-design',
+    name: '钢结构深化设计及图纸送审',
+    type: 'subdivisible',
+    icon: 'design',
+    subItems: [
+      { id: 'si-d1', name: '深化设计', days: 0, startDate: null, endDate: null },
+      { id: 'si-d2', name: '图纸送审', days: 0, startDate: null, endDate: null }
+    ],
+    customName: '',
+    days: 0,
+    startDate: null,
+    endDate: null,
+    _expanded: false
+  },
+  {
+    id: 'phase-purchase',
+    name: '钢结构原材料采购',
+    type: 'subdivisible',
+    icon: 'purchase',
+    subItems: [
+      { id: 'si-p1', name: '材料采购', days: 0, startDate: null, endDate: null },
+      { id: 'si-p2', name: '材料进场验收', days: 0, startDate: null, endDate: null }
+    ],
+    customName: '',
+    days: 0,
+    startDate: null,
+    endDate: null,
+    _expanded: false
+  },
+  {
+    id: 'phase-mfg',
+    name: '钢结构加工制作',
+    type: 'subdivisible',
+    icon: 'mfg',
+    subItems: [
+      { id: 'si-m1', name: '构件加工', days: 0, startDate: null, endDate: null },
+      { id: 'si-m2', name: '质量检验', days: 0, startDate: null, endDate: null }
+    ],
+    customName: '',
+    days: 0,
+    startDate: null,
+    endDate: null,
+    _expanded: false
+  },
+  {
+    id: 'phase-transport',
+    name: '钢结构运输',
+    type: 'subdivisible',
+    icon: 'transport',
+    subItems: [
+      { id: 'si-t1', name: '装车发运', days: 0, startDate: null, endDate: null },
+      { id: 'si-t2', name: '到场卸货', days: 0, startDate: null, endDate: null }
+    ],
+    customName: '',
+    days: 0,
+    startDate: null,
+    endDate: null,
+    _expanded: false
+  },
+  {
+    id: 'phase-mgmt',
+    name: '管理人员进场',
+    type: 'fixed',
+    icon: 'mgmt',
+    subItems: [],
+    customName: '',
+    days: 0,
+    startDate: null,
+    endDate: null,
+    _expanded: false
+  },
+  {
+    id: 'phase-construction',
+    name: '现场钢结构施工',
+    type: 'construction',
+    icon: 'construction',
+    subItems: [
+      { id: 'si-c1', name: '钢结构安装', days: 0, startDate: null, endDate: null },
+      { id: 'si-c2', name: '高强螺栓紧固', days: 0, startDate: null, endDate: null },
+      { id: 'si-c3', name: '焊接施工', days: 0, startDate: null, endDate: null }
+    ],
+    customName: '',
+    days: 0,
+    startDate: null,
+    endDate: null,
+    _expanded: false
+  },
+  {
+    id: 'phase-coating',
+    name: '钢结构涂装',
+    type: 'subdivisible',
+    icon: 'coating',
+    subItems: [
+      { id: 'si-ct1', name: '防腐涂装', days: 0, startDate: null, endDate: null },
+      { id: 'si-ct2', name: '防火涂装', days: 0, startDate: null, endDate: null }
+    ],
+    customName: '',
+    days: 0,
+    startDate: null,
+    endDate: null,
+    _expanded: false
+  },
+  {
+    id: 'phase-accept',
+    name: '钢结构竣工验收',
+    type: 'fixed',
+    icon: 'accept',
+    subItems: [],
+    customName: '',
+    days: 0,
+    startDate: null,
+    endDate: null,
+    _expanded: false
+  }
+];
+
+// Project-level config
+const projectConfig = {
+  name: '',
+  baseDate: null // 基准日期，默认为今天
+};
+
+let phaseData = JSON.parse(JSON.stringify(PHASE_DEFAULTS));
+let activePhaseId = null;
+let nextSiId = 100;
+
+// ══════════════════════════════════════════════
+// DATE UTILITIES
+// ══════════════════════════════════════════════
+
+function fmtDate(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function addDays(dateStr, days) {
+  if (!dateStr || days === 0) return dateStr;
+  const d = new Date(dateStr);
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split('T')[0];
+}
+
+function subtractDays(dateStr, days) {
+  return addDays(dateStr, -days);
+}
+
+function parseDate(str) {
+  if (!str) return null;
+  return new Date(str + 'T00:00:00');
+}
+
+function calcEndDate(startDate, days) {
+  if (!startDate || !days) return null;
+  return addDays(startDate, days - 1);
+}
+
+function calcStartDate(endDate, days) {
+  if (!endDate || !days) return null;
+  return subtractDays(endDate, days - 1);
+}
+
+function calcDays(startDate, endDate) {
+  if (!startDate || !endDate) return 0;
+  const s = parseDate(startDate);
+  const e = parseDate(endDate);
+  if (!s || !e || e < s) return 0;
+  return Math.round((e - s) / 86400000) + 1;
+}
+
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function dateToLocalInput(dateStr) {
+  if (!dateStr) return '';
+  return dateStr;
+}
+
+// ══════════════════════════════════════════════
+// RENDER — PHASE TREE
+// ══════════════════════════════════════════════
+
+function renderPhaseTree() {
+  const container = document.getElementById('phaseTree');
+  const phases = [
+    { label: '项目管理', isProject: true },
+    { label: null, isDivider: true },
+    ...phaseData.map(p => ({ ...p, label: null, isDivider: false, isProject: false }))
+  ];
+
+  // Group: fixed / subdivisible
+  const fixedPhases = phaseData.filter(p => p.type === 'fixed');
+  const subPhases = phaseData.filter(p => p.type !== 'fixed');
+
+  let html = '';
+
+  // Subdivisible phases group
+  if (subPhases.length) {
+    html += '<div class="phase-group-label">可细分阶段</div>';
+    subPhases.forEach(p => { html += renderPhaseItem(p, true); });
+  }
+
+  // Fixed phases group
+  if (fixedPhases.length) {
+    html += '<div class="phase-group-label">固定阶段</div>';
+    fixedPhases.forEach(p => { html += renderPhaseItem(p, false); });
+  }
+
+  container.innerHTML = html;
+}
+
+function renderPhaseItem(phase, canExpand) {
+  const displayName = phase.customName || phase.name;
+  const hasSub = phase.subItems && phase.subItems.length > 0;
+  const isActive = activePhaseId === phase.id;
+  const totalDays = calcTotalDays(phase);
+  const isExpanded = phase._expanded;
+
+  const badgeMap = {
+    'fixed': { label: '固定', cls: 'fixed' },
+    'subdivisible': { label: '可细分', cls: 'subdivisible' },
+    'construction': { label: '结构相关', cls: 'construction' }
+  };
+  const badge = badgeMap[phase.type] || badgeMap['subdivisible'];
+
+  return `
+    <div>
+      <button class="phase-item ${isActive ? 'active' : ''}" onclick="selectPhase('${phase.id}')">
+        <div class="phase-row">
+          ${canExpand ? `
+            <button class="phase-expand ${isExpanded ? 'expanded' : ''} ${!hasSub ? 'hidden' : ''}"
+              onclick="event.stopPropagation(); toggleExpand('${phase.id}')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          ` : '<div style="width:22px;flex-shrink:0"></div>'}
+          <div class="phase-icon ${phase.icon}">
+            ${getPhaseIconSvg(phase.icon)}
+          </div>
+          <div class="phase-info">
+            <div class="phase-name ${phase.customName ? 'custom' : ''}" title="${displayName}">${displayName}</div>
+            <div class="phase-sublabel">
+              <span class="tag ${badge.cls}">${badge.label}</span>
+              ${hasSub ? `<span class="sub-count-badge">${phase.subItems.length} 项子任务</span>` : ''}
+            </div>
+          </div>
+          ${totalDays > 0 ? `
+            <div class="phase-duration">${totalDays}<span class="unit"> 天</span></div>
+          ` : ''}
+        </div>
+      </button>
+      ${hasSub ? `
+        <div class="sub-items-container ${isExpanded ? 'expanded' : ''}" id="sub-container-${phase.id}">
+          ${phase.subItems.map(si => `
+            <div class="sub-item">
+              <div class="sub-item-dot"></div>
+              <div class="sub-item-info">
+                <div class="sub-item-name">${si.name || '未命名子任务'}</div>
+                <div class="sub-item-dates">
+                  ${si.startDate ? fmtDate(si.startDate) + ' ~ ' : '— ~ '}
+                  ${si.endDate ? fmtDate(si.endDate) : '—'}
+                </div>
+              </div>
+              ${si.days > 0 ? `<div class="sub-item-duration">${si.days} 天</div>` : ''}
+              <div class="sub-item-actions">
+                <button class="btn btn-icon btn-ghost sm" onclick="editSubItem('${phase.id}','${si.id}')" data-tip="编辑">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+                <button class="btn btn-icon btn-ghost sm" onclick="deleteSubItem('${phase.id}','${si.id}')" data-tip="删除">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function getPhaseIconSvg(icon) {
+  const icons = {
+    design: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
+    purchase: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>',
+    mfg: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+    transport: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
+    mgmt: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    construction: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"/><path d="M5 20V10l7-7 7 7v10"/><path d="M9 20v-6h6v6"/></svg>',
+    coating: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><path d="M12 11v8"/><path d="M8 15h8"/></svg>',
+    accept: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    project: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>'
+  };
+  return icons[icon] || icons['project'];
+}
+
+function calcTotalDays(phase) {
+  if (phase.subItems && phase.subItems.length > 0) {
+    const subDays = phase.subItems.reduce((sum, si) => sum + (parseInt(si.days) || 0), 0);
+    if (subDays > 0) return subDays;
+  }
+  return parseInt(phase.days) || 0;
+}
+
+// ══════════════════════════════════════════════
+// RENDER — RIGHT PANEL DETAIL
+// ══════════════════════════════════════════════
+
+function renderRightPanel(phase) {
+  const container = document.getElementById('rightPanel');
+  const empty = document.getElementById('emptyState');
+  if (empty) empty.style.display = 'none';
+
+  const isFixed = phase.type === 'fixed';
+  const hasSub = phase.subItems && phase.subItems.length > 0;
+  const totalDays = calcTotalDays(phase);
+
+  const badgeMap = {
+    'fixed': { label: '固定阶段 · 不可细分', cls: 'fixed' },
+    'subdivisible': { label: '可细分阶段 · 支持动态添加子任务', cls: 'subdivisible' },
+    'construction': { label: '结构相关阶段 · 根据结构特点细分子任务', cls: 'construction' }
+  };
+  const badge = badgeMap[phase.type] || badgeMap['subdivisible'];
+
+  const phaseDays = phase.days || 0;
+  const phaseStart = phase.startDate || '';
+  const phaseEnd = phase.endDate || '';
+
+  container.innerHTML = `
+    <!-- Summary Stats -->
+    <div class="stats-bar">
+      <div class="stat-item highlight">
+        <div class="stat-value">${phaseDays || totalDays || 0}</div>
+        <div class="stat-label">阶段总工期（天）</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">${phaseStart ? fmtDate(phaseStart) : '—'}</div>
+        <div class="stat-label">计划开始日期</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">${phaseEnd ? fmtDate(phaseEnd) : '—'}</div>
+        <div class="stat-label">计划结束日期</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">${hasSub ? phase.subItems.length : 0}</div>
+        <div class="stat-label">${isFixed ? '子任务数' : '已配置子任务'}</div>
+      </div>
+    </div>
+
+    <!-- Phase Basic Info -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-icon" style="background:var(--accent-light);color:var(--accent)">
+          ${getPhaseIconSvg(phase.icon)}
+        </div>
+        <div>
+          <div class="card-header-title">${phase.customName || phase.name}
+            <span class="phase-detail-badge ${badge.cls}">${badge.label}</span>
+          </div>
+          <div class="card-header-sub">阶段基本信息配置</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">阶段名称</label>
+            <input type="text" class="form-input" id="phaseNameInput"
+              value="${phase.customName || phase.name}"
+              placeholder="输入阶段名称（留空使用系统默认值）"
+              oninput="updatePhaseName('${phase.id}', this.value)">
+            ${phase.customName ? '<span class="form-hint" style="color:var(--indigo)">已自定义名称，点击×恢复默认值</span>' : ''}
+          </div>
+          <div class="form-group">
+            <label class="form-label">阶段工期（天）</label>
+            <input type="number" class="form-input ${phaseDays > 0 ? 'has-value' : ''}" id="phaseDaysInput"
+              value="${phaseDays || ''}"
+              placeholder="输入天数"
+              min="0" max="999"
+              oninput="updatePhaseDays('${phase.id}', this.value)"
+              ${isFixed && hasSub ? 'disabled' : ''}>
+            ${isFixed && hasSub ? '<span class="form-hint">该阶段已配置子任务，工期由子任务自动汇总</span>' : ''}
+          </div>
+        </div>
+
+        <div class="divider" style="margin:16px 0"></div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">开始日期</label>
+            <input type="date" class="form-input ${phaseStart ? 'has-value' : ''}"
+              id="phaseStartInput"
+              value="${phaseStart}"
+              onchange="updatePhaseStart('${phase.id}', this.value)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">结束日期</label>
+            <input type="date" class="form-input ${phaseEnd ? 'has-value' : ''}"
+              id="phaseEndInput"
+              value="${phaseEnd}"
+              onchange="updatePhaseEnd('${phase.id}', this.value)">
+          </div>
+        </div>
+
+        <div class="calc-hint">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>填写天数后开始/结束日期自动计算；填写日期后天数自动推导；调整任一字段其余自动联动</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub Items Editor -->
+    <div class="card">
+      <div class="sub-editor-header">
+        <div class="sub-editor-title">
+          ${isFixed ? '子任务配置（该阶段为固定项，不支持添加子任务）' :
+            (phase.type === 'construction' ? '子任务配置（根据结构特点动态配置）' : '子任务配置（动态添加）')}
+        </div>
+        ${!isFixed ? `
+          <button class="btn btn-primary" onclick="showAddSubForm('${phase.id}')" style="height:28px;font-size:11px;padding:0 10px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            添加子任务
+          </button>
+        ` : ''}
+      </div>
+
+      <!-- Sub items list -->
+      ${hasSub ? `
+        <div class="sub-list" id="subList-${phase.id}">
+          ${phase.subItems.map((si, idx) => `
+            <div class="sub-row" id="subrow-${si.id}">
+              <div class="sub-row-num">${idx + 1}</div>
+              <div class="sub-row-fields">
+                <input type="text" class="form-input" style="flex:1;height:32px;font-size:12px"
+                  value="${si.name}"
+                  placeholder="子任务名称"
+                  oninput="updateSubItemName('${phase.id}','${si.id}',this.value)">
+                <div class="sub-row-days">
+                  <input type="number" class="form-input ${si.days > 0 ? 'has-value' : ''}"
+                    style="height:32px;font-size:12px;width:72px"
+                    value="${si.days || ''}"
+                    placeholder="天数"
+                    min="0" max="999"
+                    oninput="updateSubItemDays('${phase.id}','${si.id}',this.value)">
+                </div>
+                <div class="sub-row-dates">
+                  <input type="date" class="form-input" style="height:32px;font-size:11px;width:130px"
+                    value="${si.startDate || ''}"
+                    onchange="updateSubItemStart('${phase.id}','${si.id}',this.value)">
+                  <span class="sub-row-arrow">→</span>
+                  <input type="date" class="form-input" style="height:32px;font-size:11px;width:130px"
+                    value="${si.endDate || ''}"
+                    onchange="updateSubItemEnd('${phase.id}','${si.id}',this.value)">
+                </div>
+              </div>
+              <div class="sub-row-actions">
+                <button class="btn btn-icon btn-ghost sm" onclick="moveSubItem('${phase.id}','${si.id}',-1)" data-tip="上移">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <button class="btn btn-icon btn-ghost sm" onclick="moveSubItem('${phase.id}','${si.id}',1)" data-tip="下移">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <button class="btn btn-icon btn-danger sm" onclick="deleteSubItemFromEditor('${phase.id}','${si.id}')" data-tip="删除">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Add sub item form (hidden by default) -->
+        <div id="addSubForm-${phase.id}" style="display:none">
+          <div class="add-sub-form">
+            <input type="text" class="form-input" id="newSubName-${phase.id}" placeholder="输入子任务名称" style="height:32px;font-size:12px">
+            <input type="number" class="form-input" id="newSubDays-${phase.id}" placeholder="天数" min="0" style="height:32px;font-size:12px;width:72px">
+            <button class="btn btn-primary" onclick="addSubItem('${phase.id}')" style="height:32px;font-size:12px;padding:0 10px">确认添加</button>
+            <button class="btn btn-secondary" onclick="hideAddSubForm('${phase.id}')" style="height:32px;font-size:12px;padding:0 10px">取消</button>
+          </div>
+        </div>
+
+        <div class="calc-hint" style="margin:0 20px 16px;border-radius:0 0 8px 8px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>子任务工期汇总至阶段总工期，结束日期自动取最后一个子任务完成时间</span>
+        </div>
+      ` : !isFixed ? `
+        <div class="sub-empty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+          <span>暂无子任务，请点击上方「添加子任务」开始配置</span>
+          <button class="btn btn-primary" onclick="showAddSubForm('${phase.id}')" style="height:28px;font-size:11px;margin-top:4px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            添加第一个子任务
+          </button>
+        </div>
+      ` : `
+        <div class="sub-empty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/>
+          </svg>
+          <span>该阶段为固定项，不支持细分</span>
+        </div>
+      `}
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════
+// PHASE INTERACTIONS
+// ══════════════════════════════════════════════
+
+function selectPhase(id) {
+  activePhaseId = id;
+  const phase = phaseData.find(p => p.id === id);
+  if (!phase) return;
+  renderPhaseTree();
+  renderRightPanel(phase);
+  // scroll phase into view
+  const el = document.querySelector(`.phase-item[onclick="selectPhase('${id}')"]`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function toggleExpand(id) {
+  const phase = phaseData.find(p => p.id === id);
+  if (!phase) return;
+  phase._expanded = !phase._expanded;
+  renderPhaseTree();
+}
+
+function expandAll() {
+  phaseData.forEach(p => { p._expanded = p.subItems && p.subItems.length > 0; });
+  renderPhaseTree();
+}
+
+// ══════════════════════════════════════════════
+// PHASE FIELD UPDATES
+// ══════════════════════════════════════════════
+
+function updatePhaseName(id, value) {
+  const phase = phaseData.find(p => p.id === id);
+  if (!phase) return;
+  // If value matches default, treat as empty (reset to default)
+  const trimmed = value.trim();
+  phase.customName = (trimmed && trimmed !== phase.name) ? trimmed : '';
+  renderPhaseTree();
+  // update header title in editor
+  const titleEl = document.querySelector('.card-header-title');
+  if (titleEl) {
+    titleEl.innerHTML = (phase.customName || phase.name) +
+      `<span class="phase-detail-badge ${badgeMap(phase.type).cls}">${badgeMap(phase.type).label}</span>`;
+  }
+}
+
+function badgeMap(type) {
+  const m = {
+    'fixed': { label: '固定阶段 · 不可细分', cls: 'fixed' },
+    'subdivisible': { label: '可细分阶段', cls: 'subdivisible' },
+    'construction': { label: '结构相关阶段', cls: 'construction' }
+  };
+  return m[type] || m['subdivisible'];
+}
+
+function updatePhaseDays(id, value) {
+  const phase = phaseData.find(p => p.id === id);
+  if (!phase) return;
+  const days = parseInt(value) || 0;
+  phase.days = days;
+
+  if (days > 0 && phase.startDate) {
+    phase.endDate = calcEndDate(phase.startDate, days);
+  } else if (days > 0 && phase.endDate) {
+    phase.startDate = calcStartDate(phase.endDate, days);
+  } else if (days === 0) {
+    phase.endDate = null;
+    phase.startDate = null;
+  }
+
+  renderPhaseTree();
+  if (activePhaseId === id) renderRightPanel(phase);
+}
+
+function updatePhaseStart(id, value) {
+  const phase = phaseData.find(p => p.id === id);
+  if (!phase) return;
+  phase.startDate = value || null;
+
+  if (value && phase.days > 0) {
+    phase.endDate = calcEndDate(value, phase.days);
+  } else if (value && phase.endDate) {
+    phase.days = calcDays(value, phase.endDate);
+  }
+
+  renderPhaseTree();
+  if (activePhaseId === id) renderRightPanel(phase);
+}
+
+function updatePhaseEnd(id, value) {
+  const phase = phaseData.find(p => p.id === id);
+  if (!phase) return;
+  phase.endDate = value || null;
+
+  if (value && phase.days > 0) {
+    phase.startDate = calcStartDate(value, phase.days);
+  } else if (value && phase.startDate) {
+    phase.days = calcDays(phase.startDate, value);
+  }
+
+  renderPhaseTree();
+  if (activePhaseId === id) renderRightPanel(phase);
+}
+
+// ══════════════════════════════════════════════
+// SUB-ITEM MANAGEMENT
+// ══════════════════════════════════════════════
+
+function showAddSubForm(id) {
+  const form = document.getElementById(`addSubForm-${id}`);
+  if (!form) return;
+  form.style.display = 'flex';
+  const nameInput = document.getElementById(`newSubName-${id}`);
+  if (nameInput) nameInput.focus();
+}
+
+function hideAddSubForm(id) {
+  const form = document.getElementById(`addSubForm-${id}`);
+  if (form) form.style.display = 'none';
+  const nameInput = document.getElementById(`newSubName-${id}`);
+  const daysInput = document.getElementById(`newSubDays-${id}`);
+  if (nameInput) nameInput.value = '';
+  if (daysInput) daysInput.value = '';
+}
+
+function addSubItem(phaseId) {
+  const phase = phaseData.find(p => p.id === phaseId);
+  if (!phase) return;
+
+  const nameInput = document.getElementById(`newSubName-${phaseId}`);
+  const daysInput = document.getElementById(`newSubDays-${phaseId}`);
+
+  const name = nameInput ? nameInput.value.trim() : '';
+  const days = parseInt(daysInput ? daysInput.value : 0) || 0;
+
+  if (!name) {
+    nameInput && nameInput.focus();
+    return;
+  }
+
+  const newSi = {
+    id: 'si-' + (nextSiId++),
+    name: name,
+    days: days,
+    startDate: null,
+    endDate: null
+  };
+
+  // Auto-calculate dates based on existing sub-items
+  if (days > 0 && phase.subItems.length > 0) {
+    const lastSi = phase.subItems[phase.subItems.length - 1];
+    if (lastSi.endDate) {
+      newSi.startDate = addDays(lastSi.endDate, 1);
+      newSi.endDate = calcEndDate(newSi.startDate, days);
+    }
+  }
+
+  phase.subItems.push(newSi);
+  phase._expanded = true;
+  hideAddSubForm(phaseId);
+  renderPhaseTree();
+  if (activePhaseId === phaseId) renderRightPanel(phase);
+}
+
+function updateSubItemName(phaseId, siId, value) {
+  const phase = phaseData.find(p => p.id === phaseId);
+  if (!phase) return;
+  const si = phase.subItems.find(s => s.id === siId);
+  if (si) si.name = value.trim() || si.name;
+  renderPhaseTree();
+}
+
+function updateSubItemDays(phaseId, siId, value) {
+  const phase = phaseData.find(p => p.id === phaseId);
+  if (!phase) return;
+  const si = phase.subItems.find(s => s.id === siId);
+  if (!si) return;
+
+  const days = parseInt(value) || 0;
+  si.days = days;
+
+  if (days > 0 && si.startDate) {
+    si.endDate = calcEndDate(si.startDate, days);
+  } else if (days > 0 && si.endDate) {
+    si.startDate = calcStartDate(si.endDate, days);
+  } else if (days === 0) {
+    si.startDate = null;
+    si.endDate = null;
+  }
+
+  // Cascade: update subsequent sub-items
+  cascadeSubItems(phase, siId);
+
+  // Update phase total
+  updatePhaseFromSubItems(phase);
+
+  renderPhaseTree();
+  if (activePhaseId === phaseId) renderRightPanel(phase);
+}
+
+function updateSubItemStart(phaseId, siId, value) {
+  const phase = phaseData.find(p => p.id === phaseId);
+  if (!phase) return;
+  const si = phase.subItems.find(s => s.id === siId);
+  if (!si) return;
+
+  si.startDate = value || null;
+  if (value && si.days > 0) {
+    si.endDate = calcEndDate(value, si.days);
+  } else if (value && si.endDate) {
+    si.days = calcDays(value, si.endDate);
+  }
+
+  cascadeSubItems(phase, siId);
+  updatePhaseFromSubItems(phase);
+  renderPhaseTree();
+  if (activePhaseId === phaseId) renderRightPanel(phase);
+}
+
+function updateSubItemEnd(phaseId, siId, value) {
+  const phase = phaseData.find(p => p.id === phaseId);
+  if (!phase) return;
+  const si = phase.subItems.find(s => s.id === siId);
+  if (!si) return;
+
+  si.endDate = value || null;
+  if (value && si.days > 0) {
+    si.startDate = calcStartDate(value, si.days);
+  } else if (value && si.startDate) {
+    si.days = calcDays(si.startDate, value);
+  }
+
+  cascadeSubItems(phase, siId);
+  updatePhaseFromSubItems(phase);
+  renderPhaseTree();
+  if (activePhaseId === phaseId) renderRightPanel(phase);
+}
+
+function cascadeSubItems(phase, afterSiId) {
+  const idx = phase.subItems.findIndex(s => s.id === afterSiId);
+  if (idx < 0) return;
+
+  // Propagate end date of changed item to subsequent items (shift forward)
+  const changedSi = phase.subItems[idx];
+  if (changedSi.endDate) {
+    for (let i = idx + 1; i < phase.subItems.length; i++) {
+      const cur = phase.subItems[i];
+      if (cur.days > 0) {
+        cur.startDate = addDays(phase.subItems[i - 1].endDate || changedSi.endDate, 1);
+        cur.endDate = calcEndDate(cur.startDate, cur.days);
+      } else if (!cur.days && cur.startDate) {
+        // No days set, keep start but clear end
+        cur.endDate = null;
+      }
+    }
+  }
+}
+
+function updatePhaseFromSubItems(phase) {
+  if (!phase.subItems || phase.subItems.length === 0) return;
+
+  const totalDays = phase.subItems.reduce((sum, si) => sum + (parseInt(si.days) || 0), 0);
+  const firstSi = phase.subItems[0];
+  const lastSi = phase.subItems[phase.subItems.length - 1];
+
+  if (totalDays > 0) {
+    phase.days = totalDays;
+    phase.startDate = firstSi.startDate;
+    phase.endDate = lastSi.endDate;
+  }
+}
+
+function deleteSubItemFromEditor(phaseId, siId) {
+  const phase = phaseData.find(p => p.id === phaseId);
+  if (!phase) return;
+  phase.subItems = phase.subItems.filter(s => s.id !== siId);
+  updatePhaseFromSubItems(phase);
+  renderPhaseTree();
+  if (activePhaseId === phaseId) renderRightPanel(phase);
+}
+
+function deleteSubItem(phaseId, siId) {
+  deleteSubItemFromEditor(phaseId, siId);
+}
+
+function editSubItem(phaseId, siId) {
+  selectPhase(phaseId);
+  // Scroll to the sub-item row
+  setTimeout(() => {
+    const row = document.getElementById(`subrow-${siId}`);
+    if (row) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+}
+
+function moveSubItem(phaseId, siId, direction) {
+  const phase = phaseData.find(p => p.id === phaseId);
+  if (!phase) return;
+  const idx = phase.subItems.findIndex(s => s.id === siId);
+  if (idx < 0) return;
+  const newIdx = idx + direction;
+  if (newIdx < 0 || newIdx >= phase.subItems.length) return;
+
+  const [item] = phase.subItems.splice(idx, 1);
+  phase.subItems.splice(newIdx, 0, item);
+  renderPhaseTree();
+  if (activePhaseId === phaseId) renderRightPanel(phase);
+}
+
+// ══════════════════════════════════════════════
+// RESET & EXPORT
+// ══════════════════════════════════════════════
+
+function resetToDefaults() {
+  if (!confirm('确定要恢复系统默认值吗？所有自定义配置将被清除。')) return;
+  phaseData = JSON.parse(JSON.stringify(PHASE_DEFAULTS));
+  nextSiId = 100;
+  activePhaseId = null;
+  document.getElementById('rightPanel').innerHTML = `
+    <div class="right-panel-empty" id="emptyState">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      <p>请从左侧选择一个施工阶段进行配置</p>
+    </div>
+  `;
+  renderPhaseTree();
+}
+
+function exportConfig() {
+  const config = {
+    exportedAt: new Date().toISOString(),
+    project: { name: projectConfig.name, baseDate: projectConfig.baseDate },
+    phases: phaseData.map(p => ({
+      id: p.id,
+      displayName: p.customName || p.name,
+      defaultName: p.name,
+      isCustomName: !!p.customName,
+      type: p.type,
+      days: p.days || (p.subItems ? p.subItems.reduce((s, si) => s + (parseInt(si.days) || 0), 0) : 0),
+      startDate: p.startDate,
+      endDate: p.endDate,
+      subItems: p.subItems.map(si => ({
+        id: si.id,
+        name: si.name,
+        days: parseInt(si.days) || 0,
+        startDate: si.startDate,
+        endDate: si.endDate
+      }))
+    }))
+  };
+
+  const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `施工阶段配置_${todayStr()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+
+renderPhaseTree();
+</script>
+</body>
+</html>
