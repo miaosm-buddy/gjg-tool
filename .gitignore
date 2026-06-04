@@ -1,3 +1,6 @@
+# WorkBuddy 工作空间（个人数据，不进 Git）
+.workbuddy/
+
 __pycache__/
 *.pyc
 *.pyo
