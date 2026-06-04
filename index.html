@@ -1934,6 +1934,37 @@
   <!-- ===== 按施工阶段视图 ===== -->
   <div id="schedule-panel-phase" style="display:flex;flex-direction:column;gap:16px;padding:0 0 20px 0">
 
+    <!-- 智能文本解析 -->
+    <div class="dc-card lift-card" style="border-color:var(--accent);background:linear-gradient(135deg,var(--bg-surface) 0%,rgba(99,102,241,0.06) 100%)">
+      <h3 class="lift-card-title">🔍 智能文本解析
+        <span style="font-size:11px;font-weight:400;color:var(--text-muted);margin-left:8px">粘贴任意格式项目描述，自动提取关键信息</span>
+        <button class="lift-card-toggle" onclick="toggleLiftCard(this.closest('.dc-card'))" title="折叠/展开">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </h3>
+      <div class="lift-card-body">
+        <textarea id="sched-parse-input" rows="5" placeholder="粘贴项目描述文字，如招标文件、施工组织设计、项目概况等，系统将自动识别：
+· 项目名称
+· 结构类型（高层框架/多层框架/厂房/空间结构等）
+· 总用钢量（吨）
+· 总建筑面积（m²）
+· 建筑高度（m）
+· 楼层数
+· 开工/竣工日期"
+style="width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.7;resize:vertical;background:var(--bg-base);box-sizing:border-box;font-family:inherit"></textarea>
+        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="doParseScheduleText()" style="font-size:13px;padding:8px 20px">
+            <span style="margin-right:5px">⚡</span>开始解析
+          </button>
+          <button class="btn" onclick="document.getElementById('sched-parse-input').value=''" style="font-size:13px;padding:8px 16px">清空</button>
+          <div style="flex:1"></div>
+          <div style="font-size:12px;color:var(--text-muted);align-self:center;padding-right:4px">
+            支持招标文件、施工组织设计、项目公告、投标函等任意文本格式
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 项目基本信息 -->
     <div class="dc-card lift-card">
       <h3 class="lift-card-title">📋 项目基本信息
@@ -1979,6 +2010,24 @@
             <input type="date" id="sched-end-date" onchange="scheduleCalc();saveFormData()">
           </div>
         </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">总建筑面积(m²)</label>
+          <div class="dc-param-control">
+            <input type="number" id="sched-total-area" placeholder="如：12000" min="0" oninput="scheduleCalc();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">建筑高度(m)</label>
+          <div class="dc-param-control">
+            <input type="number" id="sched-building-height" placeholder="如：45.5" min="0" step="0.1" oninput="scheduleCalc();saveFormData()">
+          </div>
+        </div>
+        <div class="dc-param-item">
+          <label class="dc-param-label">楼层数</label>
+          <div class="dc-param-control">
+            <input type="number" id="sched-floors" placeholder="如：12" min="0" oninput="scheduleCalc();saveFormData()">
+          </div>
+        </div>
       </div>
       </div>
     </div>
@@ -1990,9 +2039,17 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
       </h3>
-      <div class="dc-card-desc">设置各施工阶段的起止时间、工程量和机械配置</div>
+      <div class="dc-card-desc" style="margin-bottom:10px">
+        <span style="background:var(--accent);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;margin-right:6px">可展开</span>
+        支持动态添加细分子项
+        &nbsp;|&nbsp;
+        <span style="background:#9ca3af;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px;margin-right:6px">固定</span>
+        不可细分
+        &nbsp;|&nbsp;
+        填写<span style="color:var(--accent)">天数</span>后自动计算起止日期
+      </div>
       <div class="lift-card-body">
-      <button class="btn btn-primary btn-sm" onclick="scheduleAddPhase()" style="margin-bottom:14px">＋ 添加阶段</button>
+      <button class="btn btn-sm" onclick="scheduleAddPhase()" style="margin-bottom:12px;background:var(--accent);color:#fff;border:none;font-size:12px;padding:6px 14px">＋ 添加自定义阶段</button>
       <div id="schedule-phases">
         <!-- 动态填充 -->
       </div>

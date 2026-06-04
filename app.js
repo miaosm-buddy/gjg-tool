@@ -8848,43 +8848,102 @@ function diaociExportTable() {
 // ══════════════════════════════════════════════════════════════
 
 // ── 工期计划：阶段数据结构 ────────────────────────────────
-var _schedule = {
-  phases: [
-    {name:'施工准备',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'测量放线',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'钢柱预埋安装', start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'钢柱吊装',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'主次梁安装',   start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'高强螺栓',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'现场焊接',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'探伤检测',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'除锈防腐涂装', start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'围护安装',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-    {name:'校正验收',     start:'', end:'', tons:0,   crane_qty:0, crane_type:'', note:''},
-  ]
-};
+// ── 工期计划默认9级阶段结构 ────────────────────────────────
+var _schedule = { phases: [] };
+
+var SCHEDULE_DEFAULT_PHASES = [
+  // 1. 项目名称 — 固定项，不细分
+  { id:'proj-name',  name:'项目名称',                        locked:true,  expandable:false, children:[] },
+  // 2. 钢结构深化设计及图纸送审 — 可展开
+  { id:'design',     name:'钢结构深化设计及图纸送审',          locked:false, expandable:true,  children:[] },
+  // 3. 钢结构原材料采购 — 可展开
+  { id:'procure',    name:'钢结构原材料采购',                 locked:false, expandable:true,  children:[] },
+  // 4. 钢结构加工制作 — 可展开
+  { id:'fab',        name:'钢结构加工制作',                   locked:false, expandable:true,  children:[] },
+  // 5. 钢结构运输 — 可展开
+  { id:'transport',  name:'钢结构运输',                      locked:false, expandable:true,  children:[] },
+  // 6. 管理人员进场 — 固定项，不细分
+  { id:'mgmt',       name:'管理人员进场',                    locked:true,  expandable:false, children:[] },
+  // 7. 现场钢结构施工 — 可展开
+  { id:'erection',   name:'现场钢结构施工',                   locked:false, expandable:true,  children:[
+    { name:'钢柱安装',   days:0 },
+    { name:'钢梁安装',   days:0 },
+    { name:'高强螺栓',   days:0 },
+    { name:'现场焊接',   days:0 },
+    { name:'探伤检测',   days:0 },
+  ]},
+  // 8. 钢结构涂装 — 可展开
+  { id:'paint',      name:'钢结构涂装',                      locked:false, expandable:true,  children:[] },
+  // 9. 钢结构竣工验收 — 固定项，不细分
+  { id:'accept',     name:'钢结构竣工验收',                  locked:true,  expandable:false, children:[] },
+];
 
 // ── 初始化工期计划页 ──────────────────────────────────────
 function initSchedulePage() {
-  // 填充默认开工/竣工日期
   var today = new Date();
   var startInput = document.getElementById('sched-start-date');
-  var endInput = document.getElementById('sched-end-date');
+  var endInput   = document.getElementById('sched-end-date');
   if(startInput && !startInput.value) {
     startInput.value = today.toISOString().slice(0,10);
   }
   if(endInput && !endInput.value) {
     var end = new Date(today);
-    end.setMonth(end.getMonth() + 12);
+    end.setFullYear(end.getFullYear() + 1);
     endInput.value = end.toISOString().slice(0,10);
   }
-  // 恢复阶段数据
+  // 恢复阶段数据（带版本迁移）
   var raw = localStorage.getItem('sched_data');
   if(raw) {
-    try { _schedule = JSON.parse(raw); } catch(e) {}
+    try {
+      var saved = JSON.parse(raw);
+      // 旧版 flat phases → 新版层级结构迁移
+      if(Array.isArray(saved.phases) && saved.phases.length > 0 && saved.phases[0] && saved.phases[0].tons !== undefined && !('_ver' in saved)) {
+        saved = migrateScheduleV1toV2(saved);
+      }
+      _schedule = saved;
+    } catch(e) { _schedule = buildDefaultSchedule(); }
+  } else {
+    _schedule = buildDefaultSchedule();
+  }
+  // 项目名称 → 基础信息区
+  var projNameInput = document.getElementById('sched-project-name');
+  if(projNameInput && _schedule.phases[0]) {
+    projNameInput.value = _schedule.phases[0].name || '';
+    projNameInput.oninput = function() {
+      if(_schedule.phases[0]) _schedule.phases[0].name = this.value;
+      saveSchedData();
+    };
   }
   scheduleRenderPhases();
   scheduleCalc();
+}
+
+// ── 构建默认工期计划 ──────────────────────────────────────
+function buildDefaultSchedule() {
+  return { _ver: 2, phases: SCHEDULE_DEFAULT_PHASES.map(function(p) {
+    return Object.assign({}, p, { children: (p.children||[]).map(function(c){ return Object.assign({},c); }) });
+  })};
+}
+
+// ── 迁移旧版数据到V2层级结构 ───────────────────────────────
+function migrateScheduleV1toV2(old) {
+  var name = (old.phases[0]&&old.phases[0].name)||'钢结构工程项目';
+  return {
+    _ver: 2,
+    phases: SCHEDULE_DEFAULT_PHASES.map(function(p) {
+      if(p.locked) return Object.assign({}, p, { children:[] });
+      // 尝试用旧阶段名匹配
+      var matched = old.phases.find(function(op){
+        return op.name && (op.name.includes(p.name.slice(0,4)) || p.name.includes(op.name.slice(0,4)));
+      });
+      return Object.assign({}, p, {
+        days: matched ? Math.max(0, Math.ceil(((new Date(matched.end||'')-(new Date(matched.start||''))/86400000))+1)) : 0,
+        tons: matched ? (+matched.tons||0) : 0,
+        crane_qty: matched ? (+matched.crane_qty||0) : 0,
+        children: []
+      });
+    })
+  };
 }
 
 // ── 阶段切换 Tab ──────────────────────────────────────────
@@ -8896,51 +8955,533 @@ function scheduleSwitchTab(tab) {
   if(tab==='monthly') scheduleRenderMonthly();
 }
 
-// ── 渲染施工阶段列表 ──────────────────────────────────────
+// ── 渲染施工阶段列表（层级树） ────────────────────────────
 function scheduleRenderPhases() {
   var container = document.getElementById('schedule-phases');
   if(!container) return;
-  var html = '';
-  _schedule.phases.forEach(function(p, i) {
-    html += '<div style="margin-bottom:12px;padding:12px;background:var(--bg-surface);border-radius:8px;border:1px solid var(--border-subtle)">' +
-      '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap">' +
-        '<input type="text" value="'+escHtml(p.name)+'" style="width:130px;font-weight:600" '+
-        'onchange="_schedule.phases['+i+'].name=this.value;saveSchedData()">' +
-        '<span style="font-size:12px;color:var(--text-muted)">起</span>'+
-        '<input type="date" value="'+p.start+'" onchange="_schedule.phases['+i+'].start=this.value;scheduleCalc();saveSchedData()">' +
-        '<span style="font-size:12px;color:var(--text-muted)">止</span>'+
-        '<input type="date" value="'+p.end+'" onchange="_schedule.phases['+i+'].end=this.value;scheduleCalc();saveSchedData()">' +
-        '<span style="font-size:12px;color:var(--text-muted)">工程量(吨)</span>'+
-        '<input type="number" value="'+p.tons+'" min="0" style="width:80px" '+
-        'onchange="_schedule.phases['+i+'].tons=+this.value;scheduleCalc();saveSchedData()">' +
-        '<span style="font-size:12px;color:var(--text-muted)">机械台数</span>'+
-        '<input type="number" value="'+p.crane_qty+'" min="0" style="width:60px" '+
-        'onchange="_schedule.phases['+i+'].crane_qty=+this.value;scheduleCalc();saveSchedData()">' +
-        '<button class="btn btn-sm" style="padding:3px 8px;color:#ef4444;font-size:11px" onclick="scheduleRemovePhase('+i+')">删除</button>' +
-      '</div>' +
-      '<div style="font-size:12px;color:var(--text-muted)">' +
-        '工期：<span class="sched-phase-days" data-idx="'+i+'">'+(p.start&&p.end?Math.max(0,Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1):'-')+'</span> 天' +
-        (p.crane_qty>0?' | 需 '+p.crane_qty+' 台机械':'') +
-      '</div>' +
-    '</div>';
-  });
-  container.innerHTML = html;
+  container.innerHTML = _schedule.phases.map(function(p, pi) {
+    return renderPhaseRow(p, pi, 0);
+  }).join('');
 }
 
-// ── 添加阶段 ──────────────────────────────────────────────
+// 渲染单个阶段行
+function renderPhaseRow(p, pi, depth) {
+  var isLocked   = !!p.locked;
+  var isExpand   = !!p.expandable;
+  var childCount = (p.children||[]).length;
+  var lockedCls  = isLocked ? 'sched-phase-locked' : '';
+  var lockedAttr = isLocked ? 'readonly style="opacity:0.5;cursor:not-allowed"' : '';
+  var totalDays  = calcPhaseDays(p);
+  var hasKids    = childCount > 0;
+  var startVal   = p.start || '';
+  var endVal     = p.end   || '';
+  var daysVal    = (p.days !== undefined ? p.days : totalDays) || '';
+  var numLabel   = '<span class="sched-phase-num" style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;flex-shrink:0">'+(pi+1)+'</span>';
+  var leftColor  = isLocked ? '#9ca3af' : (isExpand ? 'var(--accent)' : '#10b981');
+
+  var row = '<div class="sched-phase-block '+lockedCls+'" id="sched-phase-'+pi+'" style="margin-bottom:8px">' +
+    '<div style="padding:10px 12px;background:var(--bg-surface);border-radius:8px;border:1px solid '+(isLocked?'var(--border-muted)':'var(--accent)')+';border-left:3px solid '+leftColor+';'+(isLocked?'opacity:0.85':'')+'">' +
+      '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px">' +
+        numLabel +
+        '<span style="font-size:10px;padding:1px 6px;border-radius:4px;background:'+(isLocked?'#9ca3af':'var(--accent)')+';color:#fff;opacity:0.85;flex-shrink:0">'+(isLocked?'固定':'可展开')+'</span>' +
+        '<span class="sched-phase-tag" style="font-size:10px;padding:1px 6px;border-radius:4px;background:'+(isLocked?'#9ca3af':'var(--accent)')+';color:#fff;opacity:0.8">'+(isLocked?'固定':'可展开')+'</span>' +
+        (hasKids ? '<button class="btn btn-xs sched-expand-btn" style="background:none;border:none;cursor:pointer;padding:0 2px" id="sched-expand-'+pi+'" onclick="scheduleToggleChildren('+pi+')"><span class="sched-expand-icon" id="sched-expand-icon-'+pi+'" style="color:var(--text-muted)">▼</span>' + (childCount>0?' <span style="font-size:10px;color:var(--accent)">'+childCount+'</span>':'') + '</button>' : '') +
+        '<input type="text" id="sched-name-'+pi+'" value="'+escHtml(p.name)+'" '+lockedAttr+
+        ' style="width:'+(depth>0?'160':'200')+'px;font-weight:'+(depth>0?'400':'600')+';font-size:'+(depth>0?'12':'13')+'px"'+
+        ' onchange="_schedule.phases['+pi+'].name=this.value;saveSchedData()">' +
+      '</div>' +
+      '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px">' +
+        // 天数输入
+        '<span style="color:var(--text-muted)">天数</span>' +
+        '<input type="number" id="sched-days-'+pi+'" value="'+daysVal+'" min="0" style="width:55px;font-size:12px"' +
+        ' placeholder="天数"' +
+        ' onchange="_schedule.phases['+pi+'].days=+this.value||0;scheduleAutoDates('+pi+');saveSchedData()"' +
+        (isLocked?' readonly style="width:55px;opacity:0.5"':'') + '>' +
+        '<span style="color:var(--text-muted)">天</span>' +
+        // 开始日期
+        '<span style="color:var(--text-muted)">开始</span>' +
+        '<input type="date" id="sched-start-'+pi+'" value="'+startVal+'" style="font-size:12px"' +
+        ' onchange="_schedule.phases['+pi+'].start=this.value;_schedule.phases['+pi+'].days=calcPhaseDays(_schedule.phases['+pi+']);document.getElementById(\'sched-days-'+pi+'\').value=_schedule.phases['+pi+'].days;scheduleCalc();saveSchedData()"' +
+        (isLocked?' readonly style="opacity:0.5"':'') + '>' +
+        // 结束日期
+        '<span style="color:var(--text-muted)">结束</span>' +
+        '<input type="date" id="sched-end-'+pi+'" value="'+endVal+'" style="font-size:12px"' +
+        ' onchange="_schedule.phases['+pi+'].end=this.value;_schedule.phases['+pi+'].days=calcPhaseDays(_schedule.phases['+pi+']);document.getElementById(\'sched-days-'+pi+'\').value=_schedule.phases['+pi+'].days;scheduleCalc();saveSchedData()"' +
+        (isLocked?' readonly style="opacity:0.5"':'') + '>' +
+        // 工程量
+        '<span style="color:var(--text-muted)">工程量(t)</span>' +
+        '<input type="number" id="sched-tons-'+pi+'" value="'+(p.tons||'')+'" min="0" style="width:70px;font-size:12px"' +
+        ' onchange="_schedule.phases['+pi+'].tons=+this.value||0;saveSchedData()"' +
+        (isLocked?' readonly style="width:70px;opacity:0.5"':'') + '>' +
+        // 机械台数
+        '<span style="color:var(--text-muted)">机械台数</span>' +
+        '<input type="number" id="sched-crane-'+pi+'" value="'+(p.crane_qty||'')+'" min="0" style="width:50px;font-size:12px"' +
+        ' onchange="_schedule.phases['+pi+'].crane_qty=+this.value||0;saveSchedData()"' +
+        (isLocked?' readonly style="width:50px;opacity:0.5"':'') + '>' +
+        // 子项按钮
+        (isExpand && !isLocked ? '<button class="btn btn-xs" style="font-size:11px;padding:2px 8px;background:var(--accent);color:#fff;border:none" onclick="scheduleAddChild('+pi+')">＋ 子项</button>' : '') +
+      '</div>' +
+    '</div>' +
+    // 子项容器
+    '<div id="sched-children-'+pi+'" class="sched-children-container" style="margin-left:32px;padding-left:12px;border-left:2px solid var(--border-muted);display:'+(hasKids?'block':'none')+'">' +
+      (p.children||[]).map(function(c, ci) {
+        return renderChildRow(p, pi, c, ci);
+      }).join('') +
+    '</div>' +
+  '</div>';
+  return row;
+}
+
+// 渲染子项行
+function renderChildRow(parent, pi, child, ci) {
+  var childDays = (child.days !== undefined) ? child.days : 0;
+  var startVal = child.start || '';
+  var endVal   = child.end   || '';
+  var childTotalDays = calcChildDays(child);
+  var daysVal = (child.days !== undefined ? child.days : childTotalDays) || '';
+  return '<div class="sched-child-row" id="sched-child-'+pi+'-'+ci+'" style="margin-bottom:6px;padding:8px 10px;background:rgba(99,102,241,0.05);border-radius:6px;border:1px solid var(--border-muted)">' +
+    '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px">' +
+      '<span style="color:var(--text-muted);font-size:11px">├─</span>' +
+      '<span style="color:var(--accent);font-weight:600;min-width:70px">'+escHtml(child.name)+'</span>' +
+      // 天数
+      '<span style="color:var(--text-muted)">天数</span>' +
+      '<input type="number" id="sched-cdays-'+pi+'-'+ci+'" value="'+daysVal+'" min="0" style="width:50px;font-size:12px"' +
+      ' onchange="_schedule.phases['+pi+'].children['+ci+'].days=+this.value||0;scheduleAutoChildDates('+pi+','+ci+');saveSchedData()">' +
+      '<span style="color:var(--text-muted)">天</span>' +
+      // 开始日期
+      '<span style="color:var(--text-muted)">开始</span>' +
+      '<input type="date" id="sched-cstart-'+pi+'-'+ci+'" value="'+startVal+'" style="font-size:12px"' +
+      ' onchange="_schedule.phases['+pi+'].children['+ci+'].start=this.value;_schedule.phases['+pi+'].children['+ci+'].days=calcChildDays(_schedule.phases['+pi+'].children['+ci+']);document.getElementById(\'sched-cdays-'+pi+'-'+ci+'\').value=_schedule.phases['+pi+'].children['+ci+'].days;scheduleCalc();saveSchedData()">' +
+      // 结束日期
+      '<span style="color:var(--text-muted)">结束</span>' +
+      '<input type="date" id="sched-cend-'+pi+'-'+ci+'" value="'+endVal+'" style="font-size:12px"' +
+      ' onchange="_schedule.phases['+pi+'].children['+ci+'].end=this.value;_schedule.phases['+pi+'].children['+ci+'].days=calcChildDays(_schedule.phases['+pi+'].children['+ci+']);document.getElementById(\'sched-cdays-'+pi+'-'+ci+'\').value=_schedule.phases['+pi+'].children['+ci+'].days;scheduleCalc();saveSchedData()">' +
+      // 工程量
+      '<span style="color:var(--text-muted)">工程量(t)</span>' +
+      '<input type="number" id="sched-ctons-'+pi+'-'+ci+'" value="'+(child.tons||'')+'" min="0" style="width:65px;font-size:12px"' +
+      ' onchange="_schedule.phases['+pi+'].children['+ci+'].tons=+this.value||0;saveSchedData()">' +
+      // 删除
+      '<button class="btn btn-xs" style="padding:2px 6px;font-size:11px;color:#ef4444" onclick="scheduleRemoveChild('+pi+','+ci+')">删除</button>' +
+    '</div>' +
+  '</div>';
+}
+
+// 计算阶段天数（优先 days 字段，否则从 start/end 计算）
+function calcPhaseDays(p) {
+  if(!p) return 0;
+  if(p.days !== undefined && p.days !== null) return Math.max(0, p.days);
+  if(p.start && p.end) return Math.max(0, Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1);
+  return 0;
+}
+
+// 计算子项天数
+function calcChildDays(c) {
+  if(!c) return 0;
+  if(c.days !== undefined && c.days !== null) return Math.max(0, c.days);
+  if(c.start && c.end) return Math.max(0, Math.ceil((new Date(c.end)-new Date(c.start))/86400000)+1);
+  return 0;
+}
+
+// 自动计算阶段的起止日期（根据天数 + 前一阶段结束）
+function scheduleAutoDates(pi) {
+  var p = _schedule.phases[pi];
+  if(!p || p.locked) return;
+  var days = +p.days || 0;
+  if(days <= 0) { p.start = ''; p.end = ''; syncPhaseDates(pi); scheduleCalc(); return; }
+  // 找前一阶段（或子项）的结束日期
+  var prevEnd = null;
+  for(var i = pi - 1; i >= 0; i--) {
+    var pp = _schedule.phases[i];
+    if(pp.end) { prevEnd = pp.end; break; }
+    // 查找前一阶段的最后子项
+    if(pp.children && pp.children.length > 0) {
+      for(var j = pp.children.length - 1; j >= 0; j--) {
+        if(pp.children[j].end) { prevEnd = pp.children[j].end; break; }
+      }
+    }
+    if(prevEnd) break;
+  }
+  var start = prevEnd ? addDays(prevEnd, 1) : (document.getElementById('sched-start-date') ? document.getElementById('sched-start-date').value : null);
+  if(!start) start = todayStr();
+  p.start = start;
+  p.end   = addDays(start, days - 1);
+  syncPhaseDates(pi);
+  scheduleCalc();
+}
+
+// 自动计算子项的起止日期
+function scheduleAutoChildDates(pi, ci) {
+  var child = _schedule.phases[pi].children[ci];
+  if(!child) return;
+  var days = +child.days || 0;
+  if(days <= 0) { child.start = ''; child.end = ''; syncChildDates(pi, ci); scheduleCalc(); return; }
+  var prevEnd = null;
+  // 前一个同级子项
+  if(ci > 0 && _schedule.phases[pi].children[ci-1].end) {
+    prevEnd = _schedule.phases[pi].children[ci-1].end;
+  } else if(_schedule.phases[pi].start) {
+    // 或父阶段开始日期
+    prevEnd = _schedule.phases[pi].start;
+  }
+  if(!prevEnd) prevEnd = document.getElementById('sched-start-date') ? document.getElementById('sched-start-date').value : null;
+  if(!prevEnd) prevEnd = todayStr();
+  child.start = prevEnd;
+  child.end   = addDays(prevEnd, days - 1);
+  syncChildDates(pi, ci);
+  scheduleCalc();
+}
+
+// 同步阶段UI的日期显示
+function syncPhaseDates(pi) {
+  var p = _schedule.phases[pi];
+  var sEl = document.getElementById('sched-start-'+pi);
+  var eEl = document.getElementById('sched-end-'+pi);
+  if(sEl) sEl.value = p.start || '';
+  if(eEl) eEl.value = p.end   || '';
+}
+
+// 同步子项UI的日期显示
+function syncChildDates(pi, ci) {
+  var child = _schedule.phases[pi].children[ci];
+  var sEl = document.getElementById('sched-cstart-'+pi+'-'+ci);
+  var eEl = document.getElementById('sched-cend-'+pi+'-'+ci);
+  if(sEl) sEl.value = child.start || '';
+  if(eEl) eEl.value = child.end   || '';
+}
+
+// 展开/折叠子项
+function scheduleToggleChildren(pi) {
+  var container = document.getElementById('sched-children-'+pi);
+  if(!container) return;
+  var isHidden = container.style.display === 'none';
+  container.style.display = isHidden ? 'block' : 'none';
+  var icon = document.getElementById('sched-expand-icon-'+pi);
+  if(icon) icon.textContent = isHidden ? '▼' : '▶';
+}
+
+// 添加子项
+function scheduleAddChild(pi) {
+  var p = _schedule.phases[pi];
+  if(!p || p.locked || !p.expandable) return;
+  if(!p.children) p.children = [];
+  p.children.push({name:'新子项', days:0, tons:0, start:'', end:''});
+  saveSchedData();
+  scheduleRenderPhases();
+  // 自动展开
+  var container = document.getElementById('sched-children-'+pi);
+  if(container) container.style.display = 'block';
+  var icon = document.getElementById('sched-expand-icon-'+pi);
+  if(icon) icon.textContent = '▼';
+}
+
+// 删除子项
+function scheduleRemoveChild(pi, ci) {
+  var p = _schedule.phases[pi];
+  if(!p || !p.children) return;
+  p.children.splice(ci, 1);
+  saveSchedData();
+  scheduleRenderPhases();
+}
+
+// 辅助：日期+天数
+function addDays(dateStr, days) {
+  if(!dateStr) return '';
+  var d = new Date(dateStr);
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0,10);
+}
+
+// 辅助：今日字符串
+function todayStr() {
+  return new Date().toISOString().slice(0,10);
+}
+
+// ── 添加自定义阶段 ─────────────────────────────────────────
 function scheduleAddPhase() {
-  _schedule.phases.push({name:'新阶段',start:'',end:'',tons:0,crane_qty:0,crane_type:'',note:''});
+  _schedule.phases.push({name:'新阶段', locked:false, expandable:true, children:[], days:0, tons:0, crane_qty:0});
   saveSchedData();
   scheduleRenderPhases();
 }
 
 // ── 删除阶段 ──────────────────────────────────────────────
 function scheduleRemovePhase(idx) {
-  if(_schedule.phases.length <= 1) { toast('至少保留一个阶段'); return; }
+  var p = _schedule.phases[idx];
+  if(!p) return;
+  if(p.locked) { toast('固定阶段不可删除'); return; }
   _schedule.phases.splice(idx, 1);
   saveSchedData();
   scheduleRenderPhases();
   scheduleCalc();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  工期计划 - 智能文本解析
+// ══════════════════════════════════════════════════════════════
+
+// 结构类型候选映射（匹配多种写法）
+var _STRUCT_MAP = {
+  '高层': 'high', '超高层': 'high', '高层框架': 'high',
+  '多层': 'multi', '多层框架': 'multi', '框架结构': 'multi',
+  '空间': 'space', '空间结构': 'space', '桁架': 'space', '网架': 'space',
+  '厂房': 'plant', '工业厂房': 'plant', '钢结构厂房': 'plant',
+  '网架结构': 'grid',
+};
+
+/**
+ * 核心解析函数
+ * 输入任意格式的项目描述文本，返回提取结果对象
+ */
+function parseScheduleText(text) {
+  var r = { project_name:'', struct_type:'', total_tons:null,
+            total_area:null, building_height:null, floors:null,
+            start_date:'', end_date:'', raw_confidence:{} };
+
+  // ── 项目名称 ──────────────────────────────────────────────
+  // 策略1: "项目名称：XXX" 或 "工程名称：XXX"
+  var m;
+  if (!r.project_name) {
+    m = text.match(/项目[\s:：]*(.{2,30}?)(?:[\n\r,，]|$)/);
+    if (m) r.project_name = m[1].trim();
+  }
+  if (!r.project_name) {
+    m = text.match(/工程[\s:：]*(.{2,30}?)(?:[\n\r,，]|$)/);
+    if (m) r.project_name = m[1].trim();
+  }
+  // 策略2: 第一行作为项目名（去常见前缀）
+  if (!r.project_name) {
+    var firstLine = text.split(/[\n\r]/)[0].trim();
+    if (firstLine && firstLine.length > 3) {
+      r.project_name = firstLine.replace(/^(项目说明|项目描述|投标|方案)[\s:：]*/i, '').trim();
+    }
+  }
+  // 策略3: 找含"钢结构"或"工程"的行
+  if (!r.project_name) {
+    var lines = text.split(/[\n\r]/);
+    for (var i = 0; i < lines.length; i++) {
+      if (/钢结构|体育馆|厂房|仓库|大厦|中心|综合楼|航站楼|会展|体育场/.test(lines[i])) {
+        r.project_name = lines[i].trim().substring(0, 40);
+        break;
+      }
+    }
+  }
+
+  // ── 结构类型 ──────────────────────────────────────────────
+  var structCandidates = [];
+  for (var kw in _STRUCT_MAP) {
+    if (text.indexOf(kw) !== -1) structCandidates.push(kw);
+  }
+  if (structCandidates.length > 0) {
+    // 优先最长匹配
+    structCandidates.sort(function(a,b){ return b.length - a.length; });
+    r.struct_type = _STRUCT_MAP[structCandidates[0]] || '';
+    r.raw_confidence.struct_type_kw = structCandidates[0];
+  }
+  // 兜底：含地下室→高层
+  if (!r.struct_type && /地下室|裙房|转换层/i.test(text)) {
+    r.struct_type = 'high';
+  }
+
+  // ── 总用钢量 ──────────────────────────────────────────────
+  // 匹配模式：XXXt / XXX 吨 / XXX 万吨 / XXX万t / XXX吨钢结构
+  var tonsArr = text.match(/(?:总用钢量|用钢量|钢结构总量|总钢结构|总重)[^\d]*?([\d.]+)\s*(?:吨|t|万t|万吨)/i);
+  if (!tonsArr) tonsArr = text.match(/([\d.]+)\s*(?:万吨|万t|万吨)/);
+  if (!tonsArr) tonsArr = text.match(/([\d.]+)\s*(?:吨|t)(?![\d])/);
+  if (!tonsArr) tonsArr = text.match(/(?:总用钢|用钢)[^\d]*?([\d.]+)/i);
+  if (!tonsArr) {
+    // 全局搜索数字+吨组合（取最大的）
+    var allTons = text.match(/([\d.]+)\s*(?:吨|t)(?![\d])/gi) || [];
+    if (allTons.length > 0) {
+      var vals = allTons.map(function(s){ var mm=s.match(/([\d.]+)/); return mm?parseFloat(mm[1]):0; });
+      vals.sort(function(a,b){ return b-a; });
+      if (vals[0] > 0) tonsArr = ['', vals[0].toString()];
+    }
+  }
+  if (tonsArr && parseFloat(tonsArr[1]) > 0) {
+    var tv = parseFloat(tonsArr[1]);
+    // 如果单位含"万"，乘以10000
+    if (/万/.test(tonsArr[0])) tv *= 10000;
+    r.total_tons = Math.round(tv * 10) / 10;
+  }
+
+  // ── 总建筑面积 ─────────────────────────────────────────────
+  // 匹配模式：XXX m² / XXX 平方米 / XXX万m² / XXX万平
+  var areaArr = text.match(/(?:总建筑面积|建筑面积|建筑总面积|总面积)[^\d]*?([\d.]+)\s*(?:万?平|万?平方米|m²|㎡|m2)/gi);
+  if (!areaArr || areaArr.length === 0) areaArr = text.match(/([\d.]+)\s*(?:万平方米|m²|㎡)/gi);
+  if (!areaArr || areaArr.length === 0) areaArr = text.match(/(?:建筑面积|总面积)[^\d]*?([\d.]+)/i);
+  if (!areaArr || areaArr.length === 0) {
+    var allAreas = text.match(/([\d.]+)\s*(?:万平|万平方米|m²|㎡)/gi) || [];
+    if (allAreas.length > 0) {
+      var avals = allAreas.map(function(s){ var mm=s.match(/([\d.]+)/); return mm?parseFloat(mm[1]):0; });
+      avals.sort(function(a,b){ return b-a; });
+      if (avals[0] > 0) areaArr = ['', avals[0].toString()];
+    }
+  }
+  if (areaArr && parseFloat(areaArr[1]) > 0) {
+    var av = parseFloat(areaArr[1]);
+    // 如果含"万"，乘以10000
+    if (/万/.test(areaArr[0])) av *= 10000;
+    r.total_area = Math.round(av * 100) / 100;
+  }
+
+  // ── 建筑高度 ──────────────────────────────────────────────
+  var hArr = text.match(/(?:建筑高度|建筑总高|檐口高度|屋面高度|结构高度)[^\d]*?([\d.]+)\s*(?:m|米)/i);
+  if (!hArr) hArr = text.match(/([\d.]+)\s*(?:米|m)\s*(?:高|高程|檐高)/i);
+  if (!hArr) hArr = text.match(/檐口标高[^\d]*?([\d.]+)/i);
+  if (!hArr) hArr = text.match(/(?:高度|高)[^\d]*?([\d.]+)\s*(?:m|米)/i);
+  if (!hArr) {
+    var allHeights = text.match(/([\d.]+)\s*(?:米|m)\s*(?:高|檐)/gi) || [];
+    if (allHeights.length > 0) {
+      var hvals = allHeights.map(function(s){ var mm=s.match(/([\d.]+)/); return mm?parseFloat(mm[1]):0; });
+      hvals.sort(function(a,b){ return b-a; });
+      if (hvals[0] > 0) hArr = ['', hvals[0].toString()];
+    }
+  }
+  if (hArr && parseFloat(hArr[1]) > 0) {
+    var hv = parseFloat(hArr[1]);
+    // 过滤掉不合理的值（超过1000m的建筑极少见）
+    if (hv < 1000) r.building_height = Math.round(hv * 10) / 10;
+  }
+
+  // ── 楼层数 ────────────────────────────────────────────────
+  var fArr = text.match(/(?:地下\d*[层层]?|地上?\d*[层层]?|共\d*[层层]?|总高?\d*[层层]?)[^\d]*?(\d+)/i);
+  if (!fArr) fArr = text.match(/共\s*(\d+)\s*(?:层|楼)/i);
+  if (!fArr) fArr = text.match(/地上?\d*[层层]\s*[^\d]*?(\d+)/i);
+  if (!fArr) fArr = text.match(/(\d+)\s*(?:层|楼)(?:高|建筑|结构)/i);
+  if (!fArr) {
+    // 全局搜索 "X层" 或 "X楼"
+    var allFloors = text.match(/(\d+)\s*(?:层|楼)(?![^(\n]{0,30}(?:跨度|间距|荷载|梁|柱))/gi) || [];
+    if (allFloors.length > 0) {
+      var fvals = allFloors.map(function(s){ var mm=s.match(/(\d+)/); return mm?parseInt(mm[1]):0; });
+      fvals.sort(function(a,b){ return b-a; });
+      if (fvals[0] > 0) fArr = ['', fvals[0].toString()];
+    }
+  }
+  if (fArr && parseInt(fArr[1]) > 0) {
+    var fv = parseInt(fArr[1]);
+    if (fv > 0 && fv < 200) r.floors = fv;
+  }
+
+  // ── 开工/竣工日期 ──────────────────────────────────────────
+  // 格式：YYYY-MM-DD 或 YYYY/MM/DD 或 YYYY.MM.DD 或 YYYY年MM月DD日
+  var dateMatches = text.match(/(\d{4})[\/\-年.](\d{1,2})[\/\-月.](\d{1,2})/g) || [];
+  dateMatches.forEach(function(dm) {
+    var parts = dm.match(/(\d{4})[\/\-年.](\d{1,2})[\/\-月.](\d{1,2})/);
+    if (!parts) return;
+    var y = parseInt(parts[1]);
+    var mo = parseInt(parts[2]);
+    var day = parseInt(parts[3]);
+    if (y >= 2020 && y <= 2040 && mo >= 1 && mo <= 12 && day >= 1 && day <= 31) {
+      var iso = y + '-' + String(mo).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+      // 第一个日期 = 开工，第二个日期 = 竣工
+      if (!r.start_date) r.start_date = iso;
+      else if (!r.end_date && iso !== r.start_date) r.end_date = iso;
+    }
+  });
+
+  return r;
+}
+
+/**
+ * 显示解析结果预览模态框
+ */
+function showParseResultModal(result) {
+  // 关闭旧模态
+  var old = document.getElementById('sched-parse-modal');
+  if (old) old.remove();
+
+  var m = document.createElement('div');
+  m.id = 'sched-parse-modal';
+  m.className = 'modal-overlay';
+  m.onclick = function(e){ if(e.target===m) m.remove(); };
+
+  var fieldDefs = [
+    {id:'pf-name',     label:'项目名称',   field:'project_name',   type:'text',   hint:'请输入项目名称'},
+    {id:'pf-struct',   label:'结构类型',   field:'struct_type',    type:'select', hint:'',
+     options:[{v:'',t:'-- 未识别 --'},{v:'high',t:'高层框架（含地下/裙房）'},{v:'multi',t:'多层框架'},{v:'space',t:'空间结构（桁架/网架）'},{v:'plant',t:'工业厂房'},{v:'grid',t:'网架结构'}]},
+    {id:'pf-tons',     label:'总用钢量(吨)',field:'total_tons',    type:'number', hint:'请输入总用钢量'},
+    {id:'pf-area',     label:'总建筑面积(m²)',field:'total_area', type:'number', hint:'请输入总建筑面积'},
+    {id:'pf-height',   label:'建筑高度(m)',field:'building_height',type:'number', hint:'请输入建筑高度'},
+    {id:'pf-floors',   label:'楼层数',     field:'floors',         type:'number', hint:'请输入楼层数'},
+    {id:'pf-start',    label:'开工日期',   field:'start_date',     type:'date',   hint:'请选择开工日期'},
+    {id:'pf-end',      label:'竣工日期',   field:'end_date',       type:'date',   hint:'请选择竣工日期'},
+  ];
+
+  var html = '<div class="modal-box" style="max-width:540px">' +
+    '<div class="modal-header">' +
+      '<h3 style="margin:0;font-size:16px;font-weight:700">🔍 解析结果预览</h3>' +
+      '<div style="font-size:12px;color:var(--text-muted);margin-top:4px">请核对以下识别结果，校正后点击确认</div>' +
+    '</div>' +
+    '<div class="modal-body" style="max-height:65vh;overflow-y:auto">';
+
+  fieldDefs.forEach(function(f){
+    var val = result[f.field] !== null && result[f.field] !== undefined ? result[f.field] : '';
+    html += '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-subtle)">';
+    html += '<label style="width:120px;flex-shrink:0;font-size:13px;font-weight:600;color:var(--text-secondary)">'+f.label+'</label>';
+    html += '<div style="flex:1">';
+    if (f.type === 'select') {
+      html += '<select id="'+f.id+'" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:var(--bg-surface)">';
+      f.options.forEach(function(o){
+        html += '<option value="'+o.v+'"'+(val===o.v?' selected':'')+'>'+o.t+'</option>';
+      });
+      html += '</select>';
+    } else {
+      var ph = val ? '' : ' placeholder="'+f.hint+'"';
+      html += '<input type="'+f.type+'" id="'+f.id+'" value="'+escHtml(String(val))+'"'+ph+
+              ' style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:var(--bg-surface)">';
+    }
+    html += '</div></div>';
+  });
+
+  html += '</div>' +
+    '<div class="modal-footer" style="padding:14px 20px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--border-subtle)">' +
+      '<button class="btn" onclick="document.getElementById(\'sched-parse-modal\').remove()">取消</button>' +
+      '<button class="btn btn-primary" onclick="applyParseResult()">✓ 确认填充</button>' +
+    '</div>' +
+  '</div>';
+  m.innerHTML = html;
+  document.body.appendChild(m);
+}
+
+/**
+ * 将解析结果填充到表单字段
+ */
+function applyParseResult() {
+  var fields = [
+    {sel:'#sched-project-name',   key:'project_name'},
+    {sel:'#sched-struct-type',    key:'struct_type'},
+    {sel:'#sched-total-tons',     key:'total_tons'},
+    {sel:'#sched-total-area',     key:'total_area'},
+    {sel:'#sched-building-height',key:'building_height'},
+    {sel:'#sched-floors',        key:'floors'},
+    {sel:'#sched-start-date',     key:'start_date'},
+    {sel:'#sched-end-date',       key:'end_date'},
+  ];
+  fields.forEach(function(f){
+    var el = document.querySelector(f.sel);
+    if (!el) return;
+    var val = window._parseResult ? window._parseResult[f.key] : null;
+    if (val !== null && val !== undefined && val !== '') {
+      el.value = val;
+    }
+  });
+  // 触发计算和保存
+  scheduleCalc();
+  saveFormData();
+  toast('已填充到项目基本信息，请检查后确认');
+  var m = document.getElementById('sched-parse-modal');
+  if (m) m.remove();
+}
+
+/**
+ * 触发解析按钮点击
+ */
+function doParseScheduleText() {
+  var ta = document.getElementById('sched-parse-input');
+  if (!ta) return;
+  var text = ta.value.trim();
+  if (!text) { toast('请先粘贴项目描述文字'); return; }
+  window._parseResult = parseScheduleText(text);
+  showParseResultModal(window._parseResult);
 }
 
 // ── 计算工期汇总 ──────────────────────────────────────────
@@ -8948,57 +9489,65 @@ function scheduleCalc() {
   var summary = document.getElementById('schedule-summary');
   if(!summary) return;
 
-  var totalTons = _schedule.phases.reduce(function(s,p){ return s+(+p.tons||0); }, 0);
-  var totalDays = 0;
-  var phases = _schedule.phases.map(function(p, i) {
-    var days = (p.start && p.end) ? Math.max(0, Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1) : 0;
-    totalDays += days;
-    return {name:p.name, days:days, tons:+p.tons||0};
+  // 计算总天数、总工程量
+  var totalDays = 0, totalTons = 0, totalCraneDays = 0;
+  var phasesData = _schedule.phases.map(function(p) {
+    var days = calcPhaseDays(p);
+    // 累加子项工程量
+    var childTons = (p.children||[]).reduce(function(s,c){return s+(+c.tons||0);},0);
+    var tons = (+p.tons||0) + childTons;
+    var craneDays = (+p.crane_qty||0) * days;
+    totalDays   += days;
+    totalTons   += tons;
+    totalCraneDays += craneDays;
+    return {name:p.name, days:days, tons:tons, locked:!!p.locked, expandable:!!p.expandable};
   });
 
-  var startDate = _schedule.phases.filter(function(p){return p.start;}).map(function(p){return new Date(p.start);}).sort(function(a,b){return a-b})[0];
-  var endDate = _schedule.phases.filter(function(p){return p.end;}).map(function(p){return new Date(p.end);}).sort(function(a,b){return b-a})[0];
+  // 更新基础信息区的竣工日期（自动）
+  var allDates = [];
+  _schedule.phases.forEach(function(p){
+    if(p.start) allDates.push({d:new Date(p.start),t:'s'});
+    if(p.end)   allDates.push({d:new Date(p.end),  t:'e'});
+    (p.children||[]).forEach(function(c){
+      if(c.start) allDates.push({d:new Date(c.start),t:'s'});
+      if(c.end)   allDates.push({d:new Date(c.end),  t:'e'});
+    });
+  });
+  if(allDates.length > 0) {
+    allDates.sort(function(a,b){return a.t===b.t ? a.d-b.d : a.t==='s'?-1:1;});
+    var projStart = allDates.find(function(x){return x.t==='s'});
+    var projEnd   = allDates.find(function(x){return x.t==='e'});
+    var sIn = document.getElementById('sched-start-date');
+    var eIn = document.getElementById('sched-end-date');
+    if(projStart && sIn && !sIn.value) sIn.value = projStart.d.toISOString().slice(0,10);
+    if(projEnd   && eIn) eIn.value = projEnd.d.toISOString().slice(0,10);
+  }
 
-  var startInput = document.getElementById('sched-start-date');
-  var endInput = document.getElementById('sched-end-date');
-  var startVal = startInput ? startInput.value : '';
-  var endVal = endInput ? endInput.value : '';
-
-  var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">';
-  html += '<div style="padding:10px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">总工期</div><div style="font-size:22px;font-weight:700">'+totalDays+' <span style="font-size:13px;font-weight:400">天</span></div></div>';
-  html += '<div style="padding:10px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">总用钢量</div><div style="font-size:22px;font-weight:700">'+(totalTons>0?totalTons:'—')+' <span style="font-size:13px;font-weight:400">吨</span></div></div>';
-  html += '<div style="padding:10px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">日均产能</div><div style="font-size:22px;font-weight:700">'+(totalDays>0&&totalTons>0?Math.round(totalTons/totalDays*10)/10:'—')+' <span style="font-size:13px;font-weight:400">吨/天</span></div></div>';
-  html += '<div style="padding:10px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">机械总台班</div><div style="font-size:22px;font-weight:700">'+
-    _schedule.phases.reduce(function(s,p){return s+(+p.crane_qty||0)*((p.start&&p.end)?Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1:0);},0)+
-    ' <span style="font-size:13px;font-weight:400">台·天</span></div></div>';
+  var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">';
+  html += '<div style="padding:12px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">总工期</div><div style="font-size:22px;font-weight:700">'+totalDays+' <span style="font-size:13px;font-weight:400">天</span></div></div>';
+  html += '<div style="padding:12px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">总用钢量</div><div style="font-size:22px;font-weight:700">'+(totalTons>0?totalTons:'—')+' <span style="font-size:13px;font-weight:400">吨</span></div></div>';
+  html += '<div style="padding:12px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">日均产能</div><div style="font-size:22px;font-weight:700">'+(totalDays>0&&totalTons>0?Math.round(totalTons/totalDays*10)/10:'—')+' <span style="font-size:13px;font-weight:400">吨/天</span></div></div>';
+  html += '<div style="padding:12px;background:var(--bg-surface);border-radius:8px"><div style="font-size:12px;color:var(--text-muted)">机械总台班</div><div style="font-size:22px;font-weight:700">'+totalCraneDays+' <span style="font-size:13px;font-weight:400">台·天</span></div></div>';
   html += '</div>';
 
-  if(totalTons > 0) {
-    html += '<div style="margin-top:16px"><div style="font-size:13px;font-weight:600;margin-bottom:8px">各阶段工期分布</div>';
-    var maxDays = Math.max.apply(null, phases.map(function(p){return p.days;}));
-    phases.forEach(function(p) {
+  if(totalDays > 0) {
+    html += '<div style="margin-top:16px"><div style="font-size:13px;font-weight:600;margin-bottom:10px">📊 各阶段工期</div>';
+    var maxDays = Math.max.apply(null, phasesData.map(function(p){return p.days;}).filter(function(d){return d>0;}).concat([1]));
+    phasesData.forEach(function(p, i) {
       var barW = maxDays > 0 ? Math.round(p.days/maxDays*100) : 0;
-      var pct = totalTons > 0 ? Math.round(p.tons/totalTons*100) : 0;
-      html += '<div style="margin-bottom:6px;display:flex;align-items:center;gap:8px;font-size:13px">' +
-        '<span style="width:80px;flex-shrink:0;text-align:right;color:var(--text-secondary)">'+p.name+'</span>' +
-        '<div style="flex:1;background:var(--bg-surface);border-radius:4px;height:16px;overflow:hidden"><div style="width:'+barW+'%;background:var(--accent);height:100%;border-radius:4px;transition:width .3s"></div></div>' +
-        '<span style="width:70px;flex-shrink:0">'+p.days+'天</span>' +
-        '<span style="width:60px;flex-shrink:0;color:var(--text-muted)">'+(p.tons>0?p.tons+'t':'—')+'</span>' +
+      var tag = p.locked ? '<span style="font-size:10px;padding:1px 5px;border-radius:3px;background:#9ca3af;color:#fff;margin-left:4px">固定</span>' : '';
+      html += '<div style="margin-bottom:6px;display:flex;align-items:center;gap:8px;font-size:12px">' +
+        '<span style="width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+(i+1)+'</span>' +
+        '<span style="width:130px;flex-shrink:0;text-align:right;color:var(--text-secondary)">'+escHtml(p.name)+'</span>'+tag +
+        '<div style="flex:1;background:var(--bg-surface);border-radius:4px;height:14px;overflow:hidden"><div style="width:'+barW+'%;background:'+(p.locked?'#9ca3af':(p.expandable?'var(--accent)':'#10b981'))+';height:100%;border-radius:4px;transition:width .3s"></div></div>' +
+        '<span style="width:50px;flex-shrink:0;text-align:right">'+(p.days>0?p.days+'天':'<span style="color:var(--text-muted)">—</span>')+'</span>' +
+        '<span style="width:55px;flex-shrink:0;text-align:right;color:var(--text-muted)">'+(p.tons>0?p.tons+'t':'—')+'</span>' +
       '</div>';
     });
     html += '</div>';
   }
 
   summary.innerHTML = html;
-
-  // 更新阶段天数显示
-  _schedule.phases.forEach(function(p, i) {
-    var el = document.querySelector('.sched-phase-days[data-idx="'+i+'"]');
-    if(el) {
-      var days = (p.start && p.end) ? Math.max(0, Math.ceil((new Date(p.end)-new Date(p.start))/86400000)+1) : '-';
-      el.textContent = days;
-    }
-  });
 }
 
 // ── 渲染月度视图 ──────────────────────────────────────────
@@ -9057,7 +9606,7 @@ function scheduleRenderMonthly() {
 function daysInMonth(y,m){return new Date(y,m,0).getDate();}
 
 function saveSchedData() {
-  try { localStorage.setItem('sched_data', JSON.stringify(_schedule)); } catch(e){}
+  try { _schedule._ver = 2; localStorage.setItem('sched_data', JSON.stringify(_schedule)); } catch(e){}
 }
 
 // ══════════════════════════════════════════════════════════════
